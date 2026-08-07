@@ -1,0 +1,197 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-74.0004, 40.6818] },
+      "properties": {
+        "name": "Lucali",
+        "address": "575 Henry St, Brooklyn, NY 11231",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A converted candy store turned into one of the city's most sought-after coal-oven pies. No slices, cash only, and a line that starts before opening — reserve ahead or plan to wait.",
+        "website": "https://www.lucali.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9614, 40.6252] },
+      "properties": {
+        "name": "Di Fara Pizza",
+        "address": "1424 Avenue J, Brooklyn, NY 11230",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "The benchmark by which a lot of NYC pizza gets judged. Founder Dom DeMarco built the reputation over decades; the family runs it today with the same hand-snipped basil finish.",
+        "website": "https://www.difarany.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9603, 40.7128] },
+      "properties": {
+        "name": "L'Industrie Pizzeria",
+        "address": "254 S 2nd St, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Williamsburg slice shop built around one standout order: a fior di latte square topped with cold burrata and basil after it comes out of the oven. Expect a line most evenings — it's become one of the most talked-about slices in the city since opening in 2015.",
+        "website": "https://lindustriebk.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9335, 40.705] },
+      "properties": {
+        "name": "Roberta's",
+        "address": "261 Moore St, Brooklyn, NY 11206",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "The wood-fired pizzeria that helped put Bushwick on the food map in 2008. Char-heavy, ingredient-driven pies in a graffitied warehouse space with a backyard garden — go for the Bee Sting, with soppressata, chili, and honey.",
+        "website": "https://www.robertaspizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9936, 40.7028] },
+      "properties": {
+        "name": "Grimaldi's",
+        "address": "1 Front St, Brooklyn, NY 11201",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A DUMBO fixture since 1990, cooking coal-oven pies with a thin, blistered crust in the shadow of the Brooklyn Bridge. One of the pizzerias most credited with starting the modern NYC pizza pilgrimage.",
+        "website": "https://www.grimaldiscoalfiredpizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.99343, 40.70275] },
+      "properties": {
+        "name": "Juliana's",
+        "address": "19 Old Fulton St, Brooklyn, NY 11201",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "Opened in 2012 by Patsy Grimaldi — the same Patsy behind the pizzeria next door that still carries his old name — in the very space where he first started. Same coal oven, same thin, char-edged crust; regulars debate endlessly which one is better.",
+        "website": "https://julianaspizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9847, 40.5764] },
+      "properties": {
+        "name": "Totonno's",
+        "address": "1524 Neptune Ave, Brooklyn, NY 11224",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "Open since 1924 in Coney Island, one of the oldest coal-oven pizzerias in the country. Cash only, whole pies only, and still run by the founder's descendants — come for a slice of pizza history as much as the pizza.",
+        "website": "https://totonnosconeyisland.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9819, 40.5947] },
+      "properties": {
+        "name": "L&B Spumoni Gardens",
+        "address": "2725 86th St, Brooklyn, NY 11223",
+        "borough": "Brooklyn",
+        "style": "Sicilian",
+        "blurb": "A Gravesend institution since the late 1930s, known for its upside-down square slices — sauce on top, cheese on the bottom — and the spumoni ice cream that gives the place its name.",
+        "website": "https://spumonigardens.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9986, 40.6795] },
+      "properties": {
+        "name": "F & F Pizzeria",
+        "address": "387 Court St, Brooklyn, NY 11231",
+        "borough": "Brooklyn",
+        "style": "Sicilian",
+        "blurb": "A Carroll Gardens square-slice spot with a loyal local following and a reputation built on consistency more than spectacle — reliable, well-charred Sicilian squares from a no-frills counter.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9576, 40.7143] },
+      "properties": {
+        "name": "Best Pizza",
+        "address": "33 Havemeyer St, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Grandma",
+        "blurb": "A Williamsburg spot best known for its grandma slice — crushed tomato, garlic, and a hit of chopped anchovy under a well-browned, lacy-crisp bottom crust. Also does a strong classic NY slice.",
+        "website": "https://bestpizzawilliamsburg.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9558, 40.7133] },
+      "properties": {
+        "name": "Williamsburg Pizza",
+        "address": "265 Union Ave, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A neighborhood mini-chain that built its name on grandma squares — thick, cheesy slices with a browned, oily crust — alongside a full rotation of classic and specialty pies.",
+        "website": "https://williamsburgpizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9944, 40.687] },
+      "properties": {
+        "name": "Layla Jones",
+        "address": "214 Court St, Brooklyn, NY 11201",
+        "borough": "Brooklyn",
+        "style": "Bar pie",
+        "blurb": "A Cobble Hill storefront serving an unusual pair of formats: a square 'Brooklyn Classic' with a bubbly crust, and a charcoal-grilled version with a thin, lightly charred, chewy crust closer to a bar pie.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9576, 40.7268] },
+      "properties": {
+        "name": "Paulie Gee's Slice Shop",
+        "address": "110 Franklin St, Brooklyn, NY 11222",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "The casual counterpart to the original Paulie Gee's restaurant around the corner, which closed and reopened as a bar called Me and Paul's in 2026. Simple, old-school New York slices, including a solid Sicilian square, from the same team.",
+        "website": "https://pauliegee.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-74.0027, 40.7306] },
+      "properties": {
+        "name": "Joe's Pizza",
+        "address": "7 Carmine St, New York, NY 10014",
+        "borough": "Manhattan",
+        "style": "Slice joint",
+        "blurb": "The Greenwich Village original, open since 1975. No frills, fold-and-go, and about as close to a citywide consensus pick for classic NY slice as exists.",
+        "website": "https://joespizzanyc.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.9948, 40.7233] },
+      "properties": {
+        "name": "Prince Street Pizza",
+        "address": "27 Prince St, New York, NY 10012",
+        "borough": "Manhattan",
+        "style": "Sicilian",
+        "blurb": "The spicy spring pepperoni square, curled and crisped at the edges, is the reason for the perpetual Nolita line. Get there off-peak if you don't want to wait.",
+        "website": "https://princestreetpizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-73.921, 40.7639] },
+      "properties": {
+        "name": "Rizzo's Fine Pizza",
+        "address": "30-13 Steinway St, Astoria, NY 11103",
+        "borough": "Queens",
+        "style": "Sicilian",
+        "blurb": "An Astoria square-slice institution since the 1950s — thick, cheese-forward, and sauced on top in the old-school style. A neighborhood staple that draws people from across the borough.",
+        "website": "https://rizzosfinepizza.com/"
+      }
+    }
+  ]
+}

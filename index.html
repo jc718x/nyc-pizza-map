@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NYC Pizza Map — the city's best pies, curated</title>
+<meta name="description" content="A curated map of New York City's best pizzerias, aggregated from critical consensus across all five boroughs." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="masthead">
+  <img class="logo" src="assets/logo-header.png" alt="NYC Pizza Map logo — a pepperoni slice in front of the Manhattan skyline" />
+  <div class="masthead-text">
+    <h1>NYC Pizza Map</h1>
+    <p class="tagline">The city's best pies, block by block.</p>
+  </div>
+</header>
+
+<button class="about-toggle" id="aboutToggle" aria-expanded="false" aria-controls="aboutPanel">How this list is made</button>
+
+<div class="about-panel" id="aboutPanel" hidden>
+  <p>This is a curated "best of," not a full directory — currently <strong id="entryCount">—</strong> spots. Entries are pulled from critical consensus (Eater, The Infatuation, One Bite, the NYT, r/FoodNYC, general reputation) — not personal reviews. Every blurb is written from scratch, in my own words.</p>
+</div>
+
+<div id="map"></div>
+
+<div class="legend" id="legend" aria-label="Borough color key">
+  <span class="legend-item"><i style="background:var(--color-brooklyn)"></i>Brooklyn</span>
+  <span class="legend-item"><i style="background:var(--color-manhattan)"></i>Manhattan</span>
+  <span class="legend-item"><i style="background:var(--color-queens)"></i>Queens</span>
+  <span class="legend-item"><i style="background:var(--color-bronx)"></i>Bronx</span>
+  <span class="legend-item"><i style="background:var(--color-si)"></i>Staten Island</span>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="map.js"></script>
+</body>
+</html>
