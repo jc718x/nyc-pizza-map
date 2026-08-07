@@ -39,7 +39,7 @@ const map = new maplibregl.Map({
   maxZoom: 18
 });
 
-map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
 // Build a small colored "pizza slice" wedge icon per borough and register
 // it with the map so the symbol layer can reference it by name.
