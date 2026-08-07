@@ -76,18 +76,18 @@ html, body {
 .topbar-nav {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   margin-left: auto;
 }
 
 .topbar-nav a {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-char);
   text-decoration: none;
-  padding: 6px 10px;
+  padding: 8px 14px;
   border-radius: var(--radius);
   white-space: nowrap;
   transition: background 0.12s ease, color 0.12s ease;
@@ -169,41 +169,6 @@ body.map-page {
   z-index: 0;
 }
 
-/* ===== About toggle + panel ===== */
-.about-toggle {
-  position: fixed;
-  top: calc(var(--topbar-h) + 12px);
-  right: 16px;
-  z-index: 2;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: var(--color-crust);
-  color: var(--color-parchment);
-  border: 1px solid rgba(253, 244, 231, 0.25);
-  border-radius: var(--radius);
-  padding: 8px 12px;
-  cursor: pointer;
-}
-.about-toggle:hover { background: #276E40cc; }
-
-.about-panel {
-  position: fixed;
-  top: calc(var(--topbar-h) + 52px);
-  right: 16px;
-  z-index: 2;
-  max-width: 300px;
-  background: var(--color-parchment-panel);
-  border: 1px solid rgba(29, 20, 12, 0.15);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-panel);
-  padding: 14px 16px;
-  font-size: 0.82rem;
-  line-height: 1.45;
-}
-.about-panel[hidden] { display: none; }
-
 /* ===== Legend ===== */
 .legend {
   position: fixed;
@@ -232,15 +197,18 @@ body.map-page {
   box-shadow: 0 0 0 1px rgba(29,20,12,0.25);
 }
 
-/* ===== Marker ===== */
-.pizza-marker {
-  width: 26px;
-  height: 26px;
+/* ===== Pizza pin marker (HTML Marker element) ===== */
+.pizza-pin {
+  width: 36px;
+  height: 48px;
   cursor: pointer;
-  filter: drop-shadow(0 2px 3px rgba(29,20,12,0.45));
-  transition: transform 0.12s ease;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35));
+  transition: transform 0.12s ease, filter 0.12s ease;
 }
-.pizza-marker:hover { transform: scale(1.18); }
+.pizza-pin:hover {
+  transform: scale(1.25) translateY(-4px);
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+}
 
 /* ===== Popup ===== */
 .maplibregl-popup-content {

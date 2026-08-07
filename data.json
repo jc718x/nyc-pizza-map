@@ -756,6 +756,114 @@
         "blurb": "A Howard Beach institution since 1956, right on the way to JFK. Salt sprinkled on the oven floor before each pie produces a uniquely crispy, flavorful crust — regulars order it well-done.",
         "website": "https://newparkpizza.com/"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8877,
+          40.8555
+        ]
+      },
+      "properties": {
+        "name": "Zero Otto Nove",
+        "address": "2357 Arthur Ave, Bronx, NY 10458",
+        "borough": "Bronx",
+        "style": "Neapolitan",
+        "blurb": "Named after the area code of owner Roberto Paciullo's hometown of Salerno, this Arthur Avenue trattoria is the most celebrated pizza destination in the Bronx. Wood-fired pies with a puffy Sorrento-style crust, sourcing mozzarella from the legendary Casa della Mozzarella down the block.",
+        "website": "https://www.zeroottonove.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8286,
+          40.833
+        ]
+      },
+      "properties": {
+        "name": "Louie & Ernie's",
+        "address": "1300 Crosby Ave, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "Slice joint",
+        "blurb": "A Bronx classic since 1959 in the Schuylerville neighborhood — pizza and calzones only, no frills, no extras. Named one of the best hole-in-the-wall restaurants in New York State, and a perennial pick on every serious Bronx pizza list.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8706,
+          40.8567
+        ]
+      },
+      "properties": {
+        "name": "Pugsley Pizza",
+        "address": "590 E 191st St, Bronx, NY 10458",
+        "borough": "Bronx",
+        "style": "Slice joint",
+        "blurb": "A Belmont neighborhood staple since 1984, right near the Bronx Zoo and Botanical Garden. Super-cheesy thin-crust slices in a lively, graffiti-covered room — a reliably great stop before or after an afternoon in the park.",
+        "website": "https://www.pugsley-pizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.847,
+          40.8397
+        ]
+      },
+      "properties": {
+        "name": "Patricia's",
+        "address": "1082 Morris Park Ave, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "Neapolitan",
+        "blurb": "A Michelin-listed brick-oven trattoria in Morris Park, more convivial and elegant than most Bronx pizza spots. The Regina — buffalo mozzarella, torn basil, and olive oil — is the one to order. Full Italian menu to go with it.",
+        "website": "https://www.patriciasrestaurant.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8449,
+          40.7202
+        ]
+      },
+      "properties": {
+        "name": "Nick's Pizza",
+        "address": "108-26 Ascan Ave, Forest Hills, NY 11375",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Forest Hills neighborhood institution since 1993, consistently rated the best pizza in Queens by both critics and locals. Fresh mozzarella pulled in-house, thin charred crust, whole pies only (no slices) — cash only. Order the margherita.",
+        "website": "https://nickspizzaforesthills.netwaiter.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9202,
+          40.7437
+        ]
+      },
+      "properties": {
+        "name": "Philomena's",
+        "address": "41-16 Queens Blvd, Sunnyside, NY 11104",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Sunnyside neighborhood spot that's built a loyal Queens following for its light, carefully fermented dough and a square pie that Kelly Ripa called out by name on live TV. Family-run, unpretentious, and genuinely excellent.",
+        "website": "https://www.philomenasqueens.com/"
+      }
     }
   ]
 }

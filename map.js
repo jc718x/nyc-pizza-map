@@ -1,7 +1,8 @@
 // ===== NYC Pizza Map =====
-// Uses CARTO's free Voyager basemap, built on OpenStreetMap data
-// (no API key, no Google Places data or tiles — keeps this on the
-// right side of Google's ToS and the tile-licensing line from the brief).
+// Uses CARTO's free Voyager basemap (OpenStreetMap data, no API key).
+// Individual markers use maplibregl.Marker (HTML elements) instead of
+// symbol layers — this gives direct pixel-size control so pins are
+// exactly as large as specified, no MapLibre icon-size scaling games.
 
 const BOROUGH_COLORS = {
   Brooklyn: '#DC2225',
@@ -28,16 +29,13 @@ const map = new maplibregl.Map({
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       }
     },
-    layers: [
-      {
-        id: 'carto-voyager',
-        type: 'raster',
-        source: 'carto-voyager'
-        // Full color, no filter — closer to the vibrant look you're after.
-      }
-    ]
+    layers: [{
+      id: 'carto-voyager',
+      type: 'raster',
+      source: 'carto-voyager'
+    }]
   },
-  center: [-73.95, 40.72], // roughly centered across the five boroughs
+  center: [-73.96, 40.72],
   zoom: 10.4,
   minZoom: 9,
   maxZoom: 18
@@ -45,162 +43,157 @@ const map = new maplibregl.Map({
 
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
-// Build a small colored "pizza slice" wedge icon per borough and register
-// it with the map so the symbol layer can reference it by name.
-function pizzaSliceSVG(hex) {
-  return `
-    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
-      <g transform="translate(26,26) rotate(0)">
-        <path d="M0 -22 L18 18 A22 22 0 0 1 -18 18 Z" fill="${hex}" stroke="#241A10" stroke-width="2.5"/>
-        <circle cx="-4" cy="-2" r="2.4" fill="#FFFBF3"/>
-        <circle cx="6" cy="6" r="2.4" fill="#FFFBF3"/>
-        <circle cx="-2" cy="10" r="2.2" fill="#FFFBF3"/>
-      </g>
+// ===== Pizza pin SVG =====
+// Teardrop pin, 36×48px rendered size — same proportions as Google Maps.
+// Borough color fills the pin; white pizza slice icon inside.
+function makePinEl(color) {
+  const el = document.createElement('div');
+  el.className = 'pizza-pin';
+  el.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48">
+      <path d="M18 2 C9 2 2 9 2 18 C2 30 18 46 18 46 C18 46 34 30 34 18 C34 9 27 2 18 2 Z"
+            fill="${color}" stroke="rgba(0,0,0,0.35)" stroke-width="1.2"/>
+      <circle cx="18" cy="17" r="10" fill="rgba(255,255,255,0.18)"/>
+      <!-- pizza slice: tip at center, crust at bottom of circle -->
+      <polygon points="18,11 11,24 25,24" fill="white" opacity="0.92"/>
+      <path d="M10.5,25.5 A10,10 0 0 0 25.5,25.5" stroke="white" stroke-width="2.2"
+            fill="none" stroke-linecap="round"/>
+      <!-- pepperoni -->
+      <circle cx="16" cy="19" r="1.6" fill="${color}" opacity="0.85"/>
+      <circle cx="21" cy="21" r="1.6" fill="${color}" opacity="0.85"/>
+      <circle cx="17.5" cy="23" r="1.3" fill="${color}" opacity="0.85"/>
     </svg>`;
+  return el;
 }
 
-function loadBoroughIcons() {
-  const jobs = Object.entries(BOROUGH_COLORS).map(([borough, hex]) => {
-    const id = `pizza-${borough.replace(/\s+/g, '-').toLowerCase()}`;
-    const img = new Image(52, 52);
-    const svg = pizzaSliceSVG(hex);
-    return new Promise((resolve) => {
-      img.onload = () => {
-        if (!map.hasImage(id)) map.addImage(id, img, { pixelRatio: 2 });
-        resolve();
-      };
-      img.src = 'data:image/svg+xml;base64,' + btoa(svg);
-    });
-  });
-  return Promise.all(jobs);
+// ===== Cluster helpers =====
+// We use a GeoJSON source + circle layer just for clusters.
+// Individual points are added as HTML Marker elements for full size control.
+
+function escapeHTML(str) {
+  const d = document.createElement('div');
+  d.textContent = str ?? '';
+  return d.innerHTML;
+}
+function escapeAttr(str) {
+  return (str ?? '').replace(/"/g, '&quot;');
+}
+
+function popupHTML(p) {
+  const color = BOROUGH_COLORS[p.borough] || '#DC2225';
+  const [lng, lat] = [p._lng, p._lat];
+  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  return `
+    <div class="ticket">
+      <div class="ticket-head">
+        <p class="ticket-name">${escapeHTML(p.name)}</p>
+        <p class="ticket-address">${escapeHTML(p.address)}</p>
+      </div>
+      <div class="ticket-body">
+        <span class="style-badge" style="background:${color}">${escapeHTML(p.style)}</span>
+        <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
+        <div class="ticket-links">
+          ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
+          <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
+        </div>
+      </div>
+    </div>`;
 }
 
 map.on('load', async () => {
-  await loadBoroughIcons();
-
   const res = await fetch('data.json');
   const geojson = await res.json();
 
-  document.getElementById('entryCount').textContent = geojson.features.length;
+  // ===== Individual markers (HTML Markers — full size control) =====
+  const allMarkers = [];
 
-  map.addSource('pizzerias', {
+  geojson.features.forEach(feature => {
+    const [lng, lat] = feature.geometry.coordinates;
+    const p = feature.properties;
+    const color = BOROUGH_COLORS[p.borough] || '#DC2225';
+
+    const el = makePinEl(color);
+    const marker = new maplibregl.Marker({ element: el, anchor: 'bottom' })
+      .setLngLat([lng, lat])
+      .addTo(map);
+
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Stash coords so popup HTML can build directions link
+      p._lng = lng;
+      p._lat = lat;
+      new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: 46 })
+        .setLngLat([lng, lat])
+        .setHTML(popupHTML(p))
+        .addTo(map);
+    });
+
+    allMarkers.push({ marker, lng, lat });
+  });
+
+  // ===== Cluster circles (GeoJSON source + circle layer) =====
+  // These show a "N+" badge when markers are close together at low zoom.
+  map.addSource('pizzerias-clusters', {
     type: 'geojson',
     data: geojson,
     cluster: true,
-    clusterMaxZoom: 15,
-    clusterRadius: 45
+    clusterMaxZoom: 13,
+    clusterRadius: 55
   });
 
-  // Cluster circles
   map.addLayer({
     id: 'clusters',
     type: 'circle',
-    source: 'pizzerias',
+    source: 'pizzerias-clusters',
     filter: ['has', 'point_count'],
     paint: {
-      'circle-color': '#DC2225',
-      'circle-stroke-width': 2.5,
-      'circle-stroke-color': '#241A10',
-      'circle-radius': ['step', ['get', 'point_count'], 16, 10, 20, 30, 26]
+      'circle-color': '#FFFBF3',
+      'circle-stroke-width': 3,
+      'circle-stroke-color': '#DC2225',
+      'circle-radius': ['step', ['get', 'point_count'], 20, 5, 24, 15, 28]
     }
   });
 
   map.addLayer({
     id: 'cluster-count',
     type: 'symbol',
-    source: 'pizzerias',
+    source: 'pizzerias-clusters',
     filter: ['has', 'point_count'],
     layout: {
       'text-field': ['get', 'point_count_abbreviated'],
       'text-font': ['Noto Sans Bold'],
       'text-size': 13
     },
-    paint: { 'text-color': '#FFFBF3' }
+    paint: { 'text-color': '#DC2225' }
   });
 
-  // Individual pizzeria markers — icon chosen by borough
-  map.addLayer({
-    id: 'unclustered-point',
-    type: 'symbol',
-    source: 'pizzerias',
-    filter: ['!', ['has', 'point_count']],
-    layout: {
-      'icon-image': [
-        'match',
-        ['get', 'borough'],
-        'Brooklyn', 'pizza-brooklyn',
-        'Manhattan', 'pizza-manhattan',
-        'Queens', 'pizza-queens',
-        'Bronx', 'pizza-bronx',
-        'Staten Island', 'pizza-staten-island',
-        'pizza-brooklyn'
-      ],
-      'icon-size': 0.55,
-      'icon-allow-overlap': true
-    }
-  });
-
-  // Click a cluster to zoom in
+  // Click cluster to zoom in
   map.on('click', 'clusters', (e) => {
     const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
     const clusterId = features[0].properties.cluster_id;
-    map.getSource('pizzerias').getClusterExpansionZoom(clusterId, (err, zoom) => {
+    map.getSource('pizzerias-clusters').getClusterExpansionZoom(clusterId, (err, zoom) => {
       if (err) return;
       map.easeTo({ center: features[0].geometry.coordinates, zoom });
     });
   });
 
-  // Click an individual pizzeria to open its ticket popup
-  map.on('click', 'unclustered-point', (e) => {
-    const feature = e.features[0];
-    const coords = feature.geometry.coordinates.slice();
-    const p = feature.properties;
-    const color = BOROUGH_COLORS[p.borough] || '#DC2225';
-    const [lng, lat] = coords;
-    const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  map.on('mouseenter', 'clusters', () => map.getCanvas().style.cursor = 'pointer');
+  map.on('mouseleave', 'clusters', () => map.getCanvas().style.cursor = '');
 
-    const html = `
-      <div class="ticket">
-        <div class="ticket-head">
-          <p class="ticket-name">${escapeHTML(p.name)}</p>
-          <p class="ticket-address">${escapeHTML(p.address)}</p>
-        </div>
-        <div class="ticket-body">
-          <span class="style-badge" style="background:${color}">${escapeHTML(p.style)}</span>
-          <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
-          <div class="ticket-links">
-            ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
-            <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
-          </div>
-        </div>
-      </div>`;
+  // Hide individual HTML markers when a cluster covers them,
+  // show them again when zoomed in enough
+  function syncMarkerVisibility() {
+    const bounds = map.getBounds();
+    const zoom = map.getZoom();
+    // At low zoom, clusters take over — hide individual markers to avoid
+    // them showing through cluster circles
+    const showIndividual = zoom >= 13;
+    allMarkers.forEach(({ marker }) => {
+      marker.getElement().style.display = showIndividual ? 'block' : 'none';
+    });
+  }
 
-    new maplibregl.Popup({ closeButton: true, maxWidth: '270px' })
-      .setLngLat(coords)
-      .setHTML(html)
-      .addTo(map);
-  });
-
-  map.on('mouseenter', 'unclustered-point', () => (map.getCanvas().style.cursor = 'pointer'));
-  map.on('mouseleave', 'unclustered-point', () => (map.getCanvas().style.cursor = ''));
-  map.on('mouseenter', 'clusters', () => (map.getCanvas().style.cursor = 'pointer'));
-  map.on('mouseleave', 'clusters', () => (map.getCanvas().style.cursor = ''));
-});
-
-function escapeHTML(str) {
-  const div = document.createElement('div');
-  div.textContent = str ?? '';
-  return div.innerHTML;
-}
-function escapeAttr(str) {
-  return (str ?? '').replace(/"/g, '&quot;');
-}
-
-// ===== About panel toggle =====
-const toggle = document.getElementById('aboutToggle');
-const panel = document.getElementById('aboutPanel');
-toggle.addEventListener('click', () => {
-  const isOpen = !panel.hidden;
-  panel.hidden = isOpen;
-  toggle.setAttribute('aria-expanded', String(!isOpen));
+  map.on('zoomend', syncMarkerVisibility);
+  syncMarkerVisibility();
 });
