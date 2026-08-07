@@ -1,6 +1,7 @@
 // ===== NYC Pizza Map =====
-// Uses free OpenStreetMap raster tiles (no API key, no Google Places data —
-// keeps this on the right side of the tile-licensing line from the brief).
+// Uses CARTO's free Voyager basemap, built on OpenStreetMap data
+// (no API key, no Google Places data or tiles — keeps this on the
+// right side of Google's ToS and the tile-licensing line from the brief).
 
 const BOROUGH_COLORS = {
   Brooklyn: '#DC2225',
@@ -15,21 +16,24 @@ const map = new maplibregl.Map({
   style: {
     version: 8,
     sources: {
-      'osm-tiles': {
+      'carto-voyager': {
         type: 'raster',
-        tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+        tiles: [
+          'https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+          'https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+          'https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+          'https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
+        ],
         tileSize: 256,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       }
     },
     layers: [
       {
-        id: 'osm-tiles',
+        id: 'carto-voyager',
         type: 'raster',
-        source: 'osm-tiles',
-        // Slight desaturation/darken so the warm marker colors pop —
-        // adjust or remove if you'd rather have full-color tiles.
-        paint: { 'raster-saturation': -0.35, 'raster-brightness-min': 0.15 }
+        source: 'carto-voyager'
+        // Full color, no filter — closer to the vibrant look you're after.
       }
     ]
   },

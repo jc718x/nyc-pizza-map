@@ -14,27 +14,32 @@
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="map-page">
 
-<header class="masthead">
-  <div class="masthead-top">
-    <img class="logo" src="assets/logo-header.png" alt="NYC Pizza Map logo — a pepperoni slice in front of the Manhattan skyline" />
-    <div class="masthead-text">
-      <h1><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></h1>
-      <p class="tagline">You've tried the rest, now try the best.</p>
-    </div>
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+<header class="topbar">
+  <div class="topbar-brand">
+    <img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" />
+    <span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span>
   </div>
-  <nav class="side-nav" id="siteNav" aria-label="Site">
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
     <a href="index.html" class="active">Map</a>
     <a href="store.html">Store</a>
     <a href="how-to-make-pizza.html">How To Make Pizza</a>
     <a href="mailto:hello@nycpizzamap.com?subject=Suggest%20a%20Spot">Suggest a Spot</a>
     <a href="about.html">About</a>
   </nav>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <a href="index.html" class="active">Map</a>
+  <a href="store.html">Store</a>
+  <a href="how-to-make-pizza.html">How To Make Pizza</a>
+  <a href="mailto:hello@nycpizzamap.com?subject=Suggest%20a%20Spot">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
 
 <button class="about-toggle" id="aboutToggle" aria-expanded="false" aria-controls="aboutPanel">How this list is made</button>
 
