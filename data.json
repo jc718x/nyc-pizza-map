@@ -864,6 +864,24 @@
         "blurb": "A Sunnyside neighborhood spot that's built a loyal Queens following for its light, carefully fermented dough and a square pie that Kelly Ripa called out by name on live TV. Family-run, unpretentious, and genuinely excellent.",
         "website": "https://www.philomenasqueens.com/"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0278,
+          40.6228
+        ]
+      },
+      "properties": {
+        "name": "Pizza Wagon",
+        "address": "8610 5th Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Bay Ridge slice counter with a neighborhood following — no frills, just consistent NY-style pies from a spot that's been feeding the local crowd for years.",
+        "website": ""
+      }
     }
   ]
 }

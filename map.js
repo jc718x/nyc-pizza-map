@@ -42,18 +42,27 @@ const map = new maplibregl.Map({
 
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
-// ===== Pin SVG — teardrop, 36×48px, borough-colored =====
+// ===== Pizza slice icon SVG =====
+// Flat pizza slice shape — matches the reference icon style.
+// Colored by borough. White cheese bubbles inside.
+// 40×44px rendered size — wide enough to read clearly as a slice.
 function pinSVG(color) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48">
-    <path d="M18 2 C9 2 2 9 2 18 C2 30 18 46 18 46 C18 46 34 30 34 18 C34 9 27 2 18 2 Z"
-          fill="${color}" stroke="rgba(0,0,0,0.3)" stroke-width="1.2"/>
-    <circle cx="18" cy="17" r="10" fill="rgba(255,255,255,0.15)"/>
-    <polygon points="18,11 11,24 25,24" fill="white" opacity="0.95"/>
-    <path d="M10.5,25 A10,10 0 0 0 25.5,25" stroke="white" stroke-width="2.2"
-          fill="none" stroke-linecap="round"/>
-    <circle cx="15.5" cy="19" r="1.6" fill="${color}" opacity="0.9"/>
-    <circle cx="21"   cy="21" r="1.6" fill="${color}" opacity="0.9"/>
-    <circle cx="17"   cy="23" r="1.3" fill="${color}" opacity="0.9"/>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="44" viewBox="0 0 100 110">
+    <!-- Crust band at top -->
+    <path d="M8 22 Q50 0 92 22 L88 36 Q50 16 12 36 Z"
+          fill="${color}"/>
+    <!-- White gap between crust and slice body -->
+    <path d="M12 36 Q50 18 88 36 L86 42 Q50 24 14 42 Z"
+          fill="white"/>
+    <!-- Main slice body -->
+    <path d="M14 42 Q50 26 86 42 L50 108 Z"
+          fill="${color}"/>
+    <!-- Cheese bubbles -->
+    <circle cx="50" cy="62" r="10" fill="white" opacity="0.9"/>
+    <circle cx="32" cy="75" r="7"  fill="white" opacity="0.85"/>
+    <circle cx="68" cy="72" r="7"  fill="white" opacity="0.85"/>
+    <circle cx="44" cy="88" r="5.5" fill="white" opacity="0.8"/>
+    <circle cx="62" cy="91" r="4.5" fill="white" opacity="0.8"/>
   </svg>`;
 }
 
@@ -75,7 +84,7 @@ map.on('load', async () => {
   if (countEl) countEl.textContent = geojson.features.length;
 
   // LABEL_ZOOM: below this zoom, labels are hidden to avoid clutter
-  const LABEL_ZOOM = 12;
+  const LABEL_ZOOM = 11;
 
   function updateLabels() {
     const show = map.getZoom() >= LABEL_ZOOM;

@@ -205,15 +205,15 @@ body.map-page {
 }
 
 .pizza-pin {
-  width: 36px;
-  height: 48px;
+  width: 40px;
+  height: 44px;
   flex-shrink: 0;
-  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35));
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
   transition: transform 0.12s ease, filter 0.12s ease;
 }
 .pizza-marker-wrap:hover .pizza-pin {
-  transform: scale(1.25) translateY(-3px);
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+  transform: scale(1.2) translateY(-2px);
+  filter: drop-shadow(0 5px 8px rgba(0,0,0,0.4));
 }
 
 .pin-label {
@@ -349,6 +349,87 @@ body.content-page {
   margin-top: 6px;
 }
 .page-wrap .cta-button:hover { background: #b81c1f; }
+
+/* ===== Store — poster grid ===== */
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 28px;
+  margin: 32px 0 40px;
+}
+
+.poster-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.poster-img-wrap {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(29, 20, 12, 0.18);
+  background: var(--color-parchment);
+  aspect-ratio: 2 / 3;
+}
+
+.poster-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.92);
+}
+
+.poster-placeholder {
+  background: var(--color-crust);
+}
+
+.poster-placeholder-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.poster-borough-label {
+  font-family: var(--font-display-2);
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: rgba(255,251,243,0.25);
+  letter-spacing: -0.02em;
+}
+
+.poster-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--color-crust);
+  color: var(--color-parchment);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.poster-info h3 {
+  font-family: var(--font-display-2);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--color-crust);
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+
+.poster-info p {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: rgba(36, 26, 16, 0.65);
+  margin: 0;
+}
 
 /* ===== Suggest a Spot form ===== */
 .suggest-form {
