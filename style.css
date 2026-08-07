@@ -76,15 +76,14 @@ html, body {
 .topbar-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   margin-left: auto;
 }
 
 .topbar-nav a {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
   color: var(--color-char);
   text-decoration: none;
   padding: 8px 14px;
@@ -197,17 +196,39 @@ body.map-page {
   box-shadow: 0 0 0 1px rgba(29,20,12,0.25);
 }
 
-/* ===== Pizza pin marker (HTML Marker element) ===== */
+/* ===== Pizza pin marker ===== */
+.pizza-marker-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
 .pizza-pin {
   width: 36px;
   height: 48px;
-  cursor: pointer;
+  flex-shrink: 0;
   filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35));
   transition: transform 0.12s ease, filter 0.12s ease;
 }
-.pizza-pin:hover {
-  transform: scale(1.25) translateY(-4px);
+.pizza-marker-wrap:hover .pizza-pin {
+  transform: scale(1.25) translateY(-3px);
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+}
+
+.pin-label {
+  margin-top: 3px;
+  background: rgba(255,251,243,0.92);
+  color: #241A10;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  padding: 2px 5px;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
 
 /* ===== Popup ===== */
@@ -328,6 +349,148 @@ body.content-page {
   margin-top: 6px;
 }
 .page-wrap .cta-button:hover { background: #b81c1f; }
+
+/* ===== Suggest a Spot form ===== */
+.suggest-form {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-crust);
+  font-weight: 600;
+}
+
+.required { color: var(--color-sauce); }
+.optional {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: rgba(36, 26, 16, 0.55);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-char);
+  background: #fff;
+  border: 1.5px solid rgba(36, 26, 16, 0.2);
+  border-radius: 4px;
+  padding: 10px 12px;
+  transition: border-color 0.15s ease;
+  width: 100%;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-sauce);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.form-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23241A10' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  cursor: pointer;
+}
+
+.form-submit {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-sauce);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 13px 24px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.form-submit:hover { background: #b81c1f; }
+
+/* ===== Recipe page styles ===== */
+.recipe-intro {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  border-left: 3px solid var(--color-sauce);
+  padding-left: 16px;
+  margin-bottom: 36px;
+  color: var(--color-char);
+}
+
+.recipe-section {
+  margin-bottom: 36px;
+  padding: 22px 24px;
+  background: rgba(220, 34, 37, 0.04);
+  border-radius: 4px;
+  border: 1px solid rgba(220, 34, 37, 0.12);
+}
+
+.recipe-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display-2);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--color-crust);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+}
+
+.recipe-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-sauce);
+  color: #fff;
+  font-family: var(--font-display-2);
+  font-size: 0.85rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.recipe-steps {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe-steps li {
+  font-size: 0.97rem;
+  line-height: 1.5;
+}
 
 /* ===== Focus ===== */
 a:focus-visible,
