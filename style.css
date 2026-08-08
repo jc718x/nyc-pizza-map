@@ -58,6 +58,9 @@ html, body {
   text-decoration: none;
 }
 
+.topbar-brand a { display: flex; line-height: 0; }
+.topbar-brand a:focus-visible { outline: 2px solid var(--color-sauce); border-radius: 4px; }
+
 .topbar-logo {
   width: 44px;
   height: 44px;
@@ -311,12 +314,13 @@ body.content-page {
   padding: calc(var(--topbar-h) + 48px) 24px 80px;
 }
 .page-wrap h2 {
-  font-family: var(--font-display-2);
-  font-weight: 900;
+  font-family: var(--font-logo);
+  font-weight: 700;
   font-size: 1.7rem;
   color: var(--color-crust);
   margin: 0 0 6px;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 .page-wrap .page-kicker {
