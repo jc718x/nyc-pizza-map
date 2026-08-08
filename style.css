@@ -491,7 +491,7 @@ button:focus-visible {
     pointer-events: none;
     grid-column: 2;
   }
-  .topbar-brand a { display: none; }
+  .topbar-brand a img { display: none; }
 
   /* Hamburger takes first column */
   .nav-toggle {
