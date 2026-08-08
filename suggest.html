@@ -54,8 +54,14 @@
   <h2>Add a Pizzeria</h2>
   <p>Think something's missing from the map? Make your case. If it's good enough, it gets on the list.</p>
 
-  <form class="suggest-form" name="add-a-pizzeria" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/suggest-thanks.html">
-    <p hidden><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <form class="suggest-form" method="POST" action="https://api.web3forms.com/submit" id="suggestForm">
+    <!-- Web3Forms -->
+    <input type="hidden" name="access_key" value="4f9a2a0c-f13f-41f0-b046-b6b9fc0b01d0" />
+    <input type="hidden" name="subject" value="New Pizzeria Suggestion — NYC Pizza Map" />
+    <input type="hidden" name="from_name" value="NYC Pizza Map" />
+    <input type="hidden" name="redirect" value="https://nycpizzamap.com/suggest-thanks.html" />
+    <!-- Honeypot spam trap -->
+    <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off" />
 
     <div class="form-field">
       <label for="pizzeria-name">Pizzeria name <span class="required">*</span></label>
@@ -88,6 +94,9 @@
       <label for="email">Your email <span class="optional">(optional — only if you want a reply)</span></label>
       <input type="email" id="email" name="email" placeholder="you@example.com" />
     </div>
+
+    <!-- hCaptcha -->
+    <div class="h-captcha" data-captcha="true"></div>
 
     <button type="submit" class="form-submit">Submit →</button>
   </form>
@@ -161,5 +170,6 @@ function initAutocomplete() {
 }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAccH_FwDL2Bj57BDrrECA-Ieo36FGpPW8&libraries=places&callback=initAutocomplete" async defer></script>
+<script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>

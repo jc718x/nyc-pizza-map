@@ -162,6 +162,7 @@ map.on('load', async () => {
     const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
     const html = `
       <div class="ticket">
+        ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
         <div class="ticket-head">
           <p class="ticket-name">${escapeHTML(p.name)}</p>
           <p class="ticket-address">${escapeHTML(p.address)}</p>
@@ -199,4 +200,45 @@ map.on('load', async () => {
     labels.forEach(l => l.style.opacity = show ? '1' : '0');
   }
   map.on('zoomend', updateLabels);
+
+  // ===== ?pin= URL parameter =====
+  // When arriving from the list page, fly to the named pizzeria and open its popup.
+  const params = new URLSearchParams(window.location.search);
+  const pinName = params.get('pin');
+  if (pinName) {
+    const match = geojson.features.find(
+      f => f.properties.name.toLowerCase() === pinName.toLowerCase()
+    );
+    if (match) {
+      const [lng, lat] = match.geometry.coordinates;
+      map.flyTo({ center: [lng, lat], zoom: 15, duration: 800 });
+      // Open popup after fly animation completes
+      map.once('moveend', () => {
+        const p   = match.properties;
+        const col = BOROUGH_COLORS[p.borough] || '#DC2225';
+        const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+        const html = `
+          <div class="ticket">
+            <div class="ticket-head">
+              <p class="ticket-name">${escapeHTML(p.name)}</p>
+              <p class="ticket-address">${escapeHTML(p.address)}</p>
+            </div>
+            <div class="ticket-body">
+              <span class="style-badge" style="background:${col}">${escapeHTML(p.style)}</span>
+              <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
+              <div class="ticket-links">
+                ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
+                <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
+              </div>
+            </div>
+          </div>`;
+        if (activePopup) activePopup.remove();
+        activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
+          .setLngLat([lng, lat])
+          .setHTML(html)
+          .addTo(map);
+        activePopup.on('close', () => { activePopup = null; });
+      });
+    }
+  }
 });
