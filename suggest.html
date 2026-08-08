@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Suggest a Spot — NYC Pizza Map</title>
+<title>Add a Pizzeria — NYC Pizza Map</title>
 <meta name="description" content="Know a great NYC pizzeria that should be on the map? Tell us about it." />
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -23,7 +22,7 @@
     <a href="index.html">Map</a>
     <a href="store.html">Store</a>
     <a href="how-to-make-pizza.html">How To Make Pizza</a>
-    <a href="suggest.html" class="active">Suggest a Spot</a>
+    <a href="suggest.html" class="active">Add a Pizzeria</a>
     <a href="about.html">About</a>
   </nav>
   <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
@@ -35,17 +34,16 @@
   <a href="index.html">Map</a>
   <a href="store.html">Store</a>
   <a href="how-to-make-pizza.html">How To Make Pizza</a>
-  <a href="suggest.html" class="active">Suggest a Spot</a>
+  <a href="suggest.html" class="active">Add a Pizzeria</a>
   <a href="about.html">About</a>
 </div>
 
 <main class="page-wrap">
   <p class="page-kicker">Know a great one?</p>
-  <h2>Suggest a Spot</h2>
-  <p>Every entry on this map has to earn its place — but I don't claim to know every great slice in all five boroughs. If there's a pizzeria you think belongs here, tell me about it. I read every submission.</p>
+  <h2>Add a Pizzeria</h2>
+  <p>Think something's missing from the map? Make your case. If it's good enough, it gets on the list.</p>
 
-  <form class="suggest-form" name="suggest-a-spot" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/suggest-thanks.html">
-    <!-- Netlify honeypot spam filter -->
+  <form class="suggest-form" name="add-a-pizzeria" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/suggest-thanks.html">
     <p hidden><label>Don't fill this out: <input name="bot-field" /></label></p>
 
     <div class="form-field">
@@ -66,13 +64,13 @@
     </div>
 
     <div class="form-field">
-      <label for="address">Address</label>
-      <input type="text" id="address" name="address" placeholder="e.g. 575 Henry St, Brooklyn, NY 11231" />
+      <label for="address">Address <span class="required">*</span></label>
+      <input type="text" id="address" name="address" placeholder="e.g. 575 Henry St, Brooklyn, NY 11231" required />
     </div>
 
     <div class="form-field">
-      <label for="reason">Why it should be included <span class="required">*</span></label>
-      <textarea id="reason" name="reason" rows="5" placeholder="What makes this place special? What should people order?" required></textarea>
+      <label for="reason">Why it should be on the map <span class="required">*</span></label>
+      <textarea id="reason" name="reason" rows="5" placeholder="What makes it great? What should people order?" required></textarea>
     </div>
 
     <div class="form-field">
@@ -80,7 +78,7 @@
       <input type="email" id="email" name="email" placeholder="you@example.com" />
     </div>
 
-    <button type="submit" class="form-submit">Send it in →</button>
+    <button type="submit" class="form-submit">Submit →</button>
   </form>
 </main>
 
