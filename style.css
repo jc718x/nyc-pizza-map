@@ -484,8 +484,7 @@ button:focus-visible {
   .topbar-brand a { display: none; }
   .topbar-brand a:focus-visible { display: none; }
 
-  /* Hamburger stays in normal flow on the left */
-  .nav-toggle { order: -1; }
+  /* Hamburger is first in DOM so it sits naturally on the left */
 
   /* Shrink page headings so they don't cause horizontal scroll */
   .page-wrap h2 { font-size: 1.2rem; }
