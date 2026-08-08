@@ -50,7 +50,7 @@
 
     <div class="form-field">
       <label for="pizzeria-name">Pizzeria name <span class="required">*</span></label>
-      <input type="text" id="pizzeria-name" name="pizzeria-name" placeholder="e.g. Lucali" required />
+      <input type="text" id="pizzeria-name" name="pizzeria-name" placeholder="Start typing a pizzeria name…" required autocomplete="off" />
     </div>
 
     <div class="form-field">
@@ -67,7 +67,7 @@
 
     <div class="form-field">
       <label for="address">Address <span class="required">*</span></label>
-      <input type="text" id="address" name="address" placeholder="e.g. 575 Henry St, Brooklyn, NY 11231" required />
+      <input type="text" id="address" name="address" placeholder="Auto-filled when you pick from the dropdown above" required />
     </div>
 
     <div class="form-field">
@@ -85,5 +85,72 @@
 </main>
 
 <script src="nav.js"></script>
+<script>
+// ===== Google Places Autocomplete =====
+// Loads after the page is ready. Restricts suggestions to restaurants/food
+// in New York City only, and auto-fills address + borough on selection.
+
+const BOROUGH_MAP = {
+  'Kings County':      'Brooklyn',
+  'New York County':   'Manhattan',
+  'Queens County':     'Queens',
+  'Bronx County':      'Bronx',
+  'Richmond County':   'Staten Island',
+  // Also catch the city sublocality names
+  'Brooklyn':          'Brooklyn',
+  'Manhattan':         'Manhattan',
+  'Queens':            'Queens',
+  'Bronx':             'Bronx',
+  'Staten Island':     'Staten Island',
+};
+
+function initAutocomplete() {
+  const input = document.getElementById('pizzeria-name');
+  const addressInput = document.getElementById('address');
+  const boroughSelect = document.getElementById('borough');
+
+  const autocomplete = new google.maps.places.Autocomplete(input, {
+    types: ['establishment'],
+    componentRestrictions: { country: 'us' },
+    bounds: new google.maps.LatLngBounds(
+      new google.maps.LatLng(40.4774, -74.2591), // SW corner of NYC
+      new google.maps.LatLng(40.9176, -73.7004)  // NE corner of NYC
+    ),
+    strictBounds: false,
+    fields: ['name', 'formatted_address', 'address_components'],
+  });
+
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace();
+    if (!place.address_components) return;
+
+    // Set the name field to just the place name (not the full address)
+    input.value = place.name;
+
+    // Fill address field
+    addressInput.value = place.formatted_address;
+
+    // Auto-select borough from address components
+    for (const component of place.address_components) {
+      for (const type of component.types) {
+        if (type === 'administrative_area_level_2') {
+          const borough = BOROUGH_MAP[component.long_name];
+          if (borough) {
+            boroughSelect.value = borough;
+            break;
+          }
+        }
+        if (type === 'sublocality_level_1' || type === 'sublocality') {
+          const borough = BOROUGH_MAP[component.long_name];
+          if (borough) {
+            boroughSelect.value = borough;
+          }
+        }
+      }
+    }
+  });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAccH_FwDL2Bj57BDrrECA-Ieo36FGpPW8&libraries=places&callback=initAutocomplete" async defer></script>
 </body>
 </html>
