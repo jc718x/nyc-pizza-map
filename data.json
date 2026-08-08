@@ -78,8 +78,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9914,
-          40.6707
+          -73.997317414496,
+          40.69132015113479
         ]
       },
       "properties": {
@@ -276,8 +276,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9993,
-          40.6559
+          -73.99931929637762,
+          40.65599960493793
         ]
       },
       "properties": {
@@ -294,8 +294,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.981,
-          40.6752
+          -73.98090601489172,
+          40.6754635102147
         ]
       },
       "properties": {
@@ -312,8 +312,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9981,
-          40.6773
+          -73.99819529159188,
+          40.677460194605565
         ]
       },
       "properties": {
@@ -348,8 +348,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9163,
-          40.6998
+          -73.91621667256075,
+          40.699994415670446
         ]
       },
       "properties": {
@@ -366,8 +366,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0178,
-          40.6308
+          -74.02701157440843,
+          40.634597634905305
         ]
       },
       "properties": {
@@ -492,26 +492,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0017,
-          40.737
-        ]
-      },
-      "properties": {
-        "name": "L'Antica Pizzeria Da Michele",
-        "address": "141 Mulberry St, New York, NY 10013",
-        "borough": "Manhattan",
-        "style": "Neapolitan",
-        "blurb": "The NYC outpost of the legendary Naples original, serving only Margherita and Marinara pies. Purist in the best sense — soft-centered, leopard-spotted crust, San Marzano tomatoes.",
-        "website": "https://damichele.net/usa/"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -74.0014,
-          40.7279
+          -73.98767589117541,
+          40.735596338470735
         ]
       },
       "properties": {
@@ -546,8 +528,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0044,
-          40.7214
+          -74.00376866989883,
+          40.721521140957265
         ]
       },
       "properties": {
@@ -564,8 +546,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0049,
-          40.7332
+          -74.0044574921688,
+          40.733417487287475
         ]
       },
       "properties": {
@@ -611,24 +593,6 @@
         "style": "Neapolitan",
         "blurb": "A Hell's Kitchen wood-fired spot that flies under the radar, turning out solid Neapolitan pies in a low-key setting without the usual Midtown tourist markup.",
         "website": "https://capizzinyc.com/"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -74.004,
-          40.7333
-        ]
-      },
-      "properties": {
-        "name": "Mama's TOO!",
-        "address": "2750 Broadway, New York, NY 10025",
-        "borough": "Manhattan",
-        "style": "Slice joint",
-        "blurb": "An Upper West Side slice institution with a cult following for its square slice — thick, airy, well-sauced — and a long list of classic NY pies that deliver without gimmick.",
-        "website": "https://mamastoonyc.com/"
       }
     },
     {
@@ -690,8 +654,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.1469,
-          40.5417
+          -74.14659707912453,
+          40.54177251493504
         ]
       },
       "properties": {
@@ -708,8 +672,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.921,
-          40.7639
+          -73.91434899828192,
+          40.76356807268224
         ]
       },
       "properties": {
@@ -744,8 +708,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.8404,
-          40.6627
+          -73.83984593265635,
+          40.66291781699964
         ]
       },
       "properties": {
@@ -762,26 +726,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0102,
-          40.6196
-        ]
-      },
-      "properties": {
-        "name": "Dyker Pizza Company",
-        "address": "8424 13th Ave, Brooklyn, NY 11228",
-        "borough": "Brooklyn",
-        "style": "Slice joint",
-        "blurb": "A Dyker Heights neighborhood spot serving solid NY-style slices in one of Brooklyn's most tightly-knit Italian-American communities. A local staple that earns its place on the basis of consistency and character.",
-        "website": ""
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -74.0148,
-          40.6355
+          -74.02576630242415,
+          40.63478862451308
         ]
       },
       "properties": {
@@ -798,8 +744,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.005,
-          40.6219
+          -73.99016295964798,
+          40.61900962822822
         ]
       },
       "properties": {
@@ -816,8 +762,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0071,
-          40.6237
+          -73.9896801620721,
+          40.620109029517344
         ]
       },
       "properties": {
@@ -834,8 +780,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.8877,
-          40.8555
+          -73.86319831329051,
+          40.864595106224016
         ]
       },
       "properties": {
@@ -852,8 +798,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.8286,
-          40.833
+          -73.82831486193932,
+          40.83841306418584
         ]
       },
       "properties": {
@@ -870,8 +816,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.8706,
-          40.8567
+          -73.88409847128827,
+          40.85891186083974
         ]
       },
       "properties": {
@@ -888,8 +834,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.847,
-          40.8397
+          -73.84993730132442,
+          40.84963447884186
         ]
       },
       "properties": {
@@ -906,8 +852,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.8449,
-          40.7202
+          -73.83824840601139,
+          40.7193686384243
         ]
       },
       "properties": {
@@ -924,8 +870,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9202,
-          40.7437
+          -73.92203538109752,
+          40.74348002916332
         ]
       },
       "properties": {
@@ -942,8 +888,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0278,
-          40.6228
+          -74.02585854246267,
+          40.62141664982711
         ]
       },
       "properties": {
@@ -978,13 +924,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9299,
-          40.7746
+          -73.90466860518919,
+          40.71100751636774
         ]
       },
       "properties": {
         "name": "Mano's Pizzeria",
-        "address": "24-11 23rd Ave, Astoria, NY 11105",
+        "address": "62-98 Forest Ave, Ridgewood, NY 11385",
         "borough": "Queens",
         "style": "Slice joint",
         "blurb": "An Astoria slice shop with a loyal following for its classic NY-style pies. Low-key, consistent, and the kind of place where regulars don't need to look at the menu.",
@@ -996,26 +942,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9404,
-          40.7286
-        ]
-      },
-      "properties": {
-        "name": "Beebe's",
-        "address": "38-28 27th St, Long Island City, NY 11101",
-        "borough": "Queens",
-        "style": "Neapolitan",
-        "blurb": "A Long Island City Neapolitan spot that's become a go-to for the neighborhood's growing population of transplants and locals alike. Wood-fired pies with quality ingredients in a relaxed, neighborhood-bar atmosphere.",
-        "website": ""
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -73.9494,
-          40.7261
+          -73.94698764430376,
+          40.72479515811338
         ]
       },
       "properties": {
@@ -1032,8 +960,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9968,
-          40.6939
+          -73.99553957498503,
+          40.69517176136726
         ]
       },
       "properties": {
@@ -1050,8 +978,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.972,
-          40.6968
+          -73.96696900566516,
+          40.69753758450488
         ]
       },
       "properties": {
@@ -1068,26 +996,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9549,
-          40.7119
-        ]
-      },
-      "properties": {
-        "name": "Leo",
-        "address": "123 Havemeyer St, Brooklyn, NY 11211",
-        "borough": "Brooklyn",
-        "style": "Neapolitan",
-        "blurb": "A Williamsburg natural-wine bar and pizza spot from the team behind Ops in Bushwick. The wood-fired pies are simple and excellent — the kind of place where the wine list is as carefully considered as the dough.",
-        "website": "https://www.leopizzabar.com/"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -74.0284,
-          40.6187
+          -74.03197172527761,
+          40.6199345702195
         ]
       },
       "properties": {
@@ -1104,8 +1014,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9792,
-          40.6778
+          -73.97718276193932,
+          40.68097919414416
         ]
       },
       "properties": {
@@ -1122,8 +1032,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9974,
-          40.6769
+          -73.9909657651813,
+          40.670763758569265
         ]
       },
       "properties": {
@@ -1140,8 +1050,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9596,
-          40.7136
+          -73.9589879778537,
+          40.714761543714026
         ]
       },
       "properties": {
@@ -1158,8 +1068,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9515,
-          40.7288
+          -73.94549594061348,
+          40.72527188783827
         ]
       },
       "properties": {
@@ -1176,26 +1086,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9884,
-          40.7381
-        ]
-      },
-      "properties": {
-        "name": "Stretch Pizza",
-        "address": "331 Park Ave S, New York, NY 10010",
-        "borough": "Manhattan",
-        "style": "Slice joint",
-        "blurb": "A Gramercy slice shop with an open kitchen and a following for its classic NY-style slices done right — thin, crispy, properly charred underneath. Popular with the lunch crowd and stays busy well into the evening.",
-        "website": "https://www.stretchpizzanyc.com/"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -74.0083,
-          40.708
+          -74.00388593507866,
+          40.70943992651823
         ]
       },
       "properties": {
@@ -1212,8 +1104,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9815,
-          40.727
+          -73.97988492284922,
+          40.727321652248285
         ]
       },
       "properties": {
@@ -1230,8 +1122,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0023,
-          40.7277
+          -74.00001320750908,
+          40.72750063794581
         ]
       },
       "properties": {
@@ -1248,8 +1140,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9838,
-          40.7229
+          -73.98737896944824,
+          40.72879021843837
         ]
       },
       "properties": {
@@ -1266,26 +1158,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9989,
-          40.7541
-        ]
-      },
-      "properties": {
-        "name": "Upside Pizza",
-        "address": "598 8th Ave, New York, NY 10018",
-        "borough": "Manhattan",
-        "style": "Slice joint",
-        "blurb": "A Hell's Kitchen slice shop with a gimmick that works: the pizza is flipped upside-down before serving, putting the cheese on the bottom against the crust and the sauce on top. The result is a caramelized, crackly base and bright, fresh-tasting sauce on every bite.",
-        "website": "https://www.upsidepizza.com/"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -74.1399,
-          40.6298
+          -74.14388046862388,
+          40.626391357718205
         ]
       },
       "properties": {
@@ -1302,8 +1176,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.1377,
-          40.6314
+          -74.13255077314264,
+          40.62637555796545
         ]
       },
       "properties": {
@@ -1320,8 +1194,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.8283,
-          40.8285
+          -73.81642539827982,
+          40.81966742196062
         ]
       },
       "properties": {
@@ -1338,8 +1212,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0063,
-          40.6201
+          -74.0078699684228,
+          40.6112480555482
         ]
       },
       "properties": {
@@ -1349,6 +1223,258 @@
         "style": "Neapolitan",
         "blurb": "A Dyker Heights neighborhood restaurant with a wood-fired oven and a loyal following that stretches well beyond the immediate neighborhood. Known for its thin, properly charred pies and a full Italian menu — one of the better-kept secrets in southern Brooklyn.",
         "website": "https://www.lavillapizzeria.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.82172419564094,
+          40.77448326676447
+        ]
+      },
+      "properties": {
+        "name": "Amore Pizza",
+        "address": "30-27 Stratton St, Flushing, NY 11354",
+        "borough": "Queens",
+        "style": "Slice joint",
+        "blurb": "A Flushing neighborhood pizzeria serving classic NY-style slices in one of Queens' most diverse and food-rich neighborhoods. A local staple that holds its own in a part of the borough better known for its international food scene.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.17793886587361,
+          40.54151715690085
+        ]
+      },
+      "properties": {
+        "name": "The Square on Annadale",
+        "address": "833 Annadale Rd, Staten Island, NY 10312",
+        "borough": "Staten Island",
+        "style": "Sicilian",
+        "blurb": "An Annadale neighborhood staple built around the authentic Sicilian square pie — thick, cheese-forward, and sauced on top in the upside-down style. One of the south shore's most consistent and welcoming spots, with a friendly owner and a loyal regulars crowd.",
+        "website": "https://thesquarepizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0826085927529,
+          40.60447457379743
+        ]
+      },
+      "properties": {
+        "name": "La Vera Pizzeria",
+        "address": "2071 Clove Rd, Staten Island, NY 10304",
+        "borough": "Staten Island",
+        "style": "Slice joint",
+        "blurb": "A neighborhood favorite on Clove Road that quickly built a following for its thin-crust pies after taking over a beloved spot that had closed. Consistently praised for delivering a great slice in a part of Staten Island that was missing one.",
+        "website": "https://www.laverapizzeriasi.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1495168884856,
+          40.55137931200542
+        ]
+      },
+      "properties": {
+        "name": "Mimmo's Brick Oven Pizza",
+        "address": "15 Giffords Ln, Staten Island, NY 10308",
+        "borough": "Staten Island",
+        "style": "Neapolitan",
+        "blurb": "A family-owned Great Kills trattoria with a real brick oven fired by NY oak wood at 650°F. Creative specialty pies — the clam, the steak and caramelized onion, the cup-and-char honey pie — in a full Italian dining room with a warm, rustic southern Italian atmosphere.",
+        "website": "https://mimmosbrickoven.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.182,
+          40.5199
+        ]
+      },
+      "properties": {
+        "name": "Nonna's",
+        "address": "311 Page Ave, Staten Island, NY 10307",
+        "borough": "Staten Island",
+        "style": "Slice joint",
+        "blurb": "A Tottenville neighborhood pizzeria at the southernmost tip of Staten Island — and arguably of all of New York City. The kind of local institution where regulars know the staff and the menu hasn't changed much in years, which is exactly the point.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94780889586458,
+          40.5933380282396
+        ]
+      },
+      "properties": {
+        "name": "Lucia Pizza of Avenue X",
+        "address": "2201 Avenue X, Brooklyn, NY 11235",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Sheepshead Bay neighborhood slice counter on Avenue X — deep southern Brooklyn, far off the tourist circuit. Solid classic NY slices in a no-frills setting that's been feeding the neighborhood for years.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.11857605512468,
+          40.556716577033086
+        ]
+      },
+      "properties": {
+        "name": "Nonna's Pizza Great Kills",
+        "address": "27 Brower Ct, Staten Island, NY 10308",
+        "borough": "Staten Island",
+        "style": "Slice joint",
+        "blurb": "A Great Kills neighborhood pizzeria tucked away on Brower Court — the kind of local spot that doesn't need a sign out front because the regulars already know where it is.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99242199287164,
+          40.72323686494557
+        ]
+      },
+      "properties": {
+        "name": "Upside Pizza – Spring St",
+        "address": "51 Spring St, New York, NY 10012",
+        "borough": "Manhattan",
+        "style": "Slice joint",
+        "blurb": "The SoHo location of Upside Pizza — same upside-down concept as the original, with cheese caramelized against the crust and sauce on top. A reliably satisfying slice in an area that's not known for them.",
+        "website": "https://www.upsidepizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94804753123222,
+          40.7251232443131
+        ]
+      },
+      "properties": {
+        "name": "Upside Pizza – Greenpoint",
+        "address": "640 Manhattan Ave, Brooklyn, NY 11222",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "The Greenpoint outpost of Upside Pizza, bringing the flipped-slice concept to Brooklyn. Cheese-bottom, sauce-top, crackly crust — a fun change of pace from classic NY-style.",
+        "website": "https://www.upsidepizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96186626824004,
+          40.80599207058759
+        ]
+      },
+      "properties": {
+        "name": "Upside Pizza – Broadway",
+        "address": "2878 Broadway, New York, NY 10025",
+        "borough": "Manhattan",
+        "style": "Slice joint",
+        "blurb": "The Upper West Side Upside Pizza — same upside-down slice as the other locations, in a neighborhood that needed a good slice window.",
+        "website": "https://www.upsidepizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.03100191731819,
+          40.61571508785892
+        ]
+      },
+      "properties": {
+        "name": "APizza – Dyker Heights",
+        "address": "9524 4th Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A New Haven-style apizza outpost in Dyker Heights — long-fermented dough, high-heat coal-fired oven, and the kind of thin, charred, slightly chewy crust that the Connecticut style is known for. A welcome outlier in southern Brooklyn.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00021125651774,
+          40.73486448057032
+        ]
+      },
+      "properties": {
+        "name": "Mama's TOO! – West Village",
+        "address": "176 Seventh Ave S, New York, NY 10014",
+        "borough": "Manhattan",
+        "style": "Slice joint",
+        "blurb": "An institution with a cult following for its square slice — thick, airy, well-sauced — and a long list of classic NY pies that deliver without gimmick.",
+        "website": "https://mamastoonyc.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96697242534194,
+          40.8009658303783
+        ]
+      },
+      "properties": {
+        "name": "Mama's TOO! – Upper West Side",
+        "address": "2750 Broadway, New York, NY 10025",
+        "borough": "Manhattan",
+        "style": "Slice joint",
+        "blurb": "An institution with a cult following for its square slice — thick, airy, well-sauced — and a long list of classic NY pies that deliver without gimmick.",
+        "website": "https://mamastoonyc.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.01299183450344,
+          40.61508590106203
+        ]
+      },
+      "properties": {
+        "name": "APizza – Dyker 13th Ave",
+        "address": "8424 13th Ave, Brooklyn, NY 11228",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Dyker Heights New Haven-style apizza spot — long-fermented dough, coal-fired oven, and the kind of thin, charred, chewy crust that the Connecticut style is known for. A welcome outlier in southern Brooklyn.",
+        "website": ""
       }
     }
   ]

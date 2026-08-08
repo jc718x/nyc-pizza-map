@@ -126,6 +126,7 @@ map.on('load', async () => {
 
   const leftLabelIndices = computeLeftLabelIndices(geojson.features);
   const labels = [];
+  let activePopup = null;  // track the currently open popup
 
   geojson.features.forEach((feature, idx) => {
     const [lng, lat] = feature.geometry.coordinates;
@@ -177,10 +178,12 @@ map.on('load', async () => {
 
     wrap.addEventListener('click', e => {
       e.stopPropagation();
-      new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
+      if (activePopup) activePopup.remove();
+      activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
         .setLngLat([lng, lat])
         .setHTML(html)
         .addTo(map);
+      activePopup.on('close', () => { activePopup = null; });
     });
 
     // anchor: 'left' for right-label (pin's left edge at coord)
