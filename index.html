@@ -3,14 +3,1898 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NYC Pizza Map — the city's best pies, curated</title>
-<meta name="description" content="A curated map of New York City's best pizzerias, aggregated from critical consensus across all five boroughs." />
+<title>NYC Pizza Map — Best Pizzerias in New York City</title>
+<meta name="description" content="Discover the best pizzerias in all 5 boroughs of New York City. Curated by a Brooklyn native — from classic NY slices to Neapolitan, Sicilian, grandma pies, and bar pies." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+<meta property="og:title" content="NYC Pizza Map — Best Pizzerias in New York City" />
+<meta property="og:description" content="Discover the best pizzerias in all 5 boroughs of NYC. Curated by a Brooklyn native — classic slices, Neapolitan, Sicilian, grandma pies and more." />
+<meta property="og:url" content="https://nycpizzamap.com" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nycpizzamap.com/assets/logo.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="NYC Pizza Map — Best Pizzerias in New York City" />
+<meta name="twitter:description" content="Discover the best pizzerias in all 5 boroughs of NYC. Curated by a Brooklyn native." />
+<meta name="twitter:image" content="https://nycpizzamap.com/assets/logo.png" />
+<link rel="canonical" href="https://nycpizzamap.com" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "NYC Pizza Map",
+      "url": "https://nycpizzamap.com",
+      "description": "A curated map of the best pizzerias in all five boroughs of New York City.",
+      "author": {
+        "@type": "Person",
+        "name": "Jonathan Cellura",
+        "description": "Brooklyn native from Bensonhurst with 40 years of eating New York pizza."
+      }
+    },
+    {
+      "@type": "ItemList",
+      "name": "Best Pizzerias in New York City",
+      "description": "Curated list of the best pizzerias across all five boroughs of NYC",
+      "numberOfItems": 84,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Lucali",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "575 Henry St, Brooklyn, NY 11231",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.lucali.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6818,
+              "longitude": -74.0004
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Di Fara Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1424 Avenue J, Brooklyn, NY 11230",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.difarany.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6252,
+              "longitude": -73.9614
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Grimaldi's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1 Front St, Brooklyn, NY 11201",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.grimaldiscoalfiredpizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7026,
+              "longitude": -73.9932
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Juliana's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "19 Old Fulton St, Brooklyn, NY 11201",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://julianaspizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7027,
+              "longitude": -73.9934
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Table 87",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "87 Atlantic Ave, Brooklyn, NY 11201",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.table87.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.69132015113479,
+              "longitude": -73.997317414496
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Totonno's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1524 Neptune Ave, Brooklyn, NY 11224",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://totonnosconeyisland.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.5789,
+              "longitude": -73.9838
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "item": {
+            "@type": "Restaurant",
+            "name": "L&B Spumoni Gardens \u2013 Gravesend",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "2725 86th St, Brooklyn, NY 11223",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://spumonigardens.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.59464483767038,
+              "longitude": -73.98139259671277
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "item": {
+            "@type": "Restaurant",
+            "name": "L'Industrie Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "254 S 2nd St, Brooklyn, NY 11211",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://lindustriebk.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7116,
+              "longitude": -73.9579
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Ops",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "346 Himrod St, Brooklyn, NY 11237",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.ops.nyc/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7026,
+              "longitude": -73.9172
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Wheated",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "905 Church Ave, Brooklyn, NY 11218",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://wheated.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6467,
+              "longitude": -73.9706
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Giuseppina's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "691 6th Ave, Brooklyn, NY 11215",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.giuseppinasbrickovenpizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6604,
+              "longitude": -73.9905
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Luigi's Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "686 5th Ave, Brooklyn, NY 11232",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6617,
+              "longitude": -73.9935
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Sottocasa",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "298 Atlantic Ave, Brooklyn, NY 11201",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://brooklyn.sottocasanyc.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6883,
+              "longitude": -73.989
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Speedy Romeo",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "376 Classon Ave, Brooklyn, NY 11238",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.speedyromeo.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6875,
+              "longitude": -73.96
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Best Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "33 Havemeyer St, Brooklyn, NY 11211",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://bestpizzawilliamsburg.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7156,
+              "longitude": -73.9535
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "item": {
+            "@type": "Restaurant",
+            "name": "The Astarita",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "442 Court St, Brooklyn, NY 11231",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.65599960493793,
+              "longitude": -73.99931929637762
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Brooklyn DOP",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "261 5th Ave, Brooklyn, NY 11215",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.brooklyndop.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6754635102147,
+              "longitude": -73.98090601489172
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "item": {
+            "@type": "Restaurant",
+            "name": "F&F Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "387 Court St, Brooklyn, NY 11231",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.677460194605565,
+              "longitude": -73.99819529159188
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Patsy's Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "450 Dean St, Brooklyn, NY 11217",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.patsyspizzeriany.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.68189891740351,
+              "longitude": -73.97619256838955
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Lucky Charlie",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "316 Himrod St, Brooklyn, NY 11237",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.699994415670446,
+              "longitude": -73.91621667256075
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Frankie's of Bay Ridge",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "279 71st St, Brooklyn, NY 11209",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.frankiesofbr.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.634597634905305,
+              "longitude": -74.02701157440843
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 22,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Joe's Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "7 Carmine St, New York, NY 10014",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://joespizzanyc.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7307,
+              "longitude": -74.0022
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 23,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Prince Street Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "27 Prince St, New York, NY 10012",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://princestreetpizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7233,
+              "longitude": -73.9948
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 24,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Lombardi's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "32 Spring St, New York, NY 10012",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.firstpizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7216,
+              "longitude": -73.9956
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 25,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Scarr's Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "35 Orchard St, New York, NY 10002",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://scarrspizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7157,
+              "longitude": -73.9916
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 26,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Una Pizza Napoletana",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "175 Orchard St, New York, NY 10002",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://unapizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7218,
+              "longitude": -73.9886
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 27,
+          "item": {
+            "@type": "Restaurant",
+            "name": "John's of Bleecker Street",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "278 Bleecker St, New York, NY 10014",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.johnsofbleecker.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7316,
+              "longitude": -74.0034
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 28,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Song' E Napule",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "295 W Houston St, New York, NY 10014",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.songenapule.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.735596338470735,
+              "longitude": -73.98767589117541
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 29,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Don Antonio",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "309 W 50th St, New York, NY 10019",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.donantoniopizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7627,
+              "longitude": -73.9867
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 30,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Lucia Pizza of SoHo",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "67 Mercer St, New York, NY 10012",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.721521140957265,
+              "longitude": -74.00376866989883
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 31,
+          "item": {
+            "@type": "Restaurant",
+            "name": "L'Industrie West Village",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "253 W 11th St, New York, NY 10014",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://lindustriebk.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.733417487287475,
+              "longitude": -74.0044574921688
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 32,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Lazzara's Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "221 W 38th St, New York, NY 10018",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://lazzaraspizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.754,
+              "longitude": -73.9895
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 33,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Capizzi",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "547 9th Ave, New York, NY 10018",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://capizzinyc.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7575,
+              "longitude": -73.9936
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 34,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Joe & Pat's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1758 Victory Blvd, Staten Island, NY 10314",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://joeandpatsnyc.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6129,
+              "longitude": -74.1221
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 35,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Denino's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "524 Port Richmond Ave, Staten Island, NY 10302",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://deninossi.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6302,
+              "longitude": -74.1402
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 36,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Lee's Tavern",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "60 Hancock St, Staten Island, NY 10305",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.5887,
+              "longitude": -74.0952
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 37,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Goodfella's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1718 Hylan Blvd, Staten Island, NY 10305",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.goodfellashylan.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.54177251493504,
+              "longitude": -74.14659707912453
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 38,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Rizzo's Fine Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "30-13 Steinway St, Astoria, NY 11103",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://rizzosfinepizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.76356807268224,
+              "longitude": -73.91434899828192
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 39,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Andrew Bellucci's Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "37-08 30th Ave, Astoria, NY 11103",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://andrewbelluccispizzeria.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7644,
+              "longitude": -73.9164
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 40,
+          "item": {
+            "@type": "Restaurant",
+            "name": "New Park Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "156-71 Cross Bay Blvd, Howard Beach, NY 11414",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://newparkpizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.66291781699964,
+              "longitude": -73.83984593265635
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 41,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Brooklyn Firefly",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "7003 3rd Ave, Brooklyn, NY 11209",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.63478862451308,
+              "longitude": -74.02576630242415
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 42,
+          "item": {
+            "@type": "Restaurant",
+            "name": "DaVinci Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "6514 18th Ave, Brooklyn, NY 11204",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.61900962822822,
+              "longitude": -73.99016295964798
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 43,
+          "item": {
+            "@type": "Restaurant",
+            "name": "J&V Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "6322 18th Ave, Brooklyn, NY 11204",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.620109029517344,
+              "longitude": -73.9896801620721
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 44,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Zero Otto Nove",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "2357 Arthur Ave, Bronx, NY 10458",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.zeroottonove.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.864595106224016,
+              "longitude": -73.86319831329051
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 45,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Louie & Ernie's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1300 Crosby Ave, Bronx, NY 10461",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.83841306418584,
+              "longitude": -73.82831486193932
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 46,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Pugsley Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "590 E 191st St, Bronx, NY 10458",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.pugsley-pizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.85891186083974,
+              "longitude": -73.88409847128827
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 47,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Patricia's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1082 Morris Park Ave, Bronx, NY 10461",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.patriciasrestaurant.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.84963447884186,
+              "longitude": -73.84993730132442
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 48,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Nick's Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "108-26 Ascan Ave, Forest Hills, NY 11375",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://nickspizzaforesthills.netwaiter.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7193686384243,
+              "longitude": -73.83824840601139
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 49,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Philomena's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "41-16 Queens Blvd, Sunnyside, NY 11104",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.philomenasqueens.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.74348002916332,
+              "longitude": -73.92203538109752
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 50,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Pizza Wagon",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "8610 5th Ave, Brooklyn, NY 11209",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.62141664982711,
+              "longitude": -74.02585854246267
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 51,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Rosa's Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "62-65 Fresh Pond Rd, Ridgewood, NY 11385",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7002,
+              "longitude": -73.9044
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 52,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Mano's Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "62-98 Forest Ave, Ridgewood, NY 11385",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.71100751636774,
+              "longitude": -73.90466860518919
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 53,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Chrissy's Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "142 Nassau Ave, Brooklyn, NY 11222",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.72479515811338,
+              "longitude": -73.94698764430376
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 54,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Dellarocco's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "214 Hicks St, Brooklyn, NY 11201",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.dellaroccos.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.69517176136726,
+              "longitude": -73.99553957498503
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 55,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Il Porto",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "37 Washington Ave, Brooklyn, NY 11205",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.69753758450488,
+              "longitude": -73.96696900566516
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 56,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Nino's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "9110 3rd Ave, Brooklyn, NY 11209",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6199345702195,
+              "longitude": -74.03197172527761
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 57,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Pizza Secret",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "72 5th Ave, Brooklyn, NY 11217",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.68097919414416,
+              "longitude": -73.97718276193932
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 58,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Table 87 \u2013 3rd Avenue",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "473 3rd Ave, Brooklyn, NY 11215",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.table87.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.670763758569265,
+              "longitude": -73.9909657651813
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 59,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Fini Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "305 Bedford Ave, Brooklyn, NY 11211",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.714761543714026,
+              "longitude": -73.9589879778537
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 60,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Diamond Slice",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "220 Greenpoint Ave, Brooklyn, NY 11222",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.72527188783827,
+              "longitude": -73.94549594061348
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 61,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Kest\u00e9 Pizza & Vino",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "77 Fulton St, New York, NY 10038",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://kestepizzeria.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.70943992651823,
+              "longitude": -74.00388593507866
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 62,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Gnocco",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "337 E 10th St, New York, NY 10009",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.gnocco.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.727321652248285,
+              "longitude": -73.97988492284922
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 63,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Arturo's Coal Oven Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "106 W Houston St, New York, NY 10012",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.arturosnycpizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.72750063794581,
+              "longitude": -74.00001320750908
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 64,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Cello's Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "154 E 2nd St, New York, NY 10009",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.72879021843837,
+              "longitude": -73.98737896944824
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 65,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Brothers Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "750 Port Richmond Ave, Staten Island, NY 10302",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.626391357718205,
+              "longitude": -74.14388046862388
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 66,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Ungaro Coal Fired Pizza Cafe",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1298 Forest Ave, Staten Island, NY 10302",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.62637555796545,
+              "longitude": -74.13255077314264
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 67,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Tommy's Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "4033 E Tremont Ave, Bronx, NY 10465",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.81966742196062,
+              "longitude": -73.81642539827982
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 68,
+          "item": {
+            "@type": "Restaurant",
+            "name": "La Villa",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1529 86th St, Brooklyn, NY 11228",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.lavillapizzeria.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.6112480555482,
+              "longitude": -74.0078699684228
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 69,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Amore Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "30-27 Stratton St, Flushing, NY 11354",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.77448326676447,
+              "longitude": -73.82172419564094
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 70,
+          "item": {
+            "@type": "Restaurant",
+            "name": "The Square on Annadale",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "833 Annadale Rd, Staten Island, NY 10312",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://thesquarepizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.54151715690085,
+              "longitude": -74.17793886587361
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 71,
+          "item": {
+            "@type": "Restaurant",
+            "name": "La Vera Pizzeria",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "2071 Clove Rd, Staten Island, NY 10304",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.laverapizzeriasi.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.60447457379743,
+              "longitude": -74.0826085927529
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 72,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Mimmo's Brick Oven Pizza",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "15 Giffords Ln, Staten Island, NY 10308",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://mimmosbrickoven.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.55137931200542,
+              "longitude": -74.1495168884856
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 73,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Nonna's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "311 Page Ave, Staten Island, NY 10307",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.5199,
+              "longitude": -74.182
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 74,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Lucia Pizza of Avenue X",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "2201 Avenue X, Brooklyn, NY 11235",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.5933380282396,
+              "longitude": -73.94780889586458
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 75,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Nonna's Pizza Great Kills",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "27 Brower Ct, Staten Island, NY 10308",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.556716577033086,
+              "longitude": -74.11857605512468
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 76,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Upside Pizza \u2013 Spring St",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "51 Spring St, New York, NY 10012",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.upsidepizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.72323686494557,
+              "longitude": -73.99242199287164
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 77,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Upside Pizza \u2013 Greenpoint",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "640 Manhattan Ave, Brooklyn, NY 11222",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.upsidepizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.7251232443131,
+              "longitude": -73.94804753123222
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 78,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Upside Pizza \u2013 Broadway",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "2878 Broadway, New York, NY 10025",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.upsidepizza.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.80599207058759,
+              "longitude": -73.96186626824004
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 79,
+          "item": {
+            "@type": "Restaurant",
+            "name": "APizza \u2013 Dyker Heights",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "9524 4th Ave, Brooklyn, NY 11209",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.61571508785892,
+              "longitude": -74.03100191731819
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 80,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Mama's TOO! \u2013 West Village",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "176 Seventh Ave S, New York, NY 10014",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://mamastoonyc.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.73486448057032,
+              "longitude": -74.00021125651774
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 81,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Mama's TOO! \u2013 Upper West Side",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "2750 Broadway, New York, NY 10025",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://mamastoonyc.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.8009658303783,
+              "longitude": -73.96697242534194
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 82,
+          "item": {
+            "@type": "Restaurant",
+            "name": "APizza \u2013 Dyker 13th Ave",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "8424 13th Ave, Brooklyn, NY 11228",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.61508590106203,
+              "longitude": -74.01299183450344
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 83,
+          "item": {
+            "@type": "Restaurant",
+            "name": "Patsy's",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "23 Lexington Ave, New York, NY 10010",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://www.patsyspizzeriany.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.73977599215982,
+              "longitude": -73.98434828978475
+            }
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 84,
+          "item": {
+            "@type": "Restaurant",
+            "name": "L&B Spumoni Gardens \u2013 DUMBO",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "46 Old Fulton St, Brooklyn, NY 11201",
+              "addressLocality": "New York",
+              "addressRegion": "NY",
+              "addressCountry": "US"
+            },
+            "servesCuisine": "Pizza",
+            "url": "https://spumonigardens.com/",
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 40.70223598309123,
+              "longitude": -73.99318439559457
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
 </head>
@@ -20,10 +1904,10 @@
   <div class="topbar-brand">
     <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
     <span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span>
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
     <span></span><span></span><span></span>
   </button>
-  </div>
       <nav class="topbar-nav" id="siteNav" aria-label="Site">
     <a href="index.html" class="active">Map</a>
     <div class="nav-dropdown" id="exploreDropdown">

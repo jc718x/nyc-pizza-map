@@ -214,36 +214,36 @@ map.on('load', async () => {
     );
     if (match) {
       const [lng, lat] = match.geometry.coordinates;
-      // Center map on this pizzeria (zoom was already set to 16 at init)
+      const p   = match.properties;
+      const col = BOROUGH_COLORS[p.borough] || '#DC2225';
+      const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+      const html = `
+        <div class="ticket">
+          ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
+          <div class="ticket-head">
+            <p class="ticket-name">${escapeHTML(p.name)}</p>
+            <p class="ticket-address">${escapeHTML(p.address)}</p>
+          </div>
+          <div class="ticket-body">
+            <span class="style-badge" style="background:${col}">${escapeHTML(p.style)}</span>
+            <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
+            <div class="ticket-links">
+              ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
+              <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
+            </div>
+          </div>
+        </div>`;
+
+      // Center map on pin (zoom already set to 16 at init) then open popup
       map.setCenter([lng, lat]);
-      // Open popup after a short delay to let markers render
       setTimeout(() => {
-        const p   = match.properties;
-        const col = BOROUGH_COLORS[p.borough] || '#DC2225';
-        const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-        const html = `
-          <div class="ticket">
-            ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
-            <div class="ticket-head">
-              <p class="ticket-name">${escapeHTML(p.name)}</p>
-              <p class="ticket-address">${escapeHTML(p.address)}</p>
-            </div>
-            <div class="ticket-body">
-              <span class="style-badge" style="background:${col}">${escapeHTML(p.style)}</span>
-              <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
-              <div class="ticket-links">
-                ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
-                <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
-              </div>
-            </div>
-          </div>`;
         if (activePopup) activePopup.remove();
         activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
           .setLngLat([lng, lat])
           .setHTML(html)
           .addTo(map);
         activePopup.on('close', () => { activePopup = null; });
-      }, 400);
+      }, 500);
     }
   }
 });

@@ -420,8 +420,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9956,
-          40.7216
+          -73.99559582438988,
+          40.72159188334481
         ]
       },
       "properties": {
@@ -888,8 +888,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.02585854246267,
-          40.62141664982711
+          -74.02656300495737,
+          40.62132438599663
         ]
       },
       "properties": {
@@ -1511,6 +1511,816 @@
         "style": "Sicilian",
         "blurb": "The DUMBO outpost of the Gravesend original, bringing the same upside-down Sicilian square — sauce on top, cheese caramelized on the bottom — to one of Brooklyn's busiest tourist corridors.",
         "website": "https://spumonigardens.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96949358758762,
+          40.76069381691379
+        ]
+      },
+      "properties": {
+        "name": "My Pie Pizzeria Romana",
+        "address": "690 Lexington Ave, New York, NY 10022",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Midtown East Roman-style pizzeria — thin, crispy, rectangular pies cut with scissors, served by weight. A completely different animal from the NY round pie but worth knowing about.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95277818773515,
+          40.7802131302536
+        ]
+      },
+      "properties": {
+        "name": "Lucia Pizza of UES",
+        "address": "1571 3rd Ave, New York, NY 10128",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The Upper East Side outpost of Lucia Pizza, consistent and reliable for a classic NY slice in a neighborhood that can be hit or miss for pizza.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9579514253616,
+          40.7766451656423
+        ]
+      },
+      "properties": {
+        "name": "Village Square Pizza – Upper East Side",
+        "address": "1200 Lexington Ave, New York, NY 10028",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A neighborhood slice staple on the Upper East Side — consistent NY-style slices that the local crowd relies on.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9737997760964,
+          40.792372031248725
+        ]
+      },
+      "properties": {
+        "name": "Village Square Pizza – Upper West Side",
+        "address": "2479 Broadway, New York, NY 10025",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The Upper West Side location of Village Square Pizza, a reliable neighborhood slice spot on Broadway.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98075284335974,
+          40.75163275223202
+        ]
+      },
+      "properties": {
+        "name": "Upside Pizza – 40th St",
+        "address": "20 E 40th St, New York, NY 10016",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "Another Upside Pizza location near Grand Central — same flipped-slice concept with cheese caramelized on the bottom and sauce on top.",
+        "website": "https://www.upsidepizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98910693361074,
+          40.75146485907151
+        ]
+      },
+      "properties": {
+        "name": "Village Square Pizza – Midtown",
+        "address": "147 W 35th St, New York, NY 10001",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The Midtown West location of Village Square Pizza, a dependable stop for a classic NY slice in the Garment District.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9902582247214,
+          40.75432304736147
+        ]
+      },
+      "properties": {
+        "name": "Ledo Pizza",
+        "address": "243 W 38th St, New York, NY 10018",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Garment District slice counter with a loyal lunch crowd — no-frills NY slices at a fair price in one of Midtown's busiest corridors.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99222934113324,
+          40.755534328754834
+        ]
+      },
+      "properties": {
+        "name": "Square Pizza NYC",
+        "address": "316 W 39th St, New York, NY 10018",
+        "borough": "Manhattan",
+        "style": "Sicilian",
+        "blurb": "A Times Square-adjacent Sicilian square specialist — thick, cheesy, crispy-bottomed squares in an area otherwise dominated by tourist traps.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98411383778229,
+          40.72894399667287
+        ]
+      },
+      "properties": {
+        "name": "Joe & Pat's NYC",
+        "address": "168 1st Ave, New York, NY 10009",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Manhattan outpost of the beloved Staten Island institution, bringing the same cracker-thin crust and Neapolitan family recipe to the East Village.",
+        "website": "https://joeandpatsnyc.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98965195216907,
+          40.72305288227584
+        ]
+      },
+      "properties": {
+        "name": "Pizza Loves Sauce",
+        "address": "147 E Houston St, New York, NY 10002",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Lower East Side slice counter known for generously sauced pies — the name says it all. Casual, quick, reliably good.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99611138475359,
+          40.719745975959306
+        ]
+      },
+      "properties": {
+        "name": "Ceres",
+        "address": "164 Mott St, New York, NY 10013",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Nolita wood-fired spot with a focused menu and natural wine list. Seasonal and ingredient-driven — closer to a restaurant than a pizzeria, but the pies are serious.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00288855480774,
+          40.73008311272861
+        ]
+      },
+      "properties": {
+        "name": "Slicehaus Pizzeria",
+        "address": "30 Carmine St, New York, NY 10014",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A West Village slice shop just a block from Joe's on Carmine Street — bold, well-sauced slices with a loyal neighborhood following.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00340287140135,
+          40.732211254619536
+        ]
+      },
+      "properties": {
+        "name": "Bleecker Street Pizza",
+        "address": "69 7th Ave S, New York, NY 10014",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Village institution frequently cited alongside Joe's in debates about the best slice in the neighborhood. The Nonna Maria white slice has its own devoted following.",
+        "website": "https://www.bleeckerstreetpizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98581847501676,
+          40.726380962713364
+        ]
+      },
+      "properties": {
+        "name": "Paulie Gee's East Village Slice Shop",
+        "address": "100 1st Ave, New York, NY 10009",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The East Village outpost of the Paulie Gee's slice operation — same old-school NY slice philosophy as the Greenpoint original, now in Manhattan.",
+        "website": "https://pauliegee.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95717983244697,
+          40.728374387923246
+        ]
+      },
+      "properties": {
+        "name": "Paulie Gee's Slice Shop",
+        "address": "110 Franklin St, Brooklyn, NY 11222",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "The Greenpoint original — simple, old-school New York slices including a solid Sicilian square from the team behind the Paulie Gee's brand.",
+        "website": "https://pauliegee.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95086190232644,
+          40.708137981247326
+        ]
+      },
+      "properties": {
+        "name": "Williamsburg Pizza",
+        "address": "265 Union Ave, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Williamsburg slice shop that built its name on grandma squares and a full rotation of classic NY pies.",
+        "website": "https://williamsburgpizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97619695854442,
+          40.68328830876337
+        ]
+      },
+      "properties": {
+        "name": "Fini Pizza – Barclays",
+        "address": "620 Atlantic Ave, Brooklyn, NY 11217",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "The Downtown Brooklyn/Barclays location of Fini Pizza — same well-executed NY slices, convenient for anyone catching a game at the arena.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95225119185069,
+          40.586225191758345
+        ]
+      },
+      "properties": {
+        "name": "Delmar Pizzeria",
+        "address": "1668 Sheepshead Bay Rd, Brooklyn, NY 11235",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Sheepshead Bay neighborhood staple serving classic NY slices in one of Brooklyn's most authentic remaining Italian-American enclaves.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.91038147763392,
+          40.694453603757864
+        ]
+      },
+      "properties": {
+        "name": "Fazio's",
+        "address": "709 Knickerbocker Ave, Brooklyn, NY 11221",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bushwick slice counter on Knickerbocker Avenue with a neighborhood following — no-frills, reliable, and the kind of place that's been feeding the block for years.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.83050458261984,
+          40.70896088418873
+        ]
+      },
+      "properties": {
+        "name": "Dani's House of Pizza",
+        "address": "81-28 Lefferts Blvd, Kew Gardens, NY 11415",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Kew Gardens institution going back decades — thin-crust pies with a devoted local following and a reputation as one of the best slices in the borough.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.88356939700884,
+          40.7460117572324
+        ]
+      },
+      "properties": {
+        "name": "Louie's",
+        "address": "81-34 Baxter Ave, Elmhurst, NY 11373",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "An Elmhurst neighborhood staple with a loyal following for its classic NY slices in one of Queens' most diverse and underrated food neighborhoods.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.92075612762649,
+          40.76291630142955
+        ]
+      },
+      "properties": {
+        "name": "Milkflower",
+        "address": "34-12 31st Ave, Astoria, NY 11106",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "An Astoria wood-fired Neapolitan spot with a craft beer selection and a commitment to quality ingredients. One of the borough's most celebrated pizza destinations before a period of closure — confirm open status before visiting.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.89940750451743,
+          40.700390156247295
+        ]
+      },
+      "properties": {
+        "name": "Joe & John's Pizzeria",
+        "address": "59-10 Myrtle Ave, Ridgewood, NY 11385",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Ridgewood neighborhood pizzeria on Myrtle Avenue with a solid local following for its consistent NY-style slices.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.90604332251922,
+          40.879418060919946
+        ]
+      },
+      "properties": {
+        "name": "Sam's Pizza",
+        "address": "232 W 231st St, Bronx, NY 10463",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Kingsbridge neighborhood slice counter in the northwest Bronx — reliable, no-frills, and a staple for the local community.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.81799523056989,
+          40.83572259350596
+        ]
+      },
+      "properties": {
+        "name": "Loretta's Pizza",
+        "address": "3276 Layton Ave, Bronx, NY 10465",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Throggs Neck neighborhood pizzeria with a loyal local following — the kind of spot that's been part of the community fabric for years.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.90705839874452,
+          40.88763928447795
+        ]
+      },
+      "properties": {
+        "name": "Salvatores of Riverdale",
+        "address": "3738 Riverdale Ave, Bronx, NY 10463",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Riverdale neighborhood institution — old-school NY slices in one of the Bronx's most suburban and overlooked neighborhoods for pizza.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85518577388942,
+          40.85990006626364
+        ]
+      },
+      "properties": {
+        "name": "Venezia Pizza",
+        "address": "1115 Astor Ave, Bronx, NY 10469",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A northeast Bronx neighborhood pizzeria with a consistent following for its classic NY-style slices in the Pelham Parkway area.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85424788057853,
+          40.84870765735585
+        ]
+      },
+      "properties": {
+        "name": "Addeo's",
+        "address": "1056 Morris Park Ave, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Morris Park staple not far from Patricia's — another piece of the Bronx's deep Italian-American pizza tradition, serving the neighborhood for decades.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.90705839874452,
+          40.88763928447795
+        ]
+      },
+      "properties": {
+        "name": "Salvatore's of Soho",
+        "address": "3738 Riverdale Ave, Bronx, NY 10463",
+        "borough": "Bronx",
+        "style": "Neapolitan",
+        "blurb": "A Riverdale Italian restaurant with a wood-fired oven, serving Neapolitan-style pies in one of the Bronx's most affluent neighborhoods. A cut above the typical Bronx slice joint in terms of ingredients and atmosphere.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.91202423639763,
+          40.77494015982602
+        ]
+      },
+      "properties": {
+        "name": "Rosario's",
+        "address": "22-55 31st St, Astoria, NY 11105",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A beloved Astoria neighborhood institution serving wood-fired Neapolitan pies to a loyal local following. One of those spots that earns its reputation through consistency and community rather than food media attention.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.91326924098483,
+          40.774487753276375
+        ]
+      },
+      "properties": {
+        "name": "Figlia",
+        "address": "23-02 31st St, Astoria, NY 11105",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A newer Astoria wood-fired spot just steps from Rosario's on 31st Street, bringing a more modern approach to Neapolitan pizza with creative seasonal toppings and a natural wine list.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7701572889057,
+          40.761261450563644
+        ]
+      },
+      "properties": {
+        "name": "VIPizza",
+        "address": "43-02 Bell Blvd, Bayside, NY 11361",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Bayside neighborhood staple on Bell Boulevard, one of Queens' most lively commercial strips. Reliable classic NY slices in a part of the borough with serious pizza roots.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.79565192152575,
+          40.75827665284041
+        ]
+      },
+      "properties": {
+        "name": "Pizza Garden",
+        "address": "171-01 Northern Blvd, Flushing, NY 11358",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Flushing neighborhood slice shop on Northern Boulevard, serving the Queens community with classic NY-style pies in an area better known for its international food scene.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.82816204091601,
+          40.760253428013876
+        ]
+      },
+      "properties": {
+        "name": "Lucia Pizza Flushing",
+        "address": "136-55 Roosevelt Ave, Flushing, NY 11354",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Lucia Pizza outpost right on Roosevelt Avenue in the heart of Flushing, bringing classic NY slices to one of Queens' most diverse and food-rich corridors.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.02136941940782,
+          40.63303059103002
+        ]
+      },
+      "properties": {
+        "name": "Elegante Pizzeria",
+        "address": "6922 5th Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bay Ridge 5th Avenue slice shop with a neighborhood following. Clean, reliable NY-style pies in a stretch of Brooklyn that takes its pizza seriously.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.02713966518938,
+          40.63260280302266
+        ]
+      },
+      "properties": {
+        "name": "Vesuvio Restaurant & Pizzeria",
+        "address": "7305 3rd Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Bay Ridge Italian-American trattoria named after the volcano that defines Naples — fitting for a place serving wood-fired pies in one of Brooklyn's most Italian neighborhoods. Full restaurant menu alongside the pizza.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99420337730861,
+          40.60198151612195
+        ]
+      },
+      "properties": {
+        "name": "La Bella Pizza Express",
+        "address": "2178 86th St, Brooklyn, NY 11214",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "An 86th Street neighborhood slice counter in Bensonhurst, serving the local Italian-American community with classic NY pies at the right price.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99539160896022,
+          40.60363111281827
+        ]
+      },
+      "properties": {
+        "name": "Grotta Azzurra",
+        "address": "8505 21st Ave, Brooklyn, NY 11214",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bensonhurst neighborhood pizzeria on 21st Avenue, named after the famous Blue Grotto of Capri. Classic NY slices with the Italian-American roots that define the surrounding neighborhood.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00060756137995,
+          40.601015012546235
+        ]
+      },
+      "properties": {
+        "name": "Pino Pizza",
+        "address": "2025 Bath Ave, Brooklyn, NY 11214",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bath Avenue neighborhood slice shop in Bensonhurst, feeding the local community with reliable classic NY-style pies. The kind of spot you walk to, not drive to.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99396406519372,
+          40.596541298783755
+        ]
+      },
+      "properties": {
+        "name": "Mamma Mia Pizza",
+        "address": "2337 Bath Ave, Brooklyn, NY 11214",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bath Beach neighborhood pizzeria at the edge of southern Brooklyn, where the Italian-American community runs deep and the pizza standards are set accordingly.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.93360722261625,
+          40.600079348249544
+        ]
+      },
+      "properties": {
+        "name": "Knapp Street Pizza",
+        "address": "2157 Knapp St, Brooklyn, NY 11229",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Marine Park / Sheepshead Bay neighborhood slice counter on Knapp Street, tucked in one of Brooklyn's most residential southern neighborhoods. A reliable local go-to.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.02601324171847,
+          40.622150057724795
+        ]
+      },
+      "properties": {
+        "name": "Mancini's Wood-Fired Pizza",
+        "address": "8504 5th Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Bay Ridge wood-fired spot on 5th Avenue bringing Neapolitan-style pies to one of Brooklyn's most Italian-American neighborhoods. Housemade dough, quality ingredients, neighborhood-trattoria feel.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.03049194400921,
+          40.61633625848041
+        ]
+      },
+      "properties": {
+        "name": "Espresso Pizzeria",
+        "address": "9403 5th Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Fort Hamilton 5th Avenue slice shop at the southern end of Bay Ridge, serving the neighborhood with solid classic NY-style pies near the Brooklyn-Staten Island border.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0134703776218,
+          40.627498918975014
+        ]
+      },
+      "properties": {
+        "name": "Maria's Pizza",
+        "address": "7101 Fort Hamilton Pkwy, Brooklyn, NY 11228",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Dyker Heights neighborhood pizzeria on Fort Hamilton Parkway, serving the surrounding Italian-American community with the kind of straightforward classic slice the neighborhood demands.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98671460318819,
+          40.60303441423143
+        ]
+      },
+      "properties": {
+        "name": "Bad Boys Pizza",
+        "address": "2358 80th St, Brooklyn, NY 11214",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "An 80th Street Bensonhurst slice counter with a name that overpromises and a slice that actually delivers. A neighborhood staple for locals who know where to go.",
+        "website": ""
       }
     }
   ]

@@ -58,15 +58,6 @@ html, body {
   text-decoration: none;
 }
 
-/* On desktop the button is hidden inside brand — no layout impact */
-/* On mobile brand becomes full-width with button pushed right */
-@media (max-width: 900px) {
-  .topbar-brand {
-    flex: 1;
-    justify-content: space-between;
-  }
-}
-
 .topbar-brand a { display: flex; line-height: 0; }
 .topbar-brand a:focus-visible { outline: 2px solid var(--color-sauce); border-radius: 4px; }
 
