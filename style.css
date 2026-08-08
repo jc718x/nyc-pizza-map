@@ -470,6 +470,23 @@ button:focus-visible {
   .topbar-nav { display: none !important; }
   .nav-toggle { display: flex !important; }
 
+  /* Make topbar position:relative so we can absolute-center the brand name */
+  .topbar { position: fixed; }
+
+  /* Hide logo on mobile, only show the text name centered */
+  .topbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 0;
+    pointer-events: none;
+  }
+  .topbar-brand a { display: none; } /* hide logo image */
+  .topbar-brand a:focus-visible { display: none; }
+
+  /* Hamburger stays in normal flow on the left */
+  .nav-toggle { order: -1; }
+
   .about-toggle { right: 12px; font-size: 0.62rem; padding: 7px 10px; }
   .about-panel { right: 12px; max-width: calc(100vw - 24px); }
 

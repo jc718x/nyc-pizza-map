@@ -2322,6 +2322,132 @@
         "blurb": "An 80th Street Bensonhurst slice counter with a name that overpromises and a slice that actually delivers. A neighborhood staple for locals who know where to go.",
         "website": ""
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00559019592917,
+          40.62242223625432
+        ]
+      },
+      "properties": {
+        "name": "Krispy Pizza",
+        "address": "7112 13th Ave, Brooklyn, NY 11228",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Dyker Heights neighborhood slice counter on 13th Avenue, in the heart of one of Brooklyn's most Italian-American communities. The name says it all — known for a well-crisped crust and reliable classic NY-style slices.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95837650257496,
+          40.715075952744876
+        ]
+      },
+      "properties": {
+        "name": "Ace's Pizza",
+        "address": "637 Driggs Ave, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Williamsburg neighborhood slice shop on Driggs Avenue with a local following for its no-frills classic NY-style pies. A reliable option in a neighborhood that's increasingly harder to find a straightforward slice.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00345472975678,
+          40.72910984255644
+        ]
+      },
+      "properties": {
+        "name": "Briciola Pizza Bar",
+        "address": "14 Bedford St, New York, NY 10014",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A West Village wine bar and Neapolitan pizza spot on Bedford Street, one of the neighborhood's most charming blocks. Roman-style thin-crust pies alongside a well-curated wine list — the kind of place that's equally good for a date or a casual weeknight dinner.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00501540016012,
+          40.72910608610325
+        ]
+      },
+      "properties": {
+        "name": "Fermento Pizza NYC",
+        "address": "226 Varick St, New York, NY 10014",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Hudson Square fermentation-focused pizza spot that takes its dough seriously — long cold fermentation, carefully sourced ingredients, and a wood-fired oven. The name is the whole philosophy.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.07439318285064,
+          40.62907902129368
+        ]
+      },
+      "properties": {
+        "name": "Seppe Pizza Bar – Staten Island",
+        "address": "3 Navy Pier Ct, Staten Island, NY 10304",
+        "borough": "Staten Island",
+        "style": "Neapolitan",
+        "blurb": "A Staten Island waterfront pizza bar serving wood-fired Neapolitan pies with views of the harbor. One of the more distinctive dining settings on the island — good pizza in an unexpected location.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.01479467334569,
+          40.71513993125819
+        ]
+      },
+      "properties": {
+        "name": "Seppe Pizza Bar – Manhattan",
+        "address": "225 Murray St, New York, NY 10282",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "The Manhattan outpost of Seppe Pizza Bar in Battery Park City, serving wood-fired Neapolitan pies in a neighborhood that's more residential than most of Lower Manhattan.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.92015145975174,
+          40.74363392563652
+        ]
+      },
+      "properties": {
+        "name": "Sotto Le Stelle",
+        "address": "44-07 Queens Blvd, Long Island City, NY 11104",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Long Island City Neapolitan spot on Queens Boulevard bringing wood-fired pies to a neighborhood that's grown rapidly in recent years. A welcome addition to the LIC dining scene.",
+        "website": ""
+      }
     }
   ]
 }
