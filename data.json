@@ -366,17 +366,17 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.027,
-          40.6344
+          -74.0178,
+          40.6308
         ]
       },
       "properties": {
         "name": "Frankie's of Bay Ridge",
-        "address": "7901 5th Ave, Brooklyn, NY 11209",
+        "address": "279 71st St, Brooklyn, NY 11209",
         "borough": "Brooklyn",
         "style": "Slice joint",
         "blurb": "A Bay Ridge neighborhood staple serving the kind of large, foldable NY slices that define the outer-borough pizza experience — nothing flashy, just consistently good.",
-        "website": ""
+        "website": "https://www.frankiesofbr.com/"
       }
     },
     {
@@ -762,6 +762,78 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -74.0102,
+          40.6196
+        ]
+      },
+      "properties": {
+        "name": "Dyker Pizza Company",
+        "address": "8424 13th Ave, Brooklyn, NY 11228",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Dyker Heights neighborhood spot serving solid NY-style slices in one of Brooklyn's most tightly-knit Italian-American communities. A local staple that earns its place on the basis of consistency and character.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0148,
+          40.6355
+        ]
+      },
+      "properties": {
+        "name": "Brooklyn Firefly",
+        "address": "7003 3rd Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Bay Ridge wood-fired spot with a neighborhood-restaurant feel — seasonal ingredients, a carefully tended dough, and the kind of low-key atmosphere that keeps locals coming back without much fanfare.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.005,
+          40.6219
+        ]
+      },
+      "properties": {
+        "name": "DaVinci Pizzeria",
+        "address": "6514 18th Ave, Brooklyn, NY 11204",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Bensonhurst neighborhood slice counter on 18th Avenue — one of Brooklyn's most authentically Italian-American commercial strips. Classic NY slices from a spot that's fed the neighborhood for years.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0071,
+          40.6237
+        ]
+      },
+      "properties": {
+        "name": "J&V Pizzeria",
+        "address": "6322 18th Ave, Brooklyn, NY 11204",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "Another Bensonhurst 18th Avenue staple, a few blocks from DaVinci. The kind of no-frills, cash-friendly corner pizzeria that defines outer-borough slice culture — regulars know the staff by name.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -73.8877,
           40.8555
         ]
@@ -825,7 +897,7 @@
         "address": "1082 Morris Park Ave, Bronx, NY 10461",
         "borough": "Bronx",
         "style": "Neapolitan",
-        "blurb": "A Michelin-listed brick-oven trattoria in Morris Park, more convivial and elegant than most Bronx pizza spots. The Regina — buffalo mozzarella, torn basil, and olive oil — is the one to order. Full Italian menu to go with it.",
+        "blurb": "A Michelin-listed brick-oven trattoria in Morris Park, more convivial and elegant than most Bronx pizza spots. The Regina — buffalo mozzarella, torn basil, and olive oil — is the one to order.",
         "website": "https://www.patriciasrestaurant.com/"
       }
     },
@@ -843,7 +915,7 @@
         "address": "108-26 Ascan Ave, Forest Hills, NY 11375",
         "borough": "Queens",
         "style": "Neapolitan",
-        "blurb": "A Forest Hills neighborhood institution since 1993, consistently rated the best pizza in Queens by both critics and locals. Fresh mozzarella pulled in-house, thin charred crust, whole pies only (no slices) — cash only. Order the margherita.",
+        "blurb": "A Forest Hills neighborhood institution since 1993, consistently rated the best pizza in Queens by both critics and locals. Fresh mozzarella pulled in-house, thin charred crust, whole pies only — cash only. Order the margherita.",
         "website": "https://nickspizzaforesthills.netwaiter.com/"
       }
     },
@@ -881,6 +953,402 @@
         "style": "Slice joint",
         "blurb": "A Bay Ridge slice counter with a neighborhood following — no frills, just consistent NY-style pies from a spot that's been feeding the local crowd for years.",
         "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9044,
+          40.7002
+        ]
+      },
+      "properties": {
+        "name": "Rosa's Pizza",
+        "address": "62-65 Fresh Pond Rd, Ridgewood, NY 11385",
+        "borough": "Queens",
+        "style": "Slice joint",
+        "blurb": "A Ridgewood neighborhood slice counter right on the Queens-Brooklyn border, serving the kind of no-frills, satisfying NY slice that the surrounding Italian-American community has relied on for years.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9299,
+          40.7746
+        ]
+      },
+      "properties": {
+        "name": "Mano's Pizzeria",
+        "address": "24-11 23rd Ave, Astoria, NY 11105",
+        "borough": "Queens",
+        "style": "Slice joint",
+        "blurb": "An Astoria slice shop with a loyal following for its classic NY-style pies. Low-key, consistent, and the kind of place where regulars don't need to look at the menu.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9404,
+          40.7286
+        ]
+      },
+      "properties": {
+        "name": "Beebe's",
+        "address": "38-28 27th St, Long Island City, NY 11101",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Long Island City Neapolitan spot that's become a go-to for the neighborhood's growing population of transplants and locals alike. Wood-fired pies with quality ingredients in a relaxed, neighborhood-bar atmosphere.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9494,
+          40.7261
+        ]
+      },
+      "properties": {
+        "name": "Chrissy's Pizza",
+        "address": "142 Nassau Ave, Brooklyn, NY 11222",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Greenpoint corner slice shop beloved by the neighborhood for its consistent classic NY slices. No frills, cash-friendly, and the kind of place you stop at on the way home.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9968,
+          40.6939
+        ]
+      },
+      "properties": {
+        "name": "Dellarocco's",
+        "address": "214 Hicks St, Brooklyn, NY 11201",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Brooklyn Heights neighborhood pizzeria with a wood-fired oven and a warm, convivial dining room. Solid Neapolitan pies with quality ingredients, a reliable wine list, and a loyal local following.",
+        "website": "https://www.dellaroccos.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.972,
+          40.6968
+        ]
+      },
+      "properties": {
+        "name": "Il Porto",
+        "address": "37 Washington Ave, Brooklyn, NY 11205",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Clinton Hill wood-fired Neapolitan spot tucked away on Washington Avenue, with a neighborhood-restaurant feel and a menu that goes well beyond pizza into proper Italian fare.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9549,
+          40.7119
+        ]
+      },
+      "properties": {
+        "name": "Leo",
+        "address": "123 Havemeyer St, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Williamsburg natural-wine bar and pizza spot from the team behind Ops in Bushwick. The wood-fired pies are simple and excellent — the kind of place where the wine list is as carefully considered as the dough.",
+        "website": "https://www.leopizzabar.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0284,
+          40.6187
+        ]
+      },
+      "properties": {
+        "name": "Nino's",
+        "address": "9110 3rd Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Bay Ridge institution that's been doing old-school NY slices for decades. The neighborhood has changed around it; Nino's hasn't — and that's exactly the point.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9792,
+          40.6778
+        ]
+      },
+      "properties": {
+        "name": "Pizza Secret",
+        "address": "72 5th Ave, Brooklyn, NY 11217",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Park Slope slice counter with a name that undersells it — the 'secret' is a reliably good classic NY slice in a neighborhood that's increasingly hard to find one without a wait or a concept attached.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9974,
+          40.6769
+        ]
+      },
+      "properties": {
+        "name": "Table 87 – 3rd Avenue",
+        "address": "473 3rd Ave, Brooklyn, NY 11215",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "The second Table 87 location, bringing the same coal-oven slice concept to the Gowanus/Park Slope border. Same crispy, char-edged crust as the Atlantic Ave original, more convenient for south Brooklyn.",
+        "website": "https://www.table87.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9596,
+          40.7136
+        ]
+      },
+      "properties": {
+        "name": "Fini Pizza",
+        "address": "305 Bedford Ave, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Williamsburg slice window that's become a neighborhood staple for its straightforward, well-executed NY slices. A no-fuss alternative to the more elaborate pizza concepts that have multiplied in the neighborhood.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9515,
+          40.7288
+        ]
+      },
+      "properties": {
+        "name": "Diamond Slice",
+        "address": "220 Greenpoint Ave, Brooklyn, NY 11222",
+        "borough": "Brooklyn",
+        "style": "Slice joint",
+        "blurb": "A Greenpoint slice counter with a following for its large, well-sauced NY slices. Exactly what the name suggests — a reliable diamond in a neighborhood that keeps getting more expensive around it.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9884,
+          40.7381
+        ]
+      },
+      "properties": {
+        "name": "Stretch Pizza",
+        "address": "331 Park Ave S, New York, NY 10010",
+        "borough": "Manhattan",
+        "style": "Slice joint",
+        "blurb": "A Gramercy slice shop with an open kitchen and a following for its classic NY-style slices done right — thin, crispy, properly charred underneath. Popular with the lunch crowd and stays busy well into the evening.",
+        "website": "https://www.stretchpizzanyc.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0083,
+          40.708
+        ]
+      },
+      "properties": {
+        "name": "Kesté Pizza & Vino",
+        "address": "77 Fulton St, New York, NY 10038",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "Roberto Caporuscio's Financial District outpost of the celebrated Neapolitan operation (the Bleecker Street original closed in 2021). New York Magazine and Food Network Magazine have both named Kesté the best pizza in New York — the wood-fired pies with DOP-certified ingredients make a strong case.",
+        "website": "https://kestepizzeria.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9815,
+          40.727
+        ]
+      },
+      "properties": {
+        "name": "Gnocco",
+        "address": "337 E 10th St, New York, NY 10009",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "An East Village Italian restaurant named after the fried dough snack, with a wood-fired oven turning out Neapolitan pies in a warm, candlelit dining room. One of the neighborhood's most consistently recommended Italian spots.",
+        "website": "https://www.gnocco.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0023,
+          40.7277
+        ]
+      },
+      "properties": {
+        "name": "Arturo's Coal Oven Pizza",
+        "address": "106 W Houston St, New York, NY 10012",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Greenwich Village coal-oven institution since 1957, with live jazz most nights and a dining room that looks like it hasn't changed since then. The pies are thin, coal-kissed, and served whole — the experience is as much of the point as the pizza.",
+        "website": "https://www.arturosnycpizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9838,
+          40.7229
+        ]
+      },
+      "properties": {
+        "name": "Cello's Pizzeria",
+        "address": "154 E 2nd St, New York, NY 10009",
+        "borough": "Manhattan",
+        "style": "Slice joint",
+        "blurb": "A Lower East Side slice counter with a neighborhood following for its classic NY slices at a price point that's increasingly hard to find downtown. No frills, consistent, and reliably good.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9989,
+          40.7541
+        ]
+      },
+      "properties": {
+        "name": "Upside Pizza",
+        "address": "598 8th Ave, New York, NY 10018",
+        "borough": "Manhattan",
+        "style": "Slice joint",
+        "blurb": "A Hell's Kitchen slice shop with a gimmick that works: the pizza is flipped upside-down before serving, putting the cheese on the bottom against the crust and the sauce on top. The result is a caramelized, crackly base and bright, fresh-tasting sauce on every bite.",
+        "website": "https://www.upsidepizza.com/"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1399,
+          40.6298
+        ]
+      },
+      "properties": {
+        "name": "Brothers Pizza",
+        "address": "750 Port Richmond Ave, Staten Island, NY 10302",
+        "borough": "Staten Island",
+        "style": "Slice joint",
+        "blurb": "A Port Richmond slice counter not far from Denino's, serving the kind of reliable, no-frills NY-style slices that make this corner of Staten Island one of the borough's best pizza neighborhoods.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1377,
+          40.6314
+        ]
+      },
+      "properties": {
+        "name": "Ungaro Coal Fired Pizza Cafe",
+        "address": "1298 Forest Ave, Staten Island, NY 10302",
+        "borough": "Staten Island",
+        "style": "Neapolitan",
+        "blurb": "A coal-fired Staten Island spot on Forest Avenue serving thin, blistered pies at high heat. One of the borough's more distinctive pizza options for those who want something beyond the classic bar-pie and slice-joint circuit.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8283,
+          40.8285
+        ]
+      },
+      "properties": {
+        "name": "Tommy's Pizza",
+        "address": "4033 E Tremont Ave, Bronx, NY 10465",
+        "borough": "Bronx",
+        "style": "Slice joint",
+        "blurb": "An old-school Throggs Neck slice joint with a cash-only policy, a cornmeal-dusted crust that comes out uniquely crispy, and the kind of no-frills atmosphere where the pizza does the talking. A Bronx East Side staple for decades.",
+        "website": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0063,
+          40.6201
+        ]
+      },
+      "properties": {
+        "name": "La Villa",
+        "address": "1529 86th St, Brooklyn, NY 11228",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Dyker Heights neighborhood restaurant with a wood-fired oven and a loyal following that stretches well beyond the immediate neighborhood. Known for its thin, properly charred pies and a full Italian menu — one of the better-kept secrets in southern Brooklyn.",
+        "website": "https://www.lavillapizzeria.com/"
       }
     }
   ]

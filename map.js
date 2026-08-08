@@ -1,13 +1,13 @@
 // ===== NYC Pizza Map =====
-// Uses CARTO Voyager basemap (OpenStreetMap data, no API key).
-// All markers are HTML Marker elements — full pixel-size control,
-// no symbol-layer scaling. No clusters — individual pins always visible.
+// CARTO Voyager basemap (OpenStreetMap data, no API key).
+// HTML Markers for full size control. Labels sit to the RIGHT of the
+// icon, Google Maps style. No cluster circles — just pizza slices.
 
 const BOROUGH_COLORS = {
-  Brooklyn:      '#DC2225',
-  Manhattan:     '#276E40',
-  Queens:        '#D9A441',
-  Bronx:         '#8B3A62',
+  Brooklyn:        '#DC2225',
+  Manhattan:       '#276E40',
+  Queens:          '#D9A441',
+  Bronx:           '#8B3A62',
   'Staten Island': '#3C5A80'
 };
 
@@ -28,11 +28,7 @@ const map = new maplibregl.Map({
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       }
     },
-    layers: [{
-      id: 'carto-voyager',
-      type: 'raster',
-      source: 'carto-voyager'
-    }]
+    layers: [{ id: 'carto-voyager', type: 'raster', source: 'carto-voyager' }]
   },
   center: [-73.96, 40.72],
   zoom: 10.4,
@@ -42,22 +38,12 @@ const map = new maplibregl.Map({
 
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
-// ===== Pizza slice icon SVG =====
-// Flat pizza slice shape — matches the reference icon style.
-// Colored by borough. White cheese bubbles inside.
-// 40×44px rendered size — wide enough to read clearly as a slice.
-function pinSVG(color) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="44" viewBox="0 0 100 110">
-    <!-- Crust band at top -->
-    <path d="M8 22 Q50 0 92 22 L88 36 Q50 16 12 36 Z"
-          fill="${color}"/>
-    <!-- White gap between crust and slice body -->
-    <path d="M12 36 Q50 18 88 36 L86 42 Q50 24 14 42 Z"
-          fill="white"/>
-    <!-- Main slice body -->
-    <path d="M14 42 Q50 26 86 42 L50 108 Z"
-          fill="${color}"/>
-    <!-- Cheese bubbles -->
+// ===== Pizza slice icon SVG (flat, 40x44px) =====
+function sliceSVG(color) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="35" viewBox="0 0 100 110">
+    <path d="M8 22 Q50 0 92 22 L88 36 Q50 16 12 36 Z" fill="${color}"/>
+    <path d="M12 36 Q50 18 88 36 L86 42 Q50 24 14 42 Z" fill="white"/>
+    <path d="M14 42 Q50 26 86 42 L50 108 Z" fill="${color}"/>
     <circle cx="50" cy="62" r="10" fill="white" opacity="0.9"/>
     <circle cx="32" cy="75" r="7"  fill="white" opacity="0.85"/>
     <circle cx="68" cy="72" r="7"  fill="white" opacity="0.85"/>
@@ -75,48 +61,101 @@ function escapeAttr(str) {
   return (str ?? '').replace(/"/g, '&quot;');
 }
 
+// Labels show at this zoom and above
+const LABEL_ZOOM = 11;
+
+function labelsVisible() {
+  return map.getZoom() >= LABEL_ZOOM;
+}
+
+// ===== Proximity detection for label side =====
+// For each feature, check if any other feature is within ~400m.
+// If two pins are close, alternate: the first keeps label RIGHT,
+// the second flips label LEFT — so they spread away from each other.
+// Returns a Set of indices that should have their label on the LEFT.
+function computeLeftLabelIndices(features) {
+  const R = 6371000; // Earth radius in metres
+  const THRESHOLD = 400; // metres — roughly 4–5 blocks
+
+  function dist(a, b) {
+    const [lng1, lat1] = a.geometry.coordinates;
+    const [lng2, lat2] = b.geometry.coordinates;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const sa = Math.sin(dLat/2)**2 +
+               Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) *
+               Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(sa), Math.sqrt(1-sa));
+  }
+
+  const leftSet = new Set();
+  // Track which indices have already been "paired" so we alternate cleanly
+  const paired = new Set();
+
+  for (let i = 0; i < features.length; i++) {
+    for (let j = i + 1; j < features.length; j++) {
+      if (paired.has(i) && paired.has(j)) continue;
+      if (dist(features[i], features[j]) < THRESHOLD) {
+        // Flip whichever isn't already assigned
+        if (!paired.has(i) && !paired.has(j)) {
+          // Neither paired yet: keep i right, flip j left
+          leftSet.add(j);
+          paired.add(i);
+          paired.add(j);
+        } else if (paired.has(i) && !paired.has(j)) {
+          // i already assigned; flip j
+          leftSet.add(j);
+          paired.add(j);
+        } else if (paired.has(j) && !paired.has(i)) {
+          // j already assigned; flip i
+          leftSet.add(i);
+          paired.add(i);
+        }
+      }
+    }
+  }
+  return leftSet;
+}
+
 map.on('load', async () => {
-  const res  = await fetch('data.json');
+  const res = await fetch('data.json');
   const geojson = await res.json();
 
-  // Show entry count in the about panel (if element exists)
   const countEl = document.getElementById('entryCount');
   if (countEl) countEl.textContent = geojson.features.length;
 
-  // LABEL_ZOOM: below this zoom, labels are hidden to avoid clutter
-  const LABEL_ZOOM = 11;
+  const leftLabelIndices = computeLeftLabelIndices(geojson.features);
+  const labels = [];
 
-  function updateLabels() {
-    const show = map.getZoom() >= LABEL_ZOOM;
-    document.querySelectorAll('.pin-label').forEach(el => {
-      el.style.opacity = show ? '1' : '0';
-    });
-  }
-
-  map.on('zoomend', updateLabels);
-
-  geojson.features.forEach(feature => {
+  geojson.features.forEach((feature, idx) => {
     const [lng, lat] = feature.geometry.coordinates;
     const p   = feature.properties;
     const col = BOROUGH_COLORS[p.borough] || '#DC2225';
+    const flipLeft = leftLabelIndices.has(idx);
 
-    // Wrapper element: pin SVG + label below it
+    // Wrapper: row layout — label left or right of pin depending on proximity
     const wrap = document.createElement('div');
-    wrap.className = 'pizza-marker-wrap';
+    wrap.className = 'pizza-marker-wrap' + (flipLeft ? ' label-left' : '');
 
-    // Pin
     const pin = document.createElement('div');
     pin.className = 'pizza-pin';
-    pin.innerHTML = pinSVG(col);
+    pin.innerHTML = sliceSVG(col);
 
-    // Label
     const label = document.createElement('div');
     label.className = 'pin-label';
     label.textContent = p.name;
-    label.style.opacity = map.getZoom() >= LABEL_ZOOM ? '1' : '0';
+    label.style.opacity = labelsVisible() ? '1' : '0';
+    labels.push(label);
 
-    wrap.appendChild(pin);
-    wrap.appendChild(label);
+    if (flipLeft) {
+      // Label before pin — renders to the left
+      wrap.appendChild(label);
+      wrap.appendChild(pin);
+    } else {
+      wrap.appendChild(pin);
+      wrap.appendChild(label);
+    }
+
 
     // Popup
     const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
@@ -136,16 +175,25 @@ map.on('load', async () => {
         </div>
       </div>`;
 
-    wrap.addEventListener('click', (e) => {
+    wrap.addEventListener('click', e => {
       e.stopPropagation();
-      new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: 50 })
+      new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
         .setLngLat([lng, lat])
         .setHTML(html)
         .addTo(map);
     });
 
-    new maplibregl.Marker({ element: wrap, anchor: 'bottom' })
+    // anchor: 'left' for right-label (pin's left edge at coord)
+    // anchor: 'right' for left-label (pin's right edge at coord)
+    new maplibregl.Marker({ element: wrap, anchor: flipLeft ? 'right' : 'left' })
       .setLngLat([lng, lat])
       .addTo(map);
   });
+
+  // Show/hide labels based on zoom
+  function updateLabels() {
+    const show = labelsVisible();
+    labels.forEach(l => l.style.opacity = show ? '1' : '0');
+  }
+  map.on('zoomend', updateLabels);
 });
