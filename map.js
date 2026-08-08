@@ -11,6 +11,10 @@ const BOROUGH_COLORS = {
   'Staten Island': '#3C5A80'
 };
 
+// Check for ?pin= param before initializing map so we can start at the right location
+const _initParams = new URLSearchParams(window.location.search);
+const _initPin = _initParams.get('pin');
+
 const map = new maplibregl.Map({
   container: 'map',
   style: {
@@ -31,7 +35,7 @@ const map = new maplibregl.Map({
     layers: [{ id: 'carto-voyager', type: 'raster', source: 'carto-voyager' }]
   },
   center: [-73.96, 40.72],
-  zoom: 10.4,
+  zoom: _initPin ? 16 : 10.4,
   minZoom: 9,
   maxZoom: 18
 });
@@ -202,7 +206,6 @@ map.on('load', async () => {
   map.on('zoomend', updateLabels);
 
   // ===== ?pin= URL parameter =====
-  // When arriving from the list page, fly to the named pizzeria and open its popup.
   const params = new URLSearchParams(window.location.search);
   const pinName = params.get('pin');
   if (pinName) {
@@ -211,8 +214,9 @@ map.on('load', async () => {
     );
     if (match) {
       const [lng, lat] = match.geometry.coordinates;
-      // Jump straight to location, then open popup
-      map.jumpTo({ center: [lng, lat], zoom: 15 });
+      // Center map on this pizzeria (zoom was already set to 16 at init)
+      map.setCenter([lng, lat]);
+      // Open popup after a short delay to let markers render
       setTimeout(() => {
         const p   = match.properties;
         const col = BOROUGH_COLORS[p.borough] || '#DC2225';
@@ -239,7 +243,7 @@ map.on('load', async () => {
           .setHTML(html)
           .addTo(map);
         activePopup.on('close', () => { activePopup = null; });
-      }, 300);
+      }, 400);
     }
   }
 });
