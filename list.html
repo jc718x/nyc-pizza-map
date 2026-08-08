@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The List — NYC Pizza Map</title>
+<meta name="description" content="Every pizzeria on NYC Pizza Map — browse and filter by borough and style." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  /* ===== List page specific ===== */
+  body.list-page { background: var(--color-parchment); }
+
+  .list-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: calc(var(--topbar-h) + 36px) 24px 80px;
+  }
+
+  .list-header {
+    margin-bottom: 28px;
+  }
+
+  .list-count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(36,26,16,0.5);
+    margin: 6px 0 0;
+  }
+
+  /* ===== Filter bar ===== */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 6px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed rgba(36,26,16,0.2);
+  }
+
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(36,26,16,0.45);
+    margin-right: 2px;
+  }
+
+  .filter-btn {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1.5px solid rgba(36,26,16,0.2);
+    background: transparent;
+    color: var(--color-char);
+    cursor: pointer;
+    transition: all 0.12s ease;
+  }
+
+  .filter-btn:hover { border-color: var(--color-sauce); color: var(--color-sauce); }
+  .filter-btn.active {
+    background: var(--color-sauce);
+    border-color: var(--color-sauce);
+    color: #fff;
+  }
+  .filter-btn.active.borough-manhattan { background: var(--color-manhattan); border-color: var(--color-manhattan); }
+  .filter-btn.active.borough-queens    { background: var(--color-queens);    border-color: var(--color-queens); color: var(--color-char); }
+  .filter-btn.active.borough-bronx     { background: var(--color-bronx);     border-color: var(--color-bronx); }
+  .filter-btn.active.borough-si        { background: var(--color-si);        border-color: var(--color-si); }
+
+  .filter-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(36,26,16,0.15);
+    margin: 0 4px;
+  }
+
+  /* ===== List entries ===== */
+  .pizza-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pizza-entry {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(36,26,16,0.1);
+    transition: background 0.1s;
+  }
+
+  .pizza-entry:last-child { border-bottom: none; }
+  .pizza-entry.hidden { display: none; }
+
+  .entry-borough-bar {
+    width: 4px;
+    height: 100%;
+    min-height: 48px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+
+  .entry-body { flex: 1; min-width: 0; }
+
+  .entry-top {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .entry-name {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--color-char);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .entry-style {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    color: #fff;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .entry-address {
+    font-size: 0.78rem;
+    color: rgba(36,26,16,0.55);
+    margin-bottom: 5px;
+  }
+
+  .entry-blurb {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--color-char);
+  }
+
+  .entry-links {
+    display: flex;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .entry-links a {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-sauce);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .entry-links a:hover { border-bottom-color: var(--color-sauce); }
+
+  .no-results {
+    text-align: center;
+    padding: 48px 0;
+    color: rgba(36,26,16,0.4);
+    font-style: italic;
+    display: none;
+  }
+
+  @media (max-width: 560px) {
+    .list-wrap { padding-left: 16px; padding-right: 16px; }
+    .entry-name { font-size: 0.95rem; }
+    .filter-divider { display: none; }
+  }
+</style>
+</head>
+<body class="list-page">
+
+<header class="topbar">
+  <div class="topbar-brand">
+    <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
+    <span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span>
+  </div>
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
+    <a href="index.html">Map</a>
+    <a href="list.html" class="active">The List</a>
+    <a href="store.html">Store</a>
+    <a href="how-to-make-pizza.html">How To Make Pizza</a>
+    <a href="suggest.html">Suggest a Spot</a>
+    <a href="about.html">About</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <a href="index.html">Map</a>
+  <a href="list.html" class="active">The List</a>
+  <a href="store.html">Store</a>
+  <a href="how-to-make-pizza.html">How To Make Pizza</a>
+  <a href="suggest.html">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
+
+<main class="list-wrap">
+  <div class="list-header">
+    <h2>The List</h2>
+    <p class="list-count"><span id="visibleCount">84</span> pizzerias across all five boroughs</p>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label">Borough</span>
+    <div class="filter-group" id="boroughFilters">
+      <button class="filter-btn active" data-borough="all">All</button>
+      <button class="filter-btn borough-brooklyn" data-borough="Brooklyn">Brooklyn</button>
+      <button class="filter-btn borough-manhattan" data-borough="Manhattan">Manhattan</button>
+      <button class="filter-btn borough-queens" data-borough="Queens">Queens</button>
+      <button class="filter-btn borough-bronx" data-borough="Bronx">Bronx</button>
+      <button class="filter-btn borough-si" data-borough="Staten Island">Staten Island</button>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <span class="filter-label">Style</span>
+    <div class="filter-group" id="styleFilters">
+      <button class="filter-btn active" data-style="all">All</button>
+      <button class="filter-btn" data-style="Classic Slice">Classic Slice</button>
+      <button class="filter-btn" data-style="Neapolitan">Neapolitan</button>
+      <button class="filter-btn" data-style="Sicilian">Sicilian</button>
+      <button class="filter-btn" data-style="Grandma">Grandma</button>
+      <button class="filter-btn" data-style="Bar pie">Bar pie</button>
+    </div>
+  </div>
+
+  <div class="pizza-list" id="pizzaList"></div>
+  <p class="no-results" id="noResults">No pizzerias match these filters.</p>
+</main>
+
+<script src="nav.js"></script>
+<script>
+const BOROUGH_COLORS = {
+  Brooklyn:        '#DC2225',
+  Manhattan:       '#276E40',
+  Queens:          '#D9A441',
+  Bronx:           '#8B3A62',
+  'Staten Island': '#3C5A80'
+};
+
+let activeBorough = 'all';
+let activeStyle    = 'all';
+let entries        = [];
+
+function buildList(features) {
+  const list = document.getElementById('pizzaList');
+  // Sort alphabetically within each borough
+  const sorted = [...features].sort((a, b) => {
+    if (a.properties.borough !== b.properties.borough)
+      return a.properties.borough.localeCompare(b.properties.borough);
+    return a.properties.name.localeCompare(b.properties.name);
+  });
+
+  sorted.forEach(f => {
+    const p    = f.properties;
+    const col  = BOROUGH_COLORS[p.borough] || '#DC2225';
+    const [lng, lat] = f.geometry.coordinates;
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name + ' ' + p.address)}`;
+
+    const div = document.createElement('div');
+    div.className = 'pizza-entry';
+    div.dataset.borough = p.borough;
+    div.dataset.style   = p.style;
+
+    div.innerHTML = `
+      <div class="entry-borough-bar" style="background:${col}"></div>
+      <div class="entry-body">
+        <div class="entry-top">
+          <span class="entry-name">${p.name}</span>
+          <span class="entry-style" style="background:${col}">${p.style}</span>
+        </div>
+        <p class="entry-address">${p.address}</p>
+        <p class="entry-blurb">${p.blurb}</p>
+        <div class="entry-links">
+          ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener">Website</a>` : ''}
+          <a href="${mapsUrl}" target="_blank" rel="noopener">Google Maps</a>
+          <a href="index.html#map" onclick="sessionStorage.setItem('focusPin','${p.name.replace(/'/g,"\\'")}')">Show on map</a>
+        </div>
+      </div>`;
+
+    list.appendChild(div);
+    entries.push(div);
+  });
+}
+
+function applyFilters() {
+  let visible = 0;
+  entries.forEach(el => {
+    const bMatch = activeBorough === 'all' || el.dataset.borough === activeBorough;
+    const sMatch = activeStyle   === 'all' || el.dataset.style   === activeStyle;
+    const show   = bMatch && sMatch;
+    el.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  document.getElementById('visibleCount').textContent = visible;
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+// Borough filter buttons
+document.getElementById('boroughFilters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('#boroughFilters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeBorough = btn.dataset.borough;
+  applyFilters();
+});
+
+// Style filter buttons
+document.getElementById('styleFilters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('#styleFilters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeStyle = btn.dataset.style;
+  applyFilters();
+});
+
+// Load data and build
+fetch('data.json')
+  .then(r => r.json())
+  .then(geojson => {
+    buildList(geojson.features);
+    document.getElementById('visibleCount').textContent = entries.length;
+  });
+</script>
+</body>
+</html>

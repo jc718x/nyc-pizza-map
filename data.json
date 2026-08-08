@@ -32,7 +32,7 @@
         "name": "Di Fara Pizza",
         "address": "1424 Avenue J, Brooklyn, NY 11230",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "The benchmark by which a lot of NYC pizza gets judged. Founder Dom DeMarco built the reputation over decades; the family runs it today with the same hand-snipped basil finish.",
         "website": "https://www.difarany.com/"
       }
@@ -86,7 +86,7 @@
         "name": "Table 87",
         "address": "87 Atlantic Ave, Brooklyn, NY 11201",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "Brooklyn Heights spot billing itself as the first in the borough to offer coal-oven pizza by the slice. Thin, charred crust with a crisp undercarriage — a solid stop near DUMBO.",
         "website": "https://www.table87.com/"
       }
@@ -140,7 +140,7 @@
         "name": "L'Industrie Pizzeria",
         "address": "254 S 2nd St, Brooklyn, NY 11211",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Williamsburg slice shop built around one standout order: a fior di latte square topped with cold burrata and basil after it comes out of the oven. Expect a line most evenings.",
         "website": "https://lindustriebk.com/"
       }
@@ -212,7 +212,7 @@
         "name": "Luigi's Pizza",
         "address": "686 5th Ave, Brooklyn, NY 11232",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A South Slope cash-only slice counter that's been going since the 1970s. The kind of unfussy neighborhood joint that regulars defend fiercely and tourists rarely find.",
         "website": ""
       }
@@ -284,7 +284,7 @@
         "name": "The Astarita",
         "address": "442 Court St, Brooklyn, NY 11231",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Carroll Gardens counter serving old-school NY slices in a no-frills setting. One of those neighborhood joints that's never made a list but has been quietly feeding the same block for years.",
         "website": ""
       }
@@ -356,7 +356,7 @@
         "name": "Lucky Charlie",
         "address": "316 Himrod St, Brooklyn, NY 11237",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Bushwick slice shop that's earned a neighborhood following for its straightforward NY-style slices in an area otherwise better known for sourdough and natural-wine pies.",
         "website": ""
       }
@@ -374,7 +374,7 @@
         "name": "Frankie's of Bay Ridge",
         "address": "279 71st St, Brooklyn, NY 11209",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Bay Ridge neighborhood staple serving the kind of large, foldable NY slices that define the outer-borough pizza experience — nothing flashy, just consistently good.",
         "website": "https://www.frankiesofbr.com/"
       }
@@ -392,7 +392,7 @@
         "name": "Joe's Pizza",
         "address": "7 Carmine St, New York, NY 10014",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "The Greenwich Village original, open since 1975. No frills, fold-and-go, and about as close to a citywide consensus pick for classic NY slice as exists.",
         "website": "https://joespizzanyc.com/"
       }
@@ -446,7 +446,7 @@
         "name": "Scarr's Pizza",
         "address": "35 Orchard St, New York, NY 10002",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Lower East Side slice shop that mills some of its own wheat in the basement daily. The result is a noticeably nuttier crust on what is otherwise a classic NY slice — the New Yorker called it one of the best in the city.",
         "website": "https://scarrspizza.com/"
       }
@@ -536,7 +536,7 @@
         "name": "Lucia Pizza of SoHo",
         "address": "67 Mercer St, New York, NY 10012",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A SoHo slice window turning out a consistently excellent classic slice — understated compared to trendier neighbors, but a reliable go-to for anyone in the area.",
         "website": ""
       }
@@ -554,7 +554,7 @@
         "name": "L'Industrie West Village",
         "address": "253 W 11th St, New York, NY 10014",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "The Manhattan sibling of the Williamsburg original, bringing the same burrata-topped slice to the West Village. Same lines, same quality, slightly easier to reach from Midtown.",
         "website": "https://lindustriebk.com/"
       }
@@ -572,7 +572,7 @@
         "name": "Lazzara's Pizza",
         "address": "221 W 38th St, New York, NY 10018",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Garment District lunchtime institution since 1978, up a narrow staircase to a second-floor dining room. Thick, focaccia-style squares that have fueled the neighborhood for decades.",
         "website": "https://lazzaraspizza.com/"
       }
@@ -608,7 +608,7 @@
         "name": "Joe & Pat's",
         "address": "1758 Victory Blvd, Staten Island, NY 10314",
         "borough": "Staten Island",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Staten Island institution since 1960, known for its cracker-thin crust with a secret Neapolitan recipe in the family since the founders came over from Naples.",
         "website": "https://joeandpatsnyc.com/"
       }
@@ -698,7 +698,7 @@
         "name": "Andrew Bellucci's Pizzeria",
         "address": "37-08 30th Ave, Astoria, NY 11103",
         "borough": "Queens",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "Founded by the late Andrew Bellucci, widely called the 'Don of Dough,' and still going strong in Astoria after his passing in 2023. The fresh-shucked clam pie is the signature; the classic NY slice holds up too.",
         "website": "https://andrewbelluccispizzeria.com/"
       }
@@ -716,7 +716,7 @@
         "name": "New Park Pizza",
         "address": "156-71 Cross Bay Blvd, Howard Beach, NY 11414",
         "borough": "Queens",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Howard Beach institution since 1956, right on the way to JFK. Salt sprinkled on the oven floor before each pie produces a uniquely crispy, flavorful crust — regulars order it well-done.",
         "website": "https://newparkpizza.com/"
       }
@@ -752,7 +752,7 @@
         "name": "DaVinci Pizzeria",
         "address": "6514 18th Ave, Brooklyn, NY 11204",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Bensonhurst neighborhood slice counter on 18th Avenue — one of Brooklyn's most authentically Italian-American commercial strips. Classic NY slices from a spot that's fed the neighborhood for years.",
         "website": ""
       }
@@ -770,7 +770,7 @@
         "name": "J&V Pizzeria",
         "address": "6322 18th Ave, Brooklyn, NY 11204",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "Another Bensonhurst 18th Avenue staple, a few blocks from DaVinci. The kind of no-frills, cash-friendly corner pizzeria that defines outer-borough slice culture — regulars know the staff by name.",
         "website": ""
       }
@@ -806,7 +806,7 @@
         "name": "Louie & Ernie's",
         "address": "1300 Crosby Ave, Bronx, NY 10461",
         "borough": "Bronx",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Bronx classic since 1959 in the Schuylerville neighborhood — pizza and calzones only, no frills, no extras. Named one of the best hole-in-the-wall restaurants in New York State, and a perennial pick on every serious Bronx pizza list.",
         "website": ""
       }
@@ -824,7 +824,7 @@
         "name": "Pugsley Pizza",
         "address": "590 E 191st St, Bronx, NY 10458",
         "borough": "Bronx",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Belmont neighborhood staple since 1984, right near the Bronx Zoo and Botanical Garden. Super-cheesy thin-crust slices in a lively, graffiti-covered room — a reliably great stop before or after an afternoon in the park.",
         "website": "https://www.pugsley-pizza.com/"
       }
@@ -896,7 +896,7 @@
         "name": "Pizza Wagon",
         "address": "8610 5th Ave, Brooklyn, NY 11209",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Bay Ridge slice counter with a neighborhood following — no frills, just consistent NY-style pies from a spot that's been feeding the local crowd for years.",
         "website": ""
       }
@@ -914,7 +914,7 @@
         "name": "Rosa's Pizza",
         "address": "62-65 Fresh Pond Rd, Ridgewood, NY 11385",
         "borough": "Queens",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Ridgewood neighborhood slice counter right on the Queens-Brooklyn border, serving the kind of no-frills, satisfying NY slice that the surrounding Italian-American community has relied on for years.",
         "website": ""
       }
@@ -932,7 +932,7 @@
         "name": "Mano's Pizzeria",
         "address": "62-98 Forest Ave, Ridgewood, NY 11385",
         "borough": "Queens",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "An Astoria slice shop with a loyal following for its classic NY-style pies. Low-key, consistent, and the kind of place where regulars don't need to look at the menu.",
         "website": ""
       }
@@ -950,7 +950,7 @@
         "name": "Chrissy's Pizza",
         "address": "142 Nassau Ave, Brooklyn, NY 11222",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Greenpoint corner slice shop beloved by the neighborhood for its consistent classic NY slices. No frills, cash-friendly, and the kind of place you stop at on the way home.",
         "website": ""
       }
@@ -1004,7 +1004,7 @@
         "name": "Nino's",
         "address": "9110 3rd Ave, Brooklyn, NY 11209",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Bay Ridge institution that's been doing old-school NY slices for decades. The neighborhood has changed around it; Nino's hasn't — and that's exactly the point.",
         "website": ""
       }
@@ -1022,7 +1022,7 @@
         "name": "Pizza Secret",
         "address": "72 5th Ave, Brooklyn, NY 11217",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Park Slope slice counter with a name that undersells it — the 'secret' is a reliably good classic NY slice in a neighborhood that's increasingly hard to find one without a wait or a concept attached.",
         "website": ""
       }
@@ -1040,7 +1040,7 @@
         "name": "Table 87 – 3rd Avenue",
         "address": "473 3rd Ave, Brooklyn, NY 11215",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "The second Table 87 location, bringing the same coal-oven slice concept to the Gowanus/Park Slope border. Same crispy, char-edged crust as the Atlantic Ave original, more convenient for south Brooklyn.",
         "website": "https://www.table87.com/"
       }
@@ -1058,7 +1058,7 @@
         "name": "Fini Pizza",
         "address": "305 Bedford Ave, Brooklyn, NY 11211",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Williamsburg slice window that's become a neighborhood staple for its straightforward, well-executed NY slices. A no-fuss alternative to the more elaborate pizza concepts that have multiplied in the neighborhood.",
         "website": ""
       }
@@ -1076,7 +1076,7 @@
         "name": "Diamond Slice",
         "address": "220 Greenpoint Ave, Brooklyn, NY 11222",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Greenpoint slice counter with a following for its large, well-sauced NY slices. Exactly what the name suggests — a reliable diamond in a neighborhood that keeps getting more expensive around it.",
         "website": ""
       }
@@ -1148,7 +1148,7 @@
         "name": "Cello's Pizzeria",
         "address": "154 E 2nd St, New York, NY 10009",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Lower East Side slice counter with a neighborhood following for its classic NY slices at a price point that's increasingly hard to find downtown. No frills, consistent, and reliably good.",
         "website": ""
       }
@@ -1166,7 +1166,7 @@
         "name": "Brothers Pizza",
         "address": "750 Port Richmond Ave, Staten Island, NY 10302",
         "borough": "Staten Island",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Port Richmond slice counter not far from Denino's, serving the kind of reliable, no-frills NY-style slices that make this corner of Staten Island one of the borough's best pizza neighborhoods.",
         "website": ""
       }
@@ -1202,7 +1202,7 @@
         "name": "Tommy's Pizza",
         "address": "4033 E Tremont Ave, Bronx, NY 10465",
         "borough": "Bronx",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "An old-school Throggs Neck slice joint with a cash-only policy, a cornmeal-dusted crust that comes out uniquely crispy, and the kind of no-frills atmosphere where the pizza does the talking. A Bronx East Side staple for decades.",
         "website": ""
       }
@@ -1238,7 +1238,7 @@
         "name": "Amore Pizza",
         "address": "30-27 Stratton St, Flushing, NY 11354",
         "borough": "Queens",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Flushing neighborhood pizzeria serving classic NY-style slices in one of Queens' most diverse and food-rich neighborhoods. A local staple that holds its own in a part of the borough better known for its international food scene.",
         "website": ""
       }
@@ -1274,7 +1274,7 @@
         "name": "La Vera Pizzeria",
         "address": "2071 Clove Rd, Staten Island, NY 10304",
         "borough": "Staten Island",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A neighborhood favorite on Clove Road that quickly built a following for its thin-crust pies after taking over a beloved spot that had closed. Consistently praised for delivering a great slice in a part of Staten Island that was missing one.",
         "website": "https://www.laverapizzeriasi.com/"
       }
@@ -1310,7 +1310,7 @@
         "name": "Nonna's",
         "address": "311 Page Ave, Staten Island, NY 10307",
         "borough": "Staten Island",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Tottenville neighborhood pizzeria at the southernmost tip of Staten Island — and arguably of all of New York City. The kind of local institution where regulars know the staff and the menu hasn't changed much in years, which is exactly the point.",
         "website": ""
       }
@@ -1328,7 +1328,7 @@
         "name": "Lucia Pizza of Avenue X",
         "address": "2201 Avenue X, Brooklyn, NY 11235",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Sheepshead Bay neighborhood slice counter on Avenue X — deep southern Brooklyn, far off the tourist circuit. Solid classic NY slices in a no-frills setting that's been feeding the neighborhood for years.",
         "website": ""
       }
@@ -1346,7 +1346,7 @@
         "name": "Nonna's Pizza Great Kills",
         "address": "27 Brower Ct, Staten Island, NY 10308",
         "borough": "Staten Island",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "A Great Kills neighborhood pizzeria tucked away on Brower Court — the kind of local spot that doesn't need a sign out front because the regulars already know where it is.",
         "website": ""
       }
@@ -1364,7 +1364,7 @@
         "name": "Upside Pizza – Spring St",
         "address": "51 Spring St, New York, NY 10012",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "The SoHo location of Upside Pizza — same upside-down concept as the original, with cheese caramelized against the crust and sauce on top. A reliably satisfying slice in an area that's not known for them.",
         "website": "https://www.upsidepizza.com/"
       }
@@ -1382,7 +1382,7 @@
         "name": "Upside Pizza – Greenpoint",
         "address": "640 Manhattan Ave, Brooklyn, NY 11222",
         "borough": "Brooklyn",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "The Greenpoint outpost of Upside Pizza, bringing the flipped-slice concept to Brooklyn. Cheese-bottom, sauce-top, crackly crust — a fun change of pace from classic NY-style.",
         "website": "https://www.upsidepizza.com/"
       }
@@ -1400,7 +1400,7 @@
         "name": "Upside Pizza – Broadway",
         "address": "2878 Broadway, New York, NY 10025",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "The Upper West Side Upside Pizza — same upside-down slice as the other locations, in a neighborhood that needed a good slice window.",
         "website": "https://www.upsidepizza.com/"
       }
@@ -1436,7 +1436,7 @@
         "name": "Mama's TOO! – West Village",
         "address": "176 Seventh Ave S, New York, NY 10014",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "An institution with a cult following for its square slice — thick, airy, well-sauced — and a long list of classic NY pies that deliver without gimmick.",
         "website": "https://mamastoonyc.com/"
       }
@@ -1454,7 +1454,7 @@
         "name": "Mama's TOO! – Upper West Side",
         "address": "2750 Broadway, New York, NY 10025",
         "borough": "Manhattan",
-        "style": "Slice joint",
+        "style": "Classic Slice",
         "blurb": "An institution with a cult following for its square slice — thick, airy, well-sauced — and a long list of classic NY pies that deliver without gimmick.",
         "website": "https://mamastoonyc.com/"
       }
