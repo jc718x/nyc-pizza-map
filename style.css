@@ -417,7 +417,7 @@ body.content-page {
   margin: 0 0 6px;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  white-space: nowrap;
+  line-height: 1.15;
 }
 .page-wrap .page-kicker {
   font-family: var(--font-mono);
@@ -481,11 +481,15 @@ button:focus-visible {
     gap: 0;
     pointer-events: none;
   }
-  .topbar-brand a { display: none; } /* hide logo image */
+  .topbar-brand a { display: none; }
   .topbar-brand a:focus-visible { display: none; }
 
   /* Hamburger stays in normal flow on the left */
   .nav-toggle { order: -1; }
+
+  /* Shrink page headings so they don't cause horizontal scroll */
+  .page-wrap h2 { font-size: 1.2rem; }
+  .page-wrap { padding-left: 16px; padding-right: 16px; }
 
   .about-toggle { right: 12px; font-size: 0.62rem; padding: 7px 10px; }
   .about-panel { right: 12px; max-width: calc(100vw - 24px); }
