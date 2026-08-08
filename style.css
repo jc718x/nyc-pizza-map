@@ -429,11 +429,13 @@ body.content-page {
 }
 .page-wrap p { font-size: 1rem; line-height: 1.6; margin: 0 0 18px; }
 .page-wrap h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-logo);
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   color: var(--color-crust);
   margin: 32px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 .page-wrap .disclosure {
   font-size: 0.82rem;
