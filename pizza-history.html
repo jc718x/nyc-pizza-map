@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>History of New York Pizza — NYC Pizza Map</title>
+<meta name="description" content="The history of pizza in New York City — from 1905 to today." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .timeline {
+    position: relative;
+    margin: 36px 0;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--color-sauce), var(--color-crust));
+    border-radius: 2px;
+  }
+  .timeline-entry {
+    position: relative;
+    margin-bottom: 36px;
+  }
+  .timeline-entry::before {
+    content: '';
+    position: absolute;
+    left: -33px;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--color-sauce);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--color-sauce);
+  }
+  .timeline-year {
+    font-family: var(--font-logo);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-sauce);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-crust);
+    margin-bottom: 8px;
+  }
+  .timeline-body {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--color-char);
+  }
+  .era-header {
+    font-family: var(--font-logo);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: white;
+    background: var(--color-crust);
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 3px;
+    margin: 24px 0 20px;
+  }
+</style>
+</head>
+<body class="content-page">
+
+<header class="topbar">
+  <div class="topbar-brand">
+    <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
+    <span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span>
+  </div>
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
+    <a href="index.html">Map</a>
+    <a href="list.html">The List</a>
+    <a href="store.html">Store</a>
+    <a href="how-to-make-pizza.html">How To Make Pizza</a>
+    <a href="pizza-facts.html">Pizza Facts</a>
+    <a href="pizza-history.html">Pizza History</a>
+    <a href="suggest.html">Suggest a Spot</a>
+    <a href="about.html">About</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <a href="index.html">Map</a>
+  <a href="list.html">The List</a>
+  <a href="store.html">Store</a>
+  <a href="how-to-make-pizza.html">How To Make Pizza</a>
+  <a href="pizza-facts.html">Pizza Facts</a>
+  <a href="pizza-history.html">Pizza History</a>
+  <a href="suggest.html">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
+
+<main class="page-wrap">
+  <p class="page-kicker">From Naples to the five boroughs</p>
+  <h2>History of New York Pizza</h2>
+  <p>Pizza arrived in New York the same way everything great about this city arrived — in the hands of immigrants who brought it from somewhere else and made it entirely their own.</p>
+
+  <div class="era-header">The Beginning</div>
+  <div class="timeline">
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1880s–1900s</div>
+      <div class="timeline-title">The Great Italian Immigration</div>
+      <div class="timeline-body">Hundreds of thousands of southern Italians — mostly from Naples, Sicily, and Campania — arrive in New York City and settle in Lower Manhattan, particularly in the neighborhoods around Mulberry Street and what became known as Little Italy. They bring their food with them, including the flatbreads and tomato pies of their home regions. Pizza, as they knew it, was humble street food — sold by vendors in the streets of Naples, topped simply with oil, garlic, and tomato.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1905</div>
+      <div class="timeline-title">Lombardi's Opens — America's First Pizzeria</div>
+      <div class="timeline-body">Gennaro Lombardi opens a grocery store at 53½ Spring Street in Little Italy that begins selling tomato pies — whole pizzas wrapped in paper, tied with string, and sold to the factory workers of the neighborhood. By 1905 it's operating as a full pizzeria, the first in the United States. The coal oven, the San Marzano tomatoes, the fresh mozzarella — it's all there from the start. Lombardi's is still open today, now at 32 Spring Street, with the same coal oven tradition intact.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1924</div>
+      <div class="timeline-title">Totonno's Opens in Coney Island</div>
+      <div class="timeline-body">Anthony Pero, who came to America from Napoli in 1903 and worked briefly at Lombardi's, opens Totonno's Pizzeria Napolitano on Neptune Avenue in Coney Island. It becomes one of the defining coal-oven operations in the city, cash only and whole pies only — rules that remain in force a century later. The Pero family still runs it today.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1929</div>
+      <div class="timeline-title">John's of Bleecker Street</div>
+      <div class="timeline-body">John Sasso opens John's Pizzeria on Bleecker Street in Greenwich Village with a coal oven and a strict no-slices policy that it has never abandoned. The original booths, the handwritten orders on the walls, and the same oven are all still there — one of the most unchanged restaurant interiors in the city.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1933</div>
+      <div class="timeline-title">Patsy's Opens in East Harlem</div>
+      <div class="timeline-body">Pasquale "Patsy" Lancieri opens Patsy's Pizzeria on First Avenue in East Harlem, in the heart of what was then a densely Italian neighborhood. Patsy's becomes one of the first pizzerias to sell pizza by the slice — a New York innovation that would change how the whole city eats. Frank Sinatra was a regular.</div>
+    </div>
+
+  </div>
+
+  <div class="era-header">The Spread</div>
+  <div class="timeline">
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1937</div>
+      <div class="timeline-title">Denino's Opens in Port Richmond</div>
+      <div class="timeline-body">Carlo Denino opens a tavern in Port Richmond, Staten Island that begins serving pizza — thin, crispy, tavern-style pies that become the template for the Staten Island bar pie. "In crust we trust" becomes the unofficial motto. Nearly 90 years later it's still one of the borough's most beloved institutions.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1940s–1950s</div>
+      <div class="timeline-title">The Outer Boroughs Boom</div>
+      <div class="timeline-body">As Italian-American families move out of Manhattan to Brooklyn, Queens, the Bronx, and Staten Island, pizza follows. Neighborhood pizzerias open on what seems like every other block in areas like Bensonhurst, Bay Ridge, Astoria, Arthur Avenue, and Gravesend. These are not destination restaurants — they are community institutions. The regulars know the owner by name, the owner knows what you're ordering before you say it.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1951</div>
+      <div class="timeline-title">L&B Spumoni Gardens Becomes a Legend</div>
+      <div class="timeline-body">Ludovico Barbati, who had been selling pizza from a horse-drawn cart since the late 1930s, establishes L&B Spumoni Gardens at 86th Street in Gravesend, Brooklyn. The upside-down Sicilian square — cheese on the bottom against the crust, sauce on top — becomes L&B's signature and one of the most imitated styles in the borough.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1959</div>
+      <div class="timeline-title">Di Fara Opens in Midwood</div>
+      <div class="timeline-body">Domenico DeMarco arrives from the province of Caserta in Italy and opens Di Fara Pizza on Avenue J in Midwood, Brooklyn. For decades it's a neighborhood spot. Then food writers discover it, and it becomes a pilgrimage — people lining up for hours for a pie that DeMarco makes himself, snipping fresh basil over each one with scissors, right up until his death in 2022. The family continues the tradition.</div>
+    </div>
+
+  </div>
+
+  <div class="era-header">The Modern Era</div>
+  <div class="timeline">
+
+    <div class="timeline-entry">
+      <div class="timeline-year">1975</div>
+      <div class="timeline-title">Joe's Pizza Opens in Greenwich Village</div>
+      <div class="timeline-body">Pino "Joe" Pozzuoli opens Joe's Pizza on Carmine Street with a simple premise: one style of pizza, done perfectly, at a fair price. No tables, no delivery, no complications. Just a counter, an oven, and a classic New York slice. It becomes the most consensus-picked answer to the question "what is the best pizza in New York City."</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">2000s</div>
+      <div class="timeline-title">The Neapolitan Revival</div>
+      <div class="timeline-body">A wave of wood-fired Neapolitan pizzerias opens across the city, led by spots like Lucali in Carroll Gardens (2006), Roberta's in Bushwick (2008), and Una Pizza Napoletana. These places treat pizza as a craft — long fermentation, strict sourcing, DOP-certified ingredients. They attract a new generation of food writers and make Brooklyn a global pizza destination.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">2010s</div>
+      <div class="timeline-title">The Grandma Slice Moment</div>
+      <div class="timeline-body">The grandma slice — a style that Italian-American home cooks had been making for generations, baked in an oiled square pan with a crispy bottom — gets its national moment. Best Pizza in Williamsburg, L'Industrie, and a handful of other Brooklyn spots elevate what was always a home-cooking style into a sought-after product. Food media follows and the grandma slice becomes one of the defining pizzas of the decade.</div>
+    </div>
+
+    <div class="timeline-entry">
+      <div class="timeline-year">Today</div>
+      <div class="timeline-title">Still Evolving</div>
+      <div class="timeline-body">New York pizza in 2026 is the most diverse and technically accomplished it has ever been. Coal-oven institutions that have been operating for a century sit alongside wood-fired Neapolitan spots, sourdough fermentation experiments, New Haven-style apizza shops, and grandma-slice specialists — all within the same city. The argument about who makes the best slice has never been more interesting, and there has never been a better time to do the research yourself.</div>
+    </div>
+
+  </div>
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>

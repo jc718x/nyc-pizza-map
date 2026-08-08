@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pizza Facts — NYC Pizza Map</title>
+<meta name="description" content="Fun facts, numbers, and trivia about New York City pizza." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin: 32px 0;
+  }
+  .fact-card {
+    background: white;
+    border-radius: 6px;
+    padding: 22px 20px;
+    border: 1px solid rgba(36,26,16,0.1);
+    box-shadow: 0 2px 8px rgba(29,20,12,0.08);
+  }
+  .fact-number {
+    font-family: var(--font-logo);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--color-sauce);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  .fact-label {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-crust);
+    margin-bottom: 8px;
+  }
+  .fact-detail {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(36,26,16,0.7);
+    margin: 0;
+  }
+  .facts-section {
+    margin: 40px 0 20px;
+  }
+  .facts-section h3 {
+    font-family: var(--font-logo);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-crust);
+    margin: 0 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--color-sauce);
+    display: inline-block;
+  }
+  .fact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .fact-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 0.93rem;
+    line-height: 1.5;
+  }
+  .fact-item::before {
+    content: '🍕';
+    flex-shrink: 0;
+    font-size: 1rem;
+    margin-top: 1px;
+  }
+</style>
+</head>
+<body class="content-page">
+
+<header class="topbar">
+  <div class="topbar-brand">
+    <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
+    <span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span>
+  </div>
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
+    <a href="index.html">Map</a>
+    <a href="list.html">The List</a>
+    <a href="store.html">Store</a>
+    <a href="how-to-make-pizza.html">How To Make Pizza</a>
+    <a href="pizza-facts.html">Pizza Facts</a>
+    <a href="pizza-history.html">Pizza History</a>
+    <a href="suggest.html">Suggest a Spot</a>
+    <a href="about.html">About</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <a href="index.html">Map</a>
+  <a href="list.html">The List</a>
+  <a href="store.html">Store</a>
+  <a href="how-to-make-pizza.html">How To Make Pizza</a>
+  <a href="pizza-facts.html">Pizza Facts</a>
+  <a href="pizza-history.html">Pizza History</a>
+  <a href="suggest.html">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
+
+<main class="page-wrap">
+  <p class="page-kicker">Did you know?</p>
+  <h2>Pizza Facts</h2>
+  <p>Numbers, trivia, and things worth knowing about the greatest food in the world.</p>
+
+  <div class="facts-grid">
+    <div class="fact-card">
+      <div class="fact-number">9,000+</div>
+      <div class="fact-label">Pizzerias in NYC</div>
+      <p class="fact-detail">New York City has more pizzerias per capita than any other city in the United States. There's never more than a few blocks between you and a slice.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-number">$1</div>
+      <div class="fact-label">The Dollar Slice</div>
+      <p class="fact-detail">For decades, a plain slice in NYC cost $1 — and famously tracked the subway fare almost exactly. Today it's closer to $3–4, but the "dollar slice" remains part of the city's cultural identity.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-number">1905</div>
+      <div class="fact-label">America's First Pizzeria</div>
+      <p class="fact-detail">Lombardi's on Spring Street in Manhattan opened in 1905, making it the first pizzeria in the United States. They're still open today, still using a coal oven.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-number">1924</div>
+      <div class="fact-label">Totonno's Opens</div>
+      <p class="fact-detail">Totonno's in Coney Island has been making coal-fired pies since 1924. One of the oldest continuously operating pizzerias in the country — cash only, whole pies only, no exceptions.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-number">350°F</div>
+      <div class="fact-label">Coal Oven Temperature</div>
+      <p class="fact-detail">Coal ovens in the great old-school NYC pizzerias burn at 800–900°F. That extreme heat produces the blistered, leopard-spotted crust you can't replicate in a home oven.</p>
+    </div>
+    <div class="fact-card">
+      <div class="fact-number">13"</div>
+      <div class="fact-label">The Standard NYC Slice</div>
+      <p class="fact-detail">A classic New York pie is typically 18 inches in diameter, cut into 8 slices. The result is a large, thin, foldable triangle — designed to eat on the go, standing up, in under a minute.</p>
+    </div>
+  </div>
+
+  <div class="facts-section">
+    <h3>The NYC Pizza Styles</h3>
+    <div class="fact-list">
+      <div class="fact-item">
+        <span><strong>Classic Slice</strong> — The baseline. Thin, foldable, one hand, eaten standing. Sauce, mozzarella, a little grease on the bottom of the crust. Judged by the fold test: it should hold without cracking or flopping.</span>
+      </div>
+      <div class="fact-item">
+        <span><strong>Neapolitan</strong> — Brought from Naples, cooked in a wood or coal oven at extreme heat. Soft, wet center, charred and puffy at the edges. Always served as a whole pie, never by the slice. San Marzano tomatoes, fior di latte, fresh basil.</span>
+      </div>
+      <div class="fact-item">
+        <span><strong>Sicilian</strong> — A thick, rectangular slab with a focaccia-like dough. Crunchy on the bottom, chewy inside. The New York version typically puts sauce on top of the cheese — the opposite of Neapolitan. L&B Spumoni Gardens in Gravesend is the gold standard.</span>
+      </div>
+      <div class="fact-item">
+        <span><strong>Grandma</strong> — The home cook's version of Sicilian. Baked in an oiled square pan, thinner than a Sicilian but thicker than a round pie. Crispy, lacy bottom, sauce often drizzled on top after baking. Best Pizza in Williamsburg made this style famous citywide.</span>
+      </div>
+      <div class="fact-item">
+        <span><strong>Bar Pie</strong> — The Staten Island and outer borough staple. Thin, crispy, cracker-like crust baked in a small round pan. Designed for taverns — cheap, fast, pairs well with a beer. Denino's in Port Richmond is the classic.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="facts-section">
+    <h3>Things Only New Yorkers Know</h3>
+    <div class="fact-list">
+      <div class="fact-item"><span>The correct way to eat a New York slice is folded in half lengthwise, eaten from the point. Anyone who uses a fork is immediately identifiable as a tourist.</span></div>
+      <div class="fact-item"><span>Fresh mozzarella is not always better. For a classic NY slice, low-moisture whole-milk mozzarella in a block — shredded yourself — gives the right browning and stretch. Fresh mozzarella releases too much water.</span></div>
+      <div class="fact-item"><span>"Well done" is a valid — and often superior — order at a slice shop. Asking for your slice to go back in the oven for another minute gives you a crispier bottom and slightly caramelized cheese.</span></div>
+      <div class="fact-item"><span>The water myth is real but overstated. New York City tap water does have a specific mineral content that affects dough — but the real difference is technique, fermentation time, and oven temperature, not magic water.</span></div>
+      <div class="fact-item"><span>A pie and a pizza are the same thing. In New York, you order a "pie." Saying "I'd like a pizza" in a pizzeria is technically redundant.</span></div>
+    </div>
+  </div>
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>

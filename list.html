@@ -138,6 +138,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-decoration: none;
+  }
+  .entry-name:hover {
+    color: var(--color-sauce);
+    text-decoration: underline;
   }
 
   .entry-style {
@@ -208,6 +213,8 @@
     <a href="list.html" class="active">The List</a>
     <a href="store.html">Store</a>
     <a href="how-to-make-pizza.html">How To Make Pizza</a>
+    <a href="pizza-facts.html">Pizza Facts</a>
+    <a href="pizza-history.html">Pizza History</a>
     <a href="suggest.html">Suggest a Spot</a>
     <a href="about.html">About</a>
   </nav>
@@ -221,6 +228,8 @@
   <a href="list.html" class="active">The List</a>
   <a href="store.html">Store</a>
   <a href="how-to-make-pizza.html">How To Make Pizza</a>
+  <a href="pizza-facts.html">Pizza Facts</a>
+  <a href="pizza-history.html">Pizza History</a>
   <a href="suggest.html">Suggest a Spot</a>
   <a href="about.html">About</a>
 </div>
@@ -241,18 +250,6 @@
       <button class="filter-btn borough-bronx" data-borough="Bronx">Bronx</button>
       <button class="filter-btn borough-si" data-borough="Staten Island">Staten Island</button>
     </div>
-
-    <div class="filter-divider"></div>
-
-    <span class="filter-label">Style</span>
-    <div class="filter-group" id="styleFilters">
-      <button class="filter-btn active" data-style="all">All</button>
-      <button class="filter-btn" data-style="Classic Slice">Classic Slice</button>
-      <button class="filter-btn" data-style="Neapolitan">Neapolitan</button>
-      <button class="filter-btn" data-style="Sicilian">Sicilian</button>
-      <button class="filter-btn" data-style="Grandma">Grandma</button>
-      <button class="filter-btn" data-style="Bar pie">Bar pie</button>
-    </div>
   </div>
 
   <div class="pizza-list" id="pizzaList"></div>
@@ -270,7 +267,7 @@ const BOROUGH_COLORS = {
 };
 
 let activeBorough = 'all';
-let activeStyle    = 'all';
+
 let entries        = [];
 
 function buildList(features) {
@@ -297,7 +294,7 @@ function buildList(features) {
       <div class="entry-borough-bar" style="background:${col}"></div>
       <div class="entry-body">
         <div class="entry-top">
-          <span class="entry-name">${p.name}</span>
+          <a class="entry-name" href="${mapsUrl}" target="_blank" rel="noopener">${p.name}</a>
           <span class="entry-style" style="background:${col}">${p.style}</span>
         </div>
         <p class="entry-address">${p.address}</p>
@@ -305,7 +302,7 @@ function buildList(features) {
         <div class="entry-links">
           ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener">Website</a>` : ''}
           <a href="${mapsUrl}" target="_blank" rel="noopener">Google Maps</a>
-          <a href="index.html#map" onclick="sessionStorage.setItem('focusPin','${p.name.replace(/'/g,"\\'")}')">Show on map</a>
+          <a href="index.html" onclick="sessionStorage.setItem('focusPin','${p.name.replace(/'/g,"\\'")}')">Show on map</a>
         </div>
       </div>`;
 
@@ -318,7 +315,7 @@ function applyFilters() {
   let visible = 0;
   entries.forEach(el => {
     const bMatch = activeBorough === 'all' || el.dataset.borough === activeBorough;
-    const sMatch = activeStyle   === 'all' || el.dataset.style   === activeStyle;
+    const sMatch = true;
     const show   = bMatch && sMatch;
     el.classList.toggle('hidden', !show);
     if (show) visible++;
@@ -337,15 +334,7 @@ document.getElementById('boroughFilters').addEventListener('click', e => {
   applyFilters();
 });
 
-// Style filter buttons
-document.getElementById('styleFilters').addEventListener('click', e => {
-  const btn = e.target.closest('.filter-btn');
-  if (!btn) return;
-  document.querySelectorAll('#styleFilters .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  activeStyle = btn.dataset.style;
-  applyFilters();
-});
+
 
 // Load data and build
 fetch('data.json')
