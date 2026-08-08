@@ -470,21 +470,32 @@ button:focus-visible {
   .topbar-nav { display: none !important; }
   .nav-toggle { display: flex !important; }
 
-  /* Make topbar position:relative so we can absolute-center the brand name */
-  .topbar { position: fixed; }
+  /* 3-column mobile topbar: [hamburger] [name centered] [empty] */
+  .topbar {
+    display: grid !important;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    padding: 0 12px;
+  }
 
-  /* Hide logo on mobile, only show the text name centered */
+  /* Reset brand — hide logo, just show name */
   .topbar-brand {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 0;
     pointer-events: none;
+    grid-column: 2;
   }
   .topbar-brand a { display: none; }
-  .topbar-brand a:focus-visible { display: none; }
 
-  /* Hamburger is first in DOM so it sits naturally on the left */
+  /* Hamburger takes first column */
+  .nav-toggle {
+    grid-column: 1;
+    margin: 0;
+  }
 
   /* Shrink page headings so they don't cause horizontal scroll */
   .page-wrap h2 { font-size: 1.2rem; }
