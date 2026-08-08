@@ -211,14 +211,15 @@ map.on('load', async () => {
     );
     if (match) {
       const [lng, lat] = match.geometry.coordinates;
-      map.flyTo({ center: [lng, lat], zoom: 15, duration: 800 });
-      // Open popup after fly animation completes
-      map.once('moveend', () => {
+      // Jump straight to location, then open popup
+      map.jumpTo({ center: [lng, lat], zoom: 15 });
+      setTimeout(() => {
         const p   = match.properties;
         const col = BOROUGH_COLORS[p.borough] || '#DC2225';
         const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
         const html = `
           <div class="ticket">
+            ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
             <div class="ticket-head">
               <p class="ticket-name">${escapeHTML(p.name)}</p>
               <p class="ticket-address">${escapeHTML(p.address)}</p>
@@ -238,7 +239,7 @@ map.on('load', async () => {
           .setHTML(html)
           .addTo(map);
         activePopup.on('close', () => { activePopup = null; });
-      });
+      }, 300);
     }
   }
 });

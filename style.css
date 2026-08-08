@@ -394,6 +394,7 @@ body.map-page {
   color: var(--color-sauce);
   text-decoration: none;
   border-bottom: 1px solid transparent;
+  outline: none;
 }
 .ticket-links a:hover { border-bottom-color: var(--color-sauce); }
 
@@ -466,11 +467,16 @@ button:focus-visible {
 /* ===== Mobile ===== */
 @media (max-width: 900px) {
   .topbar {
-    display: flex;
+    display: flex !important;
     justify-content: space-between;
+    align-items: center;
   }
-  .topbar-nav { display: none; }
-  .nav-toggle { display: flex; margin-left: auto; }
+  .topbar-nav { display: none !important; }
+  .nav-toggle {
+    display: flex !important;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
 
   .about-toggle { right: 12px; font-size: 0.62rem; padding: 7px 10px; }
   .about-panel { right: 12px; max-width: calc(100vw - 24px); }
