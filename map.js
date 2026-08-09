@@ -74,6 +74,38 @@ function landmarkStarSVG() {
   </svg>`;
 }
 
+// ===== Landmark baseball icon (dark circle badge, white ball with seams) =====
+function landmarkBaseballSVG() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
+    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <circle cx="50" cy="46" r="24" fill="white"/>
+    <path d="M38 25 Q50 46 38 67" fill="none" stroke="#241A10" stroke-width="2.2"/>
+    <path d="M62 25 Q50 46 62 67" fill="none" stroke="#241A10" stroke-width="2.2"/>
+  </svg>`;
+}
+
+// ===== Landmark basketball icon (dark circle badge, white ball with seams) =====
+function landmarkBasketballSVG() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
+    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <circle cx="50" cy="46" r="24" fill="white"/>
+    <line x1="50" y1="22" x2="50" y2="70" stroke="#241A10" stroke-width="2.2"/>
+    <line x1="26" y1="46" x2="74" y2="46" stroke="#241A10" stroke-width="2.2"/>
+    <path d="M31 28 Q46 46 31 64" fill="none" stroke="#241A10" stroke-width="2.2"/>
+    <path d="M69 28 Q54 46 69 64" fill="none" stroke="#241A10" stroke-width="2.2"/>
+  </svg>`;
+}
+
+// ===== Landmark cruise/boat icon (dark circle badge, white boat) =====
+function landmarkCruiseSVG() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
+    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <path d="M27 56 Q30 66 40 66 L60 66 Q70 66 73 56 L64 40 L36 40 Z" fill="white"/>
+    <rect x="45" y="24" width="10" height="16" rx="1.5" fill="white"/>
+    <line x1="27" y1="56" x2="73" y2="56" stroke="#241A10" stroke-width="2"/>
+  </svg>`;
+}
+
 // ===== NYC landmarks — single-point attractions only (not neighborhoods) =====
 const LANDMARKS = [
   { name: "Empire State Building",   lat: 40.7484, lng: -73.9857 },
@@ -83,9 +115,8 @@ const LANDMARKS = [
   { name: "Central Park",            lat: 40.7851, lng: -73.9683 },
   { name: "Statue of Liberty",       lat: 40.6892, lng: -74.0445 },
   { name: "Grand Central Terminal",  lat: 40.7527, lng: -73.9772 },
-  { name: "Chrysler Building",       lat: 40.7516, lng: -73.9755 },
-  { name: "One World Trade Center",  lat: 40.7127, lng: -74.0134 },
-  { name: "Madison Square Garden",   lat: 40.7505, lng: -73.9934 },
+  { name: "Bronx Zoo",               lat: 40.8506, lng: -73.8770 },
+  { name: "Madison Square Garden",   lat: 40.7505, lng: -73.9934, icon: 'basketball' },
   { name: "Flatiron Building",       lat: 40.7411, lng: -73.9897 },
   { name: "Washington Square Park",  lat: 40.7308, lng: -73.9973 },
   { name: "The High Line",           lat: 40.7480, lng: -74.0048 },
@@ -93,9 +124,10 @@ const LANDMARKS = [
   { name: "Museum of Natural History", lat: 40.7813, lng: -73.9740 },
   { name: "MoMA",                    lat: 40.7614, lng: -73.9776 },
   { name: "Lincoln Center",          lat: 40.7725, lng: -73.9835 },
-  { name: "Yankee Stadium",          lat: 40.8296, lng: -73.9262 },
-  { name: "Citi Field",              lat: 40.7571, lng: -73.8458 },
+  { name: "Yankee Stadium",          lat: 40.8296, lng: -73.9262, icon: 'baseball' },
+  { name: "Citi Field",              lat: 40.7571, lng: -73.8458, icon: 'baseball' },
   { name: "Coney Island",            lat: 40.5755, lng: -73.9707 },
+  { name: "Circle Line Sightseeing", lat: 40.7681, lng: -73.9979, icon: 'cruise' },
 ];
 
 function escapeHTML(str) {
@@ -295,7 +327,10 @@ map.on('load', async () => {
 
     const pin = document.createElement('div');
     pin.className = 'landmark-pin';
-    pin.innerHTML = landmarkStarSVG();
+    pin.innerHTML = lm.icon === 'baseball' ? landmarkBaseballSVG()
+                   : lm.icon === 'basketball' ? landmarkBasketballSVG()
+                   : lm.icon === 'cruise' ? landmarkCruiseSVG()
+                   : landmarkStarSVG();
 
     const label = document.createElement('div');
     label.className = 'landmark-label';
