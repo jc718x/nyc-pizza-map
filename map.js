@@ -235,6 +235,71 @@ map.on('load', async () => {
   const labels = [];
   let activePopup = null;  // track the currently open popup
 
+  // ===== Reusable pizzeria popup builder (used by pin clicks, ?pin= URL, and landmark popups) =====
+  function showPizzeriaPopup(match) {
+    const [lng, lat] = match.geometry.coordinates;
+    const p = match.properties;
+    const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+
+    let subwayHTML = '';
+    try {
+      if (typeof nearestStations === 'function') {
+        const nearby = nearestStations(lat, lng, 2);
+        subwayHTML = nearby.map(s => {
+          const mins = walkMinutes(s.dist);
+          const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean);
+          const bullets = lines.slice(0, 4).map(l =>
+            `<span class="subway-bullet" style="background:${stationColor(l)};color:${l==='N'||l==='Q'||l==='R'||l==='W'?'#000':'#fff'}">${l}</span>`
+          ).join('');
+          return `<div class="ticket-subway-row">${bullets}<div class="subway-station-walk"><span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins} walk</span></div></div>`;
+        }).join('');
+      }
+    } catch(e) { subwayHTML = ''; }
+
+    const html = `
+      <div class="ticket">
+        ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
+        ${p.worth_a_trip ? `<div class="ticket-worth-trip">⭐ Worth a special trip</div>` : ''}
+        <div class="ticket-head">
+          <p class="ticket-name">${escapeHTML(p.name)}</p>
+          <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
+        </div>
+        <div class="ticket-body">
+          <div class="ticket-meta">
+            <span class="style-badge">${escapeHTML(p.style)}</span>
+            <span class="meta-pill">${p.price || '$'}</span>
+            ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
+            ${p.seating && p.seating !== 'Indoor' ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
+          </div>
+          <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
+          ${subwayHTML ? `<div class="ticket-subway">
+            <div class="ticket-subway-label">🚇 Nearest subway</div>
+            ${subwayHTML}
+          </div>` : ''}
+          <div class="ticket-links">
+            ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
+            <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
+          </div>
+        </div>
+      </div>`;
+
+    map.setCenter([lng, lat]);
+    setTimeout(() => {
+      if (activePopup) activePopup.remove();
+      activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '290px', offset: [20, -22] })
+        .setLngLat([lng, lat])
+        .setHTML(html)
+        .addTo(map);
+      activePopup.on('close', () => { activePopup = null; });
+    }, 500);
+  }
+
+  // Expose for landmark popups (and inline onclick handlers) to call without a page reload
+  window.flyToPizzeria = function(name) {
+    const match = geojson.features.find(f => f.properties.name === name);
+    if (match) showPizzeriaPopup(match);
+  };
+
   geojson.features.forEach((feature, idx) => {
     const [lng, lat] = feature.geometry.coordinates;
     const p   = feature.properties;
@@ -371,8 +436,11 @@ map.on('load', async () => {
 
       const nearbyHTML = nearby.map(p => {
         const mins = walkMinutes(p.d);
-        const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
-        return `<div class="ticket-subway-row"><div class="subway-station-walk"><a href="${mapUrl}" style="color:var(--color-char);font-weight:600;text-decoration:none;">${escapeHTML(p.name)}</a><span class="subway-walk">${mins} walk</span></div></div>`;
+        const onclickJS = `window.flyToPizzeria(${JSON.stringify(p.name)})`.replace(/"/g, '&quot;');
+        return `<div class="landmark-nearby-row" onclick="${onclickJS}">
+          <span class="landmark-nearby-name">${escapeHTML(p.name)}</span>
+          <span class="landmark-nearby-walk">🚶 ${mins} walk</span>
+        </div>`;
       }).join('');
 
       const html = `
@@ -420,64 +488,7 @@ map.on('load', async () => {
       f => f.properties.name.toLowerCase() === pinName.toLowerCase()
     );
     if (match) {
-      const [lng, lat] = match.geometry.coordinates;
-      const p   = match.properties;
-      const col = BOROUGH_COLORS[p.borough] || '#DC2225';
-      const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-
-      // Find nearest subway stations (safe — won't crash if stations.js missing)
-      let subwayHTML = '';
-      try {
-        if (typeof nearestStations === 'function') {
-          const nearby = nearestStations(lat, lng, 2);
-          subwayHTML = nearby.map(s => {
-            const mins = walkMinutes(s.dist);
-            const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean);
-            const bullets = lines.slice(0, 4).map(l =>
-              `<span class="subway-bullet" style="background:${stationColor(l)};color:${l==='N'||l==='Q'||l==='R'||l==='W'?'#000':'#fff'}">${l}</span>`
-            ).join('');
-            return `<div class="ticket-subway-row">${bullets}<div class="subway-station-walk"><span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins} walk</span></div></div>`;
-          }).join('');
-        }
-      } catch(e) { subwayHTML = ''; }
-
-      const html = `
-        <div class="ticket">
-          ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
-          ${p.worth_a_trip ? `<div class="ticket-worth-trip">⭐ Worth a special trip</div>` : ''}
-          <div class="ticket-head">
-            <p class="ticket-name">${escapeHTML(p.name)}</p>
-            <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
-          </div>
-          <div class="ticket-body">
-            <div class="ticket-meta">
-              <span class="style-badge">${escapeHTML(p.style)}</span>
-              <span class="meta-pill">${p.price || '$'}</span>
-              ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
-              ${p.seating && p.seating !== 'Indoor' ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
-            </div>
-            <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
-            ${subwayHTML ? `<div class="ticket-subway">
-              <div class="ticket-subway-label">🚇 Nearest subway</div>
-              ${subwayHTML}
-            </div>` : ''}
-            <div class="ticket-links">
-              ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
-              <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
-            </div>
-          </div>
-        </div>`;
-
-      // Center map on pin (zoom already set to 16 at init) then open popup
-      map.setCenter([lng, lat]);
-      setTimeout(() => {
-        if (activePopup) activePopup.remove();
-        activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '290px', offset: [20, -22] })
-          .setLngLat([lng, lat])
-          .setHTML(html)
-          .addTo(map);
-        activePopup.on('close', () => { activePopup = null; });
-      }, 500);
+      showPizzeriaPopup(match);
     }
   }
 });
@@ -567,5 +578,14 @@ if (legend && typeof NEIGHBORHOODS !== 'undefined') {
       neighborhoodChips.appendChild(chip);
     });
     neighborhoodPanel.hidden = false;
+  });
+
+  // Close the panel when clicking anywhere outside it or the legend
+  document.addEventListener('click', (e) => {
+    if (neighborhoodPanel.hidden) return;
+    if (neighborhoodPanel.contains(e.target) || legend.contains(e.target)) return;
+    neighborhoodPanel.hidden = true;
+    if (activeBoroughBtn) activeBoroughBtn.classList.remove('active');
+    activeBoroughBtn = null;
   });
 }

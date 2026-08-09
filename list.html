@@ -386,7 +386,8 @@ function applyFilters() {
     let nMatch = true;
     if (activeNeighborhood) {
       const d = stationDist(activeNeighborhood.lat, activeNeighborhood.lng, parseFloat(el.dataset.lat), parseFloat(el.dataset.lng));
-      nMatch = d <= 1200;
+      const radius = (typeof NEIGHBORHOOD_RADIUS !== 'undefined' && NEIGHBORHOOD_RADIUS[activeBorough]) || 1200;
+      nMatch = d <= radius;
     }
     const show = bMatch && nMatch;
     el.classList.toggle('hidden', !show);

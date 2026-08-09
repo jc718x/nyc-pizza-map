@@ -334,9 +334,13 @@ body.map-page {
   transition: opacity 0.2s ease;
   overflow: hidden;
 }
-/* Hover reveals the label even when zoomed out (labels normally hidden via JS) */
-.pizza-marker-wrap:hover .pin-label {
-  opacity: 1 !important;
+/* Hover reveals the label even when zoomed out (labels normally hidden via JS).
+   Scoped to devices with real hover + precise pointer (desktop mouse) —
+   touch devices simulate :hover on tap, causing labels to pop up randomly while panning. */
+@media (hover: hover) and (pointer: fine) {
+  .pizza-marker-wrap:hover .pin-label {
+    opacity: 1 !important;
+  }
 }
 .pin-label-bar {
   width: 3px;
@@ -978,10 +982,10 @@ button:focus-visible {
 .zoom-closer .landmark-pin  { width: 22px; height: 22px; }
 
 /* Larger sizing for Yankee Stadium, Citi Field, Madison Square Garden */
-.zoom-far .landmark-pin-large    { width: 20px; height: 20px; }
-.zoom-mid .landmark-pin-large     { width: 25px; height: 25px; }
-.zoom-close .landmark-pin-large   { width: 30px; height: 30px; }
-.zoom-closer .landmark-pin-large  { width: 36px; height: 36px; }
+.zoom-far .landmark-pin-large    { width: 17px; height: 17px; }
+.zoom-mid .landmark-pin-large     { width: 21px; height: 21px; }
+.zoom-close .landmark-pin-large   { width: 25px; height: 25px; }
+.zoom-closer .landmark-pin-large  { width: 30px; height: 30px; }
 
 .landmark-marker-wrap:hover .landmark-pin {
   transform: scale(1.25);
@@ -1001,9 +1005,11 @@ button:focus-visible {
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-/* Hover reveals the label at any zoom level */
-.landmark-marker-wrap:hover .landmark-label {
-  opacity: 1 !important;
+/* Hover reveals the label at any zoom level — desktop only, see note above */
+@media (hover: hover) and (pointer: fine) {
+  .landmark-marker-wrap:hover .landmark-label {
+    opacity: 1 !important;
+  }
 }
 /* Automatic show/hide (no hover needed) is handled in JS via LANDMARK_LABEL_ZOOM
    — kept meaningfully later than pizza's LABEL_ZOOM so pizza labels always appear first */
@@ -1070,4 +1076,25 @@ button:focus-visible {
     right: 8px;
     max-width: none;
   }
+}
+
+/* ===== Landmark popup — nearby pizza rows (stacked, handles long names) ===== */
+.landmark-nearby-row {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(36,26,16,0.08);
+  cursor: pointer;
+}
+.landmark-nearby-row:last-child { border-bottom: none; }
+.landmark-nearby-name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-char);
+  line-height: 1.3;
+}
+.landmark-nearby-walk {
+  display: block;
+  font-size: 0.72rem;
+  color: rgba(36,26,16,0.55);
+  margin-top: 2px;
 }
