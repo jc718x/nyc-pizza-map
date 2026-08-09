@@ -287,6 +287,8 @@ map.on('load', async () => {
     "The Original Little Italy": "E",
     "Piz-zetta Pizzeria": "E",
     "Numero 28 Pizzeria – Park Slope": "E",
+    "Briciola Pizza Bar": "E",
+    "Juliana's": "N",
   };
   const labels = [];
   let activePopup = null;  // track the currently open popup

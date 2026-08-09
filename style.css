@@ -387,9 +387,12 @@ body.map-page {
   padding: 3px 7px;
 }
 
-/* Label placement — left or right of the pin's anchor point */
+/* Label placement — left or right of the pin's anchor point.
+   'N' (top) is available for manual overrides on individual pizzerias
+   where left/right both cause a collision — not used by the automatic algorithm. */
 .pin-label.dir-e { transform: translate(18px, -50%); }
 .pin-label.dir-w { transform: translate(calc(-100% - 18px), -50%); }
+.pin-label.dir-n { transform: translate(-50%, calc(-100% - 14px)); }
 
 /* When the label is to the LEFT of the pin, flip the accent bar to the
    right edge so it still visually points back at the pin */
@@ -398,6 +401,9 @@ body.map-page {
 }
 
 /* ===== Popup ===== */
+.maplibregl-popup {
+  z-index: 20;
+}
 .maplibregl-popup-content {
   padding: 0 !important;
   border-radius: var(--radius) !important;
