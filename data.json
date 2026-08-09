@@ -275,7 +275,7 @@
         ]
       },
       "properties": {
-        "name": "Sottocasa",
+        "name": "Sottocasa – Boerum Hill",
         "address": "298 Atlantic Ave, Brooklyn, NY 11201",
         "borough": "Brooklyn",
         "style": "Neapolitan",
@@ -4504,6 +4504,138 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bed-Stuy neighborhood spot on Stuyvesant Avenue blending Caribbean and pizzeria influences, serving classic NY-style pies alongside its broader menu.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.93788129958641,
+          40.83826591049201
+        ]
+      },
+      "properties": {
+        "name": "Niccolo Pizzeria",
+        "address": "2127 Amsterdam Ave, New York, NY 10032",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Washington Heights neighborhood slice shop on Amsterdam Avenue, serving the community with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.93892374063138,
+          40.825946476434325
+        ]
+      },
+      "properties": {
+        "name": "Pizza by Lucille's",
+        "address": "26c Macombs Pl, New York, NY 10039",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Harlem neighborhood pizzeria near the Macombs Dam Bridge, serving classic NY-style pies to the community.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94526485037483,
+          40.824102196007374
+        ]
+      },
+      "properties": {
+        "name": "Briciola Harlem",
+        "address": "398 W 145th St, New York, NY 10031",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "The Harlem outpost of Briciola, bringing wood-fired Neapolitan pies and a well-curated wine list to West 145th Street.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.90523952103112,
+          40.87901448768007
+        ]
+      },
+      "properties": {
+        "name": "Charlie's Pizza",
+        "address": "204 W 231st St, Bronx, NY 10463",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Kingsbridge neighborhood slice shop in the northwest Bronx, serving the community with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9474560239007,
+          40.805557448159085
+        ]
+      },
+      "properties": {
+        "name": "Sottocasa – Harlem",
+        "address": "227 Malcolm X Blvd, New York, NY 10027",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "The Harlem location of Sottocasa, bringing the same wood-fired Neapolitan pies to Malcolm X Boulevard.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.92509388910213,
+          40.86247866088749
+        ]
+      },
+      "properties": {
+        "name": "Pizza Palace",
+        "address": "121 Dyckman St, New York, NY 10040",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "An Inwood neighborhood slice shop on Dyckman Street, serving the community with classic NY-style pies.",
         "website": "",
         "price": "$",
         "slices": true,
