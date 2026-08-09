@@ -303,6 +303,11 @@ body.map-page {
   transition: transform 0.12s ease, filter 0.12s ease, width 0.15s ease, height 0.15s ease;
   transform-origin: left center;
 }
+.pizza-pin svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 .label-left .pizza-pin { transform-origin: right center; }
 
 /* Zoom-responsive marker sizing — smaller when zoomed out so pins don't overwhelm the city view */
