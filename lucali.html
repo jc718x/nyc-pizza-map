@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lucali — Coal-Oven Pizza in Carroll Gardens, Brooklyn | NYC Pizza Map</title>
+<meta name="description" content="Lucali is a converted Carroll Gardens candy store turned into one of NYC's most sought-after coal-oven pizzerias. What to order, nearest subway, and what to know before you go." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<meta property="og:title" content="Lucali — Coal-Oven Pizza in Carroll Gardens, Brooklyn" />
+<meta property="og:description" content="A converted candy store turned into one of NYC's most sought-after coal-oven pizzerias." />
+<meta property="og:url" content="https://nycpizzamap.com/lucali.html" />
+<meta property="og:type" content="restaurant" />
+<meta property="og:image" content="https://nycpizzamap.com/assets/logo.png" />
+<link rel="canonical" href="https://nycpizzamap.com/lucali.html" />
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Lucali",
+  "servesCuisine": "Pizza",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "575 Henry St",
+    "addressLocality": "Brooklyn",
+    "addressRegion": "NY",
+    "postalCode": "11231",
+    "addressCountry": "US"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 40.6818, "longitude": -74.0004 },
+  "url": "https://nycpizzamap.com/lucali.html",
+  "sameAs": "https://www.lucali.com/"
+}
+</script>
+
+<style>
+  :root {
+    --pz-accent: #DC2225; /* consistent site accent — same on every pizzeria page, no borough variation */
+  }
+
+  .pz-wrap { max-width: 720px; margin: 0 auto; padding: calc(var(--topbar-h) + 24px) 24px 80px; }
+
+  /* ===== Ticket-stub hero ===== */
+  .pz-ticket {
+    background: var(--color-crust);
+    border-radius: 10px 10px 0 0;
+    padding: 28px 28px 24px;
+    position: relative;
+    overflow: visible;
+  }
+  .pz-ticket-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pz-accent);
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .pz-ticket-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2.4rem;
+    line-height: 1.05;
+    color: var(--color-parchment);
+    margin: 0 0 8px;
+  }
+  .pz-ticket-sub {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: rgba(253,244,231,0.75);
+    margin: 0;
+  }
+
+  .pz-stamp {
+    position: absolute;
+    top: -14px;
+    right: 20px;
+    background: #FFC93C;
+    color: #5C4400;
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 10px 14px;
+    border-radius: 50%;
+    width: 76px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.15;
+    transform: rotate(9deg);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    border: 2.5px dashed #5C4400;
+  }
+
+  /* Perforated tear line between header and body */
+  .pz-perf {
+    height: 14px;
+    background: var(--color-crust);
+    position: relative;
+    border-radius: 0 0 10px 10px;
+  }
+  .pz-perf::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 14px;
+    background-image: radial-gradient(circle 7px at 0 0, transparent 7px, var(--color-parchment) 7.5px);
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+    background-position: 10px 0;
+  }
+
+  .pz-ticket-body {
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 20px 28px;
+    margin-top: -14px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px 20px;
+  }
+  .pz-fact-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(36,26,16,0.45);
+    margin: 0 0 2px;
+  }
+  .pz-fact-value {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-char);
+    line-height: 1.3;
+  }
+
+  /* ===== Section styling ===== */
+  .pz-section { margin: 36px 0; }
+  .pz-section-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+  }
+  .pz-slice-bullet {
+    width: 18px; height: 18px; flex-shrink: 0;
+  }
+  .pz-section h3 {
+    font-family: var(--font-logo);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-crust);
+    margin: 0;
+  }
+  .pz-section p { font-size: 0.95rem; line-height: 1.65; color: var(--color-char); margin: 0 0 14px; }
+
+  /* Pull-quote treatment for Your Take */
+  .pz-pullquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.4;
+    color: var(--color-crust);
+    border-left: 3px solid var(--pz-accent);
+    padding-left: 18px;
+    margin: 0 0 18px;
+  }
+
+  .pz-subway-box, .pz-nearby-box {
+    background: rgba(36,26,16,0.05); border-radius: 6px; padding: 14px 16px;
+  }
+  .pz-subway-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.85rem; }
+  .pz-subway-row:last-child { margin-bottom: 0; }
+  .pz-bullet {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%; font-size: 0.65rem;
+    font-weight: 800; font-family: var(--font-mono); flex-shrink: 0;
+  }
+
+  .pz-attraction-item, .pz-pizza-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 0.88rem; padding: 8px 0; border-bottom: 1px solid rgba(36,26,16,0.08);
+  }
+  .pz-attraction-item:last-child, .pz-pizza-item:last-child { border-bottom: none; }
+  .pz-attraction-item a, .pz-pizza-item a { color: var(--color-char); font-weight: 600; text-decoration: none; }
+  .pz-attraction-item a:hover, .pz-pizza-item a:hover { color: var(--pz-accent); }
+  .pz-item-note { font-size: 0.78rem; color: rgba(36,26,16,0.55); }
+
+  .pz-cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; }
+  .pz-cta {
+    font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.03em; padding: 10px 18px; border-radius: 6px; text-decoration: none;
+    font-weight: 600;
+  }
+  .pz-cta.primary { background: var(--pz-accent); color: white; }
+  .pz-cta.secondary { background: white; color: var(--color-char); border: 1.5px solid rgba(36,26,16,0.15); }
+
+  .pz-crosslink {
+    margin-top: 40px; padding-top: 24px; border-top: 1px dashed rgba(36,26,16,0.2);
+    font-size: 0.85rem;
+  }
+  .pz-crosslink a { color: var(--pz-accent); font-weight: 600; }
+
+  @media (max-width: 480px) {
+    .pz-ticket { padding: 22px 18px 20px; }
+    .pz-ticket-name { font-size: 1.85rem; }
+    .pz-ticket-body { grid-template-columns: 1fr 1fr; padding: 18px; }
+    .pz-stamp { width: 64px; height: 64px; font-size: 0.58rem; top: -12px; right: 12px; }
+    .pz-pullquote { font-size: 1.15rem; }
+  }
+</style>
+</head>
+<body class="content-page">
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-brand">
+    <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
+    <a href="index.html" style="text-decoration:none;"><span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span></a>
+  </div>
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
+    <a href="index.html">Map</a>
+    <a href="list.html">Pizzeria List</a>
+    <div class="nav-dropdown" id="exploreDropdown">
+      <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
+      <div class="nav-dropdown-menu">
+        <a href="pizza-facts.html">Pizza Facts</a>
+        <a href="pizza-history.html">Pizza History</a>
+        <a href="nearby.html">Pizza Near Your Plans</a>
+      </div>
+    </div>
+    <a href="how-to-make-pizza.html">Make Pizza</a>
+    <a href="store.html">Store</a>
+    <a href="suggest.html">Suggest a Spot</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <div class="mobile-nav-heading">Find Pizza</div>
+  <a href="index.html" class="primary">Map</a>
+  <a href="list.html" class="primary">Pizzeria List</a>
+  <a href="nearby.html" class="primary">Pizza Near Your Plans</a>
+  <div class="mobile-nav-heading">Explore</div>
+  <a href="pizza-history.html">Pizza History</a>
+  <a href="pizza-facts.html">Pizza Facts</a>
+  <div class="mobile-nav-heading">NYC Pizza</div>
+  <a href="how-to-make-pizza.html">Make Pizza</a>
+  <a href="store.html">Store</a>
+  <div class="mobile-nav-divider"></div>
+  <a href="suggest.html">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
+
+<main class="pz-wrap">
+
+  <div class="pz-ticket">
+    <span class="pz-stamp">⭐<br>Worth<br>a Trip</span>
+    <p class="pz-ticket-kicker">Carroll Gardens, Brooklyn · Neapolitan</p>
+    <h2 class="pz-ticket-name">Lucali</h2>
+    <p class="pz-ticket-sub">Coal-oven pizza in a converted candy store — no slices, cash only, worth the wait.</p>
+  </div>
+  <div class="pz-perf"></div>
+  <div class="pz-ticket-body">
+    <div>
+      <p class="pz-fact-label">Address</p>
+      <p class="pz-fact-value">575 Henry St</p>
+    </div>
+    <div>
+      <p class="pz-fact-label">Price</p>
+      <p class="pz-fact-value">$$</p>
+    </div>
+    <div>
+      <p class="pz-fact-label">Slices?</p>
+      <p class="pz-fact-value">Whole pies only</p>
+    </div>
+    <div>
+      <p class="pz-fact-label">Hours</p>
+      <p class="pz-fact-value">5–11pm, closed Tue</p>
+    </div>
+    <div>
+      <p class="pz-fact-label">Payment</p>
+      <p class="pz-fact-value">Cash only</p>
+    </div>
+    <div>
+      <p class="pz-fact-label">Reservations</p>
+      <p class="pz-fact-value">Walk-in / line only</p>
+    </div>
+  </div>
+
+  <div class="pz-section">
+    <div class="pz-section-head">
+      <svg class="pz-slice-bullet" viewBox="0 0 100 100"><path d="M30 33 Q50 26 70 33 Q65 39 50 65 Q35 39 30 33 Z" fill="#DC2225"/><circle cx="41" cy="38" r="3.6" fill="white"/><circle cx="50" cy="50" r="3.6" fill="white"/></svg>
+      <h3>Your Take</h3>
+    </div>
+    <p class="pz-pullquote">"There's no real sign, no slices, no credit cards — just a short menu and a reputation that speaks for itself."</p>
+    <p>Before it was one of the most talked-about pizzerias in New York, this Henry Street storefront was an actual candy store. Mark Iacono, who grew up in the neighborhood, gutted it down to brick and tin ceiling, put in a coal oven, and kept the room small and unfussy on purpose since opening in 2006. It's the kind of place chefs show up to on their own nights off, which says as much about the pizza as any review could.</p>
+  </div>
+
+  <div class="pz-section">
+    <div class="pz-section-head">
+      <svg class="pz-slice-bullet" viewBox="0 0 100 100"><path d="M30 33 Q50 26 70 33 Q65 39 50 65 Q35 39 30 33 Z" fill="#DC2225"/><circle cx="41" cy="38" r="3.6" fill="white"/><circle cx="50" cy="50" r="3.6" fill="white"/></svg>
+      <h3>What to Order</h3>
+    </div>
+    <p>The menu is short by design — a classic cheese pie or one with a few simple toppings is the move, since the thin, coal-blistered crust and quality ingredients are the whole point. The calzone also has a serious following among regulars if you want something different.</p>
+  </div>
+
+  <div class="pz-section">
+    <div class="pz-section-head">
+      <svg class="pz-slice-bullet" viewBox="0 0 100 100"><path d="M30 33 Q50 26 70 33 Q65 39 50 65 Q35 39 30 33 Z" fill="#DC2225"/><circle cx="41" cy="38" r="3.6" fill="white"/><circle cx="50" cy="50" r="3.6" fill="white"/></svg>
+      <h3>What to Know Before You Go</h3>
+    </div>
+    <p>Lucali doesn't take reservations — it's line-based, and the line for dinner can start forming as early as 2pm for a 5pm opening. It's cash only, BYOB with no corkage fee. Come early, bring cash, and bring your own wine or beer if you're planning to drink with dinner.</p>
+  </div>
+
+  <div class="pz-section">
+    <div class="pz-section-head">
+      <svg class="pz-slice-bullet" viewBox="0 0 100 100"><path d="M30 33 Q50 26 70 33 Q65 39 50 65 Q35 39 30 33 Z" fill="#DC2225"/><circle cx="41" cy="38" r="3.6" fill="white"/><circle cx="50" cy="50" r="3.6" fill="white"/></svg>
+      <h3>Nearest Subway</h3>
+    </div>
+    <div class="pz-subway-box" id="subwayInfo">Loading…</div>
+  </div>
+
+  <div class="pz-section">
+    <div class="pz-section-head">
+      <svg class="pz-slice-bullet" viewBox="0 0 100 100"><path d="M30 33 Q50 26 70 33 Q65 39 50 65 Q35 39 30 33 Z" fill="#DC2225"/><circle cx="41" cy="38" r="3.6" fill="white"/><circle cx="50" cy="50" r="3.6" fill="white"/></svg>
+      <h3>Nearby Attractions</h3>
+    </div>
+    <div class="pz-nearby-box">
+      <div class="pz-attraction-item">
+        <a href="nearby.html">Brooklyn Bridge Park</a>
+        <span class="pz-item-note">~15 min walk</span>
+      </div>
+      <div class="pz-attraction-item">
+        <a href="nearby.html">Cobble Hill &amp; Atlantic Ave shops</a>
+        <span class="pz-item-note">~10 min walk</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pz-section">
+    <div class="pz-section-head">
+      <svg class="pz-slice-bullet" viewBox="0 0 100 100"><path d="M30 33 Q50 26 70 33 Q65 39 50 65 Q35 39 30 33 Z" fill="#DC2225"/><circle cx="41" cy="38" r="3.6" fill="white"/><circle cx="50" cy="50" r="3.6" fill="white"/></svg>
+      <h3>Other Good Pizza Nearby</h3>
+    </div>
+    <div class="pz-nearby-box" id="nearbyPizza">Loading…</div>
+  </div>
+
+  <div class="pz-cta-row">
+    <a class="pz-cta primary" href="index.html?pin=Lucali">View on Interactive Map</a>
+    <a class="pz-cta secondary" href="https://www.google.com/maps/dir/?api=1&destination=40.6818,-74.0004" target="_blank" rel="noopener">Get Directions</a>
+    <a class="pz-cta secondary" href="https://www.lucali.com/" target="_blank" rel="noopener">Website</a>
+  </div>
+
+  <div class="pz-crosslink">
+    See more of NYC's essential pizzerias on the <a href="list.html">full Pizzeria List</a>, or explore the <a href="index.html">interactive map</a>.
+  </div>
+</main>
+
+<script src="stations.js"></script>
+<script>
+  const LAT = 40.6818, LNG = -74.0004;
+  const PIZZA_NAME = "Lucali";
+
+  try {
+    const nearby = nearestStations(LAT, LNG, 2);
+    const html = nearby.map(s => {
+      const mins = walkMinutes(s.dist);
+      const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean).slice(0, 4);
+      const bullets = lines.map(l =>
+        `<span class="pz-bullet" style="background:${stationColor(l)};color:${['N','Q','R','W'].includes(l) ? '#000' : '#fff'}">${l}</span>`
+      ).join('');
+      return `<div class="pz-subway-row">${bullets}<strong>${s.name}</strong><span style="color:rgba(36,26,16,0.5)">${mins} walk</span></div>`;
+    }).join('');
+    document.getElementById('subwayInfo').innerHTML = html;
+  } catch(e) {
+    document.getElementById('subwayInfo').textContent = 'Subway info unavailable';
+  }
+
+  fetch('data.json')
+    .then(r => r.json())
+    .then(geojson => {
+      const nearby = geojson.features
+        .filter(f => f.properties.name !== PIZZA_NAME)
+        .map(f => ({
+          ...f.properties,
+          d: stationDist(LAT, LNG, f.geometry.coordinates[1], f.geometry.coordinates[0])
+        }))
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 3);
+
+      const html = nearby.map(p => {
+        const mins = walkMinutes(p.d);
+        const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
+        return `<div class="pz-pizza-item"><a href="${mapUrl}">${p.name}</a><span class="pz-item-note">${mins} walk</span></div>`;
+      }).join('');
+      document.getElementById('nearbyPizza').innerHTML = html || '<p style="font-size:0.85rem;color:rgba(36,26,16,0.5);">No other pizzerias within a short walk.</p>';
+    })
+    .catch(() => {
+      document.getElementById('nearbyPizza').textContent = 'Unable to load nearby pizzerias';
+    });
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

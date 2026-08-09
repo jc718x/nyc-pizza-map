@@ -504,7 +504,7 @@
         "price": "$",
         "slices": true,
         "seating": "Standing only",
-        "worth_a_trip": true
+        "worth_a_trip": false
       }
     },
     {
@@ -548,7 +548,7 @@
         "price": "$",
         "slices": true,
         "seating": "Indoor",
-        "worth_a_trip": true
+        "worth_a_trip": false
       }
     },
     {
@@ -746,7 +746,7 @@
         "price": "$",
         "slices": false,
         "seating": "Indoor",
-        "worth_a_trip": false
+        "worth_a_trip": true
       }
     },
     {
@@ -768,7 +768,7 @@
         "price": "$",
         "slices": false,
         "seating": "Indoor",
-        "worth_a_trip": true
+        "worth_a_trip": false
       }
     },
     {
@@ -1054,7 +1054,7 @@
         "price": "$$",
         "slices": false,
         "seating": "Indoor",
-        "worth_a_trip": true
+        "worth_a_trip": false
       }
     },
     {
@@ -1824,7 +1824,7 @@
         "price": "$$",
         "slices": false,
         "seating": "Indoor",
-        "worth_a_trip": true
+        "worth_a_trip": false
       }
     },
     {
@@ -2836,7 +2836,7 @@
         "price": "$",
         "slices": true,
         "seating": "Indoor",
-        "worth_a_trip": false
+        "worth_a_trip": true
       }
     },
     {

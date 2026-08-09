@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Best Pizza in Bay Ridge, Brooklyn | NYC Pizza Map</title>
+<meta name="description" content="The full rundown of Bay Ridge pizzerias — classic slice shops and Neapolitan wood-fired spots along 3rd, 4th, and 5th Avenue in one of Brooklyn's most Italian-American neighborhoods." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<meta property="og:title" content="Best Pizza in Bay Ridge, Brooklyn" />
+<meta property="og:description" content="The full rundown of Bay Ridge pizzerias — classic slice shops and Neapolitan wood-fired spots." />
+<meta property="og:url" content="https://nycpizzamap.com/best-pizza-bay-ridge.html" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nycpizzamap.com/assets/logo.png" />
+<link rel="canonical" href="https://nycpizzamap.com/best-pizza-bay-ridge.html" />
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+
+<style>
+  :root { --pz-accent: #DC2225; }
+
+  .rd-wrap { max-width: 760px; margin: 0 auto; padding: calc(var(--topbar-h) + 24px) 24px 80px; }
+
+  .rd-hero {
+    background: var(--color-crust);
+    border-radius: 10px 10px 0 0;
+    padding: 32px 28px 26px;
+  }
+  .rd-hero-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pz-accent);
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .rd-hero-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--color-parchment);
+    margin: 0 0 12px;
+  }
+  .rd-hero-sub {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: rgba(253,244,231,0.8);
+    margin: 0;
+  }
+
+  .rd-perf {
+    height: 14px;
+    background: var(--color-crust);
+    position: relative;
+    border-radius: 0 0 10px 10px;
+  }
+  .rd-perf::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 14px;
+    background-image: radial-gradient(circle 7px at 0 0, transparent 7px, var(--color-parchment) 7.5px);
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+    background-position: 10px 0;
+  }
+
+  .rd-intro {
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 22px 28px;
+    margin: -14px 0 36px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--color-char);
+  }
+  .rd-intro p { margin: 0 0 12px; }
+  .rd-intro p:last-child { margin: 0; }
+
+  .rd-style-heading {
+    font-family: var(--font-logo);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-crust);
+    margin: 0 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pz-accent);
+  }
+  .rd-style-count {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: rgba(36,26,16,0.5);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  .rd-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0 40px; }
+
+  .rd-item {
+    display: flex;
+    gap: 14px;
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+  .rd-item:hover {
+    border-color: var(--pz-accent);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+  .rd-item-body { flex: 1; min-width: 0; }
+  .rd-item-top {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .rd-item-name {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--color-char);
+  }
+  .rd-pill {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.07);
+    color: var(--color-char);
+  }
+  .rd-item-blurb {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(36,26,16,0.72);
+    margin: 0;
+  }
+
+  .rd-crosslink {
+    margin-top: 20px; padding-top: 24px; border-top: 1px dashed rgba(36,26,16,0.2);
+    font-size: 0.85rem;
+  }
+  .rd-crosslink a { color: var(--pz-accent); font-weight: 600; }
+
+  @media (max-width: 480px) {
+    .rd-hero { padding: 24px 18px 20px; }
+    .rd-hero-title { font-size: 1.5rem; }
+    .rd-intro { padding: 18px; }
+    .rd-item { padding: 12px; gap: 10px; }
+  }
+</style>
+</head>
+<body class="content-page">
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-brand">
+    <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
+    <a href="index.html" style="text-decoration:none;"><span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span></a>
+  </div>
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
+    <a href="index.html">Map</a>
+    <a href="list.html">Pizzeria List</a>
+    <div class="nav-dropdown" id="exploreDropdown">
+      <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
+      <div class="nav-dropdown-menu">
+        <a href="pizza-facts.html">Pizza Facts</a>
+        <a href="pizza-history.html">Pizza History</a>
+        <a href="nearby.html">Pizza Near Your Plans</a>
+      </div>
+    </div>
+    <a href="how-to-make-pizza.html">Make Pizza</a>
+    <a href="store.html">Store</a>
+    <a href="suggest.html">Suggest a Spot</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <div class="mobile-nav-heading">Find Pizza</div>
+  <a href="index.html" class="primary">Map</a>
+  <a href="list.html" class="primary">Pizzeria List</a>
+  <a href="nearby.html" class="primary">Pizza Near Your Plans</a>
+  <div class="mobile-nav-heading">Explore</div>
+  <a href="pizza-history.html">Pizza History</a>
+  <a href="pizza-facts.html">Pizza Facts</a>
+  <div class="mobile-nav-heading">NYC Pizza</div>
+  <a href="how-to-make-pizza.html">Make Pizza</a>
+  <a href="store.html">Store</a>
+  <div class="mobile-nav-divider"></div>
+  <a href="suggest.html">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
+
+<main class="rd-wrap">
+
+  <div class="rd-hero">
+    <p class="rd-hero-kicker">Neighborhood Guide</p>
+    <h2 class="rd-hero-title">Best Pizza in Bay Ridge</h2>
+    <p class="rd-hero-sub">Twelve spots along 3rd, 4th, and 5th Avenue, from old-school classic slices to newer wood-fired Neapolitan.</p>
+  </div>
+  <div class="rd-perf"></div>
+  <div class="rd-intro">
+    <p>Bay Ridge has one of the highest concentrations of old-school Italian-American pizzerias left in Brooklyn. This is the full rundown of what's there — we'll sort out rankings and categories later.</p>
+  </div>
+
+  <h3 class="rd-style-heading">All Bay Ridge Pizzerias <span class="rd-style-count">(12 spots)</span></h3>
+  <div class="rd-list">
+
+    <a class="rd-item" href="index.html?pin=Frankie%27s%20of%20Bay%20Ridge">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Frankie's of Bay Ridge</span>
+          <span class="rd-pill">$</span>
+        </div>
+        <p class="rd-item-blurb">A neighborhood staple serving the kind of large, foldable NY slice the area is built on.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Pizza%20Wagon">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Pizza Wagon</span>
+          <span class="rd-pill">$</span>
+        </div>
+        <p class="rd-item-blurb">No-frills slice counter with a loyal neighborhood following.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Nino%27s">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Nino's</span>
+          <span class="rd-pill">$</span>
+        </div>
+        <p class="rd-item-blurb">A Bay Ridge institution doing old-school NY slices for decades.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Elegante%20Pizzeria">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Elegante Pizzeria</span>
+          <span class="rd-pill">$</span>
+        </div>
+        <p class="rd-item-blurb">A 5th Avenue slice shop with a steady, loyal following.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Espresso%20Pizzeria">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Espresso Pizzeria</span>
+          <span class="rd-pill">$</span>
+        </div>
+        <p class="rd-item-blurb">A 5th Avenue slice shop at the southern end of Bay Ridge, near Fort Hamilton.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Peppino%27s%20Pizza%20%26%20Restaurant">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Peppino's Pizza & Restaurant</span>
+          <span class="rd-pill">$</span>
+        </div>
+        <p class="rd-item-blurb">A full sit-down pizzeria on 3rd Avenue with a complete Italian-American menu.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Nonno%27s%20Pizza">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Nonno's Pizza</span>
+          <span class="rd-pill">$</span>
+        </div>
+        <p class="rd-item-blurb">A 3rd Avenue neighborhood pizzeria named for the grandfather who started it.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Leo%27s%20Casa%20Calamari">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Leo's Casa Calamari</span>
+          <span class="rd-pill">$</span>
+        </div>
+        <p class="rd-item-blurb">A 3rd Avenue institution known as much for its calamari as its pizza.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Brooklyn%20Firefly">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Brooklyn Firefly</span>
+          <span class="rd-pill">$$</span>
+        </div>
+        <p class="rd-item-blurb">Wood-fired spot with a neighborhood-restaurant feel and a seasonal menu.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=APizza%20%E2%80%93%20Dyker%20Heights">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">APizza – Dyker Heights</span>
+          <span class="rd-pill">$$</span>
+        </div>
+        <p class="rd-item-blurb">A New Haven-style apizza outpost right on the Dyker Heights border, long-fermented dough.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Vesuvio%20Restaurant%20%26%20Pizzeria">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Vesuvio Restaurant & Pizzeria</span>
+          <span class="rd-pill">$$</span>
+        </div>
+        <p class="rd-item-blurb">An Italian-American trattoria named after the volcano that defines Naples.</p>
+      </div>
+    </a>
+
+    <a class="rd-item" href="index.html?pin=Mancini%27s%20Wood-Fired%20Pizza">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Mancini's Wood-Fired Pizza</span>
+          <span class="rd-pill">$$</span>
+        </div>
+        <p class="rd-item-blurb">A 5th Avenue wood-fired spot bringing proper Neapolitan-style pies to the neighborhood.</p>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="rd-crosslink">
+    See every pizzeria on the <a href="list.html">full Pizzeria List</a>, or explore the <a href="index.html">interactive map</a>.
+  </div>
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>
