@@ -141,6 +141,8 @@ const LANDMARKS = [
   { name: "Citi Field",              lat: 40.7571, lng: -73.8458, icon: 'baseball', badgeColor: '#4169E1', large: true },
   { name: "Coney Island",            lat: 40.5755, lng: -73.9707 },
   { name: "Circle Line Sightseeing", lat: 40.76280655144898, lng: -74.00154982881688, icon: 'cruise' },
+  { name: "Staten Island Ferry – Whitehall Terminal", lat: 40.701409, lng: -74.013131, icon: 'cruise' },
+  { name: "Staten Island Ferry – St. George Terminal", lat: 40.643330, lng: -74.074170, icon: 'cruise' },
 ];
 
 function escapeHTML(str) {
