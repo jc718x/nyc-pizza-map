@@ -10,7 +10,7 @@
 
   --color-brooklyn: #DC2225;
   --color-manhattan: #276E40;
-  --color-queens: #D9A441;
+  --color-queens: #FF6B00;
   --color-bronx: #8B3A62;
   --color-si: #3C5A80;
 
@@ -469,19 +469,27 @@ body.map-page {
   flex-shrink: 0;
 }
 .subway-station-name {
-  flex: 1;
   font-weight: 600;
   color: var(--color-char);
   font-size: 0.78rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  flex-shrink: 1;
   min-width: 0;
 }
 .subway-walk {
   font-size: 0.72rem;
   color: rgba(36,26,16,0.55);
   white-space: nowrap;
+  flex-shrink: 0;
+}
+.subway-station-walk {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex-shrink: 1;
 }
 
 .ticket-links {

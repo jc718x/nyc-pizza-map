@@ -352,7 +352,7 @@ function buildList(features) {
               const bullets = lines.map(l =>
                 `<span class="subway-bullet" style="background:${stationColor(l)};color:${['N','Q','R','W'].includes(l)?'#000':'#fff'}">${l}</span>`
               ).join('');
-              return `<div class="ticket-subway-row">${bullets}<span class="subway-station-name">${s.name}</span><span class="subway-walk">${mins}</span></div>`;
+              return `<div class="ticket-subway-row">${bullets}<div class="subway-station-walk"><span class="subway-station-name">${s.name}</span><span class="subway-walk">${mins} walk</span></div></div>`;
             }).join('');
             return `<div class="ticket-subway" style="margin-top:8px;"><div class="ticket-subway-label">🚇 Nearest subway</div>${rows}</div>`;
           } catch(e) { return ''; }

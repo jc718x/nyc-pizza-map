@@ -6,7 +6,7 @@
 const BOROUGH_COLORS = {
   Brooklyn:        '#DC2225',
   Manhattan:       '#276E40',
-  Queens:          '#D9A441',
+  Queens:          '#FF6B00',
   Bronx:           '#8B3A62',
   'Staten Island': '#3C5A80'
 };
@@ -176,7 +176,7 @@ map.on('load', async () => {
           const bullets = lines.slice(0, 4).map(l =>
             `<span class="subway-bullet" style="background:${stationColor(l)};color:${l==='N'||l==='Q'||l==='R'||l==='W'?'#000':'#fff'}">${l}</span>`
           ).join('');
-          return `<div class="ticket-subway-row">${bullets}<span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins}</span></div>`;
+          return `<div class="ticket-subway-row">${bullets}<div class="subway-station-walk"><span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins} walk</span></div></div>`;
         }).join('');
       }
     } catch(e) { subwayHTML = ''; }
