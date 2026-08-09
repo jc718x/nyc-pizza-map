@@ -191,7 +191,7 @@ map.on('load', async () => {
         </div>
         <div class="ticket-body">
           <div class="ticket-meta">
-            <span class="style-badge" style="background:${col}">${escapeHTML(p.style)}</span>
+            <span class="style-badge">${escapeHTML(p.style)}</span>
             <span class="meta-pill">${p.price || '$'}</span>
             ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
             ${p.seating ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
@@ -252,7 +252,7 @@ map.on('load', async () => {
             <p class="ticket-address">${escapeHTML(p.address)}</p>
           </div>
           <div class="ticket-body">
-            <span class="style-badge" style="background:${col}">${escapeHTML(p.style)}</span>
+            <span class="style-badge">${escapeHTML(p.style)}</span>
             <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
             <div class="ticket-links">
               ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}

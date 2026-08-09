@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pizza Near NYC Attractions — NYC Pizza Map</title>
+<meta name="description" content="Find the best pizza near NYC landmarks — Brooklyn Bridge, Times Square, Central Park, and more." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .nearby-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: calc(var(--topbar-h) + 32px) 24px 80px;
+  }
+
+  .landmark-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 24px 0 36px;
+  }
+
+  .landmark-btn {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 12px 10px;
+    border-radius: 6px;
+    border: 1.5px solid rgba(36,26,16,0.15);
+    background: white;
+    color: var(--color-char);
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.3;
+    transition: all 0.12s ease;
+  }
+  .landmark-btn:hover { border-color: var(--color-sauce); color: var(--color-sauce); }
+  .landmark-btn.active {
+    background: var(--color-crust);
+    border-color: var(--color-crust);
+    color: white;
+  }
+  .landmark-emoji { display: block; font-size: 1.4rem; margin-bottom: 5px; }
+
+  .results-header {
+    font-family: var(--font-logo);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-crust);
+    margin: 0 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--color-sauce);
+  }
+
+  .nearby-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .nearby-entry {
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .nearby-top {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .nearby-walk {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-sauce);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .nearby-name {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-char);
+    text-decoration: none;
+  }
+  .nearby-name:hover { color: var(--color-sauce); }
+
+  .nearby-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .nearby-pill {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.07);
+    color: var(--color-char);
+  }
+
+  .nearby-pill.worth-trip {
+    background: #FFF3CD;
+    color: #856404;
+    font-weight: 700;
+  }
+
+  .nearby-blurb {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: rgba(36,26,16,0.72);
+    margin: 0;
+  }
+
+  .nearby-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .nearby-actions a {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-sauce);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .nearby-actions a:hover { border-bottom-color: var(--color-sauce); }
+
+  .no-landmark {
+    text-align: center;
+    padding: 60px 0;
+    color: rgba(36,26,16,0.4);
+    font-style: italic;
+  }
+
+  #resultsSection { display: none; }
+
+  @media (max-width: 560px) {
+    .landmark-grid { grid-template-columns: repeat(3, 1fr); }
+    .nearby-wrap { padding-left: 16px; padding-right: 16px; }
+  }
+</style>
+</head>
+<body class="content-page">
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-brand">
+    <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
+    <a href="index.html" style="text-decoration:none;"><span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span></a>
+  </div>
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
+    <a href="index.html">Map</a>
+    <a href="list.html">The List</a>
+    <div class="nav-dropdown" id="exploreDropdown">
+      <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
+      <div class="nav-dropdown-menu">
+        <a href="pizza-facts.html">Pizza Facts</a>
+        <a href="pizza-history.html">Pizza History</a>
+        <a href="nearby.html"  class="active">Near Attractions</a>
+      </div>
+    </div>
+    <a href="how-to-make-pizza.html">Make Pizza</a>
+    <a href="store.html">Store</a>
+    <a href="suggest.html">Suggest a Spot</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <a href="index.html">Map</a>
+  <a href="list.html">The List</a>
+  <a href="pizza-facts.html">Pizza Facts</a>
+  <a href="pizza-history.html">Pizza History</a>
+  <a href="nearby.html">Near Attractions</a>
+  <a href="how-to-make-pizza.html">Make Pizza</a>
+  <a href="store.html">Store</a>
+  <a href="suggest.html">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
+
+<main class="nearby-wrap">
+  <p class="page-kicker">Tourist guide</p>
+  <h2>Pizza Near Your Plans</h2>
+  <p>Heading somewhere in the city? Pick your destination and we'll show you the best pizza within walking distance.</p>
+
+  <div class="landmark-grid" id="landmarkGrid">
+    <button class="landmark-btn" data-landmark="times-square"><span class="landmark-emoji">🎭</span>Times Square</button>
+    <button class="landmark-btn" data-landmark="central-park"><span class="landmark-emoji">🌳</span>Central Park</button>
+    <button class="landmark-btn" data-landmark="brooklyn-bridge"><span class="landmark-emoji">🌉</span>Brooklyn Bridge</button>
+    <button class="landmark-btn" data-landmark="911-memorial"><span class="landmark-emoji">🕊️</span>9/11 Memorial</button>
+    <button class="landmark-btn" data-landmark="empire-state"><span class="landmark-emoji">🏙️</span>Empire State</button>
+    <button class="landmark-btn" data-landmark="yankee-stadium"><span class="landmark-emoji">⚾</span>Yankee Stadium</button>
+    <button class="landmark-btn" data-landmark="coney-island"><span class="landmark-emoji">🎡</span>Coney Island</button>
+    <button class="landmark-btn" data-landmark="williamsburg"><span class="landmark-emoji">🎨</span>Williamsburg</button>
+    <button class="landmark-btn" data-landmark="soho"><span class="landmark-emoji">🛍️</span>SoHo</button>
+    <button class="landmark-btn" data-landmark="greenwich-village"><span class="landmark-emoji">🎸</span>Greenwich Village</button>
+    <button class="landmark-btn" data-landmark="chinatown"><span class="landmark-emoji">🏮</span>Chinatown</button>
+    <button class="landmark-btn" data-landmark="dumbo"><span class="landmark-emoji">📸</span>DUMBO</button>
+    <button class="landmark-btn" data-landmark="met-museum"><span class="landmark-emoji">🏛️</span>Met Museum</button>
+    <button class="landmark-btn" data-landmark="amnh"><span class="landmark-emoji">🦕</span>Museum of Nat. History</button>
+  </div>
+
+  <div id="resultsSection">
+    <div class="results-header" id="resultsHeader"></div>
+    <div class="nearby-list" id="nearbyList"></div>
+  </div>
+</main>
+
+<script>
+// Landmark coordinates
+const LANDMARKS = {
+  'times-square':      { name: 'Times Square',                   lat: 40.7580, lng: -73.9855 },
+  'central-park':      { name: 'Central Park',                   lat: 40.7851, lng: -73.9683 },
+  'brooklyn-bridge':   { name: 'the Brooklyn Bridge',            lat: 40.7061, lng: -73.9969 },
+  '911-memorial':      { name: 'the 9/11 Memorial',              lat: 40.7115, lng: -74.0134 },
+  'empire-state':      { name: 'the Empire State Building',      lat: 40.7484, lng: -73.9857 },
+  'yankee-stadium':    { name: 'Yankee Stadium',                 lat: 40.8296, lng: -73.9262 },
+  'coney-island':      { name: 'Coney Island',                   lat: 40.5755, lng: -73.9707 },
+  'williamsburg':      { name: 'Williamsburg',                   lat: 40.7081, lng: -73.9571 },
+  'soho':              { name: 'SoHo',                           lat: 40.7233, lng: -74.0030 },
+  'greenwich-village': { name: 'Greenwich Village',              lat: 40.7335, lng: -74.0027 },
+  'chinatown':         { name: 'Chinatown',                      lat: 40.7158, lng: -73.9970 },
+  'dumbo':             { name: 'DUMBO',                          lat: 40.7033, lng: -73.9881 },
+  'met-museum':        { name: 'the Met Museum',                 lat: 40.7794, lng: -73.9632 },
+  'amnh':              { name: 'the Museum of Natural History',  lat: 40.7813, lng: -73.9740 },
+};
+
+const WORTH_A_TRIP = new Set([
+  "Lucali","Di Fara Pizza","L&B Spumoni Gardens – Gravesend",
+  "Grimaldi's","Juliana's","Totonno's","Joe's Pizza","Lombardi's",
+  "John's of Bleecker Street","Patsy's","Una Pizza Napoletana",
+  "Scarr's Pizza","Prince Street Pizza","Zero Otto Nove",
+  "Denino's","Lee's Tavern","New Park Pizza","Nick's Pizza"
+]);
+
+const BOROUGH_COLORS = {
+  Brooklyn:'#DC2225', Manhattan:'#276E40', Queens:'#D9A441',
+  Bronx:'#8B3A62', 'Staten Island':'#3C5A80'
+};
+
+function dist(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const dLat = (lat2-lat1)*Math.PI/180;
+  const dLng = (lng2-lng1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function walkMins(m) {
+  const mins = Math.round(m / 83);
+  return mins < 1 ? '< 1 min walk' : `${mins} min walk`;
+}
+
+let allPizzerias = [];
+
+fetch('data.json')
+  .then(r => r.json())
+  .then(geojson => { allPizzerias = geojson.features; });
+
+function showResults(landmarkKey) {
+  const lm = LANDMARKS[landmarkKey];
+  if (!lm || !allPizzerias.length) return;
+
+  // Find all pizzerias within 1.5km, sorted by distance
+  const nearby = allPizzerias
+    .map(f => ({
+      ...f.properties,
+      lat: f.geometry.coordinates[1],
+      lng: f.geometry.coordinates[0],
+      d: dist(lm.lat, lm.lng, f.geometry.coordinates[1], f.geometry.coordinates[0])
+    }))
+    .filter(p => p.d <= 1500)
+    .sort((a, b) => a.d - b.d)
+    .slice(0, 12);
+
+  const header = document.getElementById('resultsHeader');
+  const list   = document.getElementById('nearbyList');
+  const section = document.getElementById('resultsSection');
+
+  header.textContent = `Good pizza near ${lm.name.toUpperCase()}`;
+  list.innerHTML = '';
+
+  if (nearby.length === 0) {
+    list.innerHTML = '<p style="color:rgba(36,26,16,0.5); font-style:italic;">No pizzerias within walking distance of this location — but the city is full of great options a short subway ride away.</p>';
+  } else {
+    nearby.forEach(p => {
+      const col = BOROUGH_COLORS[p.borough] || '#DC2225';
+      const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
+      const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
+      const isWorth = WORTH_A_TRIP.has(p.name);
+
+      const entry = document.createElement('div');
+      entry.className = 'nearby-entry';
+      entry.innerHTML = `
+        <div class="nearby-top">
+          <span class="nearby-walk">🚶 ${walkMins(p.d)}</span>
+          <a class="nearby-name" href="${mapUrl}">${p.name}</a>
+        </div>
+        <div class="nearby-pills">
+          <span class="nearby-pill" style="background:var(--color-crust);color:#fff">${p.style}</span>
+          ${p.seating ? `<span class="nearby-pill">${p.seating}</span>` : ''}
+          ${p.price ? `<span class="nearby-pill">${p.price}</span>` : ''}
+          ${p.slices ? `<span class="nearby-pill">Slices ✓</span>` : `<span class="nearby-pill">Whole pies</span>`}
+          ${isWorth ? `<span class="nearby-pill worth-trip">⭐ Worth a special trip</span>` : ''}
+        </div>
+        <p class="nearby-blurb">${p.blurb}</p>
+        <div class="nearby-actions">
+          <a href="${directionsUrl}" target="_blank" rel="noopener">Get directions</a>
+          <a href="${mapUrl}">Show on map</a>
+          ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener">Website</a>` : ''}
+        </div>`;
+      list.appendChild(entry);
+    });
+  }
+
+  section.style.display = 'block';
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.getElementById('landmarkGrid').addEventListener('click', e => {
+  const btn = e.target.closest('.landmark-btn');
+  if (!btn) return;
+  document.querySelectorAll('.landmark-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  showResults(btn.dataset.landmark);
+});
+</script>
+<script src="nav.js"></script>
+</body>
+</html>

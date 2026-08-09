@@ -233,12 +233,13 @@
   </div>
     <nav class="topbar-nav" id="siteNav" aria-label="Site">
     <a href="index.html">Map</a>
+    <a href="list.html" class="active">The List</a>
     <div class="nav-dropdown" id="exploreDropdown">
       <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
       <div class="nav-dropdown-menu">
-        <a href="list.html" class="active">Pizzeria List</a>
         <a href="pizza-facts.html">Pizza Facts</a>
         <a href="pizza-history.html">Pizza History</a>
+        <a href="nearby.html">Near Attractions</a>
       </div>
     </div>
     <a href="how-to-make-pizza.html">Make Pizza</a>
@@ -250,9 +251,10 @@
 
 <div class="mobile-nav-drawer" id="mobileNav" hidden>
   <a href="index.html">Map</a>
-  <a href="list.html">Pizzeria List</a>
+  <a href="list.html">The List</a>
   <a href="pizza-facts.html">Pizza Facts</a>
   <a href="pizza-history.html">Pizza History</a>
+  <a href="nearby.html">Near Attractions</a>
   <a href="how-to-make-pizza.html">Make Pizza</a>
   <a href="store.html">Store</a>
   <a href="suggest.html">Suggest a Spot</a>
@@ -325,7 +327,13 @@ function buildList(features) {
       <div class="entry-body">
         <div class="entry-top">
           <a class="entry-name" href="${mapUrl}">${p.name}</a>
-          <span class="entry-style" style="background:${col}">${p.style}</span>
+          <span class="entry-style">${p.style}</span>
+        </div>
+        <div class="entry-pills">
+          ${p.price ? `<span class="meta-pill">${p.price}</span>` : ''}
+          ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies</span>`}
+          ${p.seating ? `<span class="meta-pill">${p.seating}</span>` : ''}
+          ${p.worth_a_trip ? `<span class="meta-pill" style="background:#FFF3CD;color:#856404;font-weight:700">⭐ Worth a special trip</span>` : ''}
         </div>
         <p class="entry-address">${p.address}</p>
         <p class="entry-blurb">${p.blurb}</p>
@@ -446,7 +454,7 @@ document.getElementById('nearMeListBtn').addEventListener('click', function() {
     this.textContent = '📍 Near Me';
     this.disabled = false;
     alert('Could not get your location. Please allow location access in your browser settings.');
-  }, { timeout: 10000 });
+  }, { timeout: 10000, maximumAge: 300000 });
 });
 </script>
 </body>

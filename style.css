@@ -402,6 +402,22 @@ body.map-page {
   padding: 3px 8px;
   border-radius: 20px;
   color: #fff;
+  background: var(--color-crust);
+}
+
+/* List page uses entry-style class instead */
+.entry-style {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  color: #fff;
+  background: var(--color-crust);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .meta-pill {
@@ -886,4 +902,12 @@ button:focus-visible {
   font-weight: 600;
   white-space: nowrap;
   margin-left: 6px;
+}
+
+/* ===== List entry pills ===== */
+.entry-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 4px 0 6px;
 }
