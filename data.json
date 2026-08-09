@@ -3564,6 +3564,556 @@
         "seating": "Indoor",
         "worth_a_trip": false
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95290293933385,
+          40.77863064146896
+        ]
+      },
+      "properties": {
+        "name": "Mimi's Pizza (3rd Ave & 86th)",
+        "address": "217 East 86th St, New York, NY 10028",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "An Upper East Side slice shop on 86th Street serving the neighborhood with classic NY-style pies. A reliable go-to on one of the UES's busiest commercial corridors.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95982450880139,
+          40.767309695152136
+        ]
+      },
+      "properties": {
+        "name": "Frico on 2nd",
+        "address": "1319 2nd Ave, New York, NY 10021",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "An Upper East Side 2nd Avenue slice counter serving the neighborhood with straightforward NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97797472970069,
+          40.764903669405776
+        ]
+      },
+      "properties": {
+        "name": "Angelo's Coal Oven Pizzeria",
+        "address": "117 W 57th St, New York, NY 10019",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Midtown coal-fired pizzeria near Carnegie Hall, bringing old-school coal-oven pies to one of the city's busiest cultural corridors.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98452394827558,
+          40.761464277421815
+        ]
+      },
+      "properties": {
+        "name": "See No Evil Pizza",
+        "address": "210 W 50th St, New York, NY 10019",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Hell's Kitchen basement-level slice shop near Rockefeller Center, serving classic NY-style pies to the theater district crowd.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95435278120105,
+          40.76687975291914
+        ]
+      },
+      "properties": {
+        "name": "York Ave Pizza",
+        "address": "434 E 72nd St, New York, NY 10021",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "An Upper East Side neighborhood slice shop near York Avenue, serving the residential far east side with reliable classic pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96292016761666,
+          40.75870909611246
+        ]
+      },
+      "properties": {
+        "name": "Brooklyn Pizza Masters",
+        "address": "1055 1st Ave, New York, NY 10022",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Midtown East slice shop bringing Brooklyn-style pies to the neighborhood near Sutton Place.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98039210125361,
+          40.780052810422646
+        ]
+      },
+      "properties": {
+        "name": "Freddie & Pepper's",
+        "address": "303 Amsterdam Ave, New York, NY 10023",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "An Upper West Side neighborhood pizzeria on Amsterdam Avenue known for its Buffalo chicken pizza alongside classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99021536602577,
+          40.74616096839991
+        ]
+      },
+      "properties": {
+        "name": "Andiamo Pizza",
+        "address": "818 6th Ave, New York, NY 10001",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Flatiron / Chelsea slice shop on 6th Avenue serving the Midtown South lunch crowd with reliable classic pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98869112016355,
+          40.748166051541205
+        ]
+      },
+      "properties": {
+        "name": "Quality Pizza Co.",
+        "address": "888 6th Ave, New York, NY 10001",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Chelsea slice shop near Herald Square serving classic NY-style pizza to the Midtown South office crowd.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00758154506771,
+          40.7075604941677
+        ]
+      },
+      "properties": {
+        "name": "Traditas Pizza – Maiden Ln",
+        "address": "83 Maiden Ln, New York, NY 10038",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Financial District slice shop near the South Street Seaport, serving classic NY-style pies to the FiDi lunch crowd.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98896521652152,
+          40.74502495156665
+        ]
+      },
+      "properties": {
+        "name": "Traditas Pizza – Broadway",
+        "address": "1165 Broadway, New York, NY 10001",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The NoMad location of Traditas Pizza, bringing the same classic NY-style slices to the Broadway corridor near Madison Square Park.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98638002945675,
+          40.75122344726658
+        ]
+      },
+      "properties": {
+        "name": "Roma Pizza & Restaurant",
+        "address": "980 6th Ave, New York, NY 10018",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Garment District slice shop and full-service restaurant near Bryant Park, serving classic NY pies alongside a broader Italian-American menu.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98142390629964,
+          40.74452563162479
+        ]
+      },
+      "properties": {
+        "name": "Vezzo NYC Thin Crust Pizza",
+        "address": "178 Lexington Ave, New York, NY 10016",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Murray Hill thin-crust pizzeria on Lexington Avenue, known for its wood-fired pies with a notably thin, crispy crust.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99527347179308,
+          40.75019083520035
+        ]
+      },
+      "properties": {
+        "name": "NY Pizza Suprema",
+        "address": "413 8th Ave, New York, NY 10001",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Penn Station-area institution that's fed generations of commuters and Madison Square Garden fans. A reliable, well-loved slice right by the busiest transit hub in the country.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97589997327925,
+          40.748463956161565
+        ]
+      },
+      "properties": {
+        "name": "Spoto Pizza & Gelato",
+        "address": "587 3rd Ave, New York, NY 10016",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Murray Hill slice shop and gelato counter on 3rd Avenue, serving classic NY-style pies with dessert built right in.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98541388069,
+          40.75274400932153
+        ]
+      },
+      "properties": {
+        "name": "Napoli Pizza",
+        "address": "1032 6th Ave, New York, NY 10018",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Garment District Neapolitan spot near Bryant Park, bringing wood-fired pies to a stretch of Manhattan dominated by quick-service lunch spots.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98193690397007,
+          40.75126742156883
+        ]
+      },
+      "properties": {
+        "name": "The Original Little Italy",
+        "address": "2 East 39th Street, New York, NY 10016",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Murray Hill / NoMad pizzeria near 5th Avenue evoking old-school Little Italy in its name and menu, serving classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97996316936778,
+          40.743533203420704
+        ]
+      },
+      "properties": {
+        "name": "Norma",
+        "address": "438 3rd Ave, New York, NY 10016",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Murray Hill Neapolitan spot on 3rd Avenue, bringing a more modern wood-fired approach to the neighborhood.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96950428085722,
+          40.75836336986467
+        ]
+      },
+      "properties": {
+        "name": "Stretch Pizza",
+        "address": "601 Lexington Ave, New York, NY 10022",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Midtown East slice shop near Bloomingdale's, serving classic NY-style pies with an eye toward the after-work crowd.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99063243353592,
+          40.69117938667573
+        ]
+      },
+      "properties": {
+        "name": "Piz-zetta Pizzeria",
+        "address": "90 Livingston St, Brooklyn, NY 11201",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Downtown Brooklyn slice shop near Borough Hall, serving the courthouse and office crowd with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97265808438564,
+          40.67717747015262
+        ]
+      },
+      "properties": {
+        "name": "Antonio's Pizza",
+        "address": "318 Flatbush Ave, Brooklyn, NY 11238",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Prospect Heights slice shop on Flatbush Avenue near the Barclays Center corridor, serving the neighborhood with reliable classic pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9799594188878,
+          40.677619572995894
+        ]
+      },
+      "properties": {
+        "name": "L'Arte della Pizza",
+        "address": "172 5th Ave, Brooklyn, NY 11217",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Park Slope Neapolitan spot on 5th Avenue, bringing thoughtfully made wood-fired pies to one of Brooklyn's most competitive pizza neighborhoods.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00280902351135,
+          40.73034368346257
+        ]
+      },
+      "properties": {
+        "name": "Numero 28 Pizzeria – Carmine St",
+        "address": "28 Carmine St, New York, NY 10014",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A West Village Neapolitan spot on Carmine Street bringing wood-fired pies to one of Manhattan's most charming and competitive pizza blocks.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97633214449839,
+          40.67281781297434
+        ]
+      },
+      "properties": {
+        "name": "Numero 28 Pizzeria – Park Slope",
+        "address": "137 7th Ave, Brooklyn, NY 11215",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "The Park Slope location of Numero 28, bringing the same wood-fired Neapolitan pies to 7th Avenue.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.03159191325425,
+          40.61553924157368
+        ]
+      },
+      "properties": {
+        "name": "APIZZA – Bay Ridge",
+        "address": "9524 4th Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Bay Ridge Neapolitan spot on 4th Avenue at the southern end of Brooklyn, bringing wood-fired pies to a neighborhood dominated by classic slice shops.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
     }
   ]
 }
