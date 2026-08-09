@@ -175,18 +175,20 @@ function landmarksVisible() {
   return map.getZoom() >= LANDMARK_LABEL_ZOOM;
 }
 
-// ===== Proximity detection for label direction =====
+// ===== Proximity detection for label side =====
 // For each feature, check if any other feature is within ~400m.
-// Greedily assigns each pin one of 8 directions (E, NE, N, NW, W, SW, S, SE)
-// for its label, picking whichever direction has the least weighted
-// conflict from already-placed nearby neighbors. Distance-weighted so
-// extremely close pairs (e.g. 30m apart) get prioritized for separation
-// over pairs that are merely within range (e.g. 300m apart).
-// Returns an array of direction strings, one per feature index.
+// Greedily assigns each pin a side (left/right) for its label, picking
+// whichever side has the least weighted conflict from already-placed
+// nearby neighbors. Distance-weighted so extremely close pairs (e.g.
+// 30m apart) get prioritized for separation over pairs that are merely
+// within range (e.g. 300m apart). With 3+ pins mutually within range of
+// each other, some overlap is mathematically unavoidable with only two
+// sides — this minimizes it rather than eliminating it entirely.
+// Returns an array of 'E'/'W' strings, one per feature index.
 function computeLabelDirections(features) {
   const R = 6371000; // Earth radius in metres
   const THRESHOLD = 400; // metres — roughly 4–5 blocks
-  const DIRECTIONS = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'];
+  const DIRECTIONS = ['E', 'W'];
 
   function dist(a, b) {
     const [lng1, lat1] = a.geometry.coordinates;

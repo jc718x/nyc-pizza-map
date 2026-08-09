@@ -357,23 +357,13 @@ body.map-page {
   padding: 3px 7px;
 }
 
-/* 8-direction placement — label offset from the pin's anchor point.
-   Axis-aligned directions get an 18px gap, diagonals get 12px
-   (since diagonal offset covers both axes, less gap looks balanced). */
-.pin-label.dir-e  { transform: translate(18px, -50%); }
-.pin-label.dir-w  { transform: translate(calc(-100% - 18px), -50%); }
-.pin-label.dir-n  { transform: translate(-50%, calc(-100% - 18px)); }
-.pin-label.dir-s  { transform: translate(-50%, 18px); }
-.pin-label.dir-ne { transform: translate(12px, calc(-100% - 12px)); }
-.pin-label.dir-nw { transform: translate(calc(-100% - 12px), calc(-100% - 12px)); }
-.pin-label.dir-se { transform: translate(12px, 12px); }
-.pin-label.dir-sw { transform: translate(calc(-100% - 12px), 12px); }
+/* Label placement — left or right of the pin's anchor point */
+.pin-label.dir-e { transform: translate(18px, -50%); }
+.pin-label.dir-w { transform: translate(calc(-100% - 18px), -50%); }
 
-/* When the pin sits to the label's right (W-ish directions), flip the
-   accent bar to the right edge so it still visually points at the pin */
-.pin-label.dir-w,
-.pin-label.dir-nw,
-.pin-label.dir-sw {
+/* When the label is to the LEFT of the pin, flip the accent bar to the
+   right edge so it still visually points back at the pin */
+.pin-label.dir-w {
   flex-direction: row-reverse;
 }
 
