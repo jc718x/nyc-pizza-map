@@ -227,6 +227,8 @@ html, body {
   box-shadow: 0 4px 12px rgba(29, 20, 12, 0.15);
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - var(--topbar-h));
+  overflow-y: auto;
 }
 .mobile-nav-drawer[hidden] { display: none; }
 
@@ -237,12 +239,39 @@ html, body {
   letter-spacing: 0.04em;
   color: var(--color-char);
   text-decoration: none;
-  padding: 14px 20px;
+  padding: 12px 20px;
   border-bottom: 1px solid rgba(36, 26, 16, 0.08);
 }
-.mobile-nav-drawer a:last-child { border-bottom: none; }
 .mobile-nav-drawer a:hover,
 .mobile-nav-drawer a.active { color: var(--color-sauce); }
+
+/* Section headers — not clickable, just group labels */
+.mobile-nav-heading {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-crust);
+  background: rgba(39, 110, 64, 0.08);
+  padding: 8px 20px 6px;
+  margin-top: 4px;
+}
+.mobile-nav-drawer > a:first-of-type,
+.mobile-nav-heading:first-child {
+  margin-top: 0;
+}
+
+/* The three primary actions get slightly larger, bolder type */
+.mobile-nav-drawer a.primary {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.mobile-nav-divider {
+  border-top: 1px dashed rgba(36, 26, 16, 0.15);
+  margin: 4px 0 0;
+}
 
 /* ===== Map page ===== */
 body.map-page {
