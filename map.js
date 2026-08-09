@@ -289,7 +289,6 @@ map.on('load', async () => {
   });
 
   // ===== Landmark star markers =====
-  const landmarkLabels = [];
   LANDMARKS.forEach(lm => {
     const wrap = document.createElement('div');
     wrap.className = 'landmark-marker-wrap';
@@ -301,8 +300,6 @@ map.on('load', async () => {
     const label = document.createElement('div');
     label.className = 'landmark-label';
     label.textContent = lm.name;
-    label.style.opacity = labelsVisible() ? '1' : '0';
-    landmarkLabels.push(label);
 
     wrap.appendChild(pin);
     wrap.appendChild(label);
@@ -321,7 +318,6 @@ map.on('load', async () => {
   function updateLabels() {
     const show = labelsVisible();
     labels.forEach(l => l.style.opacity = show ? '1' : '0');
-    landmarkLabels.forEach(l => l.style.opacity = show ? '1' : '0');
   }
   map.on('zoomend', updateLabels);
 

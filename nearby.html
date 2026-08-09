@@ -17,35 +17,56 @@
     padding: calc(var(--topbar-h) + 32px) 24px 80px;
   }
 
-  .landmark-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-    margin: 24px 0 36px;
+  .nearby-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1.5px solid rgba(36,26,16,0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 20px 0 12px;
+    font-size: 0.85rem;
+    color: var(--color-char);
+  }
+  .nearby-search input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    color: var(--color-char);
+  }
+  .nearby-search input::placeholder { color: rgba(36,26,16,0.4); }
+
+  .landmark-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 32px;
   }
 
-  .landmark-btn {
+  .landmark-chip {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 12px 10px;
-    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 6px 13px;
+    border-radius: 20px;
     border: 1.5px solid rgba(36,26,16,0.15);
     background: white;
     color: var(--color-char);
     cursor: pointer;
-    text-align: center;
-    line-height: 1.3;
+    white-space: nowrap;
     transition: all 0.12s ease;
   }
-  .landmark-btn:hover { border-color: var(--color-sauce); color: var(--color-sauce); }
-  .landmark-btn.active {
-    background: var(--color-crust);
-    border-color: var(--color-crust);
+  .landmark-chip:hover { border-color: var(--color-sauce); color: var(--color-sauce); }
+  .landmark-chip.active {
+    background: var(--color-sauce);
+    border-color: var(--color-sauce);
     color: white;
   }
-  .landmark-emoji { display: block; font-size: 1.4rem; margin-bottom: 5px; }
+  .landmark-chip.hidden { display: none; }
 
   .results-header {
     font-family: var(--font-logo);
@@ -158,7 +179,6 @@
   #resultsSection { display: none; }
 
   @media (max-width: 560px) {
-    .landmark-grid { grid-template-columns: repeat(3, 1fr); }
     .nearby-wrap { padding-left: 16px; padding-right: 16px; }
   }
 </style>
@@ -208,20 +228,24 @@
   <h2>Pizza Near Your Plans</h2>
   <p>Heading somewhere in the city? Pick your destination and we'll show you the best pizza within walking distance.</p>
 
-  <div class="landmark-grid" id="landmarkGrid">
-    <button class="landmark-btn" data-landmark="times-square"><span class="landmark-emoji">🎭</span>Times Square</button>
-    <button class="landmark-btn" data-landmark="central-park"><span class="landmark-emoji">🌳</span>Central Park</button>
-    <button class="landmark-btn" data-landmark="brooklyn-bridge"><span class="landmark-emoji">🌉</span>Brooklyn Bridge</button>
-    <button class="landmark-btn" data-landmark="911-memorial"><span class="landmark-emoji">🕊️</span>9/11 Memorial</button>
-    <button class="landmark-btn" data-landmark="empire-state"><span class="landmark-emoji">🏙️</span>Empire State</button>
-    <button class="landmark-btn" data-landmark="coney-island"><span class="landmark-emoji">🎡</span>Coney Island</button>
-    <button class="landmark-btn" data-landmark="williamsburg"><span class="landmark-emoji">🎨</span>Williamsburg</button>
-    <button class="landmark-btn" data-landmark="soho"><span class="landmark-emoji">🛍️</span>SoHo</button>
-    <button class="landmark-btn" data-landmark="greenwich-village"><span class="landmark-emoji">🎸</span>Greenwich Village</button>
-    <button class="landmark-btn" data-landmark="chinatown"><span class="landmark-emoji">🏮</span>Chinatown</button>
-    <button class="landmark-btn" data-landmark="dumbo"><span class="landmark-emoji">📸</span>DUMBO</button>
-    <button class="landmark-btn" data-landmark="met-museum"><span class="landmark-emoji">🏛️</span>Met Museum</button>
-    <button class="landmark-btn" data-landmark="amnh"><span class="landmark-emoji">🦕</span>Museum of Nat. History</button>
+  <div class="nearby-search">
+    <span>🔍</span>
+    <input type="text" id="landmarkSearch" placeholder="Search a landmark or neighborhood…" />
+  </div>
+
+  <div class="landmark-chips" id="landmarkChips">
+    <button class="landmark-chip" data-landmark="brooklyn-bridge">Brooklyn Bridge</button>
+    <button class="landmark-chip" data-landmark="times-square">Times Square</button>
+    <button class="landmark-chip" data-landmark="central-park">Central Park</button>
+    <button class="landmark-chip" data-landmark="coney-island">Coney Island</button>
+    <button class="landmark-chip" data-landmark="prospect-park">Prospect Park</button>
+    <button class="landmark-chip" data-landmark="west-village">West Village</button>
+    <button class="landmark-chip" data-landmark="empire-state">Empire State</button>
+    <button class="landmark-chip" data-landmark="chinatown">Chinatown</button>
+    <button class="landmark-chip" data-landmark="911-memorial">9/11 Memorial</button>
+    <button class="landmark-chip" data-landmark="williamsburg">Williamsburg</button>
+    <button class="landmark-chip" data-landmark="met-museum">Met Museum</button>
+    <button class="landmark-chip" data-landmark="amnh">Museum of Nat. History</button>
   </div>
 
   <div id="resultsSection">
@@ -233,20 +257,18 @@
 <script>
 // Landmark coordinates
 const LANDMARKS = {
-  'times-square':      { name: 'Times Square',                   lat: 40.7580, lng: -73.9855 },
-  'central-park':      { name: 'Central Park',                   lat: 40.7851, lng: -73.9683 },
-  'brooklyn-bridge':   { name: 'the Brooklyn Bridge',            lat: 40.7061, lng: -73.9969 },
-  '911-memorial':      { name: 'the 9/11 Memorial',              lat: 40.7115, lng: -74.0134 },
-  'empire-state':      { name: 'the Empire State Building',      lat: 40.7484, lng: -73.9857 },
-  'yankee-stadium':    { name: 'Yankee Stadium',                 lat: 40.8296, lng: -73.9262 },
-  'coney-island':      { name: 'Coney Island',                   lat: 40.5755, lng: -73.9707 },
-  'williamsburg':      { name: 'Williamsburg',                   lat: 40.7081, lng: -73.9571 },
-  'soho':              { name: 'SoHo',                           lat: 40.7233, lng: -74.0030 },
-  'greenwich-village': { name: 'Greenwich Village',              lat: 40.7335, lng: -74.0027 },
-  'chinatown':         { name: 'Chinatown',                      lat: 40.7158, lng: -73.9970 },
-  'dumbo':             { name: 'DUMBO',                          lat: 40.7033, lng: -73.9881 },
-  'met-museum':        { name: 'the Met Museum',                 lat: 40.7794, lng: -73.9632 },
-  'amnh':              { name: 'the Museum of Natural History',  lat: 40.7813, lng: -73.9740 },
+  'times-square':        { name: 'Times Square',                   lat: 40.7580, lng: -73.9855 },
+  'central-park':        { name: 'Central Park',                   lat: 40.7851, lng: -73.9683 },
+  'brooklyn-bridge':     { name: 'the Brooklyn Bridge',            lat: 40.7061, lng: -73.9969 },
+  '911-memorial':        { name: 'the 9/11 Memorial',              lat: 40.7115, lng: -74.0134 },
+  'empire-state':        { name: 'the Empire State Building',      lat: 40.7484, lng: -73.9857 },
+  'coney-island':        { name: 'Coney Island',                   lat: 40.5755, lng: -73.9707 },
+  'prospect-park':       { name: 'Prospect Park',                  lat: 40.6602, lng: -73.9690 },
+  'williamsburg':        { name: 'Williamsburg',                   lat: 40.7081, lng: -73.9571 },
+  'west-village':        { name: 'the West Village',               lat: 40.7343, lng: -74.0059 },
+  'chinatown':           { name: 'Chinatown',                      lat: 40.7158, lng: -73.9970 },
+  'met-museum':          { name: 'the Met Museum',                 lat: 40.7794, lng: -73.9632 },
+  'amnh':                { name: 'the Museum of Natural History',  lat: 40.7813, lng: -73.9740 },
 };
 
 const WORTH_A_TRIP = new Set([
@@ -285,7 +307,7 @@ function showResults(landmarkKey) {
   const lm = LANDMARKS[landmarkKey];
   if (!lm || !allPizzerias.length) return;
 
-  // Find all pizzerias within 1.5km (3km for Worth a Special Trip spots), sorted by distance
+  // Find pizzerias within 1.5km (3km for Worth a Special Trip spots), sorted by distance
   const nearby = allPizzerias
     .map(f => ({
       ...f.properties,
@@ -341,12 +363,21 @@ function showResults(landmarkKey) {
   section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-document.getElementById('landmarkGrid').addEventListener('click', e => {
-  const btn = e.target.closest('.landmark-btn');
-  if (!btn) return;
-  document.querySelectorAll('.landmark-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  showResults(btn.dataset.landmark);
+document.getElementById('landmarkChips').addEventListener('click', e => {
+  const chip = e.target.closest('.landmark-chip');
+  if (!chip) return;
+  document.querySelectorAll('.landmark-chip').forEach(b => b.classList.remove('active'));
+  chip.classList.add('active');
+  showResults(chip.dataset.landmark);
+});
+
+// Live search filter over the chip list
+document.getElementById('landmarkSearch').addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll('.landmark-chip').forEach(chip => {
+    const match = chip.textContent.toLowerCase().includes(q);
+    chip.classList.toggle('hidden', !match);
+  });
 });
 </script>
 <script src="nav.js"></script>

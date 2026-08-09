@@ -947,34 +947,48 @@ button:focus-visible {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   cursor: pointer;
 }
 .landmark-pin {
-  width: 30px;
-  height: 30px;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
-  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4));
-  transition: transform 0.12s ease;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.35));
+  transition: transform 0.12s ease, width 0.15s ease, height 0.15s ease;
+  opacity: 0.88;
 }
 .landmark-pin svg {
   width: 100%;
   height: 100%;
   display: block;
 }
+
+/* Zoom-responsive sizing — stays visibly smaller than pizza pins at every tier */
+.zoom-far .landmark-pin    { width: 12px; height: 12px; }
+.zoom-mid .landmark-pin     { width: 15px; height: 15px; }
+.zoom-close .landmark-pin   { width: 18px; height: 18px; }
+.zoom-closer .landmark-pin  { width: 22px; height: 22px; }
+
 .landmark-marker-wrap:hover .landmark-pin {
-  transform: scale(1.15);
+  transform: scale(1.25);
+  opacity: 1;
 }
 .landmark-label {
   background: #241A10;
   color: white;
   font-family: 'Work Sans', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   white-space: nowrap;
   padding: 3px 8px;
   border-radius: 3px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.25);
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+/* Label only appears on hover — keeps the map quiet by default */
+.landmark-marker-wrap:hover .landmark-label {
+  opacity: 1 !important;
 }
