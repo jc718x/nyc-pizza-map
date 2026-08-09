@@ -337,7 +337,7 @@ map.on('load', async () => {
         </div>
       </div>`;
 
-    map.setCenter([lng, lat]);
+    map.flyTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 15.5), duration: 900 });
     setTimeout(() => {
       if (activePopup) activePopup.remove();
       activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '290px', offset: [20, -22] })
@@ -345,7 +345,7 @@ map.on('load', async () => {
         .setHTML(html)
         .addTo(map);
       activePopup.on('close', () => { activePopup = null; });
-    }, 500);
+    }, 950);
   }
 
   // Expose for landmark popups (and inline onclick handlers) to call without a page reload
