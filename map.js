@@ -44,15 +44,11 @@ map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom
 
 // ===== Pizza slice icon SVG (flat, 40x44px) =====
 function sliceSVG(color) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="35" viewBox="0 0 100 110">
-    <path d="M8 22 Q50 0 92 22 L88 36 Q50 16 12 36 Z" fill="${color}"/>
-    <path d="M12 36 Q50 18 88 36 L86 42 Q50 24 14 42 Z" fill="white"/>
-    <path d="M14 42 Q50 26 86 42 L50 108 Z" fill="${color}"/>
-    <circle cx="50" cy="62" r="10" fill="white" opacity="0.9"/>
-    <circle cx="32" cy="75" r="7"  fill="white" opacity="0.85"/>
-    <circle cx="68" cy="72" r="7"  fill="white" opacity="0.85"/>
-    <circle cx="44" cy="88" r="5.5" fill="white" opacity="0.8"/>
-    <circle cx="62" cy="91" r="4.5" fill="white" opacity="0.8"/>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
+    <circle cx="50" cy="46" r="42" fill="${color}" stroke="white" stroke-width="3.5"/>
+    <path d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="white"/>
+    <circle cx="41" cy="38" r="3.6" fill="${color}"/>
+    <circle cx="50" cy="50" r="3.6" fill="${color}"/>
   </svg>`;
 }
 
