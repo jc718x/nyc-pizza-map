@@ -336,13 +336,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.99931929637762,
-          40.65599960493793
+          -73.99929291321222,
+          40.655949298242035
         ]
       },
       "properties": {
         "name": "The Astarita",
-        "address": "442 Court St, Brooklyn, NY 11231",
+        "address": "797 5th Ave, Brooklyn, NY 11232",
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Carroll Gardens counter serving old-school NY slices in a no-frills setting. One of those neighborhood joints that's never made a list but has been quietly feeding the same block for years.",
@@ -380,13 +380,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.99819529159188,
-          40.677460194605565
+          -73.99818062563762,
+          40.67733287357845
         ]
       },
       "properties": {
         "name": "F&F Pizzeria",
-        "address": "387 Court St, Brooklyn, NY 11231",
+        "address": "459 Court St, Brooklyn, NY 11231",
         "borough": "Brooklyn",
         "style": "Sicilian",
         "blurb": "A Carroll Gardens square-slice spot with a loyal local following — reliable, well-charred Sicilian squares from a no-frills counter that rarely makes headlines but always delivers.",
@@ -424,13 +424,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.91621667256075,
-          40.699994415670446
+          -73.91630182343458,
+          40.69985144889329
         ]
       },
       "properties": {
         "name": "Lucky Charlie",
-        "address": "316 Himrod St, Brooklyn, NY 11237",
+        "address": "254 Irving Ave, Brooklyn, NY 11237",
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bushwick slice shop that's earned a neighborhood following for its straightforward NY-style slices in an area otherwise better known for sourdough and natural-wine pies.",
@@ -644,13 +644,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.00376866989883,
-          40.721521140957265
+          -74.00441239841822,
+          40.72142981395128
         ]
       },
       "properties": {
         "name": "Lucia Pizza of SoHo",
-        "address": "67 Mercer St, New York, NY 10012",
+        "address": "375 Canal St, New York, NY 10013",
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A SoHo slice window turning out a consistently excellent classic slice — understated compared to trendier neighbors, but a reliable go-to for anyone in the area.",
@@ -666,13 +666,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.0044574921688,
-          40.733417487287475
+          -74.00491244925573,
+          40.73323858787817
         ]
       },
       "properties": {
         "name": "L'Industrie West Village",
-        "address": "253 W 11th St, New York, NY 10014",
+        "address": "104 Christopher St, New York, NY 10014",
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The Manhattan sibling of the Williamsburg original, bringing the same burrata-topped slice to the West Village. Same lines, same quality, slightly easier to reach from Midtown.",
@@ -798,13 +798,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.14659707912453,
-          40.54177251493504
+          -74.14683549007817,
+          40.54164984531633
         ]
       },
       "properties": {
         "name": "Goodfella's",
-        "address": "1718 Hylan Blvd, Staten Island, NY 10305",
+        "address": "4029 Hylan Blvd, Staten Island, NY 10308",
         "borough": "Staten Island",
         "style": "Neapolitan",
         "blurb": "A brick-oven Staten Island staple best known for its vodka pie — rich, creamy, and consistently well-executed. One of the borough's most recommended spots for anyone visiting from outside.",
@@ -820,8 +820,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.91434899828192,
-          40.76356807268224
+          -73.91513295552986,
+          40.76339307004519
         ]
       },
       "properties": {
@@ -864,8 +864,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.83984593265635,
-          40.66291781699964
+          -73.84039448415801,
+          40.66275130245694
         ]
       },
       "properties": {
@@ -952,8 +952,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.86319831329051,
-          40.864595106224016
+          -73.88847396752516,
+          40.854784027928595
         ]
       },
       "properties": {
@@ -1018,8 +1018,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.84993730132442,
-          40.84963447884186
+          -73.85330016354757,
+          40.849131730613976
         ]
       },
       "properties": {
@@ -1040,8 +1040,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.83824840601139,
-          40.7193686384243
+          -73.8404788534282,
+          40.71798273839205
         ]
       },
       "properties": {
@@ -1106,8 +1106,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9044,
-          40.7002
+          -73.90016024093791,
+          40.71218817600585
         ]
       },
       "properties": {
@@ -1282,8 +1282,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.9589879778537,
-          40.714761543714026
+          -73.96181107878695,
+          40.71350085447218
         ]
       },
       "properties": {
@@ -1304,13 +1304,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.94549594061348,
-          40.72527188783827
+          -73.94637943853813,
+          40.7251318210594
         ]
       },
       "properties": {
         "name": "Diamond Slice",
-        "address": "220 Greenpoint Ave, Brooklyn, NY 11222",
+        "address": "70 Diamond St, Brooklyn, NY 11222",
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Greenpoint slice counter with a following for its large, well-sauced NY slices. Exactly what the name suggests — a reliable diamond in a neighborhood that keeps getting more expensive around it.",
@@ -1392,13 +1392,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.98737896944824,
-          40.72879021843837
+          -73.98817309831404,
+          40.72865700779047
         ]
       },
       "properties": {
         "name": "Cello's Pizzeria",
-        "address": "154 E 2nd St, New York, NY 10009",
+        "address": "36 St Marks Pl, New York, NY 10003",
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A Lower East Side slice counter with a neighborhood following for its classic NY slices at a price point that's increasingly hard to find downtown. No frills, consistent, and reliably good.",
@@ -1590,8 +1590,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.182,
-          40.5199
+          -74.23308782408179,
+          40.516830099827516
         ]
       },
       "properties": {
@@ -1634,8 +1634,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.11857605512468,
-          40.556716577033086
+          -74.15119321792635,
+          40.551119902708
         ]
       },
       "properties": {
@@ -1656,8 +1656,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.99242199287164,
-          40.72323686494557
+          -73.99631864861371,
+          40.72207162210566
         ]
       },
       "properties": {
@@ -1678,8 +1678,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.94804753123222,
-          40.7251232443131
+          -73.95075711922851,
+          40.7242352329343
         ]
       },
       "properties": {
@@ -1700,13 +1700,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.96186626824004,
-          40.80599207058759
+          -73.98863219893737,
+          40.747004348905904
         ]
       },
       "properties": {
         "name": "Upside Pizza – Broadway",
-        "address": "2878 Broadway, New York, NY 10025",
+        "address": "1231 Broadway, New York, NY 10001",
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The Upper West Side Upside Pizza — same upside-down slice as the other locations, in a neighborhood that needed a good slice window.",
@@ -2118,8 +2118,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -74.00340287140135,
-          40.732211254619536
+          -74.00340032482902,
+          40.732209190070726
         ]
       },
       "properties": {
@@ -2206,8 +2206,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.97619695854442,
-          40.68328830876337
+          -73.97619671141129,
+          40.6832899749398
         ]
       },
       "properties": {
@@ -2316,8 +2316,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.92075612762649,
-          40.76291630142955
+          -73.9207532145139,
+          40.762917603740135
         ]
       },
       "properties": {
@@ -2514,8 +2514,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.7701572889057,
-          40.761261450563644
+          -73.77015987705255,
+          40.76126426861738
         ]
       },
       "properties": {
@@ -2536,8 +2536,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.79565192152575,
-          40.75827665284041
+          -73.79564924249655,
+          40.758277238300884
         ]
       },
       "properties": {
@@ -2954,8 +2954,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.92015145975174,
-          40.74363392563652
+          -73.92015086774524,
+          40.74363469613037
         ]
       },
       "properties": {
@@ -4243,6 +4243,72 @@
         "website": "",
         "price": "$",
         "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.91637574504152,
+          40.77321066186664
+        ]
+      },
+      "properties": {
+        "name": "Macoletta – Long Island City",
+        "address": "28-15 24th Ave, Long Island City, NY 11102",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Long Island City Italian spot with a wood-fired oven, bringing thoughtfully made Neapolitan pies to a neighborhood that's grown fast in recent years without losing quality options.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96026821967013,
+          40.72100110817942
+        ]
+      },
+      "properties": {
+        "name": "Macoletta – Williamsburg",
+        "address": "58 N 9th St, Brooklyn, NY 11249",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "The Williamsburg location of Macoletta, serving the same wood-fired Neapolitan pies near the Bedford Avenue corridor.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85720230724041,
+          40.757369796393526
+        ]
+      },
+      "properties": {
+        "name": "Tauro Wood Fired Pizza",
+        "address": "33-23 112th St, Flushing, NY 11368",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Corona-area wood-fired pizzeria near Flushing Meadows, bringing a proper Neapolitan oven to a part of Queens better known for its incredible international food scene than its pizza.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
         "seating": "Indoor",
         "worth_a_trip": false
       }

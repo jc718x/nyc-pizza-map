@@ -291,27 +291,27 @@ body.map-page {
 
 /* ===== Pizza slice marker ===== */
 .pizza-marker-wrap {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 7px;
+  position: relative;
+  width: 0;
+  height: 0;
   cursor: pointer;
 }
 
 .pizza-pin {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 32px;
   height: 32px;
-  flex-shrink: 0;
+  transform: translate(-50%, -50%);
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
   transition: transform 0.12s ease, filter 0.12s ease, width 0.15s ease, height 0.15s ease;
-  transform-origin: left center;
 }
 .pizza-pin svg {
   width: 100%;
   height: 100%;
   display: block;
 }
-.label-left .pizza-pin { transform-origin: right center; }
 
 /* Zoom-responsive marker sizing — smaller when zoomed out so pins don't overwhelm the city view */
 .zoom-far .pizza-pin   { width: 19px; height: 19px; }
@@ -319,11 +319,14 @@ body.map-page {
 .zoom-close .pizza-pin  { width: 27px; height: 27px; }
 .zoom-closer .pizza-pin { width: 32px; height: 32px; }
 .pizza-marker-wrap:hover .pizza-pin {
-  transform: scale(1.15);
+  transform: translate(-50%, -50%) scale(1.15);
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
 }
 
 .pin-label {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: stretch;
   background: rgba(255,251,243,0.97);
@@ -354,8 +357,25 @@ body.map-page {
   padding: 3px 7px;
 }
 
-/* When label is to the LEFT of the pin, flip bar to the right side */
-.label-left .pin-label { flex-direction: row-reverse; }
+/* 8-direction placement — label offset from the pin's anchor point.
+   Axis-aligned directions get an 18px gap, diagonals get 12px
+   (since diagonal offset covers both axes, less gap looks balanced). */
+.pin-label.dir-e  { transform: translate(18px, -50%); }
+.pin-label.dir-w  { transform: translate(calc(-100% - 18px), -50%); }
+.pin-label.dir-n  { transform: translate(-50%, calc(-100% - 18px)); }
+.pin-label.dir-s  { transform: translate(-50%, 18px); }
+.pin-label.dir-ne { transform: translate(12px, calc(-100% - 12px)); }
+.pin-label.dir-nw { transform: translate(calc(-100% - 12px), calc(-100% - 12px)); }
+.pin-label.dir-se { transform: translate(12px, 12px); }
+.pin-label.dir-sw { transform: translate(calc(-100% - 12px), 12px); }
+
+/* When the pin sits to the label's right (W-ish directions), flip the
+   accent bar to the right edge so it still visually points at the pin */
+.pin-label.dir-w,
+.pin-label.dir-nw,
+.pin-label.dir-sw {
+  flex-direction: row-reverse;
+}
 
 /* ===== Popup ===== */
 .maplibregl-popup-content {

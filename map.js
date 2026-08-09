@@ -175,14 +175,18 @@ function landmarksVisible() {
   return map.getZoom() >= LANDMARK_LABEL_ZOOM;
 }
 
-// ===== Proximity detection for label side =====
+// ===== Proximity detection for label direction =====
 // For each feature, check if any other feature is within ~400m.
-// If two pins are close, alternate: the first keeps label RIGHT,
-// the second flips label LEFT — so they spread away from each other.
-// Returns a Set of indices that should have their label on the LEFT.
-function computeLeftLabelIndices(features) {
+// Greedily assigns each pin one of 8 directions (E, NE, N, NW, W, SW, S, SE)
+// for its label, picking whichever direction has the least weighted
+// conflict from already-placed nearby neighbors. Distance-weighted so
+// extremely close pairs (e.g. 30m apart) get prioritized for separation
+// over pairs that are merely within range (e.g. 300m apart).
+// Returns an array of direction strings, one per feature index.
+function computeLabelDirections(features) {
   const R = 6371000; // Earth radius in metres
   const THRESHOLD = 400; // metres — roughly 4–5 blocks
+  const DIRECTIONS = ['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE'];
 
   function dist(a, b) {
     const [lng1, lat1] = a.geometry.coordinates;
@@ -195,33 +199,40 @@ function computeLeftLabelIndices(features) {
     return R * 2 * Math.atan2(Math.sqrt(sa), Math.sqrt(1-sa));
   }
 
-  const leftSet = new Set();
-  // Track which indices have already been "paired" so we alternate cleanly
-  const paired = new Set();
-
+  const neighbors = Array.from({ length: features.length }, () => []);
   for (let i = 0; i < features.length; i++) {
     for (let j = i + 1; j < features.length; j++) {
-      if (paired.has(i) && paired.has(j)) continue;
-      if (dist(features[i], features[j]) < THRESHOLD) {
-        // Flip whichever isn't already assigned
-        if (!paired.has(i) && !paired.has(j)) {
-          // Neither paired yet: keep i right, flip j left
-          leftSet.add(j);
-          paired.add(i);
-          paired.add(j);
-        } else if (paired.has(i) && !paired.has(j)) {
-          // i already assigned; flip j
-          leftSet.add(j);
-          paired.add(j);
-        } else if (paired.has(j) && !paired.has(i)) {
-          // j already assigned; flip i
-          leftSet.add(i);
-          paired.add(i);
-        }
+      const d = dist(features[i], features[j]);
+      if (d < THRESHOLD) {
+        const weight = THRESHOLD - d;
+        neighbors[i].push({ idx: j, weight });
+        neighbors[j].push({ idx: i, weight });
       }
     }
   }
-  return leftSet;
+
+  const direction = new Array(features.length).fill('E');
+  const visited = new Array(features.length).fill(false);
+
+  for (let i = 0; i < features.length; i++) {
+    if (neighbors[i].length === 0) { visited[i] = true; continue; }
+    const conflictByDir = {};
+    DIRECTIONS.forEach(d => conflictByDir[d] = 0);
+    neighbors[i].forEach(({ idx: n, weight }) => {
+      if (visited[n]) conflictByDir[direction[n]] += weight;
+    });
+    let best = 'E', bestWeight = Infinity;
+    DIRECTIONS.forEach(d => {
+      if (conflictByDir[d] < bestWeight) {
+        bestWeight = conflictByDir[d];
+        best = d;
+      }
+    });
+    direction[i] = best;
+    visited[i] = true;
+  }
+
+  return direction;
 }
 
 map.on('load', async () => {
@@ -231,7 +242,7 @@ map.on('load', async () => {
   const countEl = document.getElementById('entryCount');
   if (countEl) countEl.textContent = geojson.features.length;
 
-  const leftLabelIndices = computeLeftLabelIndices(geojson.features);
+  const labelDirections = computeLabelDirections(geojson.features);
   const labels = [];
   let activePopup = null;  // track the currently open popup
 
@@ -304,30 +315,25 @@ map.on('load', async () => {
     const [lng, lat] = feature.geometry.coordinates;
     const p   = feature.properties;
     const col = BOROUGH_COLORS[p.borough] || '#DC2225';
-    const flipLeft = leftLabelIndices.has(idx);
+    const dir = labelDirections[idx];
 
-    // Wrapper: row layout — label left or right of pin depending on proximity
+    // Wrapper: zero-size anchor point — pin and label are both
+    // absolutely positioned relative to it (see .dir-* CSS classes)
     const wrap = document.createElement('div');
-    wrap.className = 'pizza-marker-wrap' + (flipLeft ? ' label-left' : '');
+    wrap.className = 'pizza-marker-wrap';
 
     const pin = document.createElement('div');
     pin.className = 'pizza-pin';
     pin.innerHTML = sliceSVG(col);
 
     const label = document.createElement('div');
-    label.className = 'pin-label';
+    label.className = 'pin-label dir-' + dir.toLowerCase();
     label.style.opacity = labelsVisible() ? '1' : '0';
     label.innerHTML = `<span class="pin-label-bar" style="background:${col}"></span><span class="pin-label-text">${escapeHTML(mapLabel(p.name))}</span>`;
     labels.push(label);
 
-    if (flipLeft) {
-      // Label before pin — renders to the left
-      wrap.appendChild(label);
-      wrap.appendChild(pin);
-    } else {
-      wrap.appendChild(pin);
-      wrap.appendChild(label);
-    }
+    wrap.appendChild(pin);
+    wrap.appendChild(label);
 
 
     // Popup
@@ -386,9 +392,7 @@ map.on('load', async () => {
       activePopup.on('close', () => { activePopup = null; });
     });
 
-    // anchor: 'left' for right-label (pin's left edge at coord)
-    // anchor: 'right' for left-label (pin's right edge at coord)
-    new maplibregl.Marker({ element: wrap, anchor: flipLeft ? 'right' : 'left' })
+    new maplibregl.Marker({ element: wrap, anchor: 'center' })
       .setLngLat([lng, lat])
       .addTo(map);
   });
