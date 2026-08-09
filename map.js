@@ -66,6 +66,38 @@ function sliceSVG(color) {
   </svg>`;
 }
 
+// ===== Landmark star icon (dark circle badge, white star) =====
+function landmarkStarSVG() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
+    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <path d="M50 22 L58 40 L78 42 L63 55 L67 75 L50 64 L33 75 L37 55 L22 42 L42 40 Z" fill="white"/>
+  </svg>`;
+}
+
+// ===== NYC landmarks — single-point attractions only (not neighborhoods) =====
+const LANDMARKS = [
+  { name: "Empire State Building",   lat: 40.7484, lng: -73.9857 },
+  { name: "Rockefeller Center",      lat: 40.7587, lng: -73.9787 },
+  { name: "9/11 Memorial",           lat: 40.7115, lng: -74.0134 },
+  { name: "Brooklyn Bridge",         lat: 40.7061, lng: -73.9969 },
+  { name: "Central Park",            lat: 40.7851, lng: -73.9683 },
+  { name: "Statue of Liberty",       lat: 40.6892, lng: -74.0445 },
+  { name: "Grand Central Terminal",  lat: 40.7527, lng: -73.9772 },
+  { name: "Chrysler Building",       lat: 40.7516, lng: -73.9755 },
+  { name: "One World Trade Center",  lat: 40.7127, lng: -74.0134 },
+  { name: "Madison Square Garden",   lat: 40.7505, lng: -73.9934 },
+  { name: "Flatiron Building",       lat: 40.7411, lng: -73.9897 },
+  { name: "Washington Square Park",  lat: 40.7308, lng: -73.9973 },
+  { name: "The High Line",           lat: 40.7480, lng: -74.0048 },
+  { name: "Met Museum",              lat: 40.7794, lng: -73.9632 },
+  { name: "Museum of Natural History", lat: 40.7813, lng: -73.9740 },
+  { name: "MoMA",                    lat: 40.7614, lng: -73.9776 },
+  { name: "Lincoln Center",          lat: 40.7725, lng: -73.9835 },
+  { name: "Yankee Stadium",          lat: 40.8296, lng: -73.9262 },
+  { name: "Citi Field",              lat: 40.7571, lng: -73.8458 },
+  { name: "Coney Island",            lat: 40.5755, lng: -73.9707 },
+];
+
 function escapeHTML(str) {
   const d = document.createElement('div');
   d.textContent = str ?? '';
@@ -256,10 +288,40 @@ map.on('load', async () => {
       .addTo(map);
   });
 
+  // ===== Landmark star markers =====
+  const landmarkLabels = [];
+  LANDMARKS.forEach(lm => {
+    const wrap = document.createElement('div');
+    wrap.className = 'landmark-marker-wrap';
+
+    const pin = document.createElement('div');
+    pin.className = 'landmark-pin';
+    pin.innerHTML = landmarkStarSVG();
+
+    const label = document.createElement('div');
+    label.className = 'landmark-label';
+    label.textContent = lm.name;
+    label.style.opacity = labelsVisible() ? '1' : '0';
+    landmarkLabels.push(label);
+
+    wrap.appendChild(pin);
+    wrap.appendChild(label);
+
+    wrap.addEventListener('click', (e) => {
+      e.stopPropagation();
+      map.flyTo({ center: [lm.lng, lm.lat], zoom: 15, duration: 1000 });
+    });
+
+    new maplibregl.Marker({ element: wrap, anchor: 'left' })
+      .setLngLat([lm.lng, lm.lat])
+      .addTo(map);
+  });
+
   // Show/hide labels based on zoom
   function updateLabels() {
     const show = labelsVisible();
     labels.forEach(l => l.style.opacity = show ? '1' : '0');
+    landmarkLabels.forEach(l => l.style.opacity = show ? '1' : '0');
   }
   map.on('zoomend', updateLabels);
 

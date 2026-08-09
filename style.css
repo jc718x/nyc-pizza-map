@@ -941,3 +941,40 @@ button:focus-visible {
   gap: 5px;
   margin: 4px 0 6px;
 }
+
+/* ===== Landmark star markers ===== */
+.landmark-marker-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+.landmark-pin {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4));
+  transition: transform 0.12s ease;
+}
+.landmark-pin svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.landmark-marker-wrap:hover .landmark-pin {
+  transform: scale(1.15);
+}
+.landmark-label {
+  background: #241A10;
+  color: white;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 3px 8px;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
