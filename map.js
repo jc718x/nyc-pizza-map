@@ -127,7 +127,7 @@ const LANDMARKS = [
   { name: "Yankee Stadium",          lat: 40.8296, lng: -73.9262, icon: 'baseball' },
   { name: "Citi Field",              lat: 40.7571, lng: -73.8458, icon: 'baseball' },
   { name: "Coney Island",            lat: 40.5755, lng: -73.9707 },
-  { name: "Circle Line Sightseeing", lat: 40.7681, lng: -73.9979, icon: 'cruise' },
+  { name: "Circle Line Sightseeing", lat: 40.76280655144898, lng: -74.00154982881688, icon: 'cruise' },
 ];
 
 function escapeHTML(str) {
