@@ -158,8 +158,8 @@ map.on('load', async () => {
 
     const label = document.createElement('div');
     label.className = 'pin-label';
-    label.textContent = p.name;
     label.style.opacity = labelsVisible() ? '1' : '0';
+    label.innerHTML = `<span class="pin-label-bar" style="background:${col}"></span><span class="pin-label-text">${escapeHTML(p.name)}</span>`;
     labels.push(label);
 
     if (flipLeft) {

@@ -291,7 +291,7 @@ body.map-page {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   cursor: pointer;
 }
 
@@ -301,7 +301,9 @@ body.map-page {
   flex-shrink: 0;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
   transition: transform 0.12s ease, filter 0.12s ease, width 0.15s ease, height 0.15s ease;
+  transform-origin: left center;
 }
+.label-left .pizza-pin { transform-origin: right center; }
 
 /* Zoom-responsive marker sizing — smaller when zoomed out so pins don't overwhelm the city view */
 .zoom-far .pizza-pin   { width: 16px; height: 16px; }
@@ -309,28 +311,35 @@ body.map-page {
 .zoom-close .pizza-pin  { width: 24px; height: 24px; }
 .zoom-closer .pizza-pin { width: 28px; height: 28px; }
 .pizza-marker-wrap:hover .pizza-pin {
-  transform: scale(1.2);
+  transform: scale(1.15);
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
 }
 
 .pin-label {
-  background: rgba(255,251,243,0.95);
+  display: flex;
+  align-items: stretch;
+  background: rgba(255,251,243,0.97);
+  border-radius: 3px;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  overflow: hidden;
+}
+.pin-label-bar {
+  width: 3px;
+  flex-shrink: 0;
+}
+.pin-label-text {
   color: #241A10;
   font-family: 'Work Sans', sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
-  white-space: nowrap;
-  padding: 3px 6px;
-  border-radius: 3px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
-  pointer-events: none;
-  transition: opacity 0.2s ease;
+  padding: 3px 7px;
 }
 
-/* When label is to the LEFT of the pin, right-align the text */
-.label-left .pin-label {
-  text-align: right;
-}
+/* When label is to the LEFT of the pin, flip bar to the right side */
+.label-left .pin-label { flex-direction: row-reverse; }
 
 /* ===== Popup ===== */
 .maplibregl-popup-content {
