@@ -281,7 +281,9 @@ body.map-page {
   border-radius: 50%;
   display: inline-block;
   box-shadow: 0 0 0 1px rgba(29,20,12,0.25);
+  flex-shrink: 0;
 }
+.legend-short { display: none; }
 
 /* ===== Pizza slice marker ===== */
 .pizza-marker-wrap {
@@ -455,6 +457,10 @@ body.map-page {
   font-weight: 600;
   color: var(--color-char);
   font-size: 0.78rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 .subway-walk {
   font-size: 0.72rem;
@@ -589,13 +595,17 @@ button:focus-visible {
 
   .legend {
     bottom: 16px;
-    left: 12px;
+    left: 8px;
+    right: 8px;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 6px 10px;
-    font-size: 0.65rem;
-    padding: 8px 10px;
+    justify-content: space-around;
+    gap: 4px;
+    font-size: 0.6rem;
+    padding: 6px 8px;
   }
+  .legend-full { display: none; }
+  .legend-short { display: inline; }
+  .legend-item { gap: 4px; }
 }
 
 /* Respect reduced-motion preference */
