@@ -75,6 +75,27 @@ function escapeAttr(str) {
   return (str ?? '').replace(/"/g, '&quot;');
 }
 
+// For map pin labels only: strip a " – Location" suffix so chain
+// locations (Joe's Pizza, L&B Spumoni Gardens, etc.) show their base
+// name on the map. Full name with location still shows in the popup,
+// list page, and everywhere else.
+const MAP_LABEL_OVERRIDES = {
+  "Paulie Gee's East Village Slice Shop": "Paulie Gee's Slice Shop",
+  "Vesuvio Restaurant & Pizzeria": "Vesuvio",
+  "Ungaro Coal Fired Pizza Cafe": "Ungaro Coal Fired Pizza",
+  "Peppino's Pizza & Restaurant": "Peppino's",
+  "Angelo's Coal Oven Pizzeria": "Angelo's Coal Oven",
+  "John's Pizzeria of Times Square": "John's – Times Square",
+  "Pop's Pizza of East Village": "Pop's – East Village",
+  "The Original Little Italy": "Original Little Italy",
+  "Mimi's Pizza (3rd Ave & 86th)": "Mimi's Pizza",
+};
+function mapLabel(name) {
+  if (MAP_LABEL_OVERRIDES[name]) return MAP_LABEL_OVERRIDES[name];
+  const idx = name.indexOf(' – ');
+  return idx === -1 ? name : name.slice(0, idx).trim();
+}
+
 // Labels show at this zoom and above
 const LABEL_ZOOM = 13.2;
 
@@ -159,7 +180,7 @@ map.on('load', async () => {
     const label = document.createElement('div');
     label.className = 'pin-label';
     label.style.opacity = labelsVisible() ? '1' : '0';
-    label.innerHTML = `<span class="pin-label-bar" style="background:${col}"></span><span class="pin-label-text">${escapeHTML(p.name)}</span>`;
+    label.innerHTML = `<span class="pin-label-bar" style="background:${col}"></span><span class="pin-label-text">${escapeHTML(mapLabel(p.name))}</span>`;
     labels.push(label);
 
     if (flipLeft) {
