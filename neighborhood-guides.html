@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NYC Pizza by Neighborhood — Neighborhood Guides | NYC Pizza Map</title>
+<meta name="description" content="Explore the best pizza in NYC neighborhood by neighborhood — Brooklyn, Manhattan, Queens, the Bronx, and Staten Island, curated by a Brooklyn native." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<meta property="og:title" content="NYC Pizza by Neighborhood — Neighborhood Guides" />
+<meta property="og:description" content="Explore the best pizza in NYC neighborhood by neighborhood, curated by a Brooklyn native." />
+<meta property="og:url" content="https://nycpizzamap.com/neighborhood-guides.html" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nycpizzamap.com/assets/logo.png" />
+<link rel="canonical" href="https://nycpizzamap.com/neighborhood-guides.html" />
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+
+<style>
+  :root { --pz-accent: #DC2225; }
+
+  .ng-wrap { max-width: 780px; margin: 0 auto; padding: calc(var(--topbar-h) + 24px) 24px 80px; }
+
+  .ng-hero {
+    background: var(--color-crust);
+    border-radius: 10px 10px 0 0;
+    padding: 32px 28px 26px;
+  }
+  .ng-hero-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pz-accent);
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .ng-hero-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--color-parchment);
+    margin: 0 0 12px;
+  }
+  .ng-hero-sub {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: rgba(253,244,231,0.8);
+    margin: 0;
+  }
+
+  .ng-perf {
+    height: 14px;
+    background: var(--color-crust);
+    position: relative;
+    border-radius: 0 0 10px 10px;
+  }
+  .ng-perf::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 14px;
+    background-image: radial-gradient(circle 7px at 0 0, transparent 7px, var(--color-parchment) 7.5px);
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+    background-position: 10px 0;
+  }
+
+  .ng-intro {
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 22px 28px;
+    margin: -14px 0 20px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--color-char);
+  }
+
+  .ng-featured {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: #FFF3CD;
+    border: 1.5px solid #F0D060;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 0 0 40px;
+    text-decoration: none;
+  }
+  .ng-featured-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #856404;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+  .ng-featured-title {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #5C4400;
+    margin: 0;
+  }
+  .ng-featured-arrow {
+    margin-left: auto;
+    font-size: 1.3rem;
+    color: #856404;
+    flex-shrink: 0;
+  }
+
+  .ng-borough-block { margin: 0 0 40px; }
+  .ng-borough-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-logo);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-crust);
+    margin: 0 0 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pz-accent);
+  }
+  .ng-borough-dot {
+    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  .ng-hood-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .ng-hood-card {
+    display: block;
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+  .ng-hood-card.live {
+    border-color: rgba(220,34,37,0.3);
+  }
+  .ng-hood-card:hover {
+    border-color: var(--pz-accent);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+  .ng-hood-name {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-char);
+    margin: 0 0 2px;
+  }
+  .ng-hood-status {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: rgba(36,26,16,0.4);
+  }
+  .ng-hood-status.live { color: var(--pz-accent); font-weight: 700; }
+
+  .ng-crosslink {
+    margin-top: 20px; padding-top: 24px; border-top: 1px dashed rgba(36,26,16,0.2);
+    font-size: 0.85rem;
+  }
+  .ng-crosslink a { color: var(--pz-accent); font-weight: 600; }
+
+  @media (max-width: 480px) {
+    .ng-hero { padding: 24px 18px 20px; }
+    .ng-hero-title { font-size: 1.5rem; }
+    .ng-intro { padding: 18px; }
+    .ng-hood-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body class="content-page">
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-brand">
+    <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
+    <a href="index.html" style="text-decoration:none;"><span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span></a>
+  </div>
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
+    <a href="index.html">Map</a>
+    <a href="list.html">Pizzeria List</a>
+    <div class="nav-dropdown" id="exploreDropdown">
+      <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
+      <div class="nav-dropdown-menu">
+        <div class="nav-dropdown-heading">Find Pizza</div>
+        <a href="nearby.html">Pizza Near Your Plans</a>
+        <a href="neighborhood-guides.html" class="active">Neighborhood Guides</a>
+        <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
+        <div class="nav-dropdown-heading">Learn</div>
+        <a href="pizza-history.html">Pizza History</a>
+        <a href="pizza-facts.html">Pizza Facts</a>
+      </div>
+    </div>
+    <a href="how-to-make-pizza.html">Make Pizza</a>
+    <a href="store.html">Shop</a>
+    <a href="suggest.html">Suggest a Spot</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <div class="mobile-nav-heading">Find Pizza</div>
+  <a href="index.html" class="primary">Map</a>
+  <a href="list.html" class="primary">Pizzeria List</a>
+  <a href="nearby.html" class="primary">Pizza Near Your Plans</a>
+  <a href="neighborhood-guides.html" class="primary active">Neighborhood Guides</a>
+  <a href="pizza-worth-traveling-for.html" class="primary">Worth the Trip</a>
+  <div class="mobile-nav-heading">Explore</div>
+  <a href="pizza-history.html">Pizza History</a>
+  <a href="pizza-facts.html">Pizza Facts</a>
+  <div class="mobile-nav-heading">NYC Pizza</div>
+  <a href="how-to-make-pizza.html">Make Pizza</a>
+  <a href="store.html">Shop</a>
+  <div class="mobile-nav-divider"></div>
+  <a href="suggest.html">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
+
+<main class="ng-wrap">
+
+  <div class="ng-hero">
+    <p class="ng-hero-kicker">Neighborhood Guides</p>
+    <h2 class="ng-hero-title">Explore Pizza by Neighborhood</h2>
+    <p class="ng-hero-sub">NYC's best pizza, block by block. Pick a neighborhood below.</p>
+  </div>
+  <div class="ng-perf"></div>
+  <div class="ng-intro">
+    <p style="margin:0;">Every neighborhood in this city has an opinion about its own pizza. These guides are the full rundown for each one — we're building this out block by block, so check back as more neighborhoods go live.</p>
+  </div>
+
+  <a class="ng-featured" href="best-pizza-bay-ridge.html">
+    <div>
+      <p class="ng-featured-label">Featured Neighborhood</p>
+      <p class="ng-featured-title">Best Pizza in Bay Ridge →</p>
+    </div>
+    <span class="ng-featured-arrow">🍕</span>
+  </a>
+
+  <div class="ng-borough-block">
+    <h3 class="ng-borough-heading"><span class="ng-borough-dot" style="background:var(--color-brooklyn)"></span>Brooklyn</h3>
+    <div class="ng-hood-grid">
+      <a class="ng-hood-card live" href="best-pizza-bay-ridge.html">
+        <p class="ng-hood-name">Bay Ridge</p>
+        <p class="ng-hood-status live">View guide →</p>
+      </a>
+      <div class="ng-hood-card"><p class="ng-hood-name">Bensonhurst</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Williamsburg</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Greenpoint</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Bushwick</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Park Slope</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Coney Island</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Dyker Heights</p><p class="ng-hood-status">Coming soon</p></div>
+    </div>
+  </div>
+
+  <div class="ng-borough-block">
+    <h3 class="ng-borough-heading"><span class="ng-borough-dot" style="background:var(--color-manhattan)"></span>Manhattan</h3>
+    <div class="ng-hood-grid">
+      <div class="ng-hood-card"><p class="ng-hood-name">West Village</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">East Village</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">SoHo</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Lower East Side</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Harlem</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Hell's Kitchen</p><p class="ng-hood-status">Coming soon</p></div>
+    </div>
+  </div>
+
+  <div class="ng-borough-block">
+    <h3 class="ng-borough-heading"><span class="ng-borough-dot" style="background:var(--color-queens)"></span>Queens</h3>
+    <div class="ng-hood-grid">
+      <div class="ng-hood-card"><p class="ng-hood-name">Astoria</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Long Island City</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Flushing</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Ridgewood</p><p class="ng-hood-status">Coming soon</p></div>
+    </div>
+  </div>
+
+  <div class="ng-borough-block">
+    <h3 class="ng-borough-heading"><span class="ng-borough-dot" style="background:var(--color-bronx)"></span>Bronx</h3>
+    <div class="ng-hood-grid">
+      <div class="ng-hood-card"><p class="ng-hood-name">Arthur Avenue</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Riverdale</p><p class="ng-hood-status">Coming soon</p></div>
+    </div>
+  </div>
+
+  <div class="ng-borough-block">
+    <h3 class="ng-borough-heading"><span class="ng-borough-dot" style="background:var(--color-si)"></span>Staten Island</h3>
+    <div class="ng-hood-grid">
+      <div class="ng-hood-card"><p class="ng-hood-name">Port Richmond</p><p class="ng-hood-status">Coming soon</p></div>
+      <div class="ng-hood-card"><p class="ng-hood-name">Great Kills</p><p class="ng-hood-status">Coming soon</p></div>
+    </div>
+  </div>
+
+  <div class="ng-crosslink">
+    See every pizzeria on the <a href="list.html">full Pizzeria List</a>, or explore the <a href="index.html">interactive map</a>.
+  </div>
+</main>
+
+<script src="nav.js"></script>
+</body>
+</html>

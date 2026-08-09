@@ -162,11 +162,23 @@ html, body {
   border: 1px solid rgba(36,26,16,0.12);
   border-radius: 6px;
   box-shadow: 0 8px 24px rgba(29,20,12,0.18);
-  min-width: 170px;
+  min-width: 190px;
   z-index: 100;
   overflow: hidden;
 }
 .nav-dropdown.open .nav-dropdown-menu { display: block; }
+
+.nav-dropdown-heading {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-crust);
+  background: rgba(39,110,64,0.08);
+  padding: 7px 16px 5px;
+}
+.nav-dropdown-heading:not(:first-child) { margin-top: 4px; }
 
 .nav-dropdown-menu a {
   display: block;
