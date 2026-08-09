@@ -1140,3 +1140,55 @@ button:focus-visible {
   margin-top: 2px;
 }
 
+
+/* ===== Subway station markers ===== */
+.subway-marker-wrap {
+  position: relative;
+  cursor: pointer;
+  z-index: 0;
+  transition: opacity 0.2s ease;
+}
+.subway-marker-dot {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 800;
+}
+.subway-marker-tip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #241A10;
+  color: white;
+  padding: 5px 9px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.7rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.subway-marker-tip strong { font-weight: 700; }
+.subway-marker-tip span { font-size: 0.62rem; opacity: 0.75; font-family: var(--font-mono); }
+
+@media (hover: hover) and (pointer: fine) {
+  .subway-marker-wrap:hover .subway-marker-tip {
+    opacity: 1;
+  }
+  .subway-marker-wrap:hover .subway-marker-dot {
+    transform: scale(1.2);
+  }
+}
