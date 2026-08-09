@@ -244,16 +244,43 @@ map.on('load', async () => {
       const p   = match.properties;
       const col = BOROUGH_COLORS[p.borough] || '#DC2225';
       const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+
+      // Find nearest subway stations (safe — won't crash if stations.js missing)
+      let subwayHTML = '';
+      try {
+        if (typeof nearestStations === 'function') {
+          const nearby = nearestStations(lat, lng, 2);
+          subwayHTML = nearby.map(s => {
+            const mins = walkMinutes(s.dist);
+            const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean);
+            const bullets = lines.slice(0, 4).map(l =>
+              `<span class="subway-bullet" style="background:${stationColor(l)};color:${l==='N'||l==='Q'||l==='R'||l==='W'?'#000':'#fff'}">${l}</span>`
+            ).join('');
+            return `<div class="ticket-subway-row">${bullets}<div class="subway-station-walk"><span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins} walk</span></div></div>`;
+          }).join('');
+        }
+      } catch(e) { subwayHTML = ''; }
+
       const html = `
         <div class="ticket">
           ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
+          ${p.worth_a_trip ? `<div class="ticket-worth-trip">⭐ Worth a special trip</div>` : ''}
           <div class="ticket-head">
             <p class="ticket-name">${escapeHTML(p.name)}</p>
-            <p class="ticket-address">${escapeHTML(p.address)}</p>
+            <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
           </div>
           <div class="ticket-body">
-            <span class="style-badge">${escapeHTML(p.style)}</span>
+            <div class="ticket-meta">
+              <span class="style-badge">${escapeHTML(p.style)}</span>
+              <span class="meta-pill">${p.price || '$'}</span>
+              ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
+              ${p.seating ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
+            </div>
             <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
+            ${subwayHTML ? `<div class="ticket-subway">
+              <div class="ticket-subway-label">🚇 Nearest subway</div>
+              ${subwayHTML}
+            </div>` : ''}
             <div class="ticket-links">
               ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
               <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>

@@ -284,6 +284,7 @@ body.map-page {
   flex-shrink: 0;
 }
 .legend-short { display: none; }
+.legend-full { display: inline; }
 
 /* ===== Pizza slice marker ===== */
 .pizza-marker-wrap {
@@ -622,14 +623,15 @@ button:focus-visible {
     left: 8px;
     right: 8px;
     flex-direction: row;
-    justify-content: space-around;
-    gap: 4px;
-    font-size: 0.6rem;
-    padding: 6px 8px;
+    justify-content: space-between;
+    gap: 2px;
+    font-size: 0.55rem;
+    padding: 6px 6px;
+    white-space: nowrap;
   }
-  .legend-full { display: none; }
-  .legend-short { display: inline; }
-  .legend-item { gap: 4px; }
+  .legend-full { display: none !important; }
+  .legend-short { display: inline !important; }
+  .legend-item { gap: 3px; }
 }
 
 /* Respect reduced-motion preference */
