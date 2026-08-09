@@ -2404,28 +2404,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.90705839874452,
-          40.88763928447795
-        ]
-      },
-      "properties": {
-        "name": "Salvatores of Riverdale",
-        "address": "3738 Riverdale Ave, Bronx, NY 10463",
-        "borough": "Bronx",
-        "style": "Classic Slice",
-        "blurb": "A Riverdale neighborhood institution — old-school NY slices in one of the Bronx's most suburban and overlooked neighborhoods for pizza.",
-        "website": "",
-        "price": "$",
-        "slices": true,
-        "seating": "Indoor",
-        "worth_a_trip": false
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -73.85518577388942,
           40.85990006626364
         ]
@@ -4086,28 +4064,6 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "The Park Slope location of Numero 28, bringing the same wood-fired Neapolitan pies to 7th Avenue.",
-        "website": "",
-        "price": "$$",
-        "slices": false,
-        "seating": "Indoor",
-        "worth_a_trip": false
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -74.03159191325425,
-          40.61553924157368
-        ]
-      },
-      "properties": {
-        "name": "APIZZA – Bay Ridge",
-        "address": "9524 4th Ave, Brooklyn, NY 11209",
-        "borough": "Brooklyn",
-        "style": "Neapolitan",
-        "blurb": "A Bay Ridge Neapolitan spot on 4th Avenue at the southern end of Brooklyn, bringing wood-fired pies to a neighborhood dominated by classic slice shops.",
         "website": "",
         "price": "$$",
         "slices": false,
