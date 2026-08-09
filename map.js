@@ -541,52 +541,6 @@ map.on('load', async () => {
   }
 });
 
-// ===== Subway station markers =====
-// Small colored dots (MTA line color) with the line letter inside,
-// only visible once zoomed in enough that 449 stations won't overwhelm
-// the pizza pins. Hover shows the station name + lines.
-if (typeof SUBWAY_STATIONS !== 'undefined') {
-  const SUBWAY_MARKER_ZOOM = 14.5; // stations appear at street/neighborhood level
-  const subwayEls = [];
-
-  function subwayMarkerVisible() {
-    return map.getZoom() >= SUBWAY_MARKER_ZOOM;
-  }
-
-  SUBWAY_STATIONS.forEach(s => {
-    const firstLine = s.lines.trim().split(/[\s,·\-]+/)[0];
-    const col = stationColor(firstLine);
-    const textColor = ['N','Q','R','W'].includes(firstLine) ? '#000' : '#fff';
-
-    const wrap = document.createElement('div');
-    wrap.className = 'subway-marker-wrap';
-    wrap.style.opacity = subwayMarkerVisible() ? '1' : '0';
-    subwayEls.push(wrap);
-
-    const dot = document.createElement('div');
-    dot.className = 'subway-marker-dot';
-    dot.style.background = col;
-    dot.style.color = textColor;
-    dot.textContent = firstLine;
-
-    const tip = document.createElement('div');
-    tip.className = 'subway-marker-tip';
-    tip.innerHTML = `<strong>${escapeHTML(s.name)}</strong><span>${escapeHTML(s.lines)}</span>`;
-
-    wrap.appendChild(dot);
-    wrap.appendChild(tip);
-
-    new maplibregl.Marker({ element: wrap, anchor: 'center' })
-      .setLngLat([s.lng, s.lat])
-      .addTo(map);
-  });
-
-  map.on('zoomend', () => {
-    const show = subwayMarkerVisible();
-    subwayEls.forEach(el => el.style.opacity = show ? '1' : '0');
-  });
-}
-
 // ===== Near Me button =====
 let userMarker = null;
 
