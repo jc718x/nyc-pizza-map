@@ -165,16 +165,21 @@ map.on('load', async () => {
     // Popup
     const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
-    // Find nearest subway stations
-    const nearby = nearestStations(lat, lng, 2);
-    const subwayHTML = nearby.map(s => {
-      const mins = walkMinutes(s.dist);
-      const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean);
-      const bullets = lines.slice(0, 4).map(l =>
-        `<span class="subway-bullet" style="background:${stationColor(l)};color:${l==='N'||l==='Q'||l==='R'||l==='W'?'#000':'#fff'}">${l}</span>`
-      ).join('');
-      return `<div class="ticket-subway-row">${bullets}<span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins}</span></div>`;
-    }).join('');
+    // Find nearest subway stations (safe — won't crash if stations.js missing)
+    let subwayHTML = '';
+    try {
+      if (typeof nearestStations === 'function') {
+        const nearby = nearestStations(lat, lng, 2);
+        subwayHTML = nearby.map(s => {
+          const mins = walkMinutes(s.dist);
+          const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean);
+          const bullets = lines.slice(0, 4).map(l =>
+            `<span class="subway-bullet" style="background:${stationColor(l)};color:${l==='N'||l==='Q'||l==='R'||l==='W'?'#000':'#fff'}">${l}</span>`
+          ).join('');
+          return `<div class="ticket-subway-row">${bullets}<span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins}</span></div>`;
+        }).join('');
+      }
+    } catch(e) { subwayHTML = ''; }
 
     const html = `
       <div class="ticket">
@@ -192,10 +197,10 @@ map.on('load', async () => {
             ${p.seating ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
           </div>
           <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
-          <div class="ticket-subway">
+          ${subwayHTML ? `<div class="ticket-subway">
             <div class="ticket-subway-label">🚇 Nearest subway</div>
             ${subwayHTML}
-          </div>
+          </div>` : ''}
           <div class="ticket-links">
             ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
             <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
