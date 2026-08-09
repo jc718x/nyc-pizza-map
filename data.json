@@ -16,7 +16,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A converted candy store turned into one of the city's most sought-after coal-oven pies. No slices, cash only, and a line that starts before opening — reserve ahead or plan to wait.",
-        "website": "https://www.lucali.com/"
+        "website": "https://www.lucali.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -34,7 +38,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "The benchmark by which a lot of NYC pizza gets judged. Founder Dom DeMarco built the reputation over decades; the family runs it today with the same hand-snipped basil finish.",
-        "website": "https://www.difarany.com/"
+        "website": "https://www.difarany.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -52,7 +60,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A DUMBO fixture since 1990, cooking coal-oven pies with a thin, blistered crust in the shadow of the Brooklyn Bridge. One of the pizzerias most credited with starting the modern NYC pizza pilgrimage.",
-        "website": "https://www.grimaldiscoalfiredpizza.com/"
+        "website": "https://www.grimaldiscoalfiredpizza.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -70,7 +82,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "Opened in 2012 by Patsy Grimaldi in the very space where he first started. Same coal oven, same thin char-edged crust; regulars debate endlessly which DUMBO neighbor is better.",
-        "website": "https://julianaspizza.com/"
+        "website": "https://julianaspizza.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -88,7 +104,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "Brooklyn Heights spot billing itself as the first in the borough to offer coal-oven pizza by the slice. Thin, charred crust with a crisp undercarriage — a solid stop near DUMBO.",
-        "website": "https://www.table87.com/"
+        "website": "https://www.table87.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -106,7 +126,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "Open since 1924 in Coney Island, one of the oldest coal-oven pizzerias in the country. Cash only, whole pies only, still run by the founder's descendants.",
-        "website": "https://totonnosconeyisland.com/"
+        "website": "https://totonnosconeyisland.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -124,7 +148,11 @@
         "borough": "Brooklyn",
         "style": "Sicilian",
         "blurb": "A Gravesend institution since the late 1930s, known for its upside-down square slices — sauce on top, cheese on the bottom — and the spumoni ice cream that gives the place its name.",
-        "website": "https://spumonigardens.com/"
+        "website": "https://spumonigardens.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Both",
+        "worth_a_trip": true
       }
     },
     {
@@ -142,7 +170,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Williamsburg slice shop built around one standout order: a fior di latte square topped with cold burrata and basil after it comes out of the oven. Expect a line most evenings.",
-        "website": "https://lindustriebk.com/"
+        "website": "https://lindustriebk.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -160,7 +192,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Bushwick spot building long-fermented sourdough pies in a low-key setting. Seasonal toppings and a natural wine list — closer to a Brooklyn supper club than a traditional pizzeria.",
-        "website": "https://www.ops.nyc/"
+        "website": "https://www.ops.nyc/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -178,7 +214,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Ditmas Park neighborhood spot serving sourdough-crust pies with craft beer, drawing a loyal local crowd far from the usual pizza-pilgrimage circuit.",
-        "website": "https://wheated.com/"
+        "website": "https://wheated.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -196,7 +236,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "Run by the brother of Lucali's founder, widely cited as the closest thing to Lucali for those who can't get a reservation. Thin brick-oven pies in a small South Slope dining room.",
-        "website": "https://www.giuseppinasbrickovenpizza.com/"
+        "website": "https://www.giuseppinasbrickovenpizza.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -214,7 +258,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A South Slope cash-only slice counter that's been going since the 1970s. The kind of unfussy neighborhood joint that regulars defend fiercely and tourists rarely find.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -232,7 +280,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Boerum Hill wood-fired Neapolitan spot set a few steps below street level, with an oven imported from Naples and the soft-centered, leopard-spotted crust the style demands.",
-        "website": "https://brooklyn.sottocasanyc.com/"
+        "website": "https://brooklyn.sottocasanyc.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -250,7 +302,11 @@
         "borough": "Brooklyn",
         "style": "Bar pie",
         "blurb": "A Michelin Bib Gourmand winner out of a former auto shop in Clinton Hill. The pizzas veer from Italian into Midwestern bar-pie territory — the St. Louis with Provel cheese and pickled peppers is the one to order.",
-        "website": "https://www.speedyromeo.com/"
+        "website": "https://www.speedyromeo.com/",
+        "price": "$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -268,7 +324,11 @@
         "borough": "Brooklyn",
         "style": "Grandma",
         "blurb": "A Williamsburg spot best known for its grandma slice — crushed tomato, garlic, and a hit of chopped anchovy under a well-browned, lacy-crisp bottom crust.",
-        "website": "https://bestpizzawilliamsburg.com/"
+        "website": "https://bestpizzawilliamsburg.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
       }
     },
     {
@@ -286,7 +346,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Carroll Gardens counter serving old-school NY slices in a no-frills setting. One of those neighborhood joints that's never made a list but has been quietly feeding the same block for years.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -294,17 +358,21 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.98090601489172,
-          40.6754635102147
+          -73.9810158244142,
+          40.67523371481778
         ]
       },
       "properties": {
         "name": "Brooklyn DOP",
-        "address": "261 5th Ave, Brooklyn, NY 11215",
+        "address": "237 5th Ave, Brooklyn, NY 11215",
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Park Slope Neapolitan spot using DOP-certified Italian ingredients with a wood-fired oven and a neighborhood-restaurant feel that's more relaxed than the destination-pizza circuit.",
-        "website": "https://www.brooklyndop.com/"
+        "website": "https://www.brooklyndop.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -322,7 +390,11 @@
         "borough": "Brooklyn",
         "style": "Sicilian",
         "blurb": "A Carroll Gardens square-slice spot with a loyal local following — reliable, well-charred Sicilian squares from a no-frills counter that rarely makes headlines but always delivers.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -340,7 +412,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Brooklyn outpost of the Harlem original, one of NYC's oldest coal-oven operations. Thin, light, blistered pies in a classic red-sauce dining room setting.",
-        "website": "https://www.patsyspizzeriany.com/"
+        "website": "https://www.patsyspizzeriany.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -358,7 +434,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bushwick slice shop that's earned a neighborhood following for its straightforward NY-style slices in an area otherwise better known for sourdough and natural-wine pies.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -376,7 +456,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bay Ridge neighborhood staple serving the kind of large, foldable NY slices that define the outer-borough pizza experience — nothing flashy, just consistently good.",
-        "website": "https://www.frankiesofbr.com/"
+        "website": "https://www.frankiesofbr.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -394,7 +478,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The Greenwich Village original, open since 1975. No frills, fold-and-go, and about as close to a citywide consensus pick for classic NY slice as exists.",
-        "website": "https://joespizzanyc.com/"
+        "website": "https://joespizzanyc.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": true
       }
     },
     {
@@ -412,7 +500,11 @@
         "borough": "Manhattan",
         "style": "Sicilian",
         "blurb": "The spicy spring pepperoni square, curled and crisped at the edges, is the reason for the perpetual Nolita line. Get there off-peak if you don't want to wait.",
-        "website": "https://princestreetpizza.com/"
+        "website": "https://princestreetpizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": true
       }
     },
     {
@@ -430,7 +522,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "Widely recognized as America's first pizzeria, open since 1905 in Little Italy. Coal-oven pies served whole (no slices), with fresh mozzarella and San Marzano tomato simplicity that makes the history feel earned.",
-        "website": "https://www.firstpizza.com/"
+        "website": "https://www.firstpizza.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -448,7 +544,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A Lower East Side slice shop that mills some of its own wheat in the basement daily. The result is a noticeably nuttier crust on what is otherwise a classic NY slice — the New Yorker called it one of the best in the city.",
-        "website": "https://scarrspizza.com/"
+        "website": "https://scarrspizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -466,7 +566,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "Anthony Mangieri's obsessively focused Lower East Side operation: a short fixed menu of wood-fired Neapolitan pies, open only a few days a week, with a national reputation built over decades.",
-        "website": "https://unapizza.com/"
+        "website": "https://unapizza.com/",
+        "price": "$$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -484,7 +588,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A West Village institution since 1929, with a coal oven that turns out thin, blistered whole pies only — no slices, no delivery. The original booths and brick walls have barely changed.",
-        "website": "https://www.johnsofbleecker.com/"
+        "website": "https://www.johnsofbleecker.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -502,7 +610,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A Greenwich Village Neapolitan with a Michelin Bib Gourmand, known for its lighter, airier crust and a dining room that feels more neighborhood trattoria than destination pizzeria.",
-        "website": "https://www.songenapule.com/"
+        "website": "https://www.songenapule.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -520,7 +632,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "Roberto Caporuscio's Midtown Neapolitan. The montanara (fried then baked) is the signature, but the classic wood-fired pies hold their own.",
-        "website": "https://www.donantoniopizza.com/"
+        "website": "https://www.donantoniopizza.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -538,7 +654,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A SoHo slice window turning out a consistently excellent classic slice — understated compared to trendier neighbors, but a reliable go-to for anyone in the area.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -556,7 +676,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The Manhattan sibling of the Williamsburg original, bringing the same burrata-topped slice to the West Village. Same lines, same quality, slightly easier to reach from Midtown.",
-        "website": "https://lindustriebk.com/"
+        "website": "https://lindustriebk.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -574,7 +698,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A Garment District lunchtime institution since 1978, up a narrow staircase to a second-floor dining room. Thick, focaccia-style squares that have fueled the neighborhood for decades.",
-        "website": "https://lazzaraspizza.com/"
+        "website": "https://lazzaraspizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -592,7 +720,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A Hell's Kitchen wood-fired spot that flies under the radar, turning out solid Neapolitan pies in a low-key setting without the usual Midtown tourist markup.",
-        "website": "https://capizzinyc.com/"
+        "website": "https://capizzinyc.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -610,7 +742,11 @@
         "borough": "Staten Island",
         "style": "Classic Slice",
         "blurb": "A Staten Island institution since 1960, known for its cracker-thin crust with a secret Neapolitan recipe in the family since the founders came over from Naples.",
-        "website": "https://joeandpatsnyc.com/"
+        "website": "https://joeandpatsnyc.com/",
+        "price": "$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -628,7 +764,11 @@
         "borough": "Staten Island",
         "style": "Bar pie",
         "blurb": "Open since 1937 with the motto 'In crust we trust,' Denino's is the Staten Island bar pie benchmark — thin, crispy, tavern-style pies in a neighborhood bar that's barely changed in decades.",
-        "website": "https://deninossi.com/"
+        "website": "https://deninossi.com/",
+        "price": "$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -646,7 +786,11 @@
         "borough": "Staten Island",
         "style": "Bar pie",
         "blurb": "A Dongan Hills corner bar with no sign and no website — you have to know to look for it. The thin, crispy bar pies are among the best on the island, and the cash-only, regulars-first vibe is entirely genuine.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -664,7 +808,11 @@
         "borough": "Staten Island",
         "style": "Neapolitan",
         "blurb": "A brick-oven Staten Island staple best known for its vodka pie — rich, creamy, and consistently well-executed. One of the borough's most recommended spots for anyone visiting from outside.",
-        "website": "https://www.goodfellashylan.com/"
+        "website": "https://www.goodfellashylan.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -682,7 +830,11 @@
         "borough": "Queens",
         "style": "Sicilian",
         "blurb": "An Astoria square-slice institution since the 1950s — thick, cheese-forward, and sauced on top in the old-school style. A neighborhood staple that draws people from across the borough.",
-        "website": "https://rizzosfinepizza.com/"
+        "website": "https://rizzosfinepizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -700,7 +852,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "Founded by the late Andrew Bellucci, widely called the 'Don of Dough,' and still going strong in Astoria after his passing in 2023. The fresh-shucked clam pie is the signature; the classic NY slice holds up too.",
-        "website": "https://andrewbelluccispizzeria.com/"
+        "website": "https://andrewbelluccispizzeria.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -718,7 +874,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "A Howard Beach institution since 1956, right on the way to JFK. Salt sprinkled on the oven floor before each pie produces a uniquely crispy, flavorful crust — regulars order it well-done.",
-        "website": "https://newparkpizza.com/"
+        "website": "https://newparkpizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": true
       }
     },
     {
@@ -736,7 +896,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Bay Ridge wood-fired spot with a neighborhood-restaurant feel — seasonal ingredients, a carefully tended dough, and the kind of low-key atmosphere that keeps locals coming back without much fanfare.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -754,7 +918,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bensonhurst neighborhood slice counter on 18th Avenue — one of Brooklyn's most authentically Italian-American commercial strips. Classic NY slices from a spot that's fed the neighborhood for years.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -772,7 +940,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "Another Bensonhurst 18th Avenue staple, a few blocks from DaVinci. The kind of no-frills, cash-friendly corner pizzeria that defines outer-borough slice culture — regulars know the staff by name.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -790,7 +962,11 @@
         "borough": "Bronx",
         "style": "Neapolitan",
         "blurb": "Named after the area code of owner Roberto Paciullo's hometown of Salerno, this Arthur Avenue trattoria is the most celebrated pizza destination in the Bronx. Wood-fired pies with a puffy Sorrento-style crust, sourcing mozzarella from the legendary Casa della Mozzarella down the block.",
-        "website": "https://www.zeroottonove.com/"
+        "website": "https://www.zeroottonove.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -808,7 +984,11 @@
         "borough": "Bronx",
         "style": "Classic Slice",
         "blurb": "A Bronx classic since 1959 in the Schuylerville neighborhood — pizza and calzones only, no frills, no extras. Named one of the best hole-in-the-wall restaurants in New York State, and a perennial pick on every serious Bronx pizza list.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -826,7 +1006,11 @@
         "borough": "Bronx",
         "style": "Classic Slice",
         "blurb": "A Belmont neighborhood staple since 1984, right near the Bronx Zoo and Botanical Garden. Super-cheesy thin-crust slices in a lively, graffiti-covered room — a reliably great stop before or after an afternoon in the park.",
-        "website": "https://www.pugsley-pizza.com/"
+        "website": "https://www.pugsley-pizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -844,7 +1028,11 @@
         "borough": "Bronx",
         "style": "Neapolitan",
         "blurb": "A Michelin-listed brick-oven trattoria in Morris Park, more convivial and elegant than most Bronx pizza spots. The Regina — buffalo mozzarella, torn basil, and olive oil — is the one to order.",
-        "website": "https://www.patriciasrestaurant.com/"
+        "website": "https://www.patriciasrestaurant.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -862,7 +1050,11 @@
         "borough": "Queens",
         "style": "Neapolitan",
         "blurb": "A Forest Hills neighborhood institution since 1993, consistently rated the best pizza in Queens by both critics and locals. Fresh mozzarella pulled in-house, thin charred crust, whole pies only — cash only. Order the margherita.",
-        "website": "https://nickspizzaforesthills.netwaiter.com/"
+        "website": "https://nickspizzaforesthills.netwaiter.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -880,7 +1072,11 @@
         "borough": "Queens",
         "style": "Neapolitan",
         "blurb": "A Sunnyside neighborhood spot that's built a loyal Queens following for its light, carefully fermented dough and a square pie that Kelly Ripa called out by name on live TV. Family-run, unpretentious, and genuinely excellent.",
-        "website": "https://www.philomenasqueens.com/"
+        "website": "https://www.philomenasqueens.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -898,7 +1094,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bay Ridge slice counter with a neighborhood following — no frills, just consistent NY-style pies from a spot that's been feeding the local crowd for years.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -916,7 +1116,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "A Ridgewood neighborhood slice counter right on the Queens-Brooklyn border, serving the kind of no-frills, satisfying NY slice that the surrounding Italian-American community has relied on for years.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -934,7 +1138,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "An Astoria slice shop with a loyal following for its classic NY-style pies. Low-key, consistent, and the kind of place where regulars don't need to look at the menu.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -952,7 +1160,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Greenpoint corner slice shop beloved by the neighborhood for its consistent classic NY slices. No frills, cash-friendly, and the kind of place you stop at on the way home.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -970,7 +1182,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Brooklyn Heights neighborhood pizzeria with a wood-fired oven and a warm, convivial dining room. Solid Neapolitan pies with quality ingredients, a reliable wine list, and a loyal local following.",
-        "website": "https://www.dellaroccos.com/"
+        "website": "https://www.dellaroccos.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -988,7 +1204,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Clinton Hill wood-fired Neapolitan spot tucked away on Washington Avenue, with a neighborhood-restaurant feel and a menu that goes well beyond pizza into proper Italian fare.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1006,7 +1226,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bay Ridge institution that's been doing old-school NY slices for decades. The neighborhood has changed around it; Nino's hasn't — and that's exactly the point.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1024,7 +1248,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Park Slope slice counter with a name that undersells it — the 'secret' is a reliably good classic NY slice in a neighborhood that's increasingly hard to find one without a wait or a concept attached.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1042,7 +1270,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "The second Table 87 location, bringing the same coal-oven slice concept to the Gowanus/Park Slope border. Same crispy, char-edged crust as the Atlantic Ave original, more convenient for south Brooklyn.",
-        "website": "https://www.table87.com/"
+        "website": "https://www.table87.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1060,7 +1292,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Williamsburg slice window that's become a neighborhood staple for its straightforward, well-executed NY slices. A no-fuss alternative to the more elaborate pizza concepts that have multiplied in the neighborhood.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1078,7 +1314,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Greenpoint slice counter with a following for its large, well-sauced NY slices. Exactly what the name suggests — a reliable diamond in a neighborhood that keeps getting more expensive around it.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1096,7 +1336,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "Roberto Caporuscio's Financial District outpost of the celebrated Neapolitan operation (the Bleecker Street original closed in 2021). New York Magazine and Food Network Magazine have both named Kesté the best pizza in New York — the wood-fired pies with DOP-certified ingredients make a strong case.",
-        "website": "https://kestepizzeria.com/"
+        "website": "https://kestepizzeria.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1114,7 +1358,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "An East Village Italian restaurant named after the fried dough snack, with a wood-fired oven turning out Neapolitan pies in a warm, candlelit dining room. One of the neighborhood's most consistently recommended Italian spots.",
-        "website": "https://www.gnocco.com/"
+        "website": "https://www.gnocco.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1132,7 +1380,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A Greenwich Village coal-oven institution since 1957, with live jazz most nights and a dining room that looks like it hasn't changed since then. The pies are thin, coal-kissed, and served whole — the experience is as much of the point as the pizza.",
-        "website": "https://www.arturosnycpizza.com/"
+        "website": "https://www.arturosnycpizza.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1150,7 +1402,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A Lower East Side slice counter with a neighborhood following for its classic NY slices at a price point that's increasingly hard to find downtown. No frills, consistent, and reliably good.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1168,7 +1424,11 @@
         "borough": "Staten Island",
         "style": "Classic Slice",
         "blurb": "A Port Richmond slice counter not far from Denino's, serving the kind of reliable, no-frills NY-style slices that make this corner of Staten Island one of the borough's best pizza neighborhoods.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1186,7 +1446,11 @@
         "borough": "Staten Island",
         "style": "Neapolitan",
         "blurb": "A coal-fired Staten Island spot on Forest Avenue serving thin, blistered pies at high heat. One of the borough's more distinctive pizza options for those who want something beyond the classic bar-pie and slice-joint circuit.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1204,7 +1468,11 @@
         "borough": "Bronx",
         "style": "Classic Slice",
         "blurb": "An old-school Throggs Neck slice joint with a cash-only policy, a cornmeal-dusted crust that comes out uniquely crispy, and the kind of no-frills atmosphere where the pizza does the talking. A Bronx East Side staple for decades.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1222,7 +1490,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Dyker Heights neighborhood restaurant with a wood-fired oven and a loyal following that stretches well beyond the immediate neighborhood. Known for its thin, properly charred pies and a full Italian menu — one of the better-kept secrets in southern Brooklyn.",
-        "website": "https://www.lavillapizzeria.com/"
+        "website": "https://www.lavillapizzeria.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1240,7 +1512,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "A Flushing neighborhood pizzeria serving classic NY-style slices in one of Queens' most diverse and food-rich neighborhoods. A local staple that holds its own in a part of the borough better known for its international food scene.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1258,7 +1534,11 @@
         "borough": "Staten Island",
         "style": "Sicilian",
         "blurb": "An Annadale neighborhood staple built around the authentic Sicilian square pie — thick, cheese-forward, and sauced on top in the upside-down style. One of the south shore's most consistent and welcoming spots, with a friendly owner and a loyal regulars crowd.",
-        "website": "https://thesquarepizza.com/"
+        "website": "https://thesquarepizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1276,7 +1556,11 @@
         "borough": "Staten Island",
         "style": "Classic Slice",
         "blurb": "A neighborhood favorite on Clove Road that quickly built a following for its thin-crust pies after taking over a beloved spot that had closed. Consistently praised for delivering a great slice in a part of Staten Island that was missing one.",
-        "website": "https://www.laverapizzeriasi.com/"
+        "website": "https://www.laverapizzeriasi.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1294,7 +1578,11 @@
         "borough": "Staten Island",
         "style": "Neapolitan",
         "blurb": "A family-owned Great Kills trattoria with a real brick oven fired by NY oak wood at 650°F. Creative specialty pies — the clam, the steak and caramelized onion, the cup-and-char honey pie — in a full Italian dining room with a warm, rustic southern Italian atmosphere.",
-        "website": "https://mimmosbrickoven.com/"
+        "website": "https://mimmosbrickoven.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1312,7 +1600,11 @@
         "borough": "Staten Island",
         "style": "Classic Slice",
         "blurb": "A Tottenville neighborhood pizzeria at the southernmost tip of Staten Island — and arguably of all of New York City. The kind of local institution where regulars know the staff and the menu hasn't changed much in years, which is exactly the point.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1330,7 +1622,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Sheepshead Bay neighborhood slice counter on Avenue X — deep southern Brooklyn, far off the tourist circuit. Solid classic NY slices in a no-frills setting that's been feeding the neighborhood for years.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1348,7 +1644,11 @@
         "borough": "Staten Island",
         "style": "Classic Slice",
         "blurb": "A Great Kills neighborhood pizzeria tucked away on Brower Court — the kind of local spot that doesn't need a sign out front because the regulars already know where it is.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1366,7 +1666,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The SoHo location of Upside Pizza — same upside-down concept as the original, with cheese caramelized against the crust and sauce on top. A reliably satisfying slice in an area that's not known for them.",
-        "website": "https://www.upsidepizza.com/"
+        "website": "https://www.upsidepizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
       }
     },
     {
@@ -1384,7 +1688,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "The Greenpoint outpost of Upside Pizza, bringing the flipped-slice concept to Brooklyn. Cheese-bottom, sauce-top, crackly crust — a fun change of pace from classic NY-style.",
-        "website": "https://www.upsidepizza.com/"
+        "website": "https://www.upsidepizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
       }
     },
     {
@@ -1402,7 +1710,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The Upper West Side Upside Pizza — same upside-down slice as the other locations, in a neighborhood that needed a good slice window.",
-        "website": "https://www.upsidepizza.com/"
+        "website": "https://www.upsidepizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
       }
     },
     {
@@ -1420,7 +1732,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A New Haven-style apizza outpost in Dyker Heights — long-fermented dough, high-heat coal-fired oven, and the kind of thin, charred, slightly chewy crust that the Connecticut style is known for. A welcome outlier in southern Brooklyn.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1438,7 +1754,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "An institution with a cult following for its square slice — thick, airy, well-sauced — and a long list of classic NY pies that deliver without gimmick.",
-        "website": "https://mamastoonyc.com/"
+        "website": "https://mamastoonyc.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1456,7 +1776,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "An institution with a cult following for its square slice — thick, airy, well-sauced — and a long list of classic NY pies that deliver without gimmick.",
-        "website": "https://mamastoonyc.com/"
+        "website": "https://mamastoonyc.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1474,7 +1798,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Dyker Heights New Haven-style apizza spot — long-fermented dough, coal-fired oven, and the kind of thin, charred, chewy crust that the Connecticut style is known for. A welcome outlier in southern Brooklyn.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1492,7 +1820,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "The Gramercy Park location of the storied Patsy's brand — one of New York's oldest coal-oven pizzeria lineages, dating back to East Harlem in 1933. Thin, blistered, coal-fired pies with the old-school New York DNA intact.",
-        "website": "https://www.patsyspizzeriany.com/"
+        "website": "https://www.patsyspizzeriany.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": true
       }
     },
     {
@@ -1510,7 +1842,11 @@
         "borough": "Brooklyn",
         "style": "Sicilian",
         "blurb": "The DUMBO outpost of the Gravesend original, bringing the same upside-down Sicilian square — sauce on top, cheese caramelized on the bottom — to one of Brooklyn's busiest tourist corridors.",
-        "website": "https://spumonigardens.com/"
+        "website": "https://spumonigardens.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Both",
+        "worth_a_trip": false
       }
     },
     {
@@ -1528,7 +1864,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A Midtown East Roman-style pizzeria — thin, crispy, rectangular pies cut with scissors, served by weight. A completely different animal from the NY round pie but worth knowing about.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1546,7 +1886,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The Upper East Side outpost of Lucia Pizza, consistent and reliable for a classic NY slice in a neighborhood that can be hit or miss for pizza.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1564,7 +1908,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A neighborhood slice staple on the Upper East Side — consistent NY-style slices that the local crowd relies on.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1582,7 +1930,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The Upper West Side location of Village Square Pizza, a reliable neighborhood slice spot on Broadway.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1600,7 +1952,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "Another Upside Pizza location near Grand Central — same flipped-slice concept with cheese caramelized on the bottom and sauce on top.",
-        "website": "https://www.upsidepizza.com/"
+        "website": "https://www.upsidepizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
       }
     },
     {
@@ -1618,7 +1974,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The Midtown West location of Village Square Pizza, a dependable stop for a classic NY slice in the Garment District.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1636,7 +1996,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A Garment District slice counter with a loyal lunch crowd — no-frills NY slices at a fair price in one of Midtown's busiest corridors.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1654,7 +2018,11 @@
         "borough": "Manhattan",
         "style": "Sicilian",
         "blurb": "A Times Square-adjacent Sicilian square specialist — thick, cheesy, crispy-bottomed squares in an area otherwise dominated by tourist traps.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1672,7 +2040,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A Manhattan outpost of the beloved Staten Island institution, bringing the same cracker-thin crust and Neapolitan family recipe to the East Village.",
-        "website": "https://joeandpatsnyc.com/"
+        "website": "https://joeandpatsnyc.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1690,7 +2062,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A Lower East Side slice counter known for generously sauced pies — the name says it all. Casual, quick, reliably good.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1708,7 +2084,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A Nolita wood-fired spot with a focused menu and natural wine list. Seasonal and ingredient-driven — closer to a restaurant than a pizzeria, but the pies are serious.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1726,7 +2106,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A West Village slice shop just a block from Joe's on Carmine Street — bold, well-sauced slices with a loyal neighborhood following.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
       }
     },
     {
@@ -1744,7 +2128,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "A Village institution frequently cited alongside Joe's in debates about the best slice in the neighborhood. The Nonna Maria white slice has its own devoted following.",
-        "website": "https://www.bleeckerstreetpizza.com/"
+        "website": "https://www.bleeckerstreetpizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
       }
     },
     {
@@ -1762,7 +2150,11 @@
         "borough": "Manhattan",
         "style": "Classic Slice",
         "blurb": "The East Village outpost of the Paulie Gee's slice operation — same old-school NY slice philosophy as the Greenpoint original, now in Manhattan.",
-        "website": "https://pauliegee.com/"
+        "website": "https://pauliegee.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1780,7 +2172,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "The Greenpoint original — simple, old-school New York slices including a solid Sicilian square from the team behind the Paulie Gee's brand.",
-        "website": "https://pauliegee.com/"
+        "website": "https://pauliegee.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1798,7 +2194,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Williamsburg slice shop that built its name on grandma squares and a full rotation of classic NY pies.",
-        "website": "https://williamsburgpizza.com/"
+        "website": "https://williamsburgpizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1816,7 +2216,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "The Downtown Brooklyn/Barclays location of Fini Pizza — same well-executed NY slices, convenient for anyone catching a game at the arena.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1834,7 +2238,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Sheepshead Bay neighborhood staple serving classic NY slices in one of Brooklyn's most authentic remaining Italian-American enclaves.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1852,7 +2260,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bushwick slice counter on Knickerbocker Avenue with a neighborhood following — no-frills, reliable, and the kind of place that's been feeding the block for years.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1870,7 +2282,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "A Kew Gardens institution going back decades — thin-crust pies with a devoted local following and a reputation as one of the best slices in the borough.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1888,7 +2304,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "An Elmhurst neighborhood staple with a loyal following for its classic NY slices in one of Queens' most diverse and underrated food neighborhoods.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1906,7 +2326,11 @@
         "borough": "Queens",
         "style": "Neapolitan",
         "blurb": "An Astoria wood-fired Neapolitan spot with a craft beer selection and a commitment to quality ingredients. One of the borough's most celebrated pizza destinations before a period of closure — confirm open status before visiting.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1924,7 +2348,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "A Ridgewood neighborhood pizzeria on Myrtle Avenue with a solid local following for its consistent NY-style slices.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1942,7 +2370,11 @@
         "borough": "Bronx",
         "style": "Classic Slice",
         "blurb": "A Kingsbridge neighborhood slice counter in the northwest Bronx — reliable, no-frills, and a staple for the local community.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1960,7 +2392,11 @@
         "borough": "Bronx",
         "style": "Classic Slice",
         "blurb": "A Throggs Neck neighborhood pizzeria with a loyal local following — the kind of spot that's been part of the community fabric for years.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1978,7 +2414,11 @@
         "borough": "Bronx",
         "style": "Classic Slice",
         "blurb": "A Riverdale neighborhood institution — old-school NY slices in one of the Bronx's most suburban and overlooked neighborhoods for pizza.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -1996,7 +2436,11 @@
         "borough": "Bronx",
         "style": "Classic Slice",
         "blurb": "A northeast Bronx neighborhood pizzeria with a consistent following for its classic NY-style slices in the Pelham Parkway area.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2014,7 +2458,11 @@
         "borough": "Bronx",
         "style": "Classic Slice",
         "blurb": "A Morris Park staple not far from Patricia's — another piece of the Bronx's deep Italian-American pizza tradition, serving the neighborhood for decades.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2032,7 +2480,11 @@
         "borough": "Bronx",
         "style": "Neapolitan",
         "blurb": "A Riverdale Italian restaurant with a wood-fired oven, serving Neapolitan-style pies in one of the Bronx's most affluent neighborhoods. A cut above the typical Bronx slice joint in terms of ingredients and atmosphere.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2050,7 +2502,11 @@
         "borough": "Queens",
         "style": "Neapolitan",
         "blurb": "A beloved Astoria neighborhood institution serving wood-fired Neapolitan pies to a loyal local following. One of those spots that earns its reputation through consistency and community rather than food media attention.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2068,7 +2524,11 @@
         "borough": "Queens",
         "style": "Neapolitan",
         "blurb": "A newer Astoria wood-fired spot just steps from Rosario's on 31st Street, bringing a more modern approach to Neapolitan pizza with creative seasonal toppings and a natural wine list.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2086,7 +2546,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "A Bayside neighborhood staple on Bell Boulevard, one of Queens' most lively commercial strips. Reliable classic NY slices in a part of the borough with serious pizza roots.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2104,7 +2568,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "A Flushing neighborhood slice shop on Northern Boulevard, serving the Queens community with classic NY-style pies in an area better known for its international food scene.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2122,7 +2590,11 @@
         "borough": "Queens",
         "style": "Classic Slice",
         "blurb": "A Lucia Pizza outpost right on Roosevelt Avenue in the heart of Flushing, bringing classic NY slices to one of Queens' most diverse and food-rich corridors.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2140,7 +2612,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bay Ridge 5th Avenue slice shop with a neighborhood following. Clean, reliable NY-style pies in a stretch of Brooklyn that takes its pizza seriously.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2158,7 +2634,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Bay Ridge Italian-American trattoria named after the volcano that defines Naples — fitting for a place serving wood-fired pies in one of Brooklyn's most Italian neighborhoods. Full restaurant menu alongside the pizza.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2176,7 +2656,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "An 86th Street neighborhood slice counter in Bensonhurst, serving the local Italian-American community with classic NY pies at the right price.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2194,7 +2678,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bensonhurst neighborhood pizzeria on 21st Avenue, named after the famous Blue Grotto of Capri. Classic NY slices with the Italian-American roots that define the surrounding neighborhood.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2212,7 +2700,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bath Avenue neighborhood slice shop in Bensonhurst, feeding the local community with reliable classic NY-style pies. The kind of spot you walk to, not drive to.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2230,7 +2722,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Bath Beach neighborhood pizzeria at the edge of southern Brooklyn, where the Italian-American community runs deep and the pizza standards are set accordingly.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2248,7 +2744,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Marine Park / Sheepshead Bay neighborhood slice counter on Knapp Street, tucked in one of Brooklyn's most residential southern neighborhoods. A reliable local go-to.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2266,7 +2766,11 @@
         "borough": "Brooklyn",
         "style": "Neapolitan",
         "blurb": "A Bay Ridge wood-fired spot on 5th Avenue bringing Neapolitan-style pies to one of Brooklyn's most Italian-American neighborhoods. Housemade dough, quality ingredients, neighborhood-trattoria feel.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2284,7 +2788,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Fort Hamilton 5th Avenue slice shop at the southern end of Bay Ridge, serving the neighborhood with solid classic NY-style pies near the Brooklyn-Staten Island border.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2302,7 +2810,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Dyker Heights neighborhood pizzeria on Fort Hamilton Parkway, serving the surrounding Italian-American community with the kind of straightforward classic slice the neighborhood demands.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2320,7 +2832,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "An 80th Street Bensonhurst slice counter with a name that overpromises and a slice that actually delivers. A neighborhood staple for locals who know where to go.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2338,7 +2854,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Dyker Heights neighborhood slice counter on 13th Avenue, in the heart of one of Brooklyn's most Italian-American communities. The name says it all — known for a well-crisped crust and reliable classic NY-style slices.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2356,7 +2876,11 @@
         "borough": "Brooklyn",
         "style": "Classic Slice",
         "blurb": "A Williamsburg neighborhood slice shop on Driggs Avenue with a local following for its no-frills classic NY-style pies. A reliable option in a neighborhood that's increasingly harder to find a straightforward slice.",
-        "website": ""
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2374,7 +2898,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A West Village wine bar and Neapolitan pizza spot on Bedford Street, one of the neighborhood's most charming blocks. Roman-style thin-crust pies alongside a well-curated wine list — the kind of place that's equally good for a date or a casual weeknight dinner.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2392,7 +2920,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A Hudson Square fermentation-focused pizza spot that takes its dough seriously — long cold fermentation, carefully sourced ingredients, and a wood-fired oven. The name is the whole philosophy.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2410,7 +2942,11 @@
         "borough": "Staten Island",
         "style": "Neapolitan",
         "blurb": "A Staten Island waterfront pizza bar serving wood-fired Neapolitan pies with views of the harbor. One of the more distinctive dining settings on the island — good pizza in an unexpected location.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2428,7 +2964,11 @@
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "The Manhattan outpost of Seppe Pizza Bar in Battery Park City, serving wood-fired Neapolitan pies in a neighborhood that's more residential than most of Lower Manhattan.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     },
     {
@@ -2446,7 +2986,583 @@
         "borough": "Queens",
         "style": "Neapolitan",
         "blurb": "A Long Island City Neapolitan spot on Queens Boulevard bringing wood-fired pies to a neighborhood that's grown rapidly in recent years. A welcome addition to the LIC dining scene.",
-        "website": ""
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.93443747085418,
+          40.62015228661244
+        ]
+      },
+      "properties": {
+        "name": "Lenny & John's Pizza",
+        "address": "2036 Flatbush Ave, Brooklyn, NY 11234",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Flatbush neighborhood slice counter that's been a local staple for years. Reliable NY-style pies in a part of Brooklyn that takes its corner pizzeria seriously.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00838075740388,
+          40.61912588199119
+        ]
+      },
+      "properties": {
+        "name": "Tony's Pizzeria",
+        "address": "7623 13th Ave, Brooklyn, NY 11228",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A 13th Avenue Dyker Heights slice shop with a neighborhood following. Classic NY pies in one of Brooklyn's most Italian-American corridors.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.01167327175752,
+          40.61239099345613
+        ]
+      },
+      "properties": {
+        "name": "Bklyn's Pizza",
+        "address": "1406 86th St, Brooklyn, NY 11228",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "An 86th Street Bensonhurst slice counter serving the neighborhood with straightforward NY-style pies at the right price.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00233027009638,
+          40.60736123738323
+        ]
+      },
+      "properties": {
+        "name": "Pizza Den",
+        "address": "8521 18th Ave, Brooklyn, NY 11214",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "An 18th Avenue Bensonhurst slice shop — deep in the Italian-American neighborhood that defines southern Brooklyn pizza culture. No frills, solid slice.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96257247919218,
+          40.63504813014537
+        ]
+      },
+      "properties": {
+        "name": "Lo Duca Pizza",
+        "address": "14 Newkirk Plaza, Brooklyn, NY 11226",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Newkirk Plaza slice shop on one of Brooklyn's most charming pedestrian-only shopping strips. Good slice in a great block.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00336450245196,
+          40.655623349645154
+        ]
+      },
+      "properties": {
+        "name": "Gravesend Pizza",
+        "address": "181 34th St, Brooklyn, NY 11232",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Sunset Park / Gravesend neighborhood slice counter serving classic NY-style pies to the surrounding community. A solid local option.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0012302682294,
+          40.64679902146458
+        ]
+      },
+      "properties": {
+        "name": "Rob's of Brooklyn – Sunset Park",
+        "address": "4201 7th Ave, Brooklyn, NY 11232",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Sunset Park 7th Avenue slice shop in one of Brooklyn's most diverse and hardworking neighborhoods. Reliable NY-style pies without any attitude.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98695669220693,
+          40.66820530757538
+        ]
+      },
+      "properties": {
+        "name": "Peppino's",
+        "address": "469 5th Ave, Brooklyn, NY 11215",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Park Slope 5th Avenue slice shop that holds its own in a neighborhood full of options. Consistent, friendly, and exactly what a neighborhood pizzeria should be.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0286197191825,
+          40.62985982756564
+        ]
+      },
+      "properties": {
+        "name": "Peppino's Pizza & Restaurant",
+        "address": "7708 3rd Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "The Bay Ridge location of Peppino's — a full sit-down pizzeria on 3rd Avenue with classic NY pies and a complete Italian-American menu to go with them.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.03197502839875,
+          40.62168622277772
+        ]
+      },
+      "properties": {
+        "name": "Nonno's Pizza",
+        "address": "8816 3rd Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bay Ridge 3rd Avenue neighborhood pizzeria named for the grandfather — family-run, old-school, and the kind of place regulars have been going to for years without ever needing to look at the menu.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0309742722271,
+          40.62429074048324
+        ]
+      },
+      "properties": {
+        "name": "Leo's Casa Calamari",
+        "address": "8502 3rd Ave, Brooklyn, NY 11209",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bay Ridge neighborhood institution on 3rd Avenue known as much for its calamari as its pizza — a full Italian-American trattoria that's been feeding the neighborhood for decades.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98075410724009,
+          40.66770182164898
+        ]
+      },
+      "properties": {
+        "name": "La Casa Del Panuozzo",
+        "address": "301 7th Ave, Brooklyn, NY 11215",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Park Slope spot specializing in the panuozzo — a Neapolitan stuffed pizza bread — alongside proper wood-fired pies. A distinctive option in a neighborhood with serious competition.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97744819956378,
+          40.672422754638376
+        ]
+      },
+      "properties": {
+        "name": "Impasto",
+        "address": "200 Garfield Pl, Brooklyn, NY 11215",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Park Slope neighborhood Neapolitan spot with a focus on dough fermentation and quality ingredients. Thoughtful, carefully made pies in a comfortable neighborhood setting.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9854584732992,
+          40.6664901606112
+        ]
+      },
+      "properties": {
+        "name": "Crosta",
+        "address": "486 6th Ave, Brooklyn, NY 11215",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "A Park Slope wood-fired Neapolitan spot on 6th Avenue with a loyal neighborhood following. Simple menu, quality ingredients, and the kind of neighborhood-restaurant feel that makes it a reliable regular.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98305348436496,
+          40.6728877018396
+        ]
+      },
+      "properties": {
+        "name": "Emmy Squared Pizza – Park Slope",
+        "address": "315 5th Ave, Brooklyn, NY 11215",
+        "borough": "Brooklyn",
+        "style": "Grandma",
+        "blurb": "The Brooklyn outpost of the Emmy Squared Detroit-style pizza operation — thick, crispy, square pies with cheese that caramelizes against the pan edges. A different style from the classic NYC square, and worth trying on its own terms.",
+        "website": "https://emmysquared.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9868088116831,
+          40.72600853382903
+        ]
+      },
+      "properties": {
+        "name": "Emmy Squared Pizza – East Village",
+        "address": "83 1st Ave, New York, NY 10003",
+        "borough": "Manhattan",
+        "style": "Grandma",
+        "blurb": "The East Village Emmy Squared — Detroit-style square pies with crispy caramelized edges and creative toppings. The Colony burger is famous, but the pizza is why you go.",
+        "website": "https://emmysquared.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98758831781777,
+          40.761480109416965
+        ]
+      },
+      "properties": {
+        "name": "Emmy Squared Pizza – Hell's Kitchen",
+        "address": "311 W 48th St, New York, NY 10036",
+        "borough": "Manhattan",
+        "style": "Grandma",
+        "blurb": "The Hell's Kitchen Emmy Squared bringing Detroit-style square pies to the Theater District corridor. Thick, crispy, well-topped — a solid pre-show option.",
+        "website": "https://emmysquared.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98758631168309,
+          40.770982510445464
+        ]
+      },
+      "properties": {
+        "name": "Emmy Squared Pizza – Midtown West",
+        "address": "200 W 60th St, New York, NY 10023",
+        "borough": "Manhattan",
+        "style": "Grandma",
+        "blurb": "The Upper West Side / Columbus Circle Emmy Squared — Detroit-style square pies near Lincoln Center. Good for pre-show dinner or a post-concert slice.",
+        "website": "https://emmysquared.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98839356944262,
+          40.75822246975763
+        ]
+      },
+      "properties": {
+        "name": "John's Pizzeria of Times Square",
+        "address": "260 W 44th St, New York, NY 10036",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "Not the original Bleecker Street John's, but a separate Times Square institution in a converted church — the vaulted ceilings and stained glass make it one of the most dramatic dining rooms in the city. Coal-fired pies, whole pies only.",
+        "website": "https://johnspizzerianyc.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98289938699727,
+          40.76702209697215
+        ]
+      },
+      "properties": {
+        "name": "Pop's Pizza",
+        "address": "975 8th Ave, New York, NY 10019",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Hell's Kitchen slice counter that does classic NY-style pies at the right price for the neighborhood. A reliable go-to in an area where good, affordable slices can be hard to find.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97819629696257,
+          40.72904334066491
+        ]
+      },
+      "properties": {
+        "name": "Pop's Pizza of East Village",
+        "address": "223 Avenue B, New York, NY 10009",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The East Village Pop's — a straightforward slice counter on Avenue B serving classic NY-style pies to the neighborhood at a price that still makes sense downtown.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99250201641841,
+          40.75820842271238
+        ]
+      },
+      "properties": {
+        "name": "Pop's Pizza – Times Square",
+        "address": "360 W 42nd St, New York, NY 10036",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The Times Square Pop's — classic NY slices in the middle of the tourist corridor, at a price that respects both the pizza and your wallet.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9881152116831,
+          40.740645358788164
+        ]
+      },
+      "properties": {
+        "name": "Pop's Pizza FlatIron",
+        "address": "24 E 23rd St, New York, NY 10010",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The Flatiron Pop's location — reliable classic NY slices near Madison Square Park. Good quick lunch option in one of Midtown's busiest lunch corridors.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97903101118632,
+          40.759076376343984
+        ]
+      },
+      "properties": {
+        "name": "Ace's Pizza Rock Center",
+        "address": "30 Rockefeller Center, New York, NY 10112",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Rockefeller Center slice spot right in the heart of Midtown — classic NY-style pies in one of the city's most iconic addresses. Convenient, reliable, no-frills.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98179791589962,
+          40.77759289298768
+        ]
+      },
+      "properties": {
+        "name": "Pizza Collective",
+        "address": "2060 Broadway, New York, NY 10023",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "An Upper West Side Broadway slice counter serving the neighborhood with classic NY-style pies. A go-to for locals and Lincoln Center visitors who want a proper slice.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97879822433056,
+          40.76067860311272
+        ]
+      },
+      "properties": {
+        "name": "SIMÒ Pizza – Midtown",
+        "address": "1290 6th Ave, New York, NY 10104",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "A Midtown Neapolitan spot on 6th Avenue bringing wood-fired pies to the office-tower corridor — a genuinely good pizza option in an area where that's not easy to find.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
       }
     }
   ]
