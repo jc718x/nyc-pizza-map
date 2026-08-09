@@ -164,16 +164,38 @@ map.on('load', async () => {
 
     // Popup
     const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+
+    // Find nearest subway stations
+    const nearby = nearestStations(lat, lng, 2);
+    const subwayHTML = nearby.map(s => {
+      const mins = walkMinutes(s.dist);
+      const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean);
+      const bullets = lines.slice(0, 4).map(l =>
+        `<span class="subway-bullet" style="background:${stationColor(l)};color:${l==='N'||l==='Q'||l==='R'||l==='W'?'#000':'#fff'}">${l}</span>`
+      ).join('');
+      return `<div class="ticket-subway-row">${bullets}<span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins}</span></div>`;
+    }).join('');
+
     const html = `
       <div class="ticket">
         ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
+        ${p.worth_a_trip ? `<div class="ticket-worth-trip">⭐ Worth a special trip</div>` : ''}
         <div class="ticket-head">
           <p class="ticket-name">${escapeHTML(p.name)}</p>
-          <p class="ticket-address">${escapeHTML(p.address)}</p>
+          <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
         </div>
         <div class="ticket-body">
-          <span class="style-badge" style="background:${col}">${escapeHTML(p.style)}</span>
+          <div class="ticket-meta">
+            <span class="style-badge" style="background:${col}">${escapeHTML(p.style)}</span>
+            <span class="meta-pill">${p.price || '$'}</span>
+            ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
+            ${p.seating ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
+          </div>
           <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
+          <div class="ticket-subway">
+            <div class="ticket-subway-label">🚇 Nearest subway</div>
+            ${subwayHTML}
+          </div>
           <div class="ticket-links">
             ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
             <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
@@ -184,7 +206,7 @@ map.on('load', async () => {
     wrap.addEventListener('click', e => {
       e.stopPropagation();
       if (activePopup) activePopup.remove();
-      activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
+      activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '290px', offset: [20, -22] })
         .setLngLat([lng, lat])
         .setHTML(html)
         .addTo(map);
@@ -238,7 +260,7 @@ map.on('load', async () => {
       map.setCenter([lng, lat]);
       setTimeout(() => {
         if (activePopup) activePopup.remove();
-        activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
+        activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '290px', offset: [20, -22] })
           .setLngLat([lng, lat])
           .setHTML(html)
           .addTo(map);
@@ -247,3 +269,48 @@ map.on('load', async () => {
     }
   }
 });
+
+// ===== Near Me button =====
+let userMarker = null;
+
+const nearMeBtn = document.getElementById('nearMeBtn');
+if (nearMeBtn) {
+  nearMeBtn.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser.');
+      return;
+    }
+    nearMeBtn.textContent = '⏳ Locating…';
+    nearMeBtn.disabled = true;
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+
+        // Drop a "you are here" marker
+        if (userMarker) userMarker.remove();
+        const el = document.createElement('div');
+        el.className = 'user-location-dot';
+        userMarker = new maplibregl.Marker({ element: el })
+          .setLngLat([longitude, latitude])
+          .addTo(map);
+
+        // Fly to user location at zoom 14
+        map.flyTo({ center: [longitude, latitude], zoom: 14, duration: 1000 });
+
+        nearMeBtn.textContent = '📍 Near Me';
+        nearMeBtn.disabled = false;
+      },
+      (err) => {
+        nearMeBtn.textContent = '📍 Near Me';
+        nearMeBtn.disabled = false;
+        if (err.code === 1) {
+          alert('Location access denied. Please allow location access in your browser settings.');
+        } else {
+          alert('Unable to get your location. Please try again.');
+        }
+      },
+      { timeout: 10000, maximumAge: 60000 }
+    );
+  });
+}

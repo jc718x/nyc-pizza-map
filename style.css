@@ -341,7 +341,19 @@ body.map-page {
   border-bottom-color: var(--color-parchment-panel) !important;
 }
 
-.ticket { width: 250px; font-family: var(--font-body); }
+.ticket { width: 260px; font-family: var(--font-body); }
+
+.ticket-worth-trip {
+  background: #FFF3CD;
+  color: #856404;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-bottom: 1px solid #F0D060;
+}
 
 .ticket-photo {
   width: 100%;
@@ -368,19 +380,88 @@ body.map-page {
   line-height: 1.2;
 }
 .ticket-address { margin: 3px 0 0; font-size: 0.72rem; opacity: 0.75; }
-.ticket-body { padding: 12px 14px 14px; }
+
+.ticket-body { padding: 10px 14px 12px; }
+
+.ticket-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 9px;
+  align-items: center;
+}
+
 .style-badge {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 3px 8px;
   border-radius: 20px;
   color: #fff;
-  margin-bottom: 9px;
 }
-.ticket-blurb { margin: 0 0 12px; font-size: 0.83rem; line-height: 1.45; }
+
+.meta-pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 3px 7px;
+  border-radius: 20px;
+  background: rgba(36,26,16,0.08);
+  color: var(--color-char);
+}
+
+.ticket-blurb { margin: 0 0 10px; font-size: 0.82rem; line-height: 1.45; }
+
+.ticket-subway {
+  background: rgba(36,26,16,0.05);
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+.ticket-subway-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(36,26,16,0.55);
+  margin-bottom: 6px;
+}
+.ticket-subway-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+}
+.ticket-subway-row:last-child { margin-bottom: 0; }
+.subway-bullet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.58rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+.subway-station-name {
+  flex: 1;
+  font-weight: 600;
+  color: var(--color-char);
+  font-size: 0.78rem;
+}
+.subway-walk {
+  font-size: 0.72rem;
+  color: rgba(36,26,16,0.55);
+  white-space: nowrap;
+}
+
 .ticket-links {
   display: flex;
   gap: 10px;
@@ -724,3 +805,75 @@ button:focus-visible {
   transition: background 0.15s ease;
 }
 .form-submit:hover { background: #b81c1f; }
+
+/* ===== Near Me button (map page) ===== */
+.near-me-btn {
+  position: fixed;
+  top: calc(var(--topbar-h) + 12px);
+  left: 12px;
+  z-index: 5;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: white;
+  color: var(--color-char);
+  border: 1.5px solid rgba(36,26,16,0.2);
+  border-radius: 20px;
+  padding: 8px 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: all 0.15s ease;
+}
+.near-me-btn:hover {
+  background: var(--color-sauce);
+  color: white;
+  border-color: var(--color-sauce);
+}
+.near-me-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ===== User location dot ===== */
+.user-location-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #4285F4;
+  border: 3px solid white;
+  box-shadow: 0 0 0 3px rgba(66,133,244,0.3), 0 2px 8px rgba(0,0,0,0.3);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(66,133,244,0.3), 0 2px 8px rgba(0,0,0,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(66,133,244,0.15), 0 2px 8px rgba(0,0,0,0.3); }
+}
+
+/* ===== Near Me on list page ===== */
+.near-me-list-btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(36,26,16,0.2);
+  background: transparent;
+  color: var(--color-char);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+}
+.near-me-list-btn:hover,
+.near-me-list-btn.active {
+  background: var(--color-sauce);
+  border-color: var(--color-sauce);
+  color: white;
+}
+
+.entry-distance {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-sauce);
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 6px;
+}

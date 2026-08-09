@@ -267,6 +267,8 @@
 
   <div class="filter-bar">
     <span class="filter-label">Borough</span>
+    <button class="filter-btn near-me-list-btn" id="nearMeListBtn">📍 Near Me</button>
+    <div class="filter-divider"></div>
     <div class="filter-group" id="boroughFilters">
       <button class="filter-btn active" data-borough="all">All</button>
       <button class="filter-btn borough-brooklyn" data-borough="Brooklyn">Brooklyn</button>
@@ -314,6 +316,8 @@ function buildList(features) {
     div.className = 'pizza-entry';
     div.dataset.borough = p.borough;
     div.dataset.style   = p.style;
+    div.dataset.lat = fLat;
+    div.dataset.lng = fLng;
 
     div.innerHTML = `
       <div class="entry-borough-bar" style="background:${col}"></div>
@@ -360,6 +364,15 @@ document.getElementById('boroughFilters').addEventListener('click', e => {
 });
 
 
+
+// Distance helper (mirrors stations.js)
+function stationDist(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
 
 // Load data and build
 fetch('data.json')
