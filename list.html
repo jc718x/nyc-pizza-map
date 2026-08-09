@@ -50,6 +50,18 @@
     border-bottom: 1px dashed rgba(36,26,16,0.2);
   }
 
+  .neighborhood-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: -20px 0 28px;
+  }
+  .neighborhood-filter-row .neighborhood-chip.active {
+    background: var(--color-sauce);
+    border-color: var(--color-sauce);
+    color: white;
+  }
+
   .filter-group {
     display: flex;
     flex-wrap: wrap;
@@ -281,12 +293,15 @@
     </div>
   </div>
 
+  <div class="neighborhood-filter-row" id="neighborhoodFilterRow" hidden></div>
+
   <div class="pizza-list" id="pizzaList"></div>
   <p class="no-results" id="noResults">No pizzerias match these filters.</p>
 </main>
 
 <script src="nav.js"></script>
 <script src="stations.js"></script>
+<script src="neighborhoods-data.js"></script>
 <script>
 const BOROUGH_COLORS = {
   Brooklyn:        '#DC2225',
@@ -368,8 +383,12 @@ function applyFilters() {
   let visible = 0;
   entries.forEach(el => {
     const bMatch = activeBorough === 'all' || el.dataset.borough === activeBorough;
-    const sMatch = true;
-    const show   = bMatch && sMatch;
+    let nMatch = true;
+    if (activeNeighborhood) {
+      const d = stationDist(activeNeighborhood.lat, activeNeighborhood.lng, parseFloat(el.dataset.lat), parseFloat(el.dataset.lng));
+      nMatch = d <= 1200;
+    }
+    const show = bMatch && nMatch;
     el.classList.toggle('hidden', !show);
     if (show) visible++;
   });
@@ -378,12 +397,38 @@ function applyFilters() {
 }
 
 // Borough filter buttons
+let activeNeighborhood = null;
+const neighborhoodRow = document.getElementById('neighborhoodFilterRow');
+
 document.getElementById('boroughFilters').addEventListener('click', e => {
   const btn = e.target.closest('.filter-btn');
   if (!btn) return;
   document.querySelectorAll('#boroughFilters .filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   activeBorough = btn.dataset.borough;
+  activeNeighborhood = null;
+
+  // Show neighborhood chips for the selected borough
+  neighborhoodRow.innerHTML = '';
+  if (activeBorough !== 'all' && typeof NEIGHBORHOODS !== 'undefined' && NEIGHBORHOODS[activeBorough]) {
+    NEIGHBORHOODS[activeBorough].forEach(n => {
+      const chip = document.createElement('button');
+      chip.className = 'neighborhood-chip';
+      chip.textContent = n.name;
+      chip.addEventListener('click', () => {
+        const isActive = chip.classList.contains('active');
+        neighborhoodRow.querySelectorAll('.neighborhood-chip').forEach(c => c.classList.remove('active'));
+        activeNeighborhood = isActive ? null : n;
+        if (!isActive) chip.classList.add('active');
+        applyFilters();
+      });
+      neighborhoodRow.appendChild(chip);
+    });
+    neighborhoodRow.hidden = false;
+  } else {
+    neighborhoodRow.hidden = true;
+  }
+
   applyFilters();
 });
 

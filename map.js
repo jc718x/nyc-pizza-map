@@ -74,21 +74,21 @@ function landmarkStarSVG() {
   </svg>`;
 }
 
-// ===== Landmark baseball icon (dark circle badge, white ball with seams) =====
-function landmarkBaseballSVG() {
+// ===== Landmark baseball icon (team-color badge, white ball, red stitching) =====
+function landmarkBaseballSVG(badgeColor) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
-    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <circle cx="50" cy="46" r="42" fill="${badgeColor}" stroke="white" stroke-width="3.5"/>
     <circle cx="50" cy="46" r="24" fill="white"/>
-    <path d="M38 25 Q50 46 38 67" fill="none" stroke="#241A10" stroke-width="2.2"/>
-    <path d="M62 25 Q50 46 62 67" fill="none" stroke="#241A10" stroke-width="2.2"/>
+    <path d="M38 25 Q50 46 38 67" fill="none" stroke="#C8102E" stroke-width="2.2"/>
+    <path d="M62 25 Q50 46 62 67" fill="none" stroke="#C8102E" stroke-width="2.2"/>
   </svg>`;
 }
 
-// ===== Landmark basketball icon (dark circle badge, white ball with seams) =====
+// ===== Landmark basketball icon (dark circle badge, orange ball with black seams) =====
 function landmarkBasketballSVG() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
     <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
-    <circle cx="50" cy="46" r="24" fill="white"/>
+    <circle cx="50" cy="46" r="24" fill="#E4691B"/>
     <line x1="50" y1="22" x2="50" y2="70" stroke="#241A10" stroke-width="2.2"/>
     <line x1="26" y1="46" x2="74" y2="46" stroke="#241A10" stroke-width="2.2"/>
     <path d="M31 28 Q46 46 31 64" fill="none" stroke="#241A10" stroke-width="2.2"/>
@@ -116,7 +116,7 @@ const LANDMARKS = [
   { name: "Statue of Liberty",       lat: 40.6892, lng: -74.0445 },
   { name: "Grand Central Terminal",  lat: 40.7527, lng: -73.9772 },
   { name: "Bronx Zoo",               lat: 40.8506, lng: -73.8770 },
-  { name: "Madison Square Garden",   lat: 40.7505, lng: -73.9934, icon: 'basketball' },
+  { name: "Madison Square Garden",   lat: 40.7505, lng: -73.9934, icon: 'basketball', large: true },
   { name: "Flatiron Building",       lat: 40.7411, lng: -73.9897 },
   { name: "Washington Square Park",  lat: 40.7308, lng: -73.9973 },
   { name: "The High Line",           lat: 40.7480, lng: -74.0048 },
@@ -124,8 +124,8 @@ const LANDMARKS = [
   { name: "Museum of Natural History", lat: 40.7813, lng: -73.9740 },
   { name: "MoMA",                    lat: 40.7614, lng: -73.9776 },
   { name: "Lincoln Center",          lat: 40.7725, lng: -73.9835 },
-  { name: "Yankee Stadium",          lat: 40.8296, lng: -73.9262, icon: 'baseball' },
-  { name: "Citi Field",              lat: 40.7571, lng: -73.8458, icon: 'baseball' },
+  { name: "Yankee Stadium",          lat: 40.8296, lng: -73.9262, icon: 'baseball', badgeColor: '#0C2340', large: true },
+  { name: "Citi Field",              lat: 40.7571, lng: -73.8458, icon: 'baseball', badgeColor: '#4169E1', large: true },
   { name: "Coney Island",            lat: 40.5755, lng: -73.9707 },
   { name: "Circle Line Sightseeing", lat: 40.76280655144898, lng: -74.00154982881688, icon: 'cruise' },
 ];
@@ -165,6 +165,14 @@ const LABEL_ZOOM = 13.2;
 
 function labelsVisible() {
   return map.getZoom() >= LABEL_ZOOM;
+}
+
+// Landmark labels wait until a noticeably closer zoom than pizza labels,
+// so pizza labels always appear first and landmarks never compete with them
+const LANDMARK_LABEL_ZOOM = 15.3;
+
+function landmarksVisible() {
+  return map.getZoom() >= LANDMARK_LABEL_ZOOM;
 }
 
 // ===== Proximity detection for label side =====
@@ -321,13 +329,14 @@ map.on('load', async () => {
   });
 
   // ===== Landmark star markers =====
+  const landmarkLabels = [];
   LANDMARKS.forEach(lm => {
     const wrap = document.createElement('div');
     wrap.className = 'landmark-marker-wrap';
 
     const pin = document.createElement('div');
-    pin.className = 'landmark-pin';
-    pin.innerHTML = lm.icon === 'baseball' ? landmarkBaseballSVG()
+    pin.className = 'landmark-pin' + (lm.large ? ' landmark-pin-large' : '');
+    pin.innerHTML = lm.icon === 'baseball' ? landmarkBaseballSVG(lm.badgeColor || '#241A10')
                    : lm.icon === 'basketball' ? landmarkBasketballSVG()
                    : lm.icon === 'cruise' ? landmarkCruiseSVG()
                    : landmarkStarSVG();
@@ -335,13 +344,58 @@ map.on('load', async () => {
     const label = document.createElement('div');
     label.className = 'landmark-label';
     label.textContent = lm.name;
+    label.style.opacity = landmarksVisible() ? '1' : '0';
+    landmarkLabels.push(label);
 
     wrap.appendChild(pin);
     wrap.appendChild(label);
 
     wrap.addEventListener('click', (e) => {
       e.stopPropagation();
-      map.flyTo({ center: [lm.lng, lm.lat], zoom: 15, duration: 1000 });
+
+      // Center on the landmark — never zoom OUT below the current zoom,
+      // only zoom in if currently zoomed out further than 15.5
+      const targetZoom = Math.max(map.getZoom(), 15.5);
+      map.flyTo({ center: [lm.lng, lm.lat], zoom: targetZoom, duration: 900 });
+
+      // Find nearest pizzerias to this landmark
+      const nearby = geojson.features
+        .map(f => ({
+          ...f.properties,
+          lat: f.geometry.coordinates[1],
+          lng: f.geometry.coordinates[0],
+          d: stationDist(lm.lat, lm.lng, f.geometry.coordinates[1], f.geometry.coordinates[0])
+        }))
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 4);
+
+      const nearbyHTML = nearby.map(p => {
+        const mins = walkMinutes(p.d);
+        const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
+        return `<div class="ticket-subway-row"><div class="subway-station-walk"><a href="${mapUrl}" style="color:var(--color-char);font-weight:600;text-decoration:none;">${escapeHTML(p.name)}</a><span class="subway-walk">${mins} walk</span></div></div>`;
+      }).join('');
+
+      const html = `
+        <div class="ticket">
+          <div class="ticket-head" style="background:#241A10;">
+            <p class="ticket-name">${escapeHTML(lm.name)}</p>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-subway">
+              <div class="ticket-subway-label">🍕 Nearest pizza</div>
+              ${nearbyHTML}
+            </div>
+          </div>
+        </div>`;
+
+      setTimeout(() => {
+        if (activePopup) activePopup.remove();
+        activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
+          .setLngLat([lm.lng, lm.lat])
+          .setHTML(html)
+          .addTo(map);
+        activePopup.on('close', () => { activePopup = null; });
+      }, 400);
     });
 
     new maplibregl.Marker({ element: wrap, anchor: 'left' })
@@ -353,6 +407,8 @@ map.on('load', async () => {
   function updateLabels() {
     const show = labelsVisible();
     labels.forEach(l => l.style.opacity = show ? '1' : '0');
+    const showLandmarks = landmarksVisible();
+    landmarkLabels.forEach(l => l.style.opacity = showLandmarks ? '1' : '0');
   }
   map.on('zoomend', updateLabels);
 
@@ -468,5 +524,48 @@ if (nearMeBtn) {
       },
       { timeout: 10000, maximumAge: 60000 }
     );
+  });
+}
+
+// ===== Legend neighborhood picker =====
+const legend = document.getElementById('legend');
+const neighborhoodPanel = document.getElementById('neighborhoodPanel');
+const neighborhoodPanelTitle = document.getElementById('neighborhoodPanelTitle');
+const neighborhoodChips = document.getElementById('neighborhoodChips');
+let activeBoroughBtn = null;
+
+if (legend && typeof NEIGHBORHOODS !== 'undefined') {
+  legend.addEventListener('click', (e) => {
+    const btn = e.target.closest('.legend-item');
+    if (!btn) return;
+    const borough = btn.dataset.borough;
+
+    // Toggle off if clicking the already-active borough
+    if (activeBoroughBtn === btn) {
+      neighborhoodPanel.hidden = true;
+      btn.classList.remove('active');
+      activeBoroughBtn = null;
+      return;
+    }
+
+    if (activeBoroughBtn) activeBoroughBtn.classList.remove('active');
+    btn.classList.add('active');
+    activeBoroughBtn = btn;
+
+    neighborhoodPanelTitle.textContent = `${borough} neighborhoods`;
+    neighborhoodChips.innerHTML = '';
+    (NEIGHBORHOODS[borough] || []).forEach(n => {
+      const chip = document.createElement('button');
+      chip.className = 'neighborhood-chip';
+      chip.textContent = n.name;
+      chip.addEventListener('click', () => {
+        map.flyTo({ center: [n.lng, n.lat], zoom: 14.5, duration: 900 });
+        neighborhoodPanel.hidden = true;
+        btn.classList.remove('active');
+        activeBoroughBtn = null;
+      });
+      neighborhoodChips.appendChild(chip);
+    });
+    neighborhoodPanel.hidden = false;
   });
 }

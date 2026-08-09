@@ -223,7 +223,7 @@
   <a href="about.html">About</a>
 </div>
 
-<main class="nearby-wrap">
+<main class="page-wrap nearby-wrap">
   <p class="page-kicker">Tourist guide</p>
   <h2>Pizza Near Your Plans</h2>
   <p>Heading somewhere in the city? Pick your destination and we'll show you the best pizza within walking distance.</p>
@@ -360,7 +360,6 @@ function showResults(landmarkKey) {
   }
 
   section.style.display = 'block';
-  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 document.getElementById('landmarkChips').addEventListener('click', e => {
