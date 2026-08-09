@@ -76,7 +76,7 @@ function escapeAttr(str) {
 }
 
 // Labels show at this zoom and above
-const LABEL_ZOOM = 11;
+const LABEL_ZOOM = 13.2;
 
 function labelsVisible() {
   return map.getZoom() >= LABEL_ZOOM;
