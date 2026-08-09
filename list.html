@@ -286,11 +286,12 @@
 </main>
 
 <script src="nav.js"></script>
+<script src="stations.js"></script>
 <script>
 const BOROUGH_COLORS = {
   Brooklyn:        '#DC2225',
   Manhattan:       '#276E40',
-  Queens:          '#D9A441',
+  Queens:          '#FF6B00',
   Bronx:           '#8B3A62',
   'Staten Island': '#3C5A80'
 };
@@ -341,6 +342,21 @@ function buildList(features) {
           ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener">Website</a>` : ''}
           <a href="${mapUrl}">Show on map</a>
         </div>
+        ${(() => {
+          try {
+            if (typeof nearestStations !== 'function') return '';
+            const nearby = nearestStations(lat, lng, 2);
+            const rows = nearby.map(s => {
+              const mins = walkMinutes(s.dist);
+              const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean).slice(0, 4);
+              const bullets = lines.map(l =>
+                `<span class="subway-bullet" style="background:${stationColor(l)};color:${['N','Q','R','W'].includes(l)?'#000':'#fff'}">${l}</span>`
+              ).join('');
+              return `<div class="ticket-subway-row">${bullets}<span class="subway-station-name">${s.name}</span><span class="subway-walk">${mins}</span></div>`;
+            }).join('');
+            return `<div class="ticket-subway" style="margin-top:8px;"><div class="ticket-subway-label">🚇 Nearest subway</div>${rows}</div>`;
+          } catch(e) { return ''; }
+        })()}
       </div>`;
 
     list.appendChild(div);
@@ -372,15 +388,6 @@ document.getElementById('boroughFilters').addEventListener('click', e => {
 });
 
 
-
-// Distance helper (mirrors stations.js)
-function stationDist(lat1, lng1, lat2, lng2) {
-  const R = 6371000;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
 
 // Load data and build
 fetch('data.json')
