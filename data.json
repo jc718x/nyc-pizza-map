@@ -600,13 +600,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -73.98767589117541,
-          40.735596338470735
+          -74.00140889925652,
+          40.7279342197414
         ]
       },
       "properties": {
         "name": "Song' E Napule",
-        "address": "295 W Houston St, New York, NY 10014",
+        "address": "132 W Houston St, New York, NY 10012",
         "borough": "Manhattan",
         "style": "Neapolitan",
         "blurb": "A Greenwich Village Neapolitan with a Michelin Bib Gourmand, known for its lighter, airier crust and a dining room that feels more neighborhood trattoria than destination pizzeria.",
@@ -4111,6 +4111,182 @@
         "website": "",
         "price": "$$",
         "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.00767808102152,
+          40.71009721986041
+        ]
+      },
+      "properties": {
+        "name": "Joe's Pizza – Fulton St",
+        "address": "124 Fulton St, New York, NY 10038",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Financial District outpost of the legendary Joe's Pizza near the South Street Seaport, bringing the classic thin-crust NY slice to the FiDi lunch crowd.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98702849818763,
+          40.75469219839169
+        ]
+      },
+      "properties": {
+        "name": "Joe's Pizza – Broadway",
+        "address": "1435 Broadway, New York, NY 10018",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "The Times Square-area Joe's Pizza location on Broadway, serving the same classic thin NY slice to the theater district and Garment District crowds.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95892460063932,
+          40.71688172228325
+        ]
+      },
+      "properties": {
+        "name": "Joe's Pizza – Williamsburg",
+        "address": "216 Bedford Ave, Brooklyn, NY 11249",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "The Williamsburg location of Joe's Pizza on Bedford Avenue, bringing the West Village original's classic thin-crust slice across the river.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98768587057872,
+          40.73324915692977
+        ]
+      },
+      "properties": {
+        "name": "Joe's Pizza – Union Square",
+        "address": "150 E 14th St, New York, NY 10003",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Union Square-area Joe's Pizza location serving the classic thin NY slice near 14th Street.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9024892548929,
+          40.70613638699753
+        ]
+      },
+      "properties": {
+        "name": "Joe's Pizza – Ridgewood",
+        "address": "66-53 Forest Ave, Ridgewood, NY 11385",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "The Ridgewood, Queens outpost of Joe's Pizza, bringing the legendary West Village slice recipe out to one of Queens' most up-and-coming neighborhoods.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9721782294767,
+          40.693345864697434
+        ]
+      },
+      "properties": {
+        "name": "Joe and Sal's Pizzeria",
+        "address": "353 Myrtle Ave, Brooklyn, NY 11205",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Fort Greene neighborhood slice shop on Myrtle Avenue, serving the community with classic NY-style pies near Fort Greene Park.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97690964419489,
+          40.785422668670606
+        ]
+      },
+      "properties": {
+        "name": "Song' E Napule – Upper West Side",
+        "address": "464 Amsterdam Ave, New York, NY 10024",
+        "borough": "Manhattan",
+        "style": "Neapolitan",
+        "blurb": "The Upper West Side location of Song' E Napule, bringing wood-fired Neapolitan pies to Amsterdam Avenue.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97891513088308,
+          40.605198530233054
+        ]
+      },
+      "properties": {
+        "name": "Italia Pizza",
+        "address": "307 Kings Hwy, Brooklyn, NY 11223",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Kings Highway slice shop in Gravesend, serving the neighborhood with classic NY-style pies along one of Brooklyn's major commercial corridors.",
+        "website": "",
+        "price": "$",
+        "slices": true,
         "seating": "Indoor",
         "worth_a_trip": false
       }

@@ -214,7 +214,6 @@
     <button class="landmark-btn" data-landmark="brooklyn-bridge"><span class="landmark-emoji">🌉</span>Brooklyn Bridge</button>
     <button class="landmark-btn" data-landmark="911-memorial"><span class="landmark-emoji">🕊️</span>9/11 Memorial</button>
     <button class="landmark-btn" data-landmark="empire-state"><span class="landmark-emoji">🏙️</span>Empire State</button>
-    <button class="landmark-btn" data-landmark="yankee-stadium"><span class="landmark-emoji">⚾</span>Yankee Stadium</button>
     <button class="landmark-btn" data-landmark="coney-island"><span class="landmark-emoji">🎡</span>Coney Island</button>
     <button class="landmark-btn" data-landmark="williamsburg"><span class="landmark-emoji">🎨</span>Williamsburg</button>
     <button class="landmark-btn" data-landmark="soho"><span class="landmark-emoji">🛍️</span>SoHo</button>
@@ -286,7 +285,7 @@ function showResults(landmarkKey) {
   const lm = LANDMARKS[landmarkKey];
   if (!lm || !allPizzerias.length) return;
 
-  // Find all pizzerias within 1.5km, sorted by distance
+  // Find all pizzerias within 1.5km (3km for Worth a Special Trip spots), sorted by distance
   const nearby = allPizzerias
     .map(f => ({
       ...f.properties,
@@ -294,7 +293,7 @@ function showResults(landmarkKey) {
       lng: f.geometry.coordinates[0],
       d: dist(lm.lat, lm.lng, f.geometry.coordinates[1], f.geometry.coordinates[0])
     }))
-    .filter(p => p.d <= 1500)
+    .filter(p => p.d <= (p.worth_a_trip ? 3000 : 1500))
     .sort((a, b) => a.d - b.d)
     .slice(0, 12);
 

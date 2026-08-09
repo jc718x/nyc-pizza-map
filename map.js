@@ -42,6 +42,20 @@ const map = new maplibregl.Map({
 
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
+// ===== Zoom-responsive marker sizing =====
+// Shrinks pizza pins when zoomed out so 190+ markers don't overwhelm the city view
+function updateZoomMarkerSize() {
+  const z = map.getZoom();
+  const mapEl = document.getElementById('map');
+  mapEl.classList.remove('zoom-far', 'zoom-mid', 'zoom-close', 'zoom-closer');
+  if (z < 11.5)      mapEl.classList.add('zoom-far');
+  else if (z < 13)   mapEl.classList.add('zoom-mid');
+  else if (z < 14.5) mapEl.classList.add('zoom-close');
+  else                mapEl.classList.add('zoom-closer');
+}
+map.on('zoom', updateZoomMarkerSize);
+map.on('load', updateZoomMarkerSize);
+
 // ===== Pizza slice icon SVG (flat, 40x44px) =====
 function sliceSVG(color) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
