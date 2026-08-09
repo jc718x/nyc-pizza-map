@@ -296,8 +296,8 @@ body.map-page {
 }
 
 .pizza-pin {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
   transition: transform 0.12s ease, filter 0.12s ease, width 0.15s ease, height 0.15s ease;
@@ -311,10 +311,10 @@ body.map-page {
 .label-left .pizza-pin { transform-origin: right center; }
 
 /* Zoom-responsive marker sizing — smaller when zoomed out so pins don't overwhelm the city view */
-.zoom-far .pizza-pin   { width: 16px; height: 16px; }
-.zoom-mid .pizza-pin    { width: 20px; height: 20px; }
-.zoom-close .pizza-pin  { width: 24px; height: 24px; }
-.zoom-closer .pizza-pin { width: 28px; height: 28px; }
+.zoom-far .pizza-pin   { width: 19px; height: 19px; }
+.zoom-mid .pizza-pin    { width: 23px; height: 23px; }
+.zoom-close .pizza-pin  { width: 27px; height: 27px; }
+.zoom-closer .pizza-pin { width: 32px; height: 32px; }
 .pizza-marker-wrap:hover .pizza-pin {
   transform: scale(1.15);
   filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
