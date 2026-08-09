@@ -259,7 +259,7 @@ const WORTH_A_TRIP = new Set([
 ]);
 
 const BOROUGH_COLORS = {
-  Brooklyn:'#DC2225', Manhattan:'#276E40', Queens:'#D9A441',
+  Brooklyn:'#DC2225', Manhattan:'#276E40', Queens:'#FF6B00',
   Bronx:'#8B3A62', 'Staten Island':'#3C5A80'
 };
 
@@ -323,7 +323,7 @@ function showResults(landmarkKey) {
         </div>
         <div class="nearby-pills">
           <span class="nearby-pill" style="background:var(--color-crust);color:#fff">${p.style}</span>
-          ${p.seating ? `<span class="nearby-pill">${p.seating}</span>` : ''}
+          ${p.seating && p.seating !== 'Indoor' ? `<span class="nearby-pill">${p.seating}</span>` : ''}
           ${p.price ? `<span class="nearby-pill">${p.price}</span>` : ''}
           ${p.slices ? `<span class="nearby-pill">Slices ✓</span>` : `<span class="nearby-pill">Whole pies</span>`}
           ${isWorth ? `<span class="nearby-pill worth-trip">⭐ Worth a special trip</span>` : ''}

@@ -190,7 +190,7 @@ map.on('load', async () => {
             <span class="style-badge">${escapeHTML(p.style)}</span>
             <span class="meta-pill">${p.price || '$'}</span>
             ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
-            ${p.seating ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
+            ${p.seating && p.seating !== 'Indoor' ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
           </div>
           <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
           ${subwayHTML ? `<div class="ticket-subway">
@@ -270,7 +270,7 @@ map.on('load', async () => {
               <span class="style-badge">${escapeHTML(p.style)}</span>
               <span class="meta-pill">${p.price || '$'}</span>
               ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
-              ${p.seating ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
+              ${p.seating && p.seating !== 'Indoor' ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
             </div>
             <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
             ${subwayHTML ? `<div class="ticket-subway">

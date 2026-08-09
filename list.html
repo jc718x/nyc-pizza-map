@@ -333,7 +333,7 @@ function buildList(features) {
         <div class="entry-pills">
           ${p.price ? `<span class="meta-pill">${p.price}</span>` : ''}
           ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies</span>`}
-          ${p.seating ? `<span class="meta-pill">${p.seating}</span>` : ''}
+          ${p.seating && p.seating !== 'Indoor' ? `<span class="meta-pill">${p.seating}</span>` : ''}
           ${p.worth_a_trip ? `<span class="meta-pill" style="background:#FFF3CD;color:#856404;font-weight:700">⭐ Worth a special trip</span>` : ''}
         </div>
         <p class="entry-address">${p.address}</p>
