@@ -541,7 +541,53 @@ map.on('load', async () => {
   }
 });
 
-// ===== Circle Line boat — small animated marker sailing around Manhattan =====
+// ===== Subway station markers =====
+// Small colored dots (MTA line color) with the line letter inside,
+// only visible once zoomed in enough that 449 stations won't overwhelm
+// the pizza pins. Hover shows the station name + lines.
+if (typeof SUBWAY_STATIONS !== 'undefined') {
+  const SUBWAY_MARKER_ZOOM = 14.5; // stations appear at street/neighborhood level
+  const subwayEls = [];
+
+  function subwayMarkerVisible() {
+    return map.getZoom() >= SUBWAY_MARKER_ZOOM;
+  }
+
+  SUBWAY_STATIONS.forEach(s => {
+    const firstLine = s.lines.trim().split(/[\s,·\-]+/)[0];
+    const col = stationColor(firstLine);
+    const textColor = ['N','Q','R','W'].includes(firstLine) ? '#000' : '#fff';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'subway-marker-wrap';
+    wrap.style.opacity = subwayMarkerVisible() ? '1' : '0';
+    subwayEls.push(wrap);
+
+    const dot = document.createElement('div');
+    dot.className = 'subway-marker-dot';
+    dot.style.background = col;
+    dot.style.color = textColor;
+    dot.textContent = firstLine;
+
+    const tip = document.createElement('div');
+    tip.className = 'subway-marker-tip';
+    tip.innerHTML = `<strong>${escapeHTML(s.name)}</strong><span>${escapeHTML(s.lines)}</span>`;
+
+    wrap.appendChild(dot);
+    wrap.appendChild(tip);
+
+    new maplibregl.Marker({ element: wrap, anchor: 'center' })
+      .setLngLat([s.lng, s.lat])
+      .addTo(map);
+  });
+
+  map.on('zoomend', () => {
+    const show = subwayMarkerVisible();
+    subwayEls.forEach(el => el.style.opacity = show ? '1' : '0');
+  });
+}
+
+
 // Rough loop tracing the real Circle Line "Full Island" cruise route:
 // departs Pier 83, down the Hudson, around the Battery, up the East River,
 // through Hell Gate and the Harlem River, back down the Hudson to Pier 83.
@@ -572,9 +618,17 @@ function circleLineBoatSVG() {
   </svg>`;
 }
 
+// Outer element — MapLibre owns this one's transform entirely for positioning.
+// Never set .style.transform on boatEl directly, or it'll wipe out MapLibre's
+// translate() and the marker will stop tracking its lng/lat.
 const boatEl = document.createElement('div');
-boatEl.style.cssText = 'width:26px; height:26px; filter:drop-shadow(0 2px 5px rgba(0,0,0,0.4)); transition: transform 0.3s linear;';
-boatEl.innerHTML = circleLineBoatSVG();
+boatEl.style.cssText = 'width:26px; height:26px;';
+
+// Inner element — this is the one we rotate freely, isolated from MapLibre's positioning
+const boatInner = document.createElement('div');
+boatInner.style.cssText = 'width:100%; height:100%; filter:drop-shadow(0 2px 5px rgba(0,0,0,0.4)); transition: transform 0.3s linear;';
+boatInner.innerHTML = circleLineBoatSVG();
+boatEl.appendChild(boatInner);
 
 const boatMarker = new maplibregl.Marker({ element: boatEl, anchor: 'center' })
   .setLngLat(CIRCLE_LINE_ROUTE[0])
@@ -596,9 +650,10 @@ function animateBoat(timestamp) {
   const lat = from[1] + (to[1] - from[1]) * segmentT;
   boatMarker.setLngLat([lng, lat]);
 
-  // Rotate the boat's bow to face the direction of travel
+  // Rotate the boat's bow to face the direction of travel — only touches
+  // the inner element, so it never conflicts with MapLibre's own positioning
   const angle = Math.atan2(to[0] - from[0], to[1] - from[1]) * 180 / Math.PI;
-  boatEl.style.transform = `rotate(${angle}deg)`;
+  boatInner.style.transform = `rotate(${angle}deg)`;
 
   requestAnimationFrame(animateBoat);
 }
