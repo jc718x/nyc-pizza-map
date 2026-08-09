@@ -106,6 +106,19 @@ function landmarkCruiseSVG() {
   </svg>`;
 }
 
+// ===== Landmark Statue of Liberty icon (dark circle badge, white silhouette) =====
+function landmarkStatueSVG() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
+    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <path d="M42 78 L39 50 Q39 41 46 37 L46 31 L54 31 L54 37 Q61 41 61 50 L58 78 Z" fill="white"/>
+    <circle cx="50" cy="27" r="6.5" fill="white"/>
+    <path d="M44 22 L46 15 L48 22 M48 20 L50 12 L52 20 M52 22 L54 15 L56 22" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <path d="M59 39 L70 23" stroke="white" stroke-width="4" stroke-linecap="round"/>
+    <path d="M67 21 L70 23 L74 21 L72 15 L68 15 Z" fill="white"/>
+    <path d="M41 44 L35 51" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  </svg>`;
+}
+
 // ===== NYC landmarks — single-point attractions only (not neighborhoods) =====
 const LANDMARKS = [
   { name: "Empire State Building",   lat: 40.7484, lng: -73.9857 },
@@ -113,7 +126,7 @@ const LANDMARKS = [
   { name: "9/11 Memorial",           lat: 40.7115, lng: -74.0134 },
   { name: "Brooklyn Bridge",         lat: 40.7061, lng: -73.9969 },
   { name: "Central Park",            lat: 40.7851, lng: -73.9683 },
-  { name: "Statue of Liberty",       lat: 40.6892, lng: -74.0445 },
+  { name: "Statue of Liberty",       lat: 40.6892, lng: -74.0445, icon: 'statue' },
   { name: "Grand Central Terminal",  lat: 40.7527, lng: -73.9772 },
   { name: "Bronx Zoo",               lat: 40.8506, lng: -73.8770 },
   { name: "Madison Square Garden",   lat: 40.7505, lng: -73.9934, icon: 'basketball', large: true },
@@ -245,6 +258,34 @@ map.on('load', async () => {
   if (countEl) countEl.textContent = geojson.features.length;
 
   const labelDirections = computeLabelDirections(geojson.features);
+
+  // Manual overrides — force a specific pizzeria's label to a side,
+  // regardless of what the automatic algorithm picked. Add entries here
+  // as you spot individual labels that look wrong: "Exact Pizzeria Name": "E" or "W"
+  const LABEL_SIDE_OVERRIDES = {
+    "Frankie's of Bay Ridge": "W",
+    "Prince Street Pizza": "W",
+    "Don Antonio": "W",
+    "Lucia Pizza of SoHo": "W",
+    "Brooklyn Firefly": "E",
+    "DaVinci Pizzeria": "W",
+    "J&V Pizzeria": "E",
+    "Mano's Pizzeria": "W",
+    "APizza – Dyker Heights": "W",
+    "Joe & Pat's NYC": "E",
+    "Pizza Loves Sauce": "E",
+    "Mancini's Wood-Fired Pizza": "E",
+    "Espresso Pizzeria": "E",
+    "Fermento Pizza NYC": "W",
+    "Impasto": "W",
+    "Pop's Pizza of East Village": "E",
+    "SIMÒ Pizza – Midtown": "E",
+    "See No Evil Pizza": "E",
+    "NY Pizza Suprema": "W",
+    "The Original Little Italy": "E",
+    "Piz-zetta Pizzeria": "E",
+    "Numero 28 Pizzeria – Park Slope": "E",
+  };
   const labels = [];
   let activePopup = null;  // track the currently open popup
 
@@ -317,7 +358,7 @@ map.on('load', async () => {
     const [lng, lat] = feature.geometry.coordinates;
     const p   = feature.properties;
     const col = BOROUGH_COLORS[p.borough] || '#DC2225';
-    const dir = labelDirections[idx];
+    const dir = LABEL_SIDE_OVERRIDES[p.name] || labelDirections[idx];
 
     // Wrapper: zero-size anchor point — pin and label are both
     // absolutely positioned relative to it (see .dir-* CSS classes)
@@ -410,6 +451,7 @@ map.on('load', async () => {
     pin.innerHTML = lm.icon === 'baseball' ? landmarkBaseballSVG(lm.badgeColor || '#241A10')
                    : lm.icon === 'basketball' ? landmarkBasketballSVG()
                    : lm.icon === 'cruise' ? landmarkCruiseSVG()
+                   : lm.icon === 'statue' ? landmarkStatueSVG()
                    : landmarkStarSVG();
 
     const label = document.createElement('div');
@@ -498,6 +540,69 @@ map.on('load', async () => {
     }
   }
 });
+
+// ===== Circle Line boat — small animated marker sailing around Manhattan =====
+// Rough loop tracing the real Circle Line "Full Island" cruise route:
+// departs Pier 83, down the Hudson, around the Battery, up the East River,
+// through Hell Gate and the Harlem River, back down the Hudson to Pier 83.
+const CIRCLE_LINE_ROUTE = [
+  [-74.0015, 40.7628], // Pier 83 (start)
+  [-74.0095, 40.7460], // Chelsea Piers
+  [-74.0130, 40.7300], // West Village pier
+  [-74.0170, 40.7033], // Battery Park (southern tip)
+  [-74.0090, 40.7020], // rounding the Battery
+  [-73.9969, 40.7061], // South St Seaport / Brooklyn Bridge
+  [-73.9750, 40.7150], // Williamsburg Bridge area
+  [-73.9660, 40.7484], // UN building
+  [-73.9550, 40.7676], // Roosevelt Island
+  [-73.9280, 40.7897], // Hell Gate
+  [-73.9331, 40.8127], // Harlem River
+  [-73.9282, 40.8489], // Harlem River, further up
+  [-73.9235, 40.8785], // Spuyten Duyvil (northern tip)
+  [-73.9432, 40.8534], // Inwood / Riverdale, Hudson side
+  [-73.9750, 40.8020], // Riverside Park
+  [-73.9950, 40.7720], // Midtown west side
+  [-74.0015, 40.7628], // back to Pier 83 — closes the loop
+];
+
+function circleLineBoatSVG() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100">
+    <path d="M50 12 L68 65 Q50 78 32 65 Z" fill="white" stroke="#241A10" stroke-width="4"/>
+    <rect x="44" y="35" width="12" height="20" rx="2" fill="#241A10"/>
+  </svg>`;
+}
+
+const boatEl = document.createElement('div');
+boatEl.style.cssText = 'width:26px; height:26px; filter:drop-shadow(0 2px 5px rgba(0,0,0,0.4)); transition: transform 0.3s linear;';
+boatEl.innerHTML = circleLineBoatSVG();
+
+const boatMarker = new maplibregl.Marker({ element: boatEl, anchor: 'center' })
+  .setLngLat(CIRCLE_LINE_ROUTE[0])
+  .addTo(map);
+
+const BOAT_LOOP_DURATION = 120000; // one full lap every 2 minutes
+
+function animateBoat(timestamp) {
+  const t = (timestamp % BOAT_LOOP_DURATION) / BOAT_LOOP_DURATION; // 0 → 1
+  const totalSegments = CIRCLE_LINE_ROUTE.length - 1;
+  const segmentFloat = t * totalSegments;
+  const segmentIndex = Math.floor(segmentFloat);
+  const segmentT = segmentFloat - segmentIndex;
+
+  const from = CIRCLE_LINE_ROUTE[segmentIndex];
+  const to = CIRCLE_LINE_ROUTE[Math.min(segmentIndex + 1, CIRCLE_LINE_ROUTE.length - 1)];
+
+  const lng = from[0] + (to[0] - from[0]) * segmentT;
+  const lat = from[1] + (to[1] - from[1]) * segmentT;
+  boatMarker.setLngLat([lng, lat]);
+
+  // Rotate the boat's bow to face the direction of travel
+  const angle = Math.atan2(to[0] - from[0], to[1] - from[1]) * 180 / Math.PI;
+  boatEl.style.transform = `rotate(${angle}deg)`;
+
+  requestAnimationFrame(animateBoat);
+}
+requestAnimationFrame(animateBoat);
 
 // ===== Near Me button =====
 let userMarker = null;

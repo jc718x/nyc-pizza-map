@@ -324,6 +324,7 @@ body.map-page {
   width: 0;
   height: 0;
   cursor: pointer;
+  z-index: 2;
 }
 
 .pizza-pin {
@@ -999,6 +1000,7 @@ button:focus-visible {
   align-items: center;
   gap: 6px;
   cursor: pointer;
+  z-index: 1;
 }
 .landmark-pin {
   width: 14px;

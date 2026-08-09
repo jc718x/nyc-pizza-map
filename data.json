@@ -4312,6 +4312,204 @@
         "seating": "Indoor",
         "worth_a_trip": false
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94657644146498,
+          40.69588490807869
+        ]
+      },
+      "properties": {
+        "name": "Bedstuy Mike's Pizza",
+        "address": "905 Myrtle Ave, Brooklyn, NY 11206",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bed-Stuy neighborhood slice shop on Myrtle Avenue, serving the community with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94290679617102,
+          40.71193342884861
+        ]
+      },
+      "properties": {
+        "name": "Rome to Brooklyn",
+        "address": "755 Grand St, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "An East Williamsburg pizzeria bringing Roman-style pies to Grand Street, with a name that nods directly to its inspiration.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.91881666481238,
+          40.69923618807622
+        ]
+      },
+      "properties": {
+        "name": "Tony's Pizza",
+        "address": "443 Knickerbocker Ave, Brooklyn, NY 11237",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bushwick neighborhood slice shop on Knickerbocker Avenue, one of Brooklyn's most authentically working-class commercial strips.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94472567058106,
+          40.71505302745716
+        ]
+      },
+      "properties": {
+        "name": "Tony's Brooklyn Pizza",
+        "address": "355 Graham Ave, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Williamsburg slice shop on Graham Avenue serving the neighborhood with reliable classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.92902748129998,
+          40.693328730712075
+        ]
+      },
+      "properties": {
+        "name": "Broadway Pizzeria",
+        "address": "1142 Broadway, Brooklyn, NY 11221",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bushwick/Bed-Stuy border slice shop on the Broadway commercial strip, serving the neighborhood with straightforward classic pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96077626982137,
+          40.673667224164156
+        ]
+      },
+      "properties": {
+        "name": "La Flor Pizza",
+        "address": "766 Classon Ave, Brooklyn, NY 11238",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Crown Heights neighborhood slice shop on Classon Avenue, serving the community with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.92243774417675,
+          40.707272000097745
+        ]
+      },
+      "properties": {
+        "name": "Ace's Pizza – Bushwick",
+        "address": "423 Troutman St, Brooklyn, NY 11237",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "The Bushwick location of Ace's Pizza on Troutman Street, bringing the same no-frills classic NY-style slice to a second Brooklyn neighborhood.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.96745840254299,
+          40.68071089605085
+        ]
+      },
+      "properties": {
+        "name": "Brooklyn's Homeslice",
+        "address": "567 Vanderbilt Ave, Brooklyn, NY 11238",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Prospect Heights slice shop on Vanderbilt Avenue, serving the neighborhood with classic NY-style pies near Barclays Center.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.93499333754296,
+          40.69660572885214
+        ]
+      },
+      "properties": {
+        "name": "Casa Caribe",
+        "address": "4 Stuyvesant Ave, Brooklyn, NY 11221",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bed-Stuy neighborhood spot on Stuyvesant Avenue blending Caribbean and pizzeria influences, serving classic NY-style pies alongside its broader menu.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
     }
   ]
 }
