@@ -316,8 +316,8 @@ function buildList(features) {
     div.className = 'pizza-entry';
     div.dataset.borough = p.borough;
     div.dataset.style   = p.style;
-    div.dataset.lat = fLat;
-    div.dataset.lng = fLng;
+    div.dataset.lat = lat;
+    div.dataset.lng = lng;
 
     div.innerHTML = `
       <div class="entry-borough-bar" style="background:${col}"></div>
@@ -381,6 +381,73 @@ fetch('data.json')
     buildList(geojson.features);
     document.getElementById('visibleCount').textContent = entries.length;
   });
+
+// ===== Near Me =====
+let userLat = null, userLng = null;
+
+document.getElementById('nearMeListBtn').addEventListener('click', function() {
+  if (!navigator.geolocation) { alert('Geolocation not supported.'); return; }
+
+  // Toggle off if already active
+  if (userLat !== null) {
+    userLat = null; userLng = null;
+    this.textContent = '📍 Near Me';
+    this.classList.remove('active');
+    // Remove distance labels
+    document.querySelectorAll('.entry-distance').forEach(el => el.remove());
+    // Restore alphabetical order
+    const list = document.getElementById('pizzaList');
+    [...list.children].sort((a, b) => {
+      const bA = a.dataset.borough, bB = b.dataset.borough;
+      if (bA !== bB) return bA.localeCompare(bB);
+      return (a.querySelector('.entry-name').textContent).localeCompare(b.querySelector('.entry-name').textContent);
+    }).forEach(el => list.appendChild(el));
+    return;
+  }
+
+  this.textContent = '⏳ Locating…';
+  this.disabled = true;
+
+  navigator.geolocation.getCurrentPosition(pos => {
+    userLat = pos.coords.latitude;
+    userLng = pos.coords.longitude;
+    this.textContent = '📍 Nearest first ✕';
+    this.classList.add('active');
+    this.disabled = false;
+
+    // Sort entries by distance
+    const list = document.getElementById('pizzaList');
+    [...list.children].sort((a, b) => {
+      const dA = stationDist(userLat, userLng, parseFloat(a.dataset.lat), parseFloat(a.dataset.lng));
+      const dB = stationDist(userLat, userLng, parseFloat(b.dataset.lat), parseFloat(b.dataset.lng));
+      return dA - dB;
+    }).forEach(el => list.appendChild(el));
+
+    // Show walk time on each entry
+    [...list.children].forEach(el => {
+      const d = stationDist(userLat, userLng, parseFloat(el.dataset.lat), parseFloat(el.dataset.lng));
+      const mins = Math.round(d / 83);
+      let badge = el.querySelector('.entry-distance');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'entry-distance';
+        el.querySelector('.entry-top').appendChild(badge);
+      }
+      badge.textContent = mins < 1 ? '< 1 min' : `${mins} min walk`;
+    });
+
+    // Show all entries when in Near Me mode
+    activeBorough = 'all';
+    document.querySelectorAll('#boroughFilters .filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('#boroughFilters .filter-btn').classList.add('active');
+    applyFilters();
+
+  }, () => {
+    this.textContent = '📍 Near Me';
+    this.disabled = false;
+    alert('Could not get your location. Please allow location access in your browser settings.');
+  }, { timeout: 10000 });
+});
 </script>
 </body>
 </html>
