@@ -21,60 +21,38 @@
 <style>
   :root { --pz-accent: #DC2225; }
 
-  .ps-wrap { max-width: 720px; margin: 0 auto; padding: calc(var(--topbar-h) + 24px) 20px 80px; }
+  .ps-wrap { max-width: 720px; margin: 0 auto; padding: calc(var(--topbar-h) + 48px) 20px 80px; }
 
-  .ps-hero {
-    background: var(--color-crust);
-    border-radius: 10px 10px 0 0;
-    padding: 28px 24px 22px;
-  }
-  .ps-hero-kicker {
+  .ps-wrap .page-kicker {
     font-family: var(--font-mono);
     font-size: 0.72rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--pz-accent);
-    font-weight: 700;
+    color: var(--color-sauce);
     margin: 0 0 8px;
   }
-  .ps-hero-title {
+  .ps-wrap h2 {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: 1.9rem;
+    font-size: 2rem;
     line-height: 1.1;
-    color: var(--color-parchment);
+    color: var(--color-crust);
     margin: 0 0 10px;
-    text-transform: uppercase;
   }
-  .ps-hero-sub {
-    font-size: 0.88rem;
-    color: rgba(253,244,231,0.8);
-    margin: 0;
-  }
-  .ps-perf {
-    height: 14px;
-    background: var(--color-crust);
-    position: relative;
-    border-radius: 0 0 10px 10px;
-  }
-  .ps-perf::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 14px;
-    background-image: radial-gradient(circle 7px at 0 0, transparent 7px, var(--color-parchment) 7.5px);
-    background-size: 20px 14px;
-    background-repeat: repeat-x;
-    background-position: 10px 0;
+  .ps-intro-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-char);
+    margin: 0 0 24px;
   }
 
   .ps-search-block {
     background: white;
     border: 1px solid rgba(36,26,16,0.1);
-    border-top: none;
-    border-radius: 0 0 10px 10px;
+    border-radius: 10px;
     padding: 20px;
-    margin: -14px 0 20px;
+    margin: 0 0 20px;
   }
   .ps-search-row {
     position: relative;
@@ -367,12 +345,10 @@
 
 <main class="ps-wrap">
 
-  <div class="ps-hero">
-    <p class="ps-hero-kicker">Find Pizza</p>
-    <h2 class="ps-hero-title">Search Every NYC Pizzeria</h2>
-    <p class="ps-hero-sub">Search a pizzeria by name, or search a destination to find good pizza nearby.</p>
-  </div>
-  <div class="ps-perf"></div>
+  <p class="page-kicker">Find Pizza</p>
+  <h2>Search Every NYC Pizzeria</h2>
+  <p class="ps-intro-text">Search a pizzeria by name, or search a destination to find good pizza nearby.</p>
+
   <div class="ps-search-block">
     <div class="ps-search-row">
       <span>🔍</span>

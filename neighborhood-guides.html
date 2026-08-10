@@ -21,64 +21,31 @@
 <style>
   :root { --pz-accent: #DC2225; }
 
-  .ng-wrap { max-width: 780px; margin: 0 auto; padding: calc(var(--topbar-h) + 24px) 24px 80px; }
+  .ng-wrap { max-width: 780px; margin: 0 auto; padding: calc(var(--topbar-h) + 48px) 24px 80px; }
 
-  .ng-hero {
-    background: var(--color-crust);
-    border-radius: 10px 10px 0 0;
-    padding: 32px 28px 26px;
-  }
-  .ng-hero-kicker {
+  .ng-wrap .page-kicker {
     font-family: var(--font-mono);
     font-size: 0.72rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--pz-accent);
-    font-weight: 700;
+    color: var(--color-sauce);
     margin: 0 0 8px;
   }
-  .ng-hero-title {
+  .ng-wrap h2 {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 400;
     font-size: 2rem;
     line-height: 1.1;
-    color: var(--color-parchment);
+    color: var(--color-crust);
     margin: 0 0 12px;
-  }
-  .ng-hero-sub {
-    font-size: 0.92rem;
-    line-height: 1.55;
-    color: rgba(253,244,231,0.8);
-    margin: 0;
-  }
-
-  .ng-perf {
-    height: 14px;
-    background: var(--color-crust);
-    position: relative;
-    border-radius: 0 0 10px 10px;
-  }
-  .ng-perf::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 14px;
-    background-image: radial-gradient(circle 7px at 0 0, transparent 7px, var(--color-parchment) 7.5px);
-    background-size: 20px 14px;
-    background-repeat: repeat-x;
-    background-position: 10px 0;
   }
 
   .ng-intro {
-    background: white;
-    border: 1px solid rgba(36,26,16,0.1);
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding: 22px 28px;
-    margin: -14px 0 20px;
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.65;
     color: var(--color-char);
+    margin: 0 0 20px;
   }
 
   .ng-featured {
@@ -178,9 +145,6 @@
   .ng-crosslink a { color: var(--pz-accent); font-weight: 600; }
 
   @media (max-width: 480px) {
-    .ng-hero { padding: 24px 18px 20px; }
-    .ng-hero-title { font-size: 1.5rem; }
-    .ng-intro { padding: 18px; }
     .ng-hood-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
@@ -250,13 +214,10 @@
 
 <main class="ng-wrap">
 
-  <div class="ng-hero">
-    <p class="ng-hero-kicker">Neighborhood Guides</p>
-    <h2 class="ng-hero-title">Explore Pizza by Neighborhood</h2>
-    <p class="ng-hero-sub">NYC's best pizza, block by block. Pick a neighborhood below.</p>
-  </div>
-  <div class="ng-perf"></div>
+  <p class="page-kicker">Neighborhood Guides</p>
+  <h2>Explore Pizza by Neighborhood</h2>
   <div class="ng-intro">
+    <p style="margin:0 0 12px;">NYC's best pizza, block by block. Pick a neighborhood below.</p>
     <p style="margin:0;">Every neighborhood in this city has an opinion about its own pizza. These guides are the full rundown for each one — we're building this out block by block, so check back as more neighborhoods go live.</p>
   </div>
 
