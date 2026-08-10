@@ -812,17 +812,17 @@ if (nearMeBtn) {
       alert('Geolocation is not supported by your browser.');
       return;
     }
-    nearMeBtn.textContent = '⏳';
+    nearMeBtn.classList.add('locating');
     nearMeBtn.disabled = true;
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude);
-        nearMeBtn.textContent = '📍';
+        nearMeBtn.classList.remove('locating');
         nearMeBtn.disabled = false;
       },
       (err) => {
-        nearMeBtn.textContent = '📍';
+        nearMeBtn.classList.remove('locating');
         nearMeBtn.disabled = false;
         if (err.code === 1) {
           alert('Location access denied. Please allow location access in your browser settings.');
@@ -1022,20 +1022,34 @@ function showSearchThisAreaBtn() {
   if (searchThisAreaBtn) searchThisAreaBtn.hidden = false;
 }
 
+let panDetectTimer = null;
 map.on('moveend', () => {
-  const anchor = window.panelAnchor;
-  const panel = document.getElementById('nearMePanel');
-  if (!anchor || !panel || panel.hidden) {
-    hideSearchThisAreaBtn();
-    return;
-  }
-  const bounds = map.getBounds();
-  const inView = bounds.contains([anchor.lng, anchor.lat]);
-  if (!inView) {
-    showSearchThisAreaBtn();
-  } else {
-    hideSearchThisAreaBtn();
-  }
+  // Debounced — MapLibre can fire moveend multiple times in quick
+  // succession during momentum panning, and checking mid-settle was a
+  // likely source of inconsistent show/hide behavior.
+  clearTimeout(panDetectTimer);
+  panDetectTimer = setTimeout(() => {
+    const anchor = window.panelAnchor;
+    const panel = document.getElementById('nearMePanel');
+    if (!anchor || !panel || panel.hidden) {
+      hideSearchThisAreaBtn();
+      return;
+    }
+    // Shrink the bounds inward by ~15% on each side before checking —
+    // requires a meaningfully clear pan away, not just barely-at-the-edge,
+    // which is inherently flaky with an exact boundary check.
+    const bounds = map.getBounds();
+    const sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
+    const latPad = (ne.lat - sw.lat) * 0.15;
+    const lngPad = (ne.lng - sw.lng) * 0.15;
+    const inView = anchor.lat > sw.lat + latPad && anchor.lat < ne.lat - latPad &&
+                   anchor.lng > sw.lng + lngPad && anchor.lng < ne.lng - lngPad;
+    if (!inView) {
+      showSearchThisAreaBtn();
+    } else {
+      hideSearchThisAreaBtn();
+    }
+  }, 150);
 });
 
 if (searchThisAreaBtn) {

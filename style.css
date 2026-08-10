@@ -1042,6 +1042,11 @@ button:focus-visible {
   border-color: var(--color-sauce);
 }
 .near-me-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.near-me-btn.locating svg { animation: near-me-pulse 1s ease-in-out infinite; }
+@keyframes near-me-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
 
 /* ===== User location dot ===== */
 .user-location-dot {
