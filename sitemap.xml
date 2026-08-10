@@ -46,6 +46,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://nycpizzamap.com/best-pizza-west-village.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://nycpizzamap.com/neighborhood-guides.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
