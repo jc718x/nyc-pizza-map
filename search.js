@@ -4,15 +4,22 @@
 // include (see includePizzerias option) and how to render results —
 // this file only handles matching, scoring, and grouping.
 
+// Strips apostrophes, curly quotes, and periods before comparison so
+// "joes" matches "Joe's", "st george" matches "St. George", etc. Only
+// affects matching — the original name is still what gets displayed.
+function normalize(str) {
+  return str.toLowerCase().replace(/['’.]/g, '').trim();
+}
+
 function matchScore(query, name, aliases) {
-  const q = query.toLowerCase().trim();
+  const q = normalize(query);
   if (!q) return 0;
 
   const candidates = [name, ...(aliases || [])];
   let best = 0;
 
   candidates.forEach((raw, i) => {
-    const c = raw.toLowerCase();
+    const c = normalize(raw);
     const aliasPenalty = i === 0 ? 1 : 0.9; // primary name slightly outranks an alias match
     let score = 0;
 

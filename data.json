@@ -4642,6 +4642,204 @@
         "seating": "Indoor",
         "worth_a_trip": false
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95260446638277,
+          40.75923537147954
+        ]
+      },
+      "properties": {
+        "name": "Piccolo Trattoria Ristorante Pizzeria",
+        "address": "455 Main St, New York, NY 10044",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Roosevelt Island trattoria and pizzeria serving the island's tight-knit residential community.",
+        "website": "",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.93963392497318,
+          40.76119940147251
+        ]
+      },
+      "properties": {
+        "name": "Il Miglio Brick Oven Pizzeria & Italian Restaurant",
+        "address": "11-03 36th Ave, Queens, NY 11106",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "An Astoria brick-oven pizzeria and full Italian restaurant on 36th Avenue.",
+        "website": "",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.90906258562316,
+          40.69136825374733
+        ]
+      },
+      "properties": {
+        "name": "Jimmy's Pizza",
+        "address": "561 Wilson Ave, Brooklyn, NY 11207",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Bushwick neighborhood slice shop on Wilson Avenue, serving the community with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9643505876702,
+          40.75668898571028
+        ]
+      },
+      "properties": {
+        "name": "Sofia Pizza Shoppe",
+        "address": "989 1st Ave, New York, NY 10022",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Sutton Place/Midtown East slice shop on 1st Avenue, serving the neighborhood with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.81545092594537,
+          40.586277243366126
+        ]
+      },
+      "properties": {
+        "name": "Elegante Restaurant & Pizzeria",
+        "address": "92-01 Rockaway Beach Blvd, Rockaway Beach, NY 11693",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Rockaway Beach pizzeria and restaurant serving the peninsula's beach community.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.83702419752906,
+          40.57916872512203
+        ]
+      },
+      "properties": {
+        "name": "Crustinos Pizza",
+        "address": "1-71 Beach 116th St, Rockaway Park, NY 11694",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Rockaway Park slice shop near the boardwalk, serving the beach community with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.81977977129525,
+          40.60617297907826
+        ]
+      },
+      "properties": {
+        "name": "Hook's Pizza Parlor & Kitchen",
+        "address": "9-15 Cross Bay Blvd, Broad Channel, NY 11693",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Broad Channel neighborhood pizzeria on Cross Bay Boulevard, serving one of NYC's smallest, most isolated communities.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.83807962867202,
+          40.65065224270115
+        ]
+      },
+      "properties": {
+        "name": "Divino Pizzeria Restaurant",
+        "address": "164-02 Cross Bay Blvd, Howard Beach, NY 11414",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Howard Beach pizzeria and restaurant on Cross Bay Boulevard, serving the neighborhood with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.83673772366329,
+          40.58013198408922
+        ]
+      },
+      "properties": {
+        "name": "Rocco's of Roc Beach",
+        "address": "115-10 Rockaway Beach Blvd, Rockaway Park, NY 11694",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Rockaway Park neighborhood pizzeria serving the beach community with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
     }
   ]
 }
