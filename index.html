@@ -1929,7 +1929,21 @@
     <a href="suggest.html">Suggest a Spot</a>
     <a href="about.html">About</a>
   </nav>
+  <button class="search-icon-btn" id="searchIconBtn" aria-label="Search pizzerias, neighborhoods, landmarks, or addresses">🔍</button>
 </header>
+
+<div class="search-overlay" id="searchOverlay" hidden>
+  <div class="search-overlay-inner">
+    <div class="search-input-row">
+      <span class="search-input-icon">🔍</span>
+      <input type="text" id="globalSearchInput" placeholder="Search pizzerias, neighborhoods, landmarks…" autocomplete="off" />
+      <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search">✕</button>
+    </div>
+    <div class="search-results" id="globalSearchResults">
+      <p class="search-hint">Search pizzerias, neighborhoods, landmarks, venues, or hotels — start typing above.</p>
+    </div>
+  </div>
+</div>
 
 <div class="mobile-nav-drawer" id="mobileNav" hidden>
   <div class="mobile-nav-heading">Find Pizza</div>
@@ -1964,9 +1978,12 @@
   <div class="near-me-panel-list" id="nearMePanelList"></div>
 </div>
 <button class="near-me-reopen-tab" id="nearMeReopenTab" hidden aria-label="Show nearby pizzerias">🍕</button>
+<button class="search-this-area-btn" id="searchThisAreaBtn" hidden>🔍 Search This Area</button>
 
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="stations.js"></script>
+<script src="search-destinations.js"></script>
+<script src="search.js"></script>
 <script src="map.js"></script>
 <script src="nav.js"></script>
 </body>

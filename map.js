@@ -15,6 +15,10 @@ const BOROUGH_COLORS = {
 const _initParams = new URLSearchParams(window.location.search);
 const _initPin = _initParams.get('pin');
 
+// Populated once data.json loads (see map.on('load') below) — lets code
+// outside that closure (like the search feature) access pizzeria data.
+window.pizzaGeojsonFeatures = [];
+
 const map = new maplibregl.Map({
   container: 'map',
   style: {
@@ -255,6 +259,7 @@ function computeLabelDirections(features) {
 map.on('load', async () => {
   const res = await fetch('data.json');
   const geojson = await res.json();
+  window.pizzaGeojsonFeatures = geojson.features;
 
   const countEl = document.getElementById('entryCount');
   if (countEl) countEl.textContent = geojson.features.length;
@@ -358,42 +363,82 @@ map.on('load', async () => {
     if (match) showPizzeriaPopup(match);
   };
 
-  // "Pizzerias Near You" panel — bottom sheet on mobile, sidebar on desktop.
-  // Exposed globally since the Near Me button handler lives outside this
-  // load callback but needs access to geojson via this closure.
-  window.buildNearMePanel = function(userLat, userLng) {
+  // Shared results panel — powers three modes:
+  //   'nearme'  — anchored to the user's real location, stays fixed as they pan
+  //   'search'  — anchored to a destination picked from global search
+  //   'area'    — anchored to nothing; shows whatever's in the current map bounds
+  // Exposed globally since the Near Me button / search handlers live
+  // outside this load callback but need access to geojson via this closure.
+  window.buildResultsPanel = function(opts) {
     const panel = document.getElementById('nearMePanel');
     const list = document.getElementById('nearMePanelList');
     const title = document.getElementById('nearMePanelTitle');
     if (!panel || !list || !title) return;
 
-    const nearby = geojson.features
-      .map(f => ({
-        ...f.properties,
-        lat: f.geometry.coordinates[1],
-        lng: f.geometry.coordinates[0],
-        d: stationDist(userLat, userLng, f.geometry.coordinates[1], f.geometry.coordinates[0])
-      }))
-      .sort((a, b) => a.d - b.d)
-      .slice(0, 12);
+    let results, heading;
 
-    title.textContent = `🍕 ${nearby.length} Pizzerias Near You`;
-    list.innerHTML = nearby.map(p => {
-      const mins = walkMinutes(p.d);
-      const miles = (p.d / 1609.34).toFixed(1);
+    if (opts.mode === 'area') {
+      // Bounds-based: whatever pizzerias are actually visible right now
+      const bounds = map.getBounds();
+      const userLoc = window.userActualLocation;
+      results = geojson.features
+        .filter(f => bounds.contains(f.geometry.coordinates))
+        .map(f => ({
+          ...f.properties,
+          lat: f.geometry.coordinates[1],
+          lng: f.geometry.coordinates[0],
+          d: userLoc ? stationDist(userLoc.lat, userLoc.lng, f.geometry.coordinates[1], f.geometry.coordinates[0]) : null,
+        }))
+        .sort((a, b) => {
+          if (a.d !== null && b.d !== null) return a.d - b.d;
+          const c = map.getCenter();
+          return stationDist(c.lat, c.lng, a.lat, a.lng) - stationDist(c.lat, c.lng, b.lat, b.lng);
+        })
+        .slice(0, 20);
+      heading = `🍕 ${results.length} Pizzerias in This Area`;
+      window.panelAnchor = null; // no single point — bounds-based, no "search this area" button needed until they pan further
+    } else {
+      // 'nearme' or 'search' — distance-sorted from a fixed anchor point
+      const { lat, lng } = opts;
+      results = geojson.features
+        .map(f => ({
+          ...f.properties,
+          lat: f.geometry.coordinates[1],
+          lng: f.geometry.coordinates[0],
+          d: stationDist(lat, lng, f.geometry.coordinates[1], f.geometry.coordinates[0]),
+        }))
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 12);
+
+      if (opts.mode === 'nearme') {
+        heading = `🍕 ${results.length} Pizzerias Near You`;
+      } else {
+        heading = opts.isNeighborhood
+          ? `🍕 ${results.length} Pizzerias in ${opts.label}`
+          : `🍕 ${results.length} Pizzerias Near ${opts.label}`;
+      }
+      window.panelAnchor = { lat, lng };
+    }
+
+    title.textContent = heading;
+    list.innerHTML = results.map(p => {
+      const metaText = p.d !== null
+        ? `${walkMinutes(p.d)} walk · ${(p.d / 1609.34).toFixed(1)} mi`
+        : p.borough;
       return `<div class="near-me-item" data-name="${escapeAttr(p.name)}">
         <span class="near-me-item-name">${escapeHTML(p.name)}</span>
-        <span class="near-me-item-meta">${mins} walk · ${miles} mi</span>
+        <span class="near-me-item-meta">${metaText}</span>
       </div>`;
     }).join('');
 
     panel.hidden = false;
-    // Mobile starts collapsed (small pill) per spec; desktop starts open
-    // since there's no space pressure and the toggle is there if wanted.
-    const startCollapsed = window.innerWidth <= 900;
-    panel.classList.toggle('collapsed', startCollapsed);
-    const reopenTab = document.getElementById('nearMeReopenTab');
-    if (reopenTab) reopenTab.hidden = !startCollapsed;
+    setNearMePanelCollapsed(window.innerWidth <= 900);
+    hideSearchThisAreaBtn();
+  };
+
+  // Kept as an alias since other code still calls this name
+  window.buildNearMePanel = function(userLat, userLng) {
+    window.buildResultsPanel({ lat: userLat, lng: userLng, mode: 'nearme' });
   };
 
   // All pizza markers use one consistent brand red — geography (the map itself)
@@ -719,7 +764,11 @@ function activateNearMeOnMap(latitude, longitude) {
   // Fly to user location at zoom 14
   map.flyTo({ center: [longitude, latitude], zoom: 14, duration: 1000 });
 
-  if (window.buildNearMePanel) window.buildNearMePanel(latitude, longitude);
+  // Persists even after later searches, so "Search This Area" can still
+  // show real walk-time-from-user if that's still meaningful
+  window.userActualLocation = { lat: latitude, lng: longitude };
+
+  if (window.buildResultsPanel) window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme' });
 }
 
 // If location was already granted on a previous visit, locate and show
@@ -777,6 +826,8 @@ function setNearMePanelCollapsed(collapsed) {
   if (!panel) return;
   panel.classList.toggle('collapsed', collapsed);
   if (nearMeReopenTab) nearMeReopenTab.hidden = !collapsed;
+  // On desktop, shift the Near Me button clear of the sidebar when it's open
+  if (nearMeBtn) nearMeBtn.classList.toggle('sidebar-open', !collapsed);
 }
 
 if (nearMePanelHeader) {
@@ -802,6 +853,152 @@ if (nearMePanelList) {
     // selection so the popup is visible. Desktop's sidebar doesn't block
     // the map, so leave it open there.
     if (window.innerWidth <= 900) setNearMePanelCollapsed(true);
+  });
+}
+
+// ===== Global search (pizzerias + neighborhoods + landmarks + venues) =====
+const searchIconBtn = document.getElementById('searchIconBtn');
+const searchOverlay = document.getElementById('searchOverlay');
+const globalSearchInput = document.getElementById('globalSearchInput');
+const globalSearchResults = document.getElementById('globalSearchResults');
+const searchCloseBtn = document.getElementById('searchCloseBtn');
+
+const CATEGORY_ICONS = {
+  'Pizzerias': '🍕',
+  'Neighborhoods': '📍',
+  'Landmarks & Attractions': '🗽',
+  'Venues': '🎭',
+  'Hotels': '🏨',
+  'Transit': '🚇',
+  'Shopping & Markets': '🛍️',
+  'Activities': '⭐',
+};
+
+function openSearchOverlay() {
+  if (!searchOverlay) return;
+  searchOverlay.hidden = false;
+  setTimeout(() => globalSearchInput && globalSearchInput.focus(), 50);
+}
+
+function closeSearchOverlay() {
+  if (!searchOverlay) return;
+  searchOverlay.hidden = true;
+  if (globalSearchInput) globalSearchInput.value = '';
+  renderSearchResults('');
+}
+
+function renderSearchResults(query) {
+  if (!globalSearchResults) return;
+
+  if (!query.trim()) {
+    globalSearchResults.innerHTML = '<p class="search-hint">Search pizzerias, neighborhoods, landmarks, venues, or hotels — start typing above.</p>';
+    return;
+  }
+
+  if (typeof searchDestinations !== 'function') {
+    globalSearchResults.innerHTML = '<p class="search-hint">Search is still loading — try again in a moment.</p>';
+    return;
+  }
+
+  const groups = searchDestinations(query, {
+    includePizzerias: true,
+    pizzeriaFeatures: window.pizzaGeojsonFeatures || [],
+    maxResults: 8,
+  });
+
+  if (!groups.length) {
+    globalSearchResults.innerHTML = '<p class="search-hint">No matches. Try a different spelling or a nearby landmark.</p>';
+    return;
+  }
+
+  globalSearchResults.innerHTML = groups.map(g => `
+    <div class="search-group-heading">${g.category}</div>
+    ${g.items.map(item => `
+      <div class="search-result-item" data-type="${item.type}" data-category="${escapeAttr(item.category)}" data-name="${escapeAttr(item.name)}" data-lat="${item.lat}" data-lng="${item.lng}">
+        <span class="search-result-icon">${CATEGORY_ICONS[item.category] || '📍'}</span>
+        <div class="search-result-text">
+          <div class="search-result-name">${escapeHTML(item.name)}</div>
+          ${item.subtitle ? `<div class="search-result-subtitle">${escapeHTML(item.subtitle)}</div>` : ''}
+        </div>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+if (searchIconBtn) searchIconBtn.addEventListener('click', openSearchOverlay);
+if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearchOverlay);
+if (searchOverlay) {
+  searchOverlay.addEventListener('click', (e) => {
+    if (e.target === searchOverlay) closeSearchOverlay();
+  });
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && searchOverlay && !searchOverlay.hidden) closeSearchOverlay();
+});
+
+if (globalSearchInput) {
+  let searchDebounce = null;
+  globalSearchInput.addEventListener('input', (e) => {
+    clearTimeout(searchDebounce);
+    const val = e.target.value;
+    searchDebounce = setTimeout(() => renderSearchResults(val), 120);
+  });
+}
+
+if (globalSearchResults) {
+  globalSearchResults.addEventListener('click', (e) => {
+    const item = e.target.closest('.search-result-item');
+    if (!item) return;
+    const { type, name, category, lat, lng } = item.dataset;
+    closeSearchOverlay();
+    if (type === 'pizzeria') {
+      if (window.flyToPizzeria) window.flyToPizzeria(name);
+    } else {
+      const latNum = parseFloat(lat), lngNum = parseFloat(lng);
+      map.flyTo({ center: [lngNum, latNum], zoom: 14.5, duration: 900 });
+      if (window.buildResultsPanel) {
+        window.buildResultsPanel({
+          lat: latNum, lng: lngNum, mode: 'search',
+          label: name, isNeighborhood: category === 'Neighborhoods',
+        });
+      }
+    }
+  });
+}
+
+// ===== "Search This Area" — third map state =====
+// Near Me and search results stay anchored to their original point even
+// as the user pans (per spec: never auto-refresh on drag). Once they've
+// panned far enough that the anchor point is no longer visible on screen,
+// show a floating button to manually re-query for the current view.
+const searchThisAreaBtn = document.getElementById('searchThisAreaBtn');
+
+function hideSearchThisAreaBtn() {
+  if (searchThisAreaBtn) searchThisAreaBtn.hidden = true;
+}
+function showSearchThisAreaBtn() {
+  if (searchThisAreaBtn) searchThisAreaBtn.hidden = false;
+}
+
+map.on('moveend', () => {
+  const anchor = window.panelAnchor;
+  const panel = document.getElementById('nearMePanel');
+  if (!anchor || !panel || panel.hidden) {
+    hideSearchThisAreaBtn();
+    return;
+  }
+  const bounds = map.getBounds();
+  const inView = bounds.contains([anchor.lng, anchor.lat]);
+  if (!inView) {
+    showSearchThisAreaBtn();
+  } else {
+    hideSearchThisAreaBtn();
+  }
+});
+
+if (searchThisAreaBtn) {
+  searchThisAreaBtn.addEventListener('click', () => {
+    if (window.buildResultsPanel) window.buildResultsPanel({ mode: 'area' });
   });
 }
 

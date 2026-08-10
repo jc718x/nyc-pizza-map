@@ -38,6 +38,20 @@
     font-family: var(--font-body);
     color: var(--color-char);
   }
+  .nearby-search-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid rgba(36,26,16,0.15);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    max-height: 340px;
+    overflow-y: auto;
+    z-index: 5;
+  }
+  .nearby-search-dropdown[hidden] { display: none; }
   .nearby-search input::placeholder { color: rgba(36,26,16,0.4); }
 
   .landmark-chips {
@@ -273,9 +287,10 @@
   <h2>Pizza Near Your Plans</h2>
   <p>Heading somewhere in the city? Pick your destination and we'll show you the best pizza within walking distance.</p>
 
-  <div class="nearby-search">
+  <div class="nearby-search" style="position:relative;">
     <span>🔍</span>
     <input type="text" id="landmarkSearch" placeholder="Search a landmark or neighborhood…" />
+    <div class="search-results nearby-search-dropdown" id="nearbySearchDropdown" hidden></div>
   </div>
 
   <div class="landmark-chips" id="landmarkChips">
@@ -299,6 +314,8 @@
   </div>
 </main>
 
+<script src="search-destinations.js"></script>
+<script src="search.js"></script>
 <script>
 // Landmark coordinates
 const LANDMARKS = {
@@ -450,8 +467,7 @@ function showDefaultResults() {
   }).catch(() => showAllPizzerias());
 }
 
-function showResults(landmarkKey) {
-  const lm = LANDMARKS[landmarkKey];
+function showResults(lm) {
   if (!lm || !allPizzerias.length) return;
 
   // Find pizzerias within 1.5km (3km for Worth a Special Trip spots), sorted by distance
@@ -488,16 +504,75 @@ document.getElementById('landmarkChips').addEventListener('click', e => {
   if (!chip) return;
   document.querySelectorAll('.landmark-chip').forEach(b => b.classList.remove('active'));
   chip.classList.add('active');
-  showResults(chip.dataset.landmark);
+  showResults(LANDMARKS[chip.dataset.landmark]);
 });
 
-// Live search filter over the chip list
-document.getElementById('landmarkSearch').addEventListener('input', e => {
-  const q = e.target.value.trim().toLowerCase();
-  document.querySelectorAll('.landmark-chip').forEach(chip => {
-    const match = chip.textContent.toLowerCase().includes(q);
-    chip.classList.toggle('hidden', !match);
+// Full search across all 714 destinations (neighborhoods, landmarks,
+// venues, hotels) — deliberately NOT pizzerias, since searching for a
+// pizzeria to find pizza near that pizzeria doesn't make sense here.
+const nearbySearchDropdown = document.getElementById('nearbySearchDropdown');
+const CATEGORY_ICONS_NEARBY = {
+  'Neighborhoods': '📍', 'Landmarks & Attractions': '🗽', 'Venues': '🎭',
+  'Hotels': '🏨', 'Transit': '🚇', 'Shopping & Markets': '🛍️', 'Activities': '⭐',
+};
+
+function renderNearbySearchDropdown(query) {
+  if (!nearbySearchDropdown) return;
+  if (!query.trim() || typeof searchDestinations !== 'function') {
+    nearbySearchDropdown.hidden = true;
+    return;
+  }
+  const groups = searchDestinations(query, { includePizzerias: false, maxResults: 8 });
+  if (!groups.length) {
+    nearbySearchDropdown.innerHTML = '<p class="search-hint" style="padding:14px 16px; margin:0;">No matches — try a nearby landmark or neighborhood.</p>';
+    nearbySearchDropdown.hidden = false;
+    return;
+  }
+  nearbySearchDropdown.innerHTML = groups.map(g => `
+    <div class="search-group-heading">${g.category}</div>
+    ${g.items.map(item => `
+      <div class="search-result-item" data-name="${item.name.replace(/"/g,'&quot;')}" data-lat="${item.lat}" data-lng="${item.lng}">
+        <span class="search-result-icon">${CATEGORY_ICONS_NEARBY[item.category] || '📍'}</span>
+        <div class="search-result-text">
+          <div class="search-result-name">${item.name}</div>
+          ${item.subtitle ? `<div class="search-result-subtitle">${item.subtitle}</div>` : ''}
+        </div>
+      </div>
+    `).join('')}
+  `).join('');
+  nearbySearchDropdown.hidden = false;
+}
+
+const landmarkSearchInput = document.getElementById('landmarkSearch');
+if (landmarkSearchInput) {
+  let nearbySearchDebounce = null;
+  landmarkSearchInput.addEventListener('input', e => {
+    clearTimeout(nearbySearchDebounce);
+    const val = e.target.value;
+    nearbySearchDebounce = setTimeout(() => renderNearbySearchDropdown(val), 120);
   });
+  landmarkSearchInput.addEventListener('focus', e => {
+    if (e.target.value.trim()) renderNearbySearchDropdown(e.target.value);
+  });
+}
+
+if (nearbySearchDropdown) {
+  nearbySearchDropdown.addEventListener('click', e => {
+    const item = e.target.closest('.search-result-item');
+    if (!item) return;
+    const { name, lat, lng } = item.dataset;
+    landmarkSearchInput.value = name;
+    nearbySearchDropdown.hidden = true;
+    document.querySelectorAll('.landmark-chip').forEach(b => b.classList.remove('active'));
+    showResults({ name, lat: parseFloat(lat), lng: parseFloat(lng) });
+  });
+}
+
+document.addEventListener('click', e => {
+  if (nearbySearchDropdown && !nearbySearchDropdown.hidden &&
+      !nearbySearchDropdown.contains(e.target) && e.target !== landmarkSearchInput) {
+    nearbySearchDropdown.hidden = true;
+  }
 });
 </script>
 <script src="nav.js"></script>
