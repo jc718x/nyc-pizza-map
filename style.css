@@ -1074,3 +1074,26 @@ button:focus-visible {
 }
 
 
+
+/* ===== Marker clusters (wide zoom only — see CLUSTERING_ENABLED in map.js) ===== */
+.cluster-marker {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--color-sauce);
+  color: white;
+  border: 3px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-logo);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.cluster-marker:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}

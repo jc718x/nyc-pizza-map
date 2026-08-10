@@ -363,7 +363,16 @@ map.on('load', async () => {
   // colors weren't adding useful information, just visual clutter.
   const PIZZA_MARKER_COLOR = '#DC2225';
 
-  geojson.features.forEach((feature, idx) => {
+  // ===== Marker clustering =====
+  // Set to false to instantly disable clustering and always show individual
+  // markers (exactly today's behavior) — no other changes needed.
+  const CLUSTERING_ENABLED = true;
+  // Clustering only applies below this zoom (city/borough-wide views).
+  // At this zoom and above — matching "neighborhood level," where Near Me
+  // typically lands — individual markers always show, never clustered.
+  const CLUSTER_ZOOM_THRESHOLD = 13;
+
+  function createPizzaMarker(feature, idx) {
     const [lng, lat] = feature.geometry.coordinates;
     const p   = feature.properties;
     const col = PIZZA_MARKER_COLOR;
@@ -387,11 +396,9 @@ map.on('load', async () => {
     wrap.appendChild(pin);
     wrap.appendChild(label);
 
-
     // Popup
     const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
-    // Find nearest subway stations (safe — won't crash if stations.js missing)
     let subwayHTML = '';
     try {
       if (typeof nearestStations === 'function') {
@@ -444,9 +451,118 @@ map.on('load', async () => {
       activePopup.on('close', () => { activePopup = null; });
     });
 
-    new maplibregl.Marker({ element: wrap, anchor: 'center' })
-      .setLngLat([lng, lat])
-      .addTo(map);
+    return new maplibregl.Marker({ element: wrap, anchor: 'center' }).setLngLat([lng, lat]);
+  }
+
+  function createClusterMarker(cluster) {
+    const el = document.createElement('div');
+    el.className = 'cluster-marker';
+    el.textContent = cluster.count;
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      map.flyTo({
+        center: [cluster.lng, cluster.lat],
+        zoom: Math.min(map.getZoom() + 2.5, CLUSTER_ZOOM_THRESHOLD + 0.5),
+        duration: 600
+      });
+    });
+    return new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([cluster.lng, cluster.lat]);
+  }
+
+  // Groups pizzerias by on-screen pixel proximity at the current zoom/pan —
+  // so clustering reflects actual visual overlap, not a fixed real-world distance.
+  function computeClusters() {
+    const CELL_SIZE = 60; // pixels
+    const cells = {};
+
+    geojson.features.forEach((feature, idx) => {
+      const [lng, lat] = feature.geometry.coordinates;
+      let point;
+      try {
+        point = map.project([lng, lat]);
+      } catch (e) {
+        return; // skip if projection fails for any reason
+      }
+      const gx = Math.floor(point.x / CELL_SIZE);
+      const gy = Math.floor(point.y / CELL_SIZE);
+      const key = gx + ',' + gy;
+      if (!cells[key]) cells[key] = [];
+      cells[key].push({ feature, idx });
+    });
+
+    const clusters = [];
+    const singles = [];
+    Object.values(cells).forEach(group => {
+      if (group.length === 1) {
+        singles.push(group[0]);
+      } else {
+        let sumLng = 0, sumLat = 0;
+        group.forEach(g => {
+          sumLng += g.feature.geometry.coordinates[0];
+          sumLat += g.feature.geometry.coordinates[1];
+        });
+        clusters.push({ lng: sumLng / group.length, lat: sumLat / group.length, count: group.length });
+      }
+    });
+
+    return { clusters, singles };
+  }
+
+  let pizzaMarkersOnMap = [];
+  let clusteringCurrentlyActive = false;
+
+  function renderPizzaMarkers() {
+    pizzaMarkersOnMap.forEach(m => m.remove());
+    pizzaMarkersOnMap = [];
+    labels.length = 0;
+
+    const zoom = map.getZoom();
+    const shouldCluster = CLUSTERING_ENABLED && zoom < CLUSTER_ZOOM_THRESHOLD;
+    clusteringCurrentlyActive = shouldCluster;
+
+    if (!shouldCluster) {
+      geojson.features.forEach((feature, idx) => {
+        const marker = createPizzaMarker(feature, idx);
+        marker.addTo(map);
+        pizzaMarkersOnMap.push(marker);
+      });
+    } else {
+      const { clusters, singles } = computeClusters();
+      clusters.forEach(c => {
+        const marker = createClusterMarker(c);
+        marker.addTo(map);
+        pizzaMarkersOnMap.push(marker);
+      });
+      singles.forEach(s => {
+        const marker = createPizzaMarker(s.feature, s.idx);
+        marker.addTo(map);
+        pizzaMarkersOnMap.push(marker);
+      });
+    }
+  }
+
+  renderPizzaMarkers();
+
+  // Re-render only when clustering mode actually flips (not on every zoom
+  // tick) — avoids needlessly rebuilding 200+ markers during normal zooming
+  // within individual-marker range, which already works fine as-is.
+  let clusterRenderTimer = null;
+  map.on('zoomend', () => {
+    const zoom = map.getZoom();
+    const shouldCluster = CLUSTERING_ENABLED && zoom < CLUSTER_ZOOM_THRESHOLD;
+    if (shouldCluster !== clusteringCurrentlyActive) {
+      clearTimeout(clusterRenderTimer);
+      clusterRenderTimer = setTimeout(renderPizzaMarkers, 120);
+    }
+  });
+
+  // While clustered, panning changes which markers visually overlap —
+  // recompute cluster groupings (debounced) so they stay accurate.
+  map.on('moveend', () => {
+    if (clusteringCurrentlyActive) {
+      clearTimeout(clusterRenderTimer);
+      clusterRenderTimer = setTimeout(renderPizzaMarkers, 150);
+    }
   });
 
   // ===== Landmark star markers =====
