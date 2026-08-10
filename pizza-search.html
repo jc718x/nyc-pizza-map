@@ -120,14 +120,50 @@
     font-family: var(--font-mono);
     font-size: 0.68rem;
     font-weight: 600;
-    padding: 5px 11px;
+    padding: 5px 11px 5px 9px;
     border-radius: 20px;
     border: 1px solid rgba(36,26,16,0.15);
     background: var(--color-parchment);
     color: var(--color-char);
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ps-chip::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--b, #999);
+    flex-shrink: 0;
   }
   .ps-chip:hover { background: var(--pz-accent); border-color: var(--pz-accent); color: white; }
+
+  .ps-chip-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(36,26,16,0.12);
+  }
+  .ps-chip-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(36,26,16,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .ps-chip-legend i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+  }
 
   .ps-controls {
     display: flex;
@@ -340,12 +376,25 @@
       <div class="ps-search-dropdown" id="pageSearchDropdown" hidden></div>
     </div>
     <div class="ps-chips" id="popularChips">
-      <button class="ps-chip" data-name="Times Square" data-lat="40.7580" data-lng="-73.9855" data-neighborhood="0">Times Square</button>
-      <button class="ps-chip" data-name="Central Park" data-lat="40.7851" data-lng="-73.9683" data-neighborhood="0">Central Park</button>
-      <button class="ps-chip" data-name="Brooklyn Bridge" data-lat="40.7061" data-lng="-73.9969" data-neighborhood="0">Brooklyn Bridge</button>
-      <button class="ps-chip" data-name="Coney Island" data-lat="40.5755" data-lng="-73.9707" data-neighborhood="0">Coney Island</button>
-      <button class="ps-chip" data-name="Williamsburg" data-lat="40.7081" data-lng="-73.9571" data-neighborhood="1">Williamsburg</button>
-      <button class="ps-chip" data-name="West Village" data-lat="40.7343" data-lng="-74.0059" data-neighborhood="1">West Village</button>
+      <button class="ps-chip" style="--b:#276E40" data-name="Times Square" data-lat="40.7555923" data-lng="-73.9858388" data-neighborhood="0">Times Square</button>
+      <button class="ps-chip" style="--b:#276E40" data-name="West Village" data-lat="40.7341857" data-lng="-74.00558" data-neighborhood="1">West Village</button>
+      <button class="ps-chip" style="--b:#276E40" data-name="Midtown" data-lat="40.7551169" data-lng="-73.98478" data-neighborhood="1">Midtown</button>
+      <button class="ps-chip" style="--b:#276E40" data-name="Central Park" data-lat="40.7827725" data-lng="-73.9653627" data-neighborhood="0">Central Park</button>
+      <button class="ps-chip" style="--b:#276E40" data-name="SoHo" data-lat="40.72288" data-lng="-73.9987505" data-neighborhood="1">SoHo</button>
+      <button class="ps-chip" style="--b:#DC2225" data-name="Williamsburg" data-lat="40.714622" data-lng="-73.95345" data-neighborhood="1">Williamsburg</button>
+      <button class="ps-chip" style="--b:#DC2225" data-name="Park Slope" data-lat="40.6701033" data-lng="-73.9859723" data-neighborhood="1">Park Slope</button>
+      <button class="ps-chip" style="--b:#DC2225" data-name="Bay Ridge" data-lat="40.6320062" data-lng="-74.0232101" data-neighborhood="1">Bay Ridge</button>
+      <button class="ps-chip" style="--b:#DC2225" data-name="Brooklyn Bridge" data-lat="40.7020375" data-lng="-73.9915987" data-neighborhood="0">Brooklyn Bridge</button>
+      <button class="ps-chip" style="--b:#FF6B00" data-name="Flushing" data-lat="40.7654301" data-lng="-73.8174291" data-neighborhood="1">Flushing</button>
+      <button class="ps-chip" style="--b:#8B3A62" data-name="Arthur Avenue" data-lat="40.8550" data-lng="-73.8874" data-neighborhood="1">Arthur Avenue</button>
+      <button class="ps-chip" style="--b:#3C5A80" data-name="Port Richmond" data-lat="40.6331592" data-lng="-74.1365318" data-neighborhood="1">Port Richmond</button>
+    </div>
+    <div class="ps-chip-legend">
+      <span><i style="background:#276E40"></i>Manhattan</span>
+      <span><i style="background:#DC2225"></i>Brooklyn</span>
+      <span><i style="background:#FF6B00"></i>Queens</span>
+      <span><i style="background:#8B3A62"></i>Bronx</span>
+      <span><i style="background:#3C5A80"></i>Staten Island</span>
     </div>
   </div>
 
