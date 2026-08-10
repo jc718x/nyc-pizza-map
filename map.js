@@ -927,11 +927,18 @@ function renderSearchResults(query) {
 
 if (searchIconBtn) searchIconBtn.addEventListener('click', openSearchOverlay);
 if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearchOverlay);
-if (searchOverlay) {
-  searchOverlay.addEventListener('click', (e) => {
-    if (e.target === searchOverlay) closeSearchOverlay();
-  });
-}
+
+// The map stays interactive behind the search panel now (it's a dropdown,
+// not a full modal), so "click outside to close" needs to check against
+// the actual panel and the icon that opened it, rather than a backdrop.
+document.addEventListener('click', (e) => {
+  if (!searchOverlay || searchOverlay.hidden) return;
+  const inner = searchOverlay.querySelector('.search-overlay-inner');
+  const clickedInsidePanel = inner && inner.contains(e.target);
+  const clickedIcon = searchIconBtn && (e.target === searchIconBtn || searchIconBtn.contains(e.target));
+  if (!clickedInsidePanel && !clickedIcon) closeSearchOverlay();
+});
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && searchOverlay && !searchOverlay.hidden) closeSearchOverlay();
 });

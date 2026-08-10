@@ -106,24 +106,24 @@ html, body {
   position: fixed;
   inset: 0;
   z-index: 50;
-  background: rgba(36,26,16,0.45);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 80px 20px 20px;
+  background: transparent;
+  pointer-events: none;
 }
 .search-overlay[hidden] { display: none; }
 
 .search-overlay-inner {
+  position: absolute;
+  top: var(--topbar-h);
+  left: 0;
+  right: 0;
   background: var(--color-parchment-panel);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 560px;
-  max-height: 70vh;
+  border-radius: 0 0 12px 12px;
+  max-height: 40vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   overflow: hidden;
+  pointer-events: auto;
 }
 
 .search-input-row {
@@ -207,13 +207,14 @@ html, body {
   white-space: nowrap;
 }
 
-@media (max-width: 900px) {
-  .search-overlay { padding: 0; align-items: stretch; }
+@media (min-width: 901px) {
   .search-overlay-inner {
-    max-width: none;
-    max-height: none;
-    border-radius: 0;
-    height: 100vh;
+    top: calc(var(--topbar-h) + 8px);
+    left: auto;
+    right: 20px;
+    width: 420px;
+    border-radius: 12px;
+    max-height: 60vh;
   }
 }
 
@@ -1401,17 +1402,16 @@ button:focus-visible {
 /* ===== "Search This Area" floating button ===== */
 .search-this-area-btn {
   position: fixed;
-  top: calc(var(--topbar-h) + 14px);
-  left: 50%;
-  transform: translateX(-50%);
+  top: calc(var(--topbar-h) + 12px);
+  right: 12px;
   z-index: 5;
   background: var(--color-crust);
   color: white;
   border: none;
   border-radius: 20px;
-  padding: 10px 18px;
+  padding: 8px 16px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 3px 12px rgba(0,0,0,0.25);
