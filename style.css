@@ -299,37 +299,6 @@ body.map-page {
   z-index: 0;
 }
 
-/* ===== Legend ===== */
-.legend {
-  position: fixed;
-  bottom: 24px;
-  left: 16px;
-  z-index: 2;
-  background: var(--color-parchment-panel);
-  border: 1px solid rgba(29, 20, 12, 0.15);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-panel);
-  padding: 10px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-.legend-item { display: flex; align-items: center; gap: 8px; }
-.legend-item i {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: 0 0 0 1px rgba(29,20,12,0.25);
-  flex-shrink: 0;
-}
-.legend-short { display: none; }
-.legend-full { display: inline; }
-
 /* ===== Pizza slice marker ===== */
 .pizza-marker-wrap {
   position: relative;
@@ -707,21 +676,6 @@ button:focus-visible {
 
   .about-toggle { right: 12px; font-size: 0.62rem; padding: 7px 10px; }
   .about-panel { right: 12px; max-width: calc(100vw - 24px); }
-
-  .legend {
-    bottom: 16px;
-    left: 8px;
-    right: 8px;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 2px;
-    font-size: 0.55rem;
-    padding: 6px 6px;
-    white-space: nowrap;
-  }
-  .legend-full { display: none !important; }
-  .legend-short { display: inline !important; }
-  .legend-item { gap: 3px; }
 }
 
 /* Respect reduced-motion preference */
@@ -1074,38 +1028,7 @@ button:focus-visible {
 /* Automatic show/hide (no hover needed) is handled in JS via LANDMARK_LABEL_ZOOM
    — kept meaningfully later than pizza's LABEL_ZOOM so pizza labels always appear first */
 
-/* ===== Neighborhood picker (map legend) ===== */
-.legend-item {
-  border: none;
-  background: transparent;
-  font: inherit;
-  cursor: pointer;
-  border-radius: 4px;
-  padding: 2px 4px;
-  transition: background 0.12s ease;
-}
-.legend-item:hover { background: rgba(36,26,16,0.06); }
-.legend-item.active { background: rgba(220,34,37,0.1); }
-
-.neighborhood-panel {
-  position: fixed;
-  bottom: 76px;
-  left: 16px;
-  z-index: 3;
-  background: white;
-  border-radius: 8px;
-  padding: 10px 14px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  max-width: 260px;
-}
-.neighborhood-panel-title {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: rgba(36,26,16,0.55);
-  margin: 0 0 8px;
-}
+/* ===== Neighborhood chips (shared: List page borough-filter uses these too) ===== */
 .neighborhood-chips {
   display: flex;
   flex-wrap: wrap;
@@ -1127,15 +1050,6 @@ button:focus-visible {
   background: var(--color-sauce);
   border-color: var(--color-sauce);
   color: white;
-}
-
-@media (max-width: 900px) {
-  .neighborhood-panel {
-    bottom: 68px;
-    left: 8px;
-    right: 8px;
-    max-width: none;
-  }
 }
 
 /* ===== Landmark popup — nearby pizza rows (stacked, handles long names) ===== */

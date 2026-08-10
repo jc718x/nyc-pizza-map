@@ -358,10 +358,15 @@ map.on('load', async () => {
     if (match) showPizzeriaPopup(match);
   };
 
+  // All pizza markers use one consistent brand red — geography (the map itself)
+  // already communicates which borough a spot is in, so per-borough marker
+  // colors weren't adding useful information, just visual clutter.
+  const PIZZA_MARKER_COLOR = '#DC2225';
+
   geojson.features.forEach((feature, idx) => {
     const [lng, lat] = feature.geometry.coordinates;
     const p   = feature.properties;
-    const col = BOROUGH_COLORS[p.borough] || '#DC2225';
+    const col = PIZZA_MARKER_COLOR;
     const dir = LABEL_SIDE_OVERRIDES[p.name] || labelDirections[idx];
 
     // Wrapper: zero-size anchor point — pin and label are both
@@ -590,54 +595,3 @@ if (nearMeBtn) {
   });
 }
 
-// ===== Legend neighborhood picker =====
-const legend = document.getElementById('legend');
-const neighborhoodPanel = document.getElementById('neighborhoodPanel');
-const neighborhoodPanelTitle = document.getElementById('neighborhoodPanelTitle');
-const neighborhoodChips = document.getElementById('neighborhoodChips');
-let activeBoroughBtn = null;
-
-if (legend && typeof NEIGHBORHOODS !== 'undefined') {
-  legend.addEventListener('click', (e) => {
-    const btn = e.target.closest('.legend-item');
-    if (!btn) return;
-    const borough = btn.dataset.borough;
-
-    // Toggle off if clicking the already-active borough
-    if (activeBoroughBtn === btn) {
-      neighborhoodPanel.hidden = true;
-      btn.classList.remove('active');
-      activeBoroughBtn = null;
-      return;
-    }
-
-    if (activeBoroughBtn) activeBoroughBtn.classList.remove('active');
-    btn.classList.add('active');
-    activeBoroughBtn = btn;
-
-    neighborhoodPanelTitle.textContent = `${borough} neighborhoods`;
-    neighborhoodChips.innerHTML = '';
-    (NEIGHBORHOODS[borough] || []).forEach(n => {
-      const chip = document.createElement('button');
-      chip.className = 'neighborhood-chip';
-      chip.textContent = n.name;
-      chip.addEventListener('click', () => {
-        map.flyTo({ center: [n.lng, n.lat], zoom: 14.5, duration: 900 });
-        neighborhoodPanel.hidden = true;
-        btn.classList.remove('active');
-        activeBoroughBtn = null;
-      });
-      neighborhoodChips.appendChild(chip);
-    });
-    neighborhoodPanel.hidden = false;
-  });
-
-  // Close the panel when clicking anywhere outside it or the legend
-  document.addEventListener('click', (e) => {
-    if (neighborhoodPanel.hidden) return;
-    if (neighborhoodPanel.contains(e.target) || legend.contains(e.target)) return;
-    neighborhoodPanel.hidden = true;
-    if (activeBoroughBtn) activeBoroughBtn.classList.remove('active');
-    activeBoroughBtn = null;
-  });
-}
