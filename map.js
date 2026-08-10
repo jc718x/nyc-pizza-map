@@ -375,7 +375,7 @@ map.on('load', async () => {
         d: stationDist(userLat, userLng, f.geometry.coordinates[1], f.geometry.coordinates[0])
       }))
       .sort((a, b) => a.d - b.d)
-      .slice(0, 20);
+      .slice(0, 12);
 
     title.textContent = `🍕 ${nearby.length} Pizzerias Near You`;
     list.innerHTML = nearby.map(p => {
@@ -707,6 +707,36 @@ map.on('load', async () => {
 // ===== Near Me button =====
 let userMarker = null;
 
+function activateNearMeOnMap(latitude, longitude) {
+  // Drop a "you are here" marker
+  if (userMarker) userMarker.remove();
+  const el = document.createElement('div');
+  el.className = 'user-location-dot';
+  userMarker = new maplibregl.Marker({ element: el })
+    .setLngLat([longitude, latitude])
+    .addTo(map);
+
+  // Fly to user location at zoom 14
+  map.flyTo({ center: [longitude, latitude], zoom: 14, duration: 1000 });
+
+  if (window.buildNearMePanel) window.buildNearMePanel(latitude, longitude);
+}
+
+// If location was already granted on a previous visit, locate and show
+// nearby pizzerias automatically — this check never triggers a new
+// permission prompt itself.
+if (navigator.permissions && navigator.geolocation) {
+  navigator.permissions.query({ name: 'geolocation' }).then(status => {
+    if (status.state === 'granted') {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude),
+        () => {},
+        { timeout: 8000, maximumAge: 60000 }
+      );
+    }
+  }).catch(() => {});
+}
+
 const nearMeBtn = document.getElementById('nearMeBtn');
 if (nearMeBtn) {
   nearMeBtn.addEventListener('click', () => {
@@ -719,21 +749,7 @@ if (nearMeBtn) {
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const { latitude, longitude } = pos.coords;
-
-        // Drop a "you are here" marker
-        if (userMarker) userMarker.remove();
-        const el = document.createElement('div');
-        el.className = 'user-location-dot';
-        userMarker = new maplibregl.Marker({ element: el })
-          .setLngLat([longitude, latitude])
-          .addTo(map);
-
-        // Fly to user location at zoom 14
-        map.flyTo({ center: [longitude, latitude], zoom: 14, duration: 1000 });
-
-        buildNearMePanel(latitude, longitude);
-
+        activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude);
         nearMeBtn.textContent = '📍 Near Me';
         nearMeBtn.disabled = false;
       },

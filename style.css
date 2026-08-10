@@ -1114,6 +1114,9 @@ button:focus-visible {
   flex-direction: column;
   max-height: 60vh;
 }
+.near-me-panel[hidden] {
+  display: none;
+}
 .near-me-panel-header {
   position: relative;
   display: flex;

@@ -7,7 +7,7 @@
 <meta name="description" content="Find the best pizza near NYC landmarks — Brooklyn Bridge, Times Square, Central Park, and more." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Abril+Fatface&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
 <style>
@@ -176,6 +176,40 @@
     font-style: italic;
   }
 
+  .nearby-compact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .nearby-compact-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 4px;
+    border-bottom: 1px solid rgba(36,26,16,0.08);
+    text-decoration: none;
+  }
+  .nearby-compact-row:hover { background: rgba(220,34,37,0.04); }
+  .nearby-compact-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .nearby-compact-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--color-char);
+    flex: 1;
+  }
+  .nearby-compact-borough {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: rgba(36,26,16,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
   #resultsSection { display: none; }
 
   @media (max-width: 560px) {
@@ -199,13 +233,18 @@
     <div class="nav-dropdown" id="exploreDropdown">
       <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
       <div class="nav-dropdown-menu">
-        <a href="pizza-facts.html">Pizza Facts</a>
+              <div class="nav-dropdown-heading">Find Pizza</div>
+        <a href="nearby.html" class="active">Pizza Near Your Plans</a>
+        <a href="neighborhood-guides.html">Neighborhood Guides</a>
+        <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
+        <div class="nav-dropdown-heading">Learn</div>
         <a href="pizza-history.html">Pizza History</a>
-        <a href="nearby.html"  class="active">Pizza Near Your Plans</a>
+        <a href="pizza-facts.html">Pizza Facts</a>
+      
       </div>
     </div>
     <a href="how-to-make-pizza.html">Make Pizza</a>
-    <a href="store.html">Store</a>
+    <a href="store.html">Shop</a>
     <a href="suggest.html">Suggest a Spot</a>
     <a href="about.html">About</a>
   </nav>
@@ -216,12 +255,14 @@
   <a href="index.html" class="primary">Map</a>
   <a href="list.html" class="primary">Pizzeria List</a>
   <a href="nearby.html" class="active primary">Pizza Near Your Plans</a>
+  <a href="neighborhood-guides.html" class="primary">Neighborhood Guides</a>
+  <a href="pizza-worth-traveling-for.html" class="primary">Worth the Trip</a>
   <div class="mobile-nav-heading">Explore</div>
   <a href="pizza-history.html">Pizza History</a>
   <a href="pizza-facts.html">Pizza Facts</a>
   <div class="mobile-nav-heading">NYC Pizza</div>
   <a href="how-to-make-pizza.html">Make Pizza</a>
-  <a href="store.html">Store</a>
+  <a href="store.html">Shop</a>
   <div class="mobile-nav-divider"></div>
   <a href="suggest.html">Suggest a Spot</a>
   <a href="about.html">About</a>
@@ -305,7 +346,109 @@ let allPizzerias = [];
 
 fetch('data.json')
   .then(r => r.json())
-  .then(geojson => { allPizzerias = geojson.features; });
+  .then(geojson => {
+    allPizzerias = geojson.features;
+    showDefaultResults();
+  });
+
+// Builds the same rich result card used for landmark-based results
+function buildResultCard(p) {
+  const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
+  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
+  const isWorth = WORTH_A_TRIP.has(p.name);
+
+  const entry = document.createElement('div');
+  entry.className = 'nearby-entry';
+  entry.innerHTML = `
+    <div class="nearby-top">
+      <span class="nearby-walk">🚶 ${walkMins(p.d)}</span>
+      <a class="nearby-name" href="${mapUrl}">${p.name}</a>
+    </div>
+    <div class="nearby-pills">
+      <span class="nearby-pill" style="background:var(--color-crust);color:#fff">${p.style}</span>
+      ${p.seating && p.seating !== 'Indoor' ? `<span class="nearby-pill">${p.seating}</span>` : ''}
+      ${p.price ? `<span class="nearby-pill">${p.price}</span>` : ''}
+      ${p.slices ? `<span class="nearby-pill">Slices ✓</span>` : `<span class="nearby-pill">Whole pies</span>`}
+      ${isWorth ? `<span class="nearby-pill worth-trip">⭐ Worth a special trip</span>` : ''}
+    </div>
+    <p class="nearby-blurb">${p.blurb}</p>
+    <div class="nearby-actions">
+      <a href="${directionsUrl}" target="_blank" rel="noopener">Get directions</a>
+      <a href="${mapUrl}">Show on map</a>
+      ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener">Website</a>` : ''}
+    </div>`;
+  return entry;
+}
+
+// Compact row for the "list every pizzeria" default (no distance/location available)
+function buildCompactRow(p) {
+  const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
+  const col = BOROUGH_COLORS[p.borough] || '#DC2225';
+  const row = document.createElement('a');
+  row.className = 'nearby-compact-row';
+  row.href = mapUrl;
+  row.innerHTML = `
+    <span class="nearby-compact-dot" style="background:${col}"></span>
+    <span class="nearby-compact-name">${p.name}</span>
+    <span class="nearby-compact-borough">${p.borough}</span>`;
+  return row;
+}
+
+// Default view shown before any landmark is picked — nearby pizzerias if
+// location is already granted (no new prompt triggered), otherwise the
+// full list of every pizzeria so the page is never blank.
+function showDefaultResults() {
+  if (!allPizzerias.length) return;
+  const header = document.getElementById('resultsHeader');
+  const list = document.getElementById('nearbyList');
+  const section = document.getElementById('resultsSection');
+
+  const showAllPizzerias = () => {
+    header.textContent = `ALL ${allPizzerias.length} NYC PIZZERIAS`;
+    list.innerHTML = '';
+    list.className = 'nearby-compact-list';
+    const sorted = [...allPizzerias].sort((a, b) => a.properties.name.localeCompare(b.properties.name));
+    sorted.forEach(f => {
+      const p = { ...f.properties, lat: f.geometry.coordinates[1], lng: f.geometry.coordinates[0] };
+      list.appendChild(buildCompactRow(p));
+    });
+    section.style.display = 'block';
+  };
+
+  if (!navigator.permissions || !navigator.geolocation) {
+    showAllPizzerias();
+    return;
+  }
+
+  navigator.permissions.query({ name: 'geolocation' }).then(status => {
+    if (status.state === 'granted') {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          const nearby = allPizzerias
+            .map(f => ({
+              ...f.properties,
+              lat: f.geometry.coordinates[1],
+              lng: f.geometry.coordinates[0],
+              d: dist(latitude, longitude, f.geometry.coordinates[1], f.geometry.coordinates[0])
+            }))
+            .sort((a, b) => a.d - b.d)
+            .slice(0, 12);
+
+          header.textContent = 'PIZZA NEAR YOU RIGHT NOW';
+          list.innerHTML = '';
+          list.className = '';
+          nearby.forEach(p => list.appendChild(buildResultCard(p)));
+          section.style.display = 'block';
+        },
+        () => showAllPizzerias(),
+        { timeout: 8000, maximumAge: 300000 }
+      );
+    } else {
+      showAllPizzerias();
+    }
+  }).catch(() => showAllPizzerias());
+}
 
 function showResults(landmarkKey) {
   const lm = LANDMARKS[landmarkKey];
@@ -329,38 +472,12 @@ function showResults(landmarkKey) {
 
   header.textContent = `Good pizza near ${lm.name.toUpperCase()}`;
   list.innerHTML = '';
+  list.className = '';
 
   if (nearby.length === 0) {
     list.innerHTML = '<p style="color:rgba(36,26,16,0.5); font-style:italic;">No pizzerias within walking distance of this location — but the city is full of great options a short subway ride away.</p>';
   } else {
-    nearby.forEach(p => {
-      const col = BOROUGH_COLORS[p.borough] || '#DC2225';
-      const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
-      const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
-      const isWorth = WORTH_A_TRIP.has(p.name);
-
-      const entry = document.createElement('div');
-      entry.className = 'nearby-entry';
-      entry.innerHTML = `
-        <div class="nearby-top">
-          <span class="nearby-walk">🚶 ${walkMins(p.d)}</span>
-          <a class="nearby-name" href="${mapUrl}">${p.name}</a>
-        </div>
-        <div class="nearby-pills">
-          <span class="nearby-pill" style="background:var(--color-crust);color:#fff">${p.style}</span>
-          ${p.seating && p.seating !== 'Indoor' ? `<span class="nearby-pill">${p.seating}</span>` : ''}
-          ${p.price ? `<span class="nearby-pill">${p.price}</span>` : ''}
-          ${p.slices ? `<span class="nearby-pill">Slices ✓</span>` : `<span class="nearby-pill">Whole pies</span>`}
-          ${isWorth ? `<span class="nearby-pill worth-trip">⭐ Worth a special trip</span>` : ''}
-        </div>
-        <p class="nearby-blurb">${p.blurb}</p>
-        <div class="nearby-actions">
-          <a href="${directionsUrl}" target="_blank" rel="noopener">Get directions</a>
-          <a href="${mapUrl}">Show on map</a>
-          ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener">Website</a>` : ''}
-        </div>`;
-      list.appendChild(entry);
-    });
+    nearby.forEach(p => list.appendChild(buildResultCard(p)));
   }
 
   section.style.display = 'block';

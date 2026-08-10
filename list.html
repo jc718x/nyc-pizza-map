@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Abril+Fatface&display=swap" rel="stylesheet">
 <meta property="og:title" content="Best Pizzerias in NYC — Full List by Borough" />
 <meta property="og:description" content="Browse the complete list of the best pizzerias in New York City, filterable by borough. Brooklyn, Manhattan, Queens, Bronx, and Staten Island all covered." />
 <meta property="og:url" content="https://nycpizzamap.com/list.html" />
@@ -249,15 +249,18 @@
     <div class="nav-dropdown" id="exploreDropdown">
       <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
       <div class="nav-dropdown-menu">
-        <a href="pizza-facts.html">Pizza Facts</a>
-        <a href="pizza-history.html">Pizza History</a>
+              <div class="nav-dropdown-heading">Find Pizza</div>
         <a href="nearby.html">Pizza Near Your Plans</a>
-        <a href="pizza-worth-traveling-for.html">Pizza Worth Traveling For</a>
-        <a href="best-pizza-bay-ridge.html">Best Pizza in Bay Ridge</a>
+        <a href="neighborhood-guides.html">Neighborhood Guides</a>
+        <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
+        <div class="nav-dropdown-heading">Learn</div>
+        <a href="pizza-history.html">Pizza History</a>
+        <a href="pizza-facts.html">Pizza Facts</a>
+      
       </div>
     </div>
     <a href="how-to-make-pizza.html">Make Pizza</a>
-    <a href="store.html">Store</a>
+    <a href="store.html">Shop</a>
     <a href="suggest.html">Suggest a Spot</a>
     <a href="about.html">About</a>
   </nav>
@@ -268,14 +271,14 @@
   <a href="index.html" class="primary">Map</a>
   <a href="list.html" class="active primary">Pizzeria List</a>
   <a href="nearby.html" class="primary">Pizza Near Your Plans</a>
-  <a href="pizza-worth-traveling-for.html">Pizza Worth Traveling For</a>
-  <a href="best-pizza-bay-ridge.html">Best Pizza in Bay Ridge</a>
+  <a href="neighborhood-guides.html" class="primary">Neighborhood Guides</a>
+  <a href="pizza-worth-traveling-for.html" class="primary">Worth the Trip</a>
   <div class="mobile-nav-heading">Explore</div>
   <a href="pizza-history.html">Pizza History</a>
   <a href="pizza-facts.html">Pizza Facts</a>
   <div class="mobile-nav-heading">NYC Pizza</div>
   <a href="how-to-make-pizza.html">Make Pizza</a>
-  <a href="store.html">Store</a>
+  <a href="store.html">Shop</a>
   <div class="mobile-nav-divider"></div>
   <a href="suggest.html">Suggest a Spot</a>
   <a href="about.html">About</a>
@@ -455,10 +458,61 @@ fetch('data.json')
   .then(geojson => {
     buildList(geojson.features);
     document.getElementById('visibleCount').textContent = entries.length;
+    tryAutoNearMe();
   });
 
 // ===== Near Me =====
 let userLat = null, userLng = null;
+
+function activateNearMe(lat, lng) {
+  userLat = lat; userLng = lng;
+  const btn = document.getElementById('nearMeListBtn');
+  btn.textContent = '📍 Nearest first ✕';
+  btn.classList.add('active');
+  btn.disabled = false;
+
+  // Sort entries by distance
+  const list = document.getElementById('pizzaList');
+  [...list.children].sort((a, b) => {
+    const dA = stationDist(userLat, userLng, parseFloat(a.dataset.lat), parseFloat(a.dataset.lng));
+    const dB = stationDist(userLat, userLng, parseFloat(b.dataset.lat), parseFloat(b.dataset.lng));
+    return dA - dB;
+  }).forEach(el => list.appendChild(el));
+
+  // Show walk time on each entry
+  [...list.children].forEach(el => {
+    const d = stationDist(userLat, userLng, parseFloat(el.dataset.lat), parseFloat(el.dataset.lng));
+    const mins = Math.round(d / 83);
+    let badge = el.querySelector('.entry-distance');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'entry-distance';
+      el.querySelector('.entry-top').appendChild(badge);
+    }
+    badge.textContent = mins < 1 ? '< 1 min' : `${mins} min walk`;
+  });
+
+  // Show all entries when in Near Me mode
+  activeBorough = 'all';
+  document.querySelectorAll('#boroughFilters .filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('#boroughFilters .filter-btn').classList.add('active');
+  applyFilters();
+}
+
+// If location was already granted on a previous visit, sort by distance
+// automatically — no new permission prompt gets triggered by this check.
+function tryAutoNearMe() {
+  if (!navigator.permissions || !navigator.geolocation) return;
+  navigator.permissions.query({ name: 'geolocation' }).then(status => {
+    if (status.state === 'granted') {
+      navigator.geolocation.getCurrentPosition(
+        pos => activateNearMe(pos.coords.latitude, pos.coords.longitude),
+        () => {},
+        { timeout: 8000, maximumAge: 300000 }
+      );
+    }
+  }).catch(() => {});
+}
 
 document.getElementById('nearMeListBtn').addEventListener('click', function() {
   if (!navigator.geolocation) { alert('Geolocation not supported.'); return; }
@@ -484,39 +538,7 @@ document.getElementById('nearMeListBtn').addEventListener('click', function() {
   this.disabled = true;
 
   navigator.geolocation.getCurrentPosition(pos => {
-    userLat = pos.coords.latitude;
-    userLng = pos.coords.longitude;
-    this.textContent = '📍 Nearest first ✕';
-    this.classList.add('active');
-    this.disabled = false;
-
-    // Sort entries by distance
-    const list = document.getElementById('pizzaList');
-    [...list.children].sort((a, b) => {
-      const dA = stationDist(userLat, userLng, parseFloat(a.dataset.lat), parseFloat(a.dataset.lng));
-      const dB = stationDist(userLat, userLng, parseFloat(b.dataset.lat), parseFloat(b.dataset.lng));
-      return dA - dB;
-    }).forEach(el => list.appendChild(el));
-
-    // Show walk time on each entry
-    [...list.children].forEach(el => {
-      const d = stationDist(userLat, userLng, parseFloat(el.dataset.lat), parseFloat(el.dataset.lng));
-      const mins = Math.round(d / 83);
-      let badge = el.querySelector('.entry-distance');
-      if (!badge) {
-        badge = document.createElement('span');
-        badge.className = 'entry-distance';
-        el.querySelector('.entry-top').appendChild(badge);
-      }
-      badge.textContent = mins < 1 ? '< 1 min' : `${mins} min walk`;
-    });
-
-    // Show all entries when in Near Me mode
-    activeBorough = 'all';
-    document.querySelectorAll('#boroughFilters .filter-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('#boroughFilters .filter-btn').classList.add('active');
-    applyFilters();
-
+    activateNearMe(pos.coords.latitude, pos.coords.longitude);
   }, () => {
     this.textContent = '📍 Near Me';
     this.disabled = false;
