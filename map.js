@@ -358,6 +358,44 @@ map.on('load', async () => {
     if (match) showPizzeriaPopup(match);
   };
 
+  // "Pizzerias Near You" panel — bottom sheet on mobile, sidebar on desktop.
+  // Exposed globally since the Near Me button handler lives outside this
+  // load callback but needs access to geojson via this closure.
+  window.buildNearMePanel = function(userLat, userLng) {
+    const panel = document.getElementById('nearMePanel');
+    const list = document.getElementById('nearMePanelList');
+    const title = document.getElementById('nearMePanelTitle');
+    if (!panel || !list || !title) return;
+
+    const nearby = geojson.features
+      .map(f => ({
+        ...f.properties,
+        lat: f.geometry.coordinates[1],
+        lng: f.geometry.coordinates[0],
+        d: stationDist(userLat, userLng, f.geometry.coordinates[1], f.geometry.coordinates[0])
+      }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, 20);
+
+    title.textContent = `🍕 ${nearby.length} Pizzerias Near You`;
+    list.innerHTML = nearby.map(p => {
+      const mins = walkMinutes(p.d);
+      const miles = (p.d / 1609.34).toFixed(1);
+      return `<div class="near-me-item" data-name="${escapeAttr(p.name)}">
+        <span class="near-me-item-name">${escapeHTML(p.name)}</span>
+        <span class="near-me-item-meta">${mins} walk · ${miles} mi</span>
+      </div>`;
+    }).join('');
+
+    panel.hidden = false;
+    // Mobile starts collapsed (small pill) per spec; desktop starts open
+    // since there's no space pressure and the toggle is there if wanted.
+    const startCollapsed = window.innerWidth <= 900;
+    panel.classList.toggle('collapsed', startCollapsed);
+    const reopenTab = document.getElementById('nearMeReopenTab');
+    if (reopenTab) reopenTab.hidden = !startCollapsed;
+  };
+
   // All pizza markers use one consistent brand red — geography (the map itself)
   // already communicates which borough a spot is in, so per-borough marker
   // colors weren't adding useful information, just visual clutter.
@@ -694,6 +732,8 @@ if (nearMeBtn) {
         // Fly to user location at zoom 14
         map.flyTo({ center: [longitude, latitude], zoom: 14, duration: 1000 });
 
+        buildNearMePanel(latitude, longitude);
+
         nearMeBtn.textContent = '📍 Near Me';
         nearMeBtn.disabled = false;
       },
@@ -708,6 +748,44 @@ if (nearMeBtn) {
       },
       { timeout: 10000, maximumAge: 60000 }
     );
+  });
+}
+
+// Toggle the near-me panel — collapses the list on mobile, hides the
+// whole sidebar on desktop (see CSS media query for the split behavior)
+const nearMePanelHeader = document.getElementById('nearMePanelHeader');
+const nearMeReopenTab = document.getElementById('nearMeReopenTab');
+
+function setNearMePanelCollapsed(collapsed) {
+  const panel = document.getElementById('nearMePanel');
+  if (!panel) return;
+  panel.classList.toggle('collapsed', collapsed);
+  if (nearMeReopenTab) nearMeReopenTab.hidden = !collapsed;
+}
+
+if (nearMePanelHeader) {
+  nearMePanelHeader.addEventListener('click', () => {
+    const panel = document.getElementById('nearMePanel');
+    setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
+  });
+}
+
+if (nearMeReopenTab) {
+  nearMeReopenTab.addEventListener('click', () => setNearMePanelCollapsed(false));
+}
+
+// Clicking a pizzeria in the panel selects it on the map
+const nearMePanelList = document.getElementById('nearMePanelList');
+if (nearMePanelList) {
+  nearMePanelList.addEventListener('click', (e) => {
+    const item = e.target.closest('.near-me-item');
+    if (!item) return;
+    const name = item.dataset.name;
+    if (window.flyToPizzeria) window.flyToPizzeria(name);
+    // On mobile the sheet covers real map area, so collapse it after a
+    // selection so the popup is visible. Desktop's sidebar doesn't block
+    // the map, so leave it open there.
+    if (window.innerWidth <= 900) setNearMePanelCollapsed(true);
   });
 }
 
