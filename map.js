@@ -396,7 +396,11 @@ map.on('load', async () => {
         })
         .slice(0, 20);
       heading = `🍕 ${results.length} Pizzerias in This Area`;
-      window.panelAnchor = null; // no single point — bounds-based, no "search this area" button needed until they pan further
+      // Even in area mode, keep an anchor (the center of the area that
+      // was just searched) so panning further away can still trigger
+      // the button again — without this, it would never reappear.
+      const center = map.getCenter();
+      window.panelAnchor = { lat: center.lat, lng: center.lng };
     } else {
       // 'nearme' or 'search' — distance-sorted from a fixed anchor point
       const { lat, lng } = opts;
@@ -736,7 +740,7 @@ map.on('load', async () => {
   }
   map.on('zoomend', updateLabels);
 
-  // ===== ?pin= URL parameter =====
+  // ===== ?pin= URL parameter (pizzeria) =====
   const params = new URLSearchParams(window.location.search);
   const pinName = params.get('pin');
   if (pinName) {
@@ -745,6 +749,21 @@ map.on('load', async () => {
     );
     if (match) {
       showPizzeriaPopup(match);
+    }
+  }
+
+  // ===== ?lat=&lng=&label= URL params (destination — from search on another page) =====
+  const destLat = params.get('lat');
+  const destLng = params.get('lng');
+  const destLabel = params.get('label');
+  if (destLat && destLng) {
+    const latNum = parseFloat(destLat), lngNum = parseFloat(destLng);
+    map.flyTo({ center: [lngNum, latNum], zoom: 14.5, duration: 900 });
+    if (window.buildResultsPanel) {
+      window.buildResultsPanel({
+        lat: latNum, lng: lngNum, mode: 'search',
+        label: destLabel || 'This Spot', isNeighborhood: params.get('isNeighborhood') === '1',
+      });
     }
   }
 });
@@ -793,17 +812,17 @@ if (nearMeBtn) {
       alert('Geolocation is not supported by your browser.');
       return;
     }
-    nearMeBtn.textContent = '⏳ Locating…';
+    nearMeBtn.textContent = '⏳';
     nearMeBtn.disabled = true;
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude);
-        nearMeBtn.textContent = '📍 Near Me';
+        nearMeBtn.textContent = '📍';
         nearMeBtn.disabled = false;
       },
       (err) => {
-        nearMeBtn.textContent = '📍 Near Me';
+        nearMeBtn.textContent = '📍';
         nearMeBtn.disabled = false;
         if (err.code === 1) {
           alert('Location access denied. Please allow location access in your browser settings.');
@@ -835,6 +854,22 @@ if (nearMePanelHeader) {
     const panel = document.getElementById('nearMePanel');
     setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
   });
+
+  // Swipe up/down on the header to expand/collapse — scoped to the header
+  // specifically (not the whole panel) so it never fights with scrolling
+  // the results list itself.
+  let touchStartY = null;
+  nearMePanelHeader.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  nearMePanelHeader.addEventListener('touchend', (e) => {
+    if (touchStartY === null) return;
+    const deltaY = e.changedTouches[0].clientY - touchStartY;
+    touchStartY = null;
+    if (deltaY > 40) setNearMePanelCollapsed(true);
+    else if (deltaY < -40) setNearMePanelCollapsed(false);
+  }, { passive: true });
 }
 
 if (nearMeReopenTab) {

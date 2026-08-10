@@ -237,12 +237,11 @@
   </div>
   <nav class="topbar-nav" id="siteNav" aria-label="Site">
     <a href="index.html">Map</a>
-    <a href="list.html">Pizzeria List</a>
+    <a href="pizza-search.html">Find Pizza</a>
     <div class="nav-dropdown" id="exploreDropdown">
       <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
       <div class="nav-dropdown-menu">
               <div class="nav-dropdown-heading">Find Pizza</div>
-        <a href="nearby.html">Pizza Near Your Plans</a>
         <a href="neighborhood-guides.html">Neighborhood Guides</a>
         <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
         <div class="nav-dropdown-heading">Learn</div>
@@ -256,13 +255,27 @@
     <a href="suggest.html">Suggest a Spot</a>
     <a href="about.html">About</a>
   </nav>
+  <button class="search-icon-btn" id="searchIconBtn" aria-label="Search pizzerias, neighborhoods, landmarks, or addresses">🔍</button>
 </header>
+
+<div class="search-overlay" id="searchOverlay" hidden>
+  <div class="search-overlay-inner">
+    <div class="search-input-row">
+      <span class="search-input-icon">🔍</span>
+      <input type="text" id="globalSearchInput" placeholder="Search pizzerias, neighborhoods, landmarks…" autocomplete="off" />
+      <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search">✕</button>
+    </div>
+    <div class="search-results" id="globalSearchResults">
+      <p class="search-hint">Search pizzerias, neighborhoods, landmarks, venues, or hotels — start typing above.</p>
+    </div>
+  </div>
+</div>
+
 
 <div class="mobile-nav-drawer" id="mobileNav" hidden>
   <div class="mobile-nav-heading">Find Pizza</div>
   <a href="index.html" class="primary">Map</a>
-  <a href="list.html" class="primary">Pizzeria List</a>
-  <a href="nearby.html" class="primary">Pizza Near Your Plans</a>
+  <a href="pizza-search.html" class="primary">Find Pizza</a>
   <a href="neighborhood-guides.html" class="primary">Neighborhood Guides</a>
   <a href="pizza-worth-traveling-for.html" class="primary">Worth the Trip</a>
   <div class="mobile-nav-heading">Explore</div>
@@ -352,11 +365,11 @@
     </div>
     <div class="pz-nearby-box">
       <div class="pz-attraction-item">
-        <a href="nearby.html">Brooklyn Bridge Park</a>
+        <a href="pizza-search.html">Brooklyn Bridge Park</a>
         <span class="pz-item-note">~15 min walk</span>
       </div>
       <div class="pz-attraction-item">
-        <a href="nearby.html">Cobble Hill &amp; Atlantic Ave shops</a>
+        <a href="pizza-search.html">Cobble Hill &amp; Atlantic Ave shops</a>
         <span class="pz-item-note">~10 min walk</span>
       </div>
     </div>
@@ -377,7 +390,7 @@
   </div>
 
   <div class="pz-crosslink">
-    See more of NYC's essential pizzerias on the <a href="list.html">full Pizzeria List</a>, or explore the <a href="index.html">interactive map</a>.
+    See more of NYC's essential pizzerias on the <a href="pizza-search.html">Find Pizza page</a>, or explore the <a href="index.html">interactive map</a>.
   </div>
 </main>
 
@@ -424,6 +437,8 @@
       document.getElementById('nearbyPizza').textContent = 'Unable to load nearby pizzerias';
     });
 </script>
+<script src="search-destinations.js"></script>
+<script src="search.js"></script>
 <script src="nav.js"></script>
 </body>
 </html>

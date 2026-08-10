@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Find Pizza — Search Every NYC Pizzeria | NYC Pizza Map</title>
+<meta name="description" content="Search all NYC pizzerias by name, or search a destination — a landmark, neighborhood, or attraction — to find good pizza nearby. Filter by borough, sort by distance." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Abril+Fatface&display=swap" rel="stylesheet">
+<meta property="og:title" content="Find Pizza — Search Every NYC Pizzeria" />
+<meta property="og:description" content="Search all NYC pizzerias by name, or search a destination to find good pizza nearby." />
+<meta property="og:url" content="https://nycpizzamap.com/pizza-search.html" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://nycpizzamap.com/assets/logo.png" />
+<link rel="canonical" href="https://nycpizzamap.com/pizza-search.html" />
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="stylesheet" href="style.css" />
+
+<style>
+  :root { --pz-accent: #DC2225; }
+
+  .ps-wrap { max-width: 720px; margin: 0 auto; padding: calc(var(--topbar-h) + 24px) 20px 80px; }
+
+  .ps-hero {
+    background: var(--color-crust);
+    border-radius: 10px 10px 0 0;
+    padding: 28px 24px 22px;
+  }
+  .ps-hero-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pz-accent);
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .ps-hero-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.9rem;
+    line-height: 1.1;
+    color: var(--color-parchment);
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+  .ps-hero-sub {
+    font-size: 0.88rem;
+    color: rgba(253,244,231,0.8);
+    margin: 0;
+  }
+  .ps-perf {
+    height: 14px;
+    background: var(--color-crust);
+    position: relative;
+    border-radius: 0 0 10px 10px;
+  }
+  .ps-perf::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 14px;
+    background-image: radial-gradient(circle 7px at 0 0, transparent 7px, var(--color-parchment) 7.5px);
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+    background-position: 10px 0;
+  }
+
+  .ps-search-block {
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 20px;
+    margin: -14px 0 20px;
+  }
+  .ps-search-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-parchment);
+    border: 1.5px solid rgba(36,26,16,0.15);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .ps-search-row input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.92rem;
+    font-family: var(--font-body);
+    color: var(--color-char);
+  }
+  .ps-search-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid rgba(36,26,16,0.15);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    max-height: 360px;
+    overflow-y: auto;
+    z-index: 5;
+  }
+  .ps-search-dropdown[hidden] { display: none; }
+
+  .ps-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .ps-chip {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 5px 11px;
+    border-radius: 20px;
+    border: 1px solid rgba(36,26,16,0.15);
+    background: var(--color-parchment);
+    color: var(--color-char);
+    cursor: pointer;
+  }
+  .ps-chip:hover { background: var(--pz-accent); border-color: var(--pz-accent); color: white; }
+
+  .ps-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 14px;
+    flex-wrap: wrap;
+  }
+  .ps-borough-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .ps-filter-btn {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(36,26,16,0.15);
+    background: white;
+    color: var(--color-char);
+    cursor: pointer;
+  }
+  .ps-filter-btn.active { background: var(--color-crust); border-color: var(--color-crust); color: white; }
+  .ps-near-me-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(36,26,16,0.2);
+    background: white;
+    font-size: 1.05rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .ps-near-me-btn.active { background: var(--pz-accent); border-color: var(--pz-accent); }
+
+  .ps-results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 12px;
+  }
+  .ps-results-title {
+    font-family: var(--font-logo);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-crust);
+    margin: 0;
+  }
+  .ps-clear-btn {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--pz-accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .ps-entry {
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ps-entry-bar {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+  }
+  .ps-entry-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .ps-entry-name {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-char);
+    text-decoration: none;
+  }
+  .ps-entry-dist {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(36,26,16,0.55);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ps-entry-pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+  .ps-pill {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.07);
+    color: var(--color-char);
+  }
+  .ps-pill.worth {
+    background: #FFF3CD;
+    color: #856404;
+    font-weight: 700;
+  }
+  .ps-entry-blurb {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(36,26,16,0.75);
+    margin: 0 0 8px;
+  }
+  .ps-entry-links { display: flex; gap: 12px; font-size: 0.78rem; }
+  .ps-entry-links a { color: var(--pz-accent); font-weight: 600; text-decoration: none; }
+  .ps-entry-links a:hover { text-decoration: underline; }
+
+  .ps-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(36,26,16,0.45);
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body class="content-page">
+
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-brand">
+    <a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>
+    <a href="index.html" style="text-decoration:none;"><span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span></a>
+  </div>
+  <nav class="topbar-nav" id="siteNav" aria-label="Site">
+    <a href="index.html">Map</a>
+    <a href="pizza-search.html" class="active">Find Pizza</a>
+    <div class="nav-dropdown" id="exploreDropdown">
+      <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
+      <div class="nav-dropdown-menu">
+        <div class="nav-dropdown-heading">Find Pizza</div>
+        <a href="neighborhood-guides.html">Neighborhood Guides</a>
+        <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
+        <div class="nav-dropdown-heading">Learn</div>
+        <a href="pizza-history.html">Pizza History</a>
+        <a href="pizza-facts.html">Pizza Facts</a>
+      </div>
+    </div>
+    <a href="how-to-make-pizza.html">Make Pizza</a>
+    <a href="store.html">Shop</a>
+    <a href="suggest.html">Suggest a Spot</a>
+    <a href="about.html">About</a>
+  </nav>
+  <button class="search-icon-btn" id="searchIconBtn" aria-label="Search pizzerias, neighborhoods, landmarks, or addresses">🔍</button>
+</header>
+
+<div class="search-overlay" id="searchOverlay" hidden>
+  <div class="search-overlay-inner">
+    <div class="search-input-row">
+      <span class="search-input-icon">🔍</span>
+      <input type="text" id="globalSearchInput" placeholder="Search pizzerias, neighborhoods, landmarks…" autocomplete="off" />
+      <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search">✕</button>
+    </div>
+    <div class="search-results" id="globalSearchResults">
+      <p class="search-hint">Search pizzerias, neighborhoods, landmarks, venues, or hotels — start typing above.</p>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-nav-drawer" id="mobileNav" hidden>
+  <div class="mobile-nav-heading">Find Pizza</div>
+  <a href="index.html" class="primary">Map</a>
+  <a href="pizza-search.html" class="primary active">Find Pizza</a>
+  <a href="neighborhood-guides.html" class="primary">Neighborhood Guides</a>
+  <a href="pizza-worth-traveling-for.html" class="primary">Worth the Trip</a>
+  <div class="mobile-nav-heading">Explore</div>
+  <a href="pizza-history.html">Pizza History</a>
+  <a href="pizza-facts.html">Pizza Facts</a>
+  <div class="mobile-nav-heading">NYC Pizza</div>
+  <a href="how-to-make-pizza.html">Make Pizza</a>
+  <a href="store.html">Shop</a>
+  <div class="mobile-nav-divider"></div>
+  <a href="suggest.html">Suggest a Spot</a>
+  <a href="about.html">About</a>
+</div>
+
+<main class="ps-wrap">
+
+  <div class="ps-hero">
+    <p class="ps-hero-kicker">Find Pizza</p>
+    <h2 class="ps-hero-title">Search Every NYC Pizzeria</h2>
+    <p class="ps-hero-sub">Search a pizzeria by name, or search a destination to find good pizza nearby.</p>
+  </div>
+  <div class="ps-perf"></div>
+  <div class="ps-search-block">
+    <div class="ps-search-row">
+      <span>🔍</span>
+      <input type="text" id="pageSearchInput" placeholder="Search pizzerias or a destination…" autocomplete="off" />
+      <div class="ps-search-dropdown" id="pageSearchDropdown" hidden></div>
+    </div>
+    <div class="ps-chips" id="popularChips">
+      <button class="ps-chip" data-name="Times Square" data-lat="40.7580" data-lng="-73.9855" data-neighborhood="0">Times Square</button>
+      <button class="ps-chip" data-name="Central Park" data-lat="40.7851" data-lng="-73.9683" data-neighborhood="0">Central Park</button>
+      <button class="ps-chip" data-name="Brooklyn Bridge" data-lat="40.7061" data-lng="-73.9969" data-neighborhood="0">Brooklyn Bridge</button>
+      <button class="ps-chip" data-name="Coney Island" data-lat="40.5755" data-lng="-73.9707" data-neighborhood="0">Coney Island</button>
+      <button class="ps-chip" data-name="Williamsburg" data-lat="40.7081" data-lng="-73.9571" data-neighborhood="1">Williamsburg</button>
+      <button class="ps-chip" data-name="West Village" data-lat="40.7343" data-lng="-74.0059" data-neighborhood="1">West Village</button>
+    </div>
+  </div>
+
+  <div class="ps-controls">
+    <div class="ps-borough-filters" id="boroughFilters">
+      <button class="ps-filter-btn active" data-borough="all">All</button>
+      <button class="ps-filter-btn" data-borough="Brooklyn">Brooklyn</button>
+      <button class="ps-filter-btn" data-borough="Manhattan">Manhattan</button>
+      <button class="ps-filter-btn" data-borough="Queens">Queens</button>
+      <button class="ps-filter-btn" data-borough="Bronx">Bronx</button>
+      <button class="ps-filter-btn" data-borough="Staten Island">SI</button>
+    </div>
+    <button class="ps-near-me-btn" id="pageNearMeBtn" title="Sort by distance from me">📍</button>
+  </div>
+
+  <div class="ps-results-header">
+    <p class="ps-results-title" id="resultsTitle">All 211 Pizzerias</p>
+    <button class="ps-clear-btn" id="clearModeBtn" hidden>Clear ✕</button>
+  </div>
+
+  <div id="resultsList"></div>
+
+</main>
+
+<script src="search-destinations.js"></script>
+<script src="search.js"></script>
+<script>
+const BOROUGH_COLORS = { Brooklyn:'#DC2225', Manhattan:'#276E40', Queens:'#FF6B00', Bronx:'#8B3A62', 'Staten Island':'#3C5A80' };
+
+let allPizzerias = [];
+let activeBorough = 'all';
+let userLoc = null;      // set once Near Me succeeds
+let modeAnchor = null;   // { lat, lng, label, isNeighborhood } when in "near a destination" mode
+
+function haversine(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+function walkMins(m) {
+  const mins = Math.round(m / 83);
+  return mins < 1 ? '< 1 min walk' : `${mins} min walk`;
+}
+
+function buildEntryHTML(p) {
+  const col = BOROUGH_COLORS[p.borough] || '#DC2225';
+  const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
+  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
+  const distLabel = p.d !== undefined ? walkMins(p.d) : '';
+  return `
+    <div class="ps-entry">
+      <span class="ps-entry-bar" style="background:${col}"></span>
+      <div class="ps-entry-top">
+        <a class="ps-entry-name" href="${mapUrl}">${p.name}</a>
+        ${distLabel ? `<span class="ps-entry-dist">${distLabel}</span>` : ''}
+      </div>
+      <div class="ps-entry-pills">
+        <span class="ps-pill" style="background:${col};color:#fff">${p.style}</span>
+        ${p.price ? `<span class="ps-pill">${p.price}</span>` : ''}
+        ${p.slices ? `<span class="ps-pill">Slices ✓</span>` : `<span class="ps-pill">Whole pies</span>`}
+        ${p.worth_a_trip ? `<span class="ps-pill worth">⭐ Worth a special trip</span>` : ''}
+      </div>
+      <p class="ps-entry-blurb">${p.blurb}</p>
+      <div class="ps-entry-links">
+        <a href="${directionsUrl}" target="_blank" rel="noopener">Directions</a>
+        <a href="${mapUrl}">Show on map</a>
+        ${p.website ? `<a href="${p.website}" target="_blank" rel="noopener">Website</a>` : ''}
+      </div>
+    </div>`;
+}
+
+function render() {
+  const list = document.getElementById('resultsList');
+  const title = document.getElementById('resultsTitle');
+  const clearBtn = document.getElementById('clearModeBtn');
+
+  let items = allPizzerias.map(f => ({ ...f.properties, lat: f.geometry.coordinates[1], lng: f.geometry.coordinates[0] }));
+
+  if (activeBorough !== 'all') {
+    items = items.filter(p => p.borough === activeBorough);
+  }
+
+  if (modeAnchor) {
+    items = items.map(p => ({ ...p, d: haversine(modeAnchor.lat, modeAnchor.lng, p.lat, p.lng) }))
+                 .sort((a, b) => a.d - b.d)
+                 .slice(0, 20);
+    title.textContent = modeAnchor.isNeighborhood ? `Pizza in ${modeAnchor.label}` : `Pizza Near ${modeAnchor.label}`;
+    clearBtn.hidden = false;
+  } else if (userLoc) {
+    items = items.map(p => ({ ...p, d: haversine(userLoc.lat, userLoc.lng, p.lat, p.lng) }))
+                 .sort((a, b) => a.d - b.d);
+    title.textContent = `Nearest to You (${items.length})`;
+    clearBtn.hidden = false;
+  } else {
+    items = items.sort((a, b) => a.name.localeCompare(b.name));
+    title.textContent = activeBorough === 'all' ? `All ${items.length} Pizzerias` : `${items.length} in ${activeBorough}`;
+    clearBtn.hidden = true;
+  }
+
+  list.innerHTML = items.length
+    ? items.map(buildEntryHTML).join('')
+    : '<p class="ps-empty">No pizzerias match — try a different filter.</p>';
+}
+
+fetch('data.json')
+  .then(r => r.json())
+  .then(geojson => {
+    allPizzerias = geojson.features;
+    render();
+    tryAutoNearMe();
+  });
+
+// Borough filter chips
+document.getElementById('boroughFilters').addEventListener('click', e => {
+  const btn = e.target.closest('.ps-filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.ps-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeBorough = btn.dataset.borough;
+  render();
+});
+
+// Clear destination/near-me mode, back to default browse
+document.getElementById('clearModeBtn').addEventListener('click', () => {
+  modeAnchor = null;
+  userLoc = null;
+  document.getElementById('pageNearMeBtn').classList.remove('active');
+  document.getElementById('pageSearchInput').value = '';
+  render();
+});
+
+// Popular destination chips
+document.getElementById('popularChips').addEventListener('click', e => {
+  const chip = e.target.closest('.ps-chip');
+  if (!chip) return;
+  modeAnchor = {
+    lat: parseFloat(chip.dataset.lat), lng: parseFloat(chip.dataset.lng),
+    label: chip.dataset.name, isNeighborhood: chip.dataset.neighborhood === '1',
+  };
+  document.getElementById('pageSearchInput').value = chip.dataset.name;
+  render();
+});
+
+// Near Me
+function activateNearMe(lat, lng) {
+  userLoc = { lat, lng };
+  modeAnchor = null;
+  document.getElementById('pageNearMeBtn').classList.add('active');
+  render();
+}
+function tryAutoNearMe() {
+  if (!navigator.permissions || !navigator.geolocation) return;
+  navigator.permissions.query({ name: 'geolocation' }).then(status => {
+    if (status.state === 'granted') {
+      navigator.geolocation.getCurrentPosition(
+        pos => activateNearMe(pos.coords.latitude, pos.coords.longitude),
+        () => {}, { timeout: 8000, maximumAge: 300000 }
+      );
+    }
+  }).catch(() => {});
+}
+document.getElementById('pageNearMeBtn').addEventListener('click', function() {
+  if (userLoc) { // toggle off
+    userLoc = null;
+    this.classList.remove('active');
+    render();
+    return;
+  }
+  if (!navigator.geolocation) { alert('Geolocation not supported.'); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos => activateNearMe(pos.coords.latitude, pos.coords.longitude),
+    () => alert('Could not get your location.'),
+    { timeout: 10000, maximumAge: 300000 }
+  );
+});
+
+// On-page search — pizzerias AND destinations together
+const pageSearchInput = document.getElementById('pageSearchInput');
+const pageSearchDropdown = document.getElementById('pageSearchDropdown');
+const CATEGORY_ICONS_PS = {
+  'Pizzerias': '🍕', 'Neighborhoods': '📍', 'Landmarks & Attractions': '🗽',
+  'Venues': '🎭', 'Hotels': '🏨', 'Transit': '🚇', 'Shopping & Markets': '🛍️', 'Activities': '⭐',
+};
+
+function renderPageSearchDropdown(query) {
+  if (!query.trim() || typeof searchDestinations !== 'function') {
+    pageSearchDropdown.hidden = true;
+    return;
+  }
+  const groups = searchDestinations(query, { includePizzerias: true, pizzeriaFeatures: allPizzerias, maxResults: 8 });
+  if (!groups.length) {
+    pageSearchDropdown.innerHTML = '<p class="search-hint" style="padding:14px 16px;margin:0;">No matches.</p>';
+    pageSearchDropdown.hidden = false;
+    return;
+  }
+  pageSearchDropdown.innerHTML = groups.map(g => `
+    <div class="search-group-heading">${g.category}</div>
+    ${g.items.map(item => `
+      <div class="search-result-item" data-type="${item.type}" data-category="${item.category}" data-name="${item.name.replace(/"/g,'&quot;')}" data-lat="${item.lat}" data-lng="${item.lng}">
+        <span class="search-result-icon">${CATEGORY_ICONS_PS[item.category] || '📍'}</span>
+        <div class="search-result-text">
+          <div class="search-result-name">${item.name}</div>
+          ${item.subtitle ? `<div class="search-result-subtitle">${item.subtitle}</div>` : ''}
+        </div>
+      </div>
+    `).join('')}
+  `).join('');
+  pageSearchDropdown.hidden = false;
+}
+
+let psDebounce;
+pageSearchInput.addEventListener('input', e => {
+  clearTimeout(psDebounce);
+  const val = e.target.value;
+  psDebounce = setTimeout(() => renderPageSearchDropdown(val), 120);
+});
+pageSearchInput.addEventListener('focus', e => {
+  if (e.target.value.trim()) renderPageSearchDropdown(e.target.value);
+});
+
+pageSearchDropdown.addEventListener('click', e => {
+  const item = e.target.closest('.search-result-item');
+  if (!item) return;
+  const { type, name, category, lat, lng } = item.dataset;
+  pageSearchDropdown.hidden = true;
+  pageSearchInput.value = name;
+
+  if (type === 'pizzeria') {
+    // Jump straight to that pizzeria's own map pin/popup
+    window.location.href = `index.html?pin=${encodeURIComponent(name)}`;
+  } else {
+    modeAnchor = { lat: parseFloat(lat), lng: parseFloat(lng), label: name, isNeighborhood: category === 'Neighborhoods' };
+    userLoc = null;
+    document.getElementById('pageNearMeBtn').classList.remove('active');
+    render();
+  }
+});
+
+document.addEventListener('click', e => {
+  if (!pageSearchDropdown.hidden && !pageSearchDropdown.contains(e.target) && e.target !== pageSearchInput) {
+    pageSearchDropdown.hidden = true;
+  }
+});
+</script>
+<script src="nav.js"></script>
+</body>
+</html>
