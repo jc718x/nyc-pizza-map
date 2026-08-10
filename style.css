@@ -611,22 +611,23 @@ body.content-page {
   padding: calc(var(--topbar-h) + 48px) 24px 80px;
 }
 .page-wrap h2 {
-  font-family: var(--font-logo);
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.7rem;
+  font-size: 2rem;
   color: var(--color-crust);
-  margin: 0 0 6px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  line-height: 1.15;
+  margin: 0 0 8px;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.1;
 }
 .page-wrap .page-kicker {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--color-sauce);
-  margin: 0 0 4px;
+  margin: 0 0 8px;
 }
 .page-wrap p { font-size: 1rem; line-height: 1.6; margin: 0 0 18px; }
 .page-wrap h3 {
@@ -701,7 +702,7 @@ button:focus-visible {
   }
 
   /* Shrink page headings so they don't cause horizontal scroll */
-  .page-wrap h2 { font-size: 1.2rem; }
+  .page-wrap h2 { font-size: 1.5rem; }
   .page-wrap { padding-left: 16px; padding-right: 16px; }
 
   .about-toggle { right: 12px; font-size: 0.62rem; padding: 7px 10px; }
