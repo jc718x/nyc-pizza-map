@@ -70,10 +70,15 @@ function sliceSVG(color) {
   </svg>`;
 }
 
+// ===== Landmark badge color =====
+// Royal blue — reads as a location marker without being washed-out
+// "light blue", and lighter than the old near-black badge.
+const LANDMARK_BADGE_COLOR = '#3457D5';
+
 // ===== Landmark star icon (dark circle badge, white star) =====
 function landmarkStarSVG() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
-    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <circle cx="50" cy="46" r="42" fill="${LANDMARK_BADGE_COLOR}" stroke="white" stroke-width="3.5"/>
     <path d="M50 22 L58 40 L78 42 L63 55 L67 75 L50 64 L33 75 L37 55 L22 42 L42 40 Z" fill="white"/>
   </svg>`;
 }
@@ -91,7 +96,7 @@ function landmarkBaseballSVG(badgeColor) {
 // ===== Landmark basketball icon (dark circle badge, orange ball with black seams) =====
 function landmarkBasketballSVG() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
-    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <circle cx="50" cy="46" r="42" fill="${LANDMARK_BADGE_COLOR}" stroke="white" stroke-width="3.5"/>
     <circle cx="50" cy="46" r="24" fill="#E4691B"/>
     <line x1="50" y1="22" x2="50" y2="70" stroke="#241A10" stroke-width="2.2"/>
     <line x1="26" y1="46" x2="74" y2="46" stroke="#241A10" stroke-width="2.2"/>
@@ -103,7 +108,7 @@ function landmarkBasketballSVG() {
 // ===== Landmark cruise/boat icon (dark circle badge, white boat) =====
 function landmarkCruiseSVG() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
-    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <circle cx="50" cy="46" r="42" fill="${LANDMARK_BADGE_COLOR}" stroke="white" stroke-width="3.5"/>
     <path d="M27 56 Q30 66 40 66 L60 66 Q70 66 73 56 L64 40 L36 40 Z" fill="white"/>
     <rect x="45" y="24" width="10" height="16" rx="1.5" fill="white"/>
     <line x1="27" y1="56" x2="73" y2="56" stroke="#241A10" stroke-width="2"/>
@@ -113,7 +118,7 @@ function landmarkCruiseSVG() {
 // ===== Landmark Statue of Liberty icon (dark circle badge, white silhouette) =====
 function landmarkStatueSVG() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
-    <circle cx="50" cy="46" r="42" fill="#241A10" stroke="white" stroke-width="3.5"/>
+    <circle cx="50" cy="46" r="42" fill="${LANDMARK_BADGE_COLOR}" stroke="white" stroke-width="3.5"/>
     <path d="M42 78 L39 50 Q39 41 46 37 L46 31 L54 31 L54 37 Q61 41 61 50 L58 78 Z" fill="white"/>
     <circle cx="50" cy="27" r="6.5" fill="white"/>
     <path d="M44 22 L46 15 L48 22 M48 20 L50 12 L52 20 M52 22 L54 15 L56 22" stroke="white" stroke-width="1.8" fill="none" stroke-linecap="round"/>
@@ -139,8 +144,8 @@ const LANDMARKS = [
   { name: "The High Line",           lat: 40.7480, lng: -74.0048 },
   { name: "Met Museum",              lat: 40.7794, lng: -73.9632 },
   { name: "Museum of Natural History", lat: 40.7813, lng: -73.9740 },
-  { name: "MoMA",                    lat: 40.7614, lng: -73.9776 },
   { name: "Lincoln Center",          lat: 40.7725, lng: -73.9835 },
+  { name: "Prospect Park",           lat: 40.6618, lng: -73.9711 },
   { name: "Yankee Stadium",          lat: 40.8296, lng: -73.9262, icon: 'baseball', badgeColor: '#0C2340', large: true },
   { name: "Citi Field",              lat: 40.7571, lng: -73.8458, icon: 'baseball', badgeColor: '#4169E1', large: true },
   { name: "Coney Island",            lat: 40.5755, lng: -73.9707 },
@@ -611,6 +616,7 @@ map.on('load', async () => {
       geojson.features.forEach((feature, idx) => {
         const marker = createPizzaMarker(feature, idx);
         marker.addTo(map);
+        marker.getElement().style.zIndex = '5'; // always above landmark markers (z-index 1)
         pizzaMarkersOnMap.push(marker);
       });
     } else {
@@ -618,11 +624,13 @@ map.on('load', async () => {
       clusters.forEach(c => {
         const marker = createClusterMarker(c);
         marker.addTo(map);
+        marker.getElement().style.zIndex = '5';
         pizzaMarkersOnMap.push(marker);
       });
       singles.forEach(s => {
         const marker = createPizzaMarker(s.feature, s.idx);
         marker.addTo(map);
+        marker.getElement().style.zIndex = '5';
         pizzaMarkersOnMap.push(marker);
       });
     }
@@ -705,7 +713,7 @@ map.on('load', async () => {
 
       const html = `
         <div class="ticket">
-          <div class="ticket-head" style="background:#241A10;">
+          <div class="ticket-head" style="background:${LANDMARK_BADGE_COLOR};">
             <p class="ticket-name">${escapeHTML(lm.name)}</p>
           </div>
           <div class="ticket-body">
@@ -726,9 +734,15 @@ map.on('load', async () => {
       }, 400);
     });
 
-    new maplibregl.Marker({ element: wrap, anchor: 'left' })
+    const landmarkMarker = new maplibregl.Marker({ element: wrap, anchor: 'left' })
       .setLngLat([lm.lng, lm.lat])
       .addTo(map);
+    // MapLibre gives each marker its own stacking context (via its transform),
+    // so CSS z-index on inner elements alone won't control ordering between
+    // markers reliably — set it directly on the marker's own root element.
+    // This keeps landmarks behind pizza markers/clusters at all times, even
+    // after clustering toggles re-adds pizza markers later in the DOM.
+    landmarkMarker.getElement().style.zIndex = '1';
   });
 
   // Show/hide labels based on zoom
