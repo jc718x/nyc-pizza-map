@@ -5,10 +5,17 @@
 // this file only handles matching, scoring, and grouping.
 
 // Strips apostrophes, curly quotes, and periods before comparison so
-// "joes" matches "Joe's", "st george" matches "St. George", etc. Only
-// affects matching — the original name is still what gets displayed.
+// "joes" matches "Joe's", "st george" matches "St. George", etc. Also
+// expands "&" to "and" so "joe and pats" matches "Joe & Pat's", and vice
+// versa if a name is typed with "&" instead of "and". Only affects
+// matching — the original name is still what gets displayed.
 function normalize(str) {
-  return str.toLowerCase().replace(/['’.]/g, '').trim();
+  return str
+    .toLowerCase()
+    .replace(/\s*&\s*/g, ' and ')
+    .replace(/['’.]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function matchScore(query, name, aliases) {
