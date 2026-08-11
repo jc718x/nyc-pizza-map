@@ -437,6 +437,27 @@ map.on('load', async () => {
       }
     } catch(e) { subwayHTML = ''; }
 
+    // A handful of the closest other pizzerias, so the detail view isn't
+    // a dead end — tapping one swaps the card directly to it, same as
+    // tapping a different marker on the map would.
+    const nearbyPizzas = geojson.features
+      .filter(f => f.properties.name !== p.name)
+      .map(f => ({
+        name: f.properties.name,
+        borough: f.properties.borough,
+        d: stationDist(lat, lng, f.geometry.coordinates[1], f.geometry.coordinates[0]),
+      }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, 5);
+    const nearbyHTML = nearbyPizzas.length ? `
+      <div class="ticket-nearby">
+        <div class="ticket-nearby-label">🍕 Other Pizza Nearby...</div>
+        ${nearbyPizzas.map(n => `<div class="ticket-nearby-item" data-name="${escapeAttr(n.name)}">
+          <span class="ticket-nearby-name">${escapeHTML(n.name)}</span>
+          <span class="ticket-nearby-meta">${walkMinutes(n.d)} walk</span>
+        </div>`).join('')}
+      </div>` : '';
+
     return `
       <div class="ticket">
         ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
@@ -462,7 +483,7 @@ map.on('load', async () => {
             <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
           </div>
         </div>
-      </div>`;
+      </div>${nearbyHTML}`;
   }
 
   // ===== Selecting a pizzeria now shows its card in the bottom sheet
@@ -550,7 +571,9 @@ map.on('load', async () => {
           return stationDist(c.lat, c.lng, a.lat, a.lng) - stationDist(c.lat, c.lng, b.lat, b.lng);
         })
         .slice(0, 20);
-      heading = `🍕 ${results.length} Pizzerias in This Area`;
+      heading = results.length === 0
+        ? `🍕 ${zeroResultMessage()}`
+        : `🍕 ${results.length} ${pizzaWord(results.length)} in This Area`;
       // Even in area mode, keep an anchor (the center of the area that
       // was just searched) so panning further away can still trigger
       // the button again — without this, it would never reappear.
@@ -570,27 +593,37 @@ map.on('load', async () => {
         .sort((a, b) => a.d - b.d)
         .slice(0, 12);
 
-      if (opts.mode === 'nearme') {
-        heading = `🍕 ${results.length} Pizzerias Near You`;
+      if (results.length === 0) {
+        heading = `🍕 ${zeroResultMessage()}`;
+      } else if (opts.mode === 'nearme') {
+        heading = `🍕 ${results.length} ${pizzaWord(results.length)} Near You`;
       } else {
         heading = opts.isNeighborhood
-          ? `🍕 ${results.length} Pizzerias in ${opts.label}`
-          : `🍕 ${results.length} Pizzerias Near ${opts.label}`;
+          ? `🍕 ${results.length} ${pizzaWord(results.length)} in ${opts.label}`
+          : `🍕 ${results.length} ${pizzaWord(results.length)} Near ${opts.label}`;
       }
       window.panelAnchor = { lat, lng };
       window.panelAnchorZoom = map.getZoom();
     }
 
     title.textContent = heading;
-    list.innerHTML = results.map(p => {
-      const metaText = p.d !== null
-        ? `${walkMinutes(p.d)} walk · ${(p.d / 1609.34).toFixed(1)} mi`
-        : p.borough;
-      return `<div class="near-me-item" data-name="${escapeAttr(p.name)}">
-        <span class="near-me-item-name">${escapeHTML(p.name)}</span>
-        <span class="near-me-item-meta">${metaText}</span>
-      </div>`;
-    }).join('');
+    // Cached so detail mode can show "← Back to N Pizzerias" and so
+    // backing out of detail mode restores the exact right-hand text,
+    // rather than either mode having to guess at the other's phrasing.
+    window.lastListHeading = heading;
+    window.lastListResultCount = results.length;
+
+    list.innerHTML = results.length
+      ? results.map(p => {
+          const metaText = p.d !== null
+            ? `${walkMinutes(p.d)} walk · ${(p.d / 1609.34).toFixed(1)} mi`
+            : p.borough;
+          return `<div class="near-me-item" data-name="${escapeAttr(p.name)}">
+            <span class="near-me-item-name">${escapeHTML(p.name)}</span>
+            <span class="near-me-item-meta">${metaText}</span>
+          </div>`;
+        }).join('')
+      : `<p class="near-me-empty-hint">Try zooming out, panning somewhere else, or searching a different spot.</p>`;
 
     panel.hidden = false;
     setNearMePanelCollapsed(!!opts.collapsed);
@@ -965,9 +998,24 @@ if (nearMeBtn) {
 const nearMePanelHeader = document.getElementById('nearMePanelHeader');
 const nearMePanelLeftZone = document.getElementById('nearMePanelLeftZone');
 const nearMePanelRightZone = document.getElementById('nearMePanelRightZone');
-const nearMePanelClose = document.getElementById('nearMePanelClose');
 const nearMePanelArrow = document.getElementById('nearMePanelArrow');
 const nearMeReopenTab = document.getElementById('nearMeReopenTab');
+
+function pizzaWord(n) {
+  return n === 1 ? 'Pizzeria' : 'Pizzerias';
+}
+
+// A little personality instead of a sterile "0 Pizzerias" — picked
+// randomly so it doesn't feel exactly the same every time you wander
+// into a pizza-free patch of the map.
+const ZERO_RESULT_MESSAGES = [
+  'No Pizza Here — Keep Exploring',
+  'Uh Oh. Pizza Desert.',
+  'We Gotta Get You Outta Here 😂',
+];
+function zeroResultMessage() {
+  return ZERO_RESULT_MESSAGES[Math.floor(Math.random() * ZERO_RESULT_MESSAGES.length)];
+}
 
 function setNearMePanelCollapsed(collapsed) {
   const panel = document.getElementById('nearMePanel');
@@ -996,18 +1044,16 @@ if (nearMePanelLeftZone) {
   });
 }
 
-// Right zone: ↑ toggles collapse in list mode; × fully dismisses the
-// sheet in detail mode. Deliberately a different action than the left
-// zone in detail mode — back and close are not the same gesture.
+// Right zone: always toggles collapse/expand — ↑ when collapsed, ↓ when
+// expanded (rotated on desktop to ← / → since that sidebar rolls in and
+// out horizontally instead of vertically). No separate "close" action
+// anymore now that the bar is a permanent piece of the map UI rather
+// than something that needs a way to fully dismiss.
 if (nearMePanelRightZone) {
   nearMePanelRightZone.addEventListener('click', (e) => {
     e.stopPropagation();
-    if (currentPanelMode() === 'detail') {
-      dismissSheetEntirely();
-    } else {
-      const panel = document.getElementById('nearMePanel');
-      setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
-    }
+    const panel = document.getElementById('nearMePanel');
+    setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
   });
 }
 
@@ -1058,6 +1104,7 @@ function fitNameToOneLine(el) {
 function enterDetailMode(html) {
   const panel = document.getElementById('nearMePanel');
   const list = document.getElementById('nearMePanelList');
+  const title = document.getElementById('nearMePanelTitle');
   if (!panel || !list || !nearMePanelDetail) return;
   nearMePanelDetail.innerHTML = html;
   nearMePanelDetail.scrollTop = 0;
@@ -1067,55 +1114,65 @@ function enterDetailMode(html) {
   panel.hidden = false;
   panel.dataset.mode = 'detail';
   setNearMePanelCollapsed(false); // always show the card, never land collapsed
-  if (nearMePanelArrow) nearMePanelArrow.hidden = true;
-  if (nearMePanelClose) nearMePanelClose.hidden = false;
   if (nearMePanelLeftZone) nearMePanelLeftZone.setAttribute('aria-label', 'Back to pizzeria list');
-  if (nearMePanelRightZone) nearMePanelRightZone.setAttribute('aria-label', 'Close');
+  // "Back to N Pizzerias" — N from whatever list is actually backing this
+  // detail view, so it's always accurate even if entered via a fresh
+  // ensureListBacking() build rather than an existing visible list.
+  if (title) {
+    const n = typeof window.lastListResultCount === 'number' ? window.lastListResultCount : 0;
+    title.textContent = `🍕 Back to ${n} ${pizzaWord(n)}`;
+  }
   requestAnimationFrame(() => fitNameToOneLine(nearMePanelDetail.querySelector('.ticket-name')));
 }
 
 function exitDetailMode() {
   const panel = document.getElementById('nearMePanel');
   const list = document.getElementById('nearMePanelList');
+  const title = document.getElementById('nearMePanelTitle');
   if (!panel || !list || !nearMePanelDetail) return;
   nearMePanelDetail.hidden = true;
   nearMePanelDetail.innerHTML = '';
   list.hidden = false;
   if (nearMePanelBack) nearMePanelBack.hidden = true;
   panel.dataset.mode = 'list';
-  if (nearMePanelArrow) nearMePanelArrow.hidden = false;
-  if (nearMePanelClose) nearMePanelClose.hidden = true;
   if (nearMePanelLeftZone) nearMePanelLeftZone.setAttribute('aria-label', 'Toggle pizzeria list');
-  if (nearMePanelRightZone) nearMePanelRightZone.setAttribute('aria-label', 'Toggle pizzeria list');
+  // Restore whatever the list's real heading was — "Back to N Pizzerias"
+  // is detail-mode-only text, not what should stick around once you're
+  // actually looking at the list again.
+  if (title) title.textContent = window.lastListHeading || '🍕 Where are we getting pizza?';
   if (window.clearSelectedPizzeria) window.clearSelectedPizzeria();
 }
 
-// The × control — fully dismisses the sheet (not just collapses it back
-// to a peek). Distinct from ← (goes back one level to the list) and from
-// dragging the handle (resizes/collapses without leaving detail mode).
-function dismissSheetEntirely() {
-  exitDetailMode();
-  const panel = document.getElementById('nearMePanel');
-  if (panel) panel.hidden = true;
-  hideSearchThisAreaBtn();
-}
-
-// If a pizzeria is selected with no list already open (e.g. straight from
-// a fresh page load), quietly build one from the current map view first —
-// so "back" always has somewhere real to return to.
+// If a pizzeria is selected with no real list backing it yet — either a
+// fresh page load still showing the idle prompt, or the panel got fully
+// reset somehow — quietly build one from the current map view first, so
+// "back" always has somewhere real to return to instead of an empty list.
 function ensureListBacking() {
   const panel = document.getElementById('nearMePanel');
-  if (panel && panel.hidden && window.buildResultsPanel) {
+  if (panel && (panel.hidden || !window.panelAnchor) && window.buildResultsPanel) {
     window.buildResultsPanel({ mode: 'area' });
   }
 }
 
-if (nearMePanelBack) {
-  nearMePanelBack.addEventListener('click', (e) => {
-    e.stopPropagation(); // don't also trigger the header's collapse toggle
-    exitDetailMode();
-  });
+// ===== Permanent one-line bar =====
+// The sheet is no longer something that only appears once results exist —
+// it's part of the map UI from the moment the page loads, starting
+// collapsed to a single line with a friendly prompt instead of staying
+// invisible until a search happens.
+function showIdleState() {
+  const panel = document.getElementById('nearMePanel');
+  const list = document.getElementById('nearMePanelList');
+  const title = document.getElementById('nearMePanelTitle');
+  if (!panel || !list || !title) return;
+  const heading = '🍕 Where are we getting pizza?';
+  title.textContent = heading;
+  window.lastListHeading = heading;
+  window.lastListResultCount = 0;
+  list.innerHTML = `<p class="near-me-empty-hint">Tap a pizzeria on the map, search, or use your location to get started.</p>`;
+  panel.hidden = false;
+  setNearMePanelCollapsed(true);
 }
+showIdleState();
 
 if (nearMePanelDetail) {
   // Swipe the card downward (from the top of its scroll position) to go
@@ -1133,6 +1190,15 @@ if (nearMePanelDetail) {
     detailTouchStartY = null;
     if (detailStartAtTop && deltaY > 40) exitDetailMode();
   }, { passive: true });
+
+  // Tapping a row in "Other Pizza Nearby..." swaps the card directly to
+  // that pizzeria — same as tapping its marker on the map would.
+  nearMePanelDetail.addEventListener('click', (e) => {
+    const item = e.target.closest('.ticket-nearby-item');
+    if (!item) return;
+    const name = item.dataset.name;
+    if (window.flyToPizzeria) window.flyToPizzeria(name);
+  });
 }
 
 // Clicking a pizzeria in the panel selects it on the map

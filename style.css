@@ -1378,14 +1378,11 @@ button:focus-visible {
   font-size: 0.85rem;
   color: var(--color-crust);
   transition: transform 0.2s ease;
+  display: inline-block;
 }
-.near-me-panel.collapsed .near-me-panel-arrow { transform: rotate(180deg); }
-.near-me-panel-close {
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: var(--color-crust);
-  line-height: 1;
-}
+/* Base glyph is ↑ — shown as-is when collapsed ("tap to bring it up"),
+   rotated to ↓ when expanded ("tap to bring it back down"). */
+.near-me-panel:not(.collapsed) .near-me-panel-arrow { transform: rotate(180deg); }
 
 .near-me-panel-list {
   overflow-y: auto;
@@ -1445,6 +1442,55 @@ button:focus-visible {
   flex-shrink: 0;
 }
 
+.near-me-empty-hint {
+  font-size: 0.82rem;
+  color: rgba(36,26,16,0.6);
+  line-height: 1.5;
+  padding: 16px 6px;
+  text-align: center;
+  margin: 0;
+}
+
+/* "Other Pizza Nearby..." — sits below the main card in the detail view,
+   its own distinct block rather than crammed inside the ticket card. */
+.ticket-nearby {
+  margin-top: 12px;
+  padding-top: 4px;
+}
+.ticket-nearby-label {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(36,26,16,0.55);
+  padding: 0 4px 6px;
+}
+.ticket-nearby-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 6px;
+  border-bottom: 1px solid rgba(36,26,16,0.08);
+  cursor: pointer;
+  border-radius: 6px;
+}
+.ticket-nearby-item:last-child { border-bottom: none; }
+.ticket-nearby-item:hover { background: rgba(220,34,37,0.05); }
+.ticket-nearby-name {
+  font-weight: 700;
+  font-size: 0.83rem;
+  color: var(--color-char);
+}
+.ticket-nearby-meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: rgba(36,26,16,0.55);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .near-me-reopen-tab { display: none; }
 
 /* Desktop: sidebar instead of bottom sheet */
@@ -1489,6 +1535,13 @@ button:focus-visible {
     max-height: 58px;
     overflow: hidden;
   }
+
+  /* Same interaction as mobile (permanent 1-line bar, tap to roll out,
+     tap the arrow to roll back in) — just rotated 90° since this sidebar
+     opens horizontally, not vertically. Collapsed → (roll out to the
+     right); expanded ← (roll back in to the left edge it's docked on). */
+  .near-me-panel-arrow { transform: rotate(90deg); }
+  .near-me-panel:not(.collapsed) .near-me-panel-arrow { transform: rotate(-90deg); }
 
   /* Keep the Near Me button clear of the sidebar's column at all times —
      the header strip now occupies that space even when "collapsed" */
