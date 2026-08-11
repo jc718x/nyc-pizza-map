@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coordinate Checker — NYC Pizza Map</title>
+<style>
+  :root {
+    --red: #B23B3B;
+    --green: #3A5A40;
+    --ink: #241A10;
+    --bg: #FAF7F2;
+    --line: #DDD5C7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 24px 16px 64px;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  h1 {
+    font-size: 1.4rem;
+    margin: 0 0 4px;
+  }
+  h1 .red { color: var(--red); }
+  h1 .green { color: var(--green); }
+  p.sub {
+    margin: 0 0 24px;
+    font-size: 0.85rem;
+    color: #6b5f4f;
+    line-height: 1.5;
+  }
+  label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  textarea {
+    width: 100%;
+    min-height: 160px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: white;
+    resize: vertical;
+  }
+  .row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  button {
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  #runBtn { background: var(--red); color: white; }
+  #runBtn:disabled { background: #c9a3a3; cursor: not-allowed; }
+  #copyBtn { background: var(--green); color: white; }
+  #copyBtn:disabled { background: #a9b8a5; cursor: not-allowed; }
+  #clearBtn { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .status {
+    font-size: 0.8rem;
+    color: #6b5f4f;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.82rem;
+    background: white;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b5f4f;
+    border-bottom: 2px solid var(--line);
+  }
+  td.coords { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .found { color: var(--green); font-weight: 600; }
+  .notfound { color: var(--red); font-weight: 600; }
+  .pending { color: #a08f6e; }
+  #jsonOut {
+    width: 100%;
+    min-height: 140px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fffef9;
+    display: none;
+  }
+  .hint {
+    font-size: 0.75rem;
+    color: #9a8c73;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span class="red">Coordinate</span> <span class="green">Checker</span></h1>
+  <p class="sub">
+    Paste one place per line as <code>Name | Full address</code>. Looks each one up via
+    OpenStreetMap's free Nominatim geocoder and returns lat/lng you can paste straight into
+    data.json or search-destinations.js. Runs one request per second to stay within Nominatim's
+    usage policy — don't close the tab mid-run.
+  </p>
+
+  <label for="input">Places (one per line, "Name | Address")</label>
+  <textarea id="input" placeholder="Di Palo's Fine Foods | 200 Grand St, New York, NY 10013
+Villabate Alba | 7001 18th Ave, Brooklyn, NY 11204"></textarea>
+
+  <div class="row">
+    <button id="runBtn">Geocode All</button>
+    <button id="clearBtn">Clear</button>
+    <span class="status" id="statusText"></span>
+  </div>
+
+  <table id="resultsTable" style="display:none;">
+    <thead>
+      <tr><th>Name</th><th>Address</th><th>Lat</th><th>Lng</th><th>Status</th></tr>
+    </thead>
+    <tbody id="resultsBody"></tbody>
+  </table>
+
+  <div class="row" id="copyRow" style="display:none;">
+    <button id="copyBtn">Copy as JSON</button>
+    <span class="hint">One object per found place: {"name", "lat", "lng"}</span>
+  </div>
+  <textarea id="jsonOut" readonly></textarea>
+</div>
+
+<script>
+const runBtn = document.getElementById('runBtn');
+const clearBtn = document.getElementById('clearBtn');
+const copyBtn = document.getElementById('copyBtn');
+const input = document.getElementById('input');
+const statusText = document.getElementById('statusText');
+const table = document.getElementById('resultsTable');
+const tbody = document.getElementById('resultsBody');
+const copyRow = document.getElementById('copyRow');
+const jsonOut = document.getElementById('jsonOut');
+
+let results = [];
+
+function parseLines(raw) {
+  return raw.split('\n')
+    .map(l => l.trim())
+    .filter(Boolean)
+    .map(line => {
+      const idx = line.indexOf('|');
+      if (idx === -1) return { name: line.trim(), address: line.trim() };
+      return { name: line.slice(0, idx).trim(), address: line.slice(idx + 1).trim() };
+    });
+}
+
+async function geocode(address) {
+  const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(address);
+  const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  if (!data.length) return null;
+  return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function run() {
+  const places = parseLines(input.value);
+  if (!places.length) return;
+
+  runBtn.disabled = true;
+  copyBtn.disabled = true;
+  copyRow.style.display = 'none';
+  jsonOut.style.display = 'none';
+  table.style.display = 'table';
+  tbody.innerHTML = '';
+  results = [];
+
+  places.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    tr.id = 'row-' + i;
+    tr.innerHTML = `<td>${escapeHTML(p.name)}</td><td>${escapeHTML(p.address)}</td>
+      <td class="coords">—</td><td class="coords">—</td><td class="pending">waiting…</td>`;
+    tbody.appendChild(tr);
+  });
+
+  for (let i = 0; i < places.length; i++) {
+    const p = places[i];
+    const row = document.getElementById('row-' + i);
+    row.children[4].textContent = 'looking up…';
+    row.children[4].className = 'pending';
+    try {
+      const coords = await geocode(p.address);
+      if (coords) {
+        row.children[2].textContent = coords.lat.toFixed(7);
+        row.children[3].textContent = coords.lng.toFixed(7);
+        row.children[4].textContent = 'found';
+        row.children[4].className = 'found';
+        results.push({ name: p.name, lat: coords.lat, lng: coords.lng });
+      } else {
+        row.children[4].textContent = 'not found';
+        row.children[4].className = 'notfound';
+      }
+    } catch (e) {
+      row.children[4].textContent = 'error';
+      row.children[4].className = 'notfound';
+    }
+    statusText.textContent = `${i + 1} / ${places.length} checked`;
+    if (i < places.length - 1) await sleep(1100); // stay under Nominatim's 1 req/sec limit
+  }
+
+  statusText.textContent = `Done — ${results.length} / ${places.length} found`;
+  runBtn.disabled = false;
+  if (results.length) {
+    copyBtn.disabled = false;
+    copyRow.style.display = 'flex';
+  }
+}
+
+function escapeHTML(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+runBtn.addEventListener('click', run);
+clearBtn.addEventListener('click', () => {
+  input.value = '';
+  table.style.display = 'none';
+  tbody.innerHTML = '';
+  copyRow.style.display = 'none';
+  jsonOut.style.display = 'none';
+  statusText.textContent = '';
+  results = [];
+});
+copyBtn.addEventListener('click', async () => {
+  const text = JSON.stringify(results, null, 2);
+  jsonOut.value = text;
+  jsonOut.style.display = 'block';
+  try {
+    await navigator.clipboard.writeText(text);
+    statusText.textContent = 'Copied to clipboard!';
+  } catch (e) {
+    statusText.textContent = 'Select the text below and copy manually.';
+  }
+});
+</script>
+</body>
+</html>

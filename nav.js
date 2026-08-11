@@ -82,7 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const CATEGORY_ICONS = {
     'Pizzerias': '🍕', 'Neighborhoods': '📍', 'Landmarks & Attractions': '🗽',
-    'Venues': '🎭', 'Hotels': '🏨', 'Transit': '🚇', 'Shopping & Markets': '🛍️', 'Activities': '⭐',
+    'Venues': '🎭', 'Hotels': '🏨', 'Transit': '🚇', 'Shopping & Markets': '🛍️',
+    'Italian Markets & Delis': '🧀', 'Italian-American Heritage': '🇮🇹',
+    'Colleges & Universities': '🎓', 'Hospitals & Medical Centers': '🏥',
+    'Event & Convention Spaces': '🎪', 'Activities': '⭐',
   };
 
   function openOverlay() {
@@ -130,7 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
   }
 
-  searchIconBtn.addEventListener('click', openOverlay);
+  function toggleOverlay() {
+    if (searchOverlay.hidden) openOverlay();
+    else closeOverlay();
+  }
+
+  searchIconBtn.addEventListener('click', toggleOverlay);
   if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeOverlay);
 
   document.addEventListener('click', (e) => {

@@ -5,6 +5,9 @@
 // this file only handles matching, scoring, and grouping.
 
 // Strips apostrophes, curly quotes, and periods before comparison so
+// "joes" matches "Joe's", "st george" matches "St. George", etc. Only
+// affects matching — the original name is still what gets displayed.
+// Strips apostrophes, curly quotes, and periods before comparison so
 // "joes" matches "Joe's", "st george" matches "St. George", etc. Also
 // expands "&" to "and" so "joe and pats" matches "Joe & Pat's", and vice
 // versa if a name is typed with "&" instead of "and". Only affects
@@ -110,8 +113,10 @@ function searchDestinations(query, options = {}) {
   // rather than letting one high-scoring landmark push its whole
   // category ahead of neighborhoods.
   const CATEGORY_ORDER = [
-    'Pizzerias', 'Neighborhoods', 'Landmarks & Attractions', 'Venues',
-    'Hotels', 'Transit', 'Shopping & Markets', 'Activities',
+    'Pizzerias', 'Neighborhoods', 'Landmarks & Attractions',
+    'Colleges & Universities', 'Hospitals & Medical Centers', 'Venues',
+    'Hotels', 'Transit', 'Shopping & Markets', 'Italian Markets & Delis',
+    'Italian-American Heritage', 'Event & Convention Spaces', 'Activities',
   ];
   groups.sort((a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category));
 

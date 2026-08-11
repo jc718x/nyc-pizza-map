@@ -299,11 +299,135 @@ map.on('load', async () => {
   };
   const labels = [];
   let activePopup = null;  // track the currently open popup
+  let pizzaMarkerEls = {};       // name -> marker wrapper element, rebuilt on every render
+  let selectedPizzeriaName = null;
 
-  // ===== Reusable pizzeria popup builder (used by pin clicks, ?pin= URL, and landmark popups) =====
-  function showPizzeriaPopup(match) {
-    const [lng, lat] = match.geometry.coordinates;
-    const p = match.properties;
+  // Apply the "selected" highlight to a pizzeria's marker (soft glow +
+  // slightly larger), removing it from whichever marker had it before.
+  // animate=true plays the one-time pop; false just re-applies the
+  // persistent state silently (used after markers get rebuilt, e.g. a
+  // cluster re-render, so the highlight doesn't just vanish).
+  function setSelectedPizzeria(name, animate) {
+    if (selectedPizzeriaName && pizzaMarkerEls[selectedPizzeriaName]) {
+      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected', 'selected-pop');
+    }
+    selectedPizzeriaName = name;
+    const el = name && pizzaMarkerEls[name];
+    if (!el) return;
+    el.classList.add('selected');
+    if (animate) {
+      el.classList.add('selected-pop');
+      el.addEventListener('animationend', () => el.classList.remove('selected-pop'), { once: true });
+    }
+  }
+
+  function clearSelectedPizzeria() {
+    if (selectedPizzeriaName && pizzaMarkerEls[selectedPizzeriaName]) {
+      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected', 'selected-pop');
+    }
+    selectedPizzeriaName = null;
+  }
+  window.clearSelectedPizzeria = clearSelectedPizzeria;
+
+  // ===== Smart popup placement =====
+  // A fixed diagonal offset used to regularly let the card cover the
+  // marker, or spill off the edge of the screen. Instead: measure the
+  // popup's real rendered size first, then try candidate placements in
+  // priority order — beside the marker (whichever side has more room),
+  // then above, then below, then the opposite side — each checked against
+  // the marker's actual pixel position with a small protected gap so the
+  // card never sits directly on top of the marker. Only as a last resort
+  // (and never on mobile, where there's no space to spare) do we nudge the
+  // map to make room.
+  function openSmartPopup(lng, lat, html, maxWidth) {
+    if (activePopup) { activePopup.remove(); activePopup = null; }
+
+    const container = map.getContainer();
+    const cw = container.clientWidth;
+    const ch = container.clientHeight;
+    const isMobile = window.innerWidth <= 900;
+
+    // Measure real rendered height off-screen at the same width the
+    // popup will actually use, so the fit-check below is accurate.
+    const measurer = document.createElement('div');
+    measurer.className = 'maplibregl-popup-content';
+    measurer.style.cssText = `position:absolute; visibility:hidden; left:-9999px; top:-9999px; width:${maxWidth}px;`;
+    measurer.innerHTML = html;
+    document.body.appendChild(measurer);
+    const popupHeight = measurer.offsetHeight;
+    document.body.removeChild(measurer);
+    const popupWidth = maxWidth;
+
+    const pt = map.project([lng, lat]);
+    const gap = 14;        // protected zone between marker and card
+    const margin = 8;      // minimum distance from the map edge
+    const markerHalf = 18; // approx marker footprint to clear
+
+    const preferRight = pt.x < cw / 2;
+    const nearSide = preferRight
+      ? { anchor: 'left',  x: pt.x + markerHalf + gap }
+      : { anchor: 'right', x: pt.x - markerHalf - gap - popupWidth };
+    const farSide = preferRight
+      ? { anchor: 'right', x: pt.x - markerHalf - gap - popupWidth }
+      : { anchor: 'left',  x: pt.x + markerHalf + gap };
+
+    const candidates = [
+      { anchor: nearSide.anchor, x: nearSide.x, y: pt.y - popupHeight / 2 },       // beside (preferred side)
+      { anchor: 'bottom', x: pt.x - popupWidth / 2, y: pt.y - markerHalf - gap - popupHeight }, // above
+      { anchor: 'top',    x: pt.x - popupWidth / 2, y: pt.y + markerHalf + gap },  // below
+      { anchor: farSide.anchor, x: farSide.x, y: pt.y - popupHeight / 2 },         // opposite side
+    ];
+
+    const fits = c => c.x >= margin && c.y >= margin &&
+      c.x + popupWidth <= cw - margin && c.y + popupHeight <= ch - margin;
+
+    let chosen = candidates.find(fits);
+
+    if (!chosen && !isMobile) {
+      // Nudge the map just enough to make the first-choice (beside) placement fit.
+      const best = candidates[0];
+      const dx = best.x < margin ? best.x - margin : Math.max(0, (best.x + popupWidth) - (cw - margin));
+      const dy = best.y < margin ? best.y - margin : Math.max(0, (best.y + popupHeight) - (ch - margin));
+      if (dx || dy) map.panBy([dx, dy], { duration: 300 });
+      chosen = best;
+    }
+
+    activePopup = new maplibregl.Popup({
+      closeButton: true,
+      maxWidth: maxWidth + 'px',
+      // Falling back to no explicit anchor (mobile, nothing fit) lets
+      // MapLibre's own edge-clamping keep the card fully on-screen —
+      // imperfect relative to the marker, but never cut off.
+      anchor: chosen ? chosen.anchor : undefined,
+      offset: 16,
+    })
+      .setLngLat([lng, lat])
+      .setHTML(html)
+      .addTo(map);
+    activePopup.on('close', () => { activePopup = null; });
+
+    // Keep the name on one line: shrink its font size step by step rather
+    // than truncating, so the full name stays readable.
+    requestAnimationFrame(() => {
+      const el = activePopup && activePopup.getElement && activePopup.getElement();
+      const nameEl = el && el.querySelector('.ticket-name');
+      if (!nameEl) return;
+      let size = 1.05;
+      let guard = 0;
+      while (nameEl.scrollWidth > nameEl.clientWidth && size > 0.72 && guard < 15) {
+        size -= 0.03;
+        nameEl.style.fontSize = size.toFixed(2) + 'rem';
+        guard++;
+      }
+    });
+
+    return activePopup;
+  }
+
+  // ===== Shared pizzeria card HTML (bottom sheet detail view, used by
+  // marker clicks, list selections, search results, ?pin= URL, and
+  // landmark "nearest pizza" rows) =====
+  function buildPizzeriaCardHTML(p, lng, lat) {
     const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
     let subwayHTML = '';
@@ -321,7 +445,7 @@ map.on('load', async () => {
       }
     } catch(e) { subwayHTML = ''; }
 
-    const html = `
+    return `
       <div class="ticket">
         ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
         ${p.worth_a_trip ? `<div class="ticket-worth-trip">⭐ Worth a special trip</div>` : ''}
@@ -347,22 +471,53 @@ map.on('load', async () => {
           </div>
         </div>
       </div>`;
+  }
 
-    map.flyTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 15.5), duration: 900 });
-    setTimeout(() => {
-      if (activePopup) activePopup.remove();
-      activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '290px', offset: [20, -22] })
-        .setLngLat([lng, lat])
-        .setHTML(html)
-        .addTo(map);
-      activePopup.on('close', () => { activePopup = null; });
-    }, 950);
+  // ===== Selecting a pizzeria now shows its card in the bottom sheet
+  // (replacing the old floating popup entirely) =====
+  // Why: a floating card could land anywhere depending on where the marker
+  // sat on screen, sometimes covering the marker itself or spilling off
+  // the edge. The bottom sheet is a single, predictable place for it —
+  // enough room for the full card, and the selected marker stays visible
+  // on the map above it.
+  function showPizzeriaInSheet(match) {
+    const [lng, lat] = match.geometry.coordinates;
+    const p = match.properties;
+    const html = buildPizzeriaCardHTML(p, lng, lat);
+
+    ensureListBacking();
+    enterDetailMode(html);
+    setSelectedPizzeria(p.name, true);
+
+    // Center the marker in the space that's actually free of the sheet —
+    // above it on mobile (bottom sheet), to the right of it on desktop
+    // (left sidebar). Measuring scrollHeight instead of the panel's own
+    // animating box height avoids grabbing a mid-transition value, since
+    // scrollHeight reflects the content's real size immediately,
+    // regardless of the CSS expand animation still playing.
+    const isMobile = window.innerWidth <= 900;
+    let offset = [0, 0];
+    if (isMobile) {
+      const header = document.querySelector('.near-me-panel-header');
+      const headerH = header ? header.getBoundingClientRect().height : 0;
+      const contentH = Math.min(nearMePanelDetail ? nearMePanelDetail.scrollHeight : 0, window.innerHeight * 0.36);
+      offset = [0, -((headerH + contentH) / 2)];
+    } else {
+      offset = [150, 0]; // desktop sidebar is a fixed 300px wide when open
+    }
+
+    map.flyTo({
+      center: [lng, lat],
+      zoom: Math.max(map.getZoom(), 15.5),
+      duration: 700,
+      offset,
+    });
   }
 
   // Expose for landmark popups (and inline onclick handlers) to call without a page reload
   window.flyToPizzeria = function(name) {
     const match = geojson.features.find(f => f.properties.name === name);
-    if (match) showPizzeriaPopup(match);
+    if (match) showPizzeriaInSheet(match);
   };
 
   // Shared results panel — powers three modes:
@@ -484,60 +639,11 @@ map.on('load', async () => {
 
     wrap.appendChild(pin);
     wrap.appendChild(label);
-
-    // Popup
-    const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-
-    let subwayHTML = '';
-    try {
-      if (typeof nearestStations === 'function') {
-        const nearby = nearestStations(lat, lng, 2);
-        subwayHTML = nearby.map(s => {
-          const mins = walkMinutes(s.dist);
-          const lines = s.lines.trim().split(/[\s,·\-]+/).filter(Boolean);
-          const bullets = lines.slice(0, 4).map(l =>
-            `<span class="subway-bullet" style="background:${stationColor(l)};color:${l==='N'||l==='Q'||l==='R'||l==='W'?'#000':'#fff'}">${l}</span>`
-          ).join('');
-          return `<div class="ticket-subway-row">${bullets}<div class="subway-station-walk"><span class="subway-station-name">${escapeHTML(s.name)}</span><span class="subway-walk">${mins} walk</span></div></div>`;
-        }).join('');
-      }
-    } catch(e) { subwayHTML = ''; }
-
-    const html = `
-      <div class="ticket">
-        ${p.photo ? `<div class="ticket-photo"><img src="${escapeAttr(p.photo)}" alt="${escapeHTML(p.name)}" loading="lazy" /></div>` : ''}
-        ${p.worth_a_trip ? `<div class="ticket-worth-trip">⭐ Worth a special trip</div>` : ''}
-        <div class="ticket-head">
-          <p class="ticket-name">${escapeHTML(p.name)}</p>
-          <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
-        </div>
-        <div class="ticket-body">
-          <div class="ticket-meta">
-            <span class="style-badge">${escapeHTML(p.style)}</span>
-            <span class="meta-pill">${p.price || '$'}</span>
-            ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
-            ${p.seating && p.seating !== 'Indoor' ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
-          </div>
-          <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
-          ${subwayHTML ? `<div class="ticket-subway">
-            <div class="ticket-subway-label">🚇 Nearest subway</div>
-            ${subwayHTML}
-          </div>` : ''}
-          <div class="ticket-links">
-            ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
-            <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
-          </div>
-        </div>
-      </div>`;
+    pizzaMarkerEls[p.name] = wrap;
 
     wrap.addEventListener('click', e => {
       e.stopPropagation();
-      if (activePopup) activePopup.remove();
-      activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '290px', offset: [20, -22] })
-        .setLngLat([lng, lat])
-        .setHTML(html)
-        .addTo(map);
-      activePopup.on('close', () => { activePopup = null; });
+      showPizzeriaInSheet(feature);
     });
 
     return new maplibregl.Marker({ element: wrap, anchor: 'center' }).setLngLat([lng, lat]);
@@ -604,6 +710,7 @@ map.on('load', async () => {
     pizzaMarkersOnMap.forEach(m => m.remove());
     pizzaMarkersOnMap = [];
     labels.length = 0;
+    pizzaMarkerEls = {};
 
     const zoom = map.getZoom();
     const shouldCluster = CLUSTERING_ENABLED && zoom < CLUSTER_ZOOM_THRESHOLD;
@@ -631,6 +738,11 @@ map.on('load', async () => {
         pizzaMarkersOnMap.push(marker);
       });
     }
+
+    // Markers were just rebuilt from scratch — if a pizzeria is currently
+    // selected, its old marker element is gone, so re-apply the highlight
+    // to the new one (silently, no pop replay) rather than losing it.
+    if (selectedPizzeriaName) setSelectedPizzeria(selectedPizzeriaName, false);
   }
 
   renderPizzaMarkers();
@@ -721,12 +833,7 @@ map.on('load', async () => {
         </div>`;
 
       setTimeout(() => {
-        if (activePopup) activePopup.remove();
-        activePopup = new maplibregl.Popup({ closeButton: true, maxWidth: '270px', offset: [20, -22] })
-          .setLngLat([lm.lng, lm.lat])
-          .setHTML(html)
-          .addTo(map);
-        activePopup.on('close', () => { activePopup = null; });
+        openSmartPopup(lm.lng, lm.lat, html, 270);
       }, 400);
     });
 
@@ -756,7 +863,7 @@ map.on('load', async () => {
       f => f.properties.name.toLowerCase() === pinName.toLowerCase()
     );
     if (match) {
-      showPizzeriaPopup(match);
+      showPizzeriaInSheet(match);
     }
   }
 
@@ -795,7 +902,9 @@ function activateNearMeOnMap(latitude, longitude) {
   // show real walk-time-from-user if that's still meaningful
   window.userActualLocation = { lat: latitude, lng: longitude };
 
-  if (window.buildResultsPanel) window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme' });
+  // Deliberately does NOT open/rebuild the pizzeria list — the location
+  // button's job is strictly "find/recenter me," not "bring back the
+  // panel." Use Near Me from the search or the list itself for that.
 }
 
 // If location was already granted on a previous visit, locate and show
@@ -884,6 +993,89 @@ if (nearMeReopenTab) {
   nearMeReopenTab.addEventListener('click', () => setNearMePanelCollapsed(false));
 }
 
+// ===== Bottom sheet: list ↔ pizzeria-detail state =====
+// Selecting a pizzeria (marker tap, list item, search result, ?pin= URL)
+// swaps the sheet's body from the list to that pizzeria's card, keeping
+// the "N Pizzerias Near You" context in the header as a back target —
+// tapping ← or swiping the card down returns to the list. Tapping a
+// different marker while a card is showing just swaps the card content;
+// no need to go back to the list first.
+const nearMePanelDetail = document.getElementById('nearMePanelDetail');
+const nearMePanelBack = document.getElementById('nearMePanelBack');
+
+function fitNameToOneLine(el) {
+  if (!el) return;
+  let size = 1.05;
+  let guard = 0;
+  while (el.scrollWidth > el.clientWidth && size > 0.72 && guard < 15) {
+    size -= 0.03;
+    el.style.fontSize = size.toFixed(2) + 'rem';
+    guard++;
+  }
+}
+
+function enterDetailMode(html) {
+  const panel = document.getElementById('nearMePanel');
+  const list = document.getElementById('nearMePanelList');
+  if (!panel || !list || !nearMePanelDetail) return;
+  nearMePanelDetail.innerHTML = html;
+  nearMePanelDetail.scrollTop = 0;
+  list.hidden = true;
+  nearMePanelDetail.hidden = false;
+  if (nearMePanelBack) nearMePanelBack.hidden = false;
+  panel.hidden = false;
+  panel.dataset.mode = 'detail';
+  setNearMePanelCollapsed(false); // always show the card, never land collapsed
+  requestAnimationFrame(() => fitNameToOneLine(nearMePanelDetail.querySelector('.ticket-name')));
+}
+
+function exitDetailMode() {
+  const panel = document.getElementById('nearMePanel');
+  const list = document.getElementById('nearMePanelList');
+  if (!panel || !list || !nearMePanelDetail) return;
+  nearMePanelDetail.hidden = true;
+  nearMePanelDetail.innerHTML = '';
+  list.hidden = false;
+  if (nearMePanelBack) nearMePanelBack.hidden = true;
+  panel.dataset.mode = 'list';
+  if (window.clearSelectedPizzeria) window.clearSelectedPizzeria();
+}
+
+// If a pizzeria is selected with no list already open (e.g. straight from
+// a fresh page load), quietly build one from the current map view first —
+// so "back" always has somewhere real to return to.
+function ensureListBacking() {
+  const panel = document.getElementById('nearMePanel');
+  if (panel && panel.hidden && window.buildResultsPanel) {
+    window.buildResultsPanel({ mode: 'area' });
+  }
+}
+
+if (nearMePanelBack) {
+  nearMePanelBack.addEventListener('click', (e) => {
+    e.stopPropagation(); // don't also trigger the header's collapse toggle
+    exitDetailMode();
+  });
+}
+
+if (nearMePanelDetail) {
+  // Swipe the card downward (from the top of its scroll position) to go
+  // back to the list — separate from the header's own swipe, which just
+  // collapses/expands the sheet.
+  let detailTouchStartY = null;
+  let detailStartAtTop = true;
+  nearMePanelDetail.addEventListener('touchstart', (e) => {
+    detailTouchStartY = e.touches[0].clientY;
+    detailStartAtTop = nearMePanelDetail.scrollTop <= 0;
+  }, { passive: true });
+  nearMePanelDetail.addEventListener('touchend', (e) => {
+    if (detailTouchStartY === null) return;
+    const deltaY = e.changedTouches[0].clientY - detailTouchStartY;
+    detailTouchStartY = null;
+    if (detailStartAtTop && deltaY > 40) exitDetailMode();
+  }, { passive: true });
+}
+
 // Clicking a pizzeria in the panel selects it on the map
 const nearMePanelList = document.getElementById('nearMePanelList');
 if (nearMePanelList) {
@@ -892,10 +1084,9 @@ if (nearMePanelList) {
     if (!item) return;
     const name = item.dataset.name;
     if (window.flyToPizzeria) window.flyToPizzeria(name);
-    // On mobile the sheet covers real map area, so collapse it after a
-    // selection so the popup is visible. Desktop's sidebar doesn't block
-    // the map, so leave it open there.
-    if (window.innerWidth <= 900) setNearMePanelCollapsed(true);
+    // The sheet now shows the pizzeria's card in place of the list (see
+    // enterDetailMode), so it stays open on mobile too — no more collapsing
+    // it to reveal a separate floating popup underneath.
   });
 }
 
@@ -914,6 +1105,11 @@ const CATEGORY_ICONS = {
   'Hotels': '🏨',
   'Transit': '🚇',
   'Shopping & Markets': '🛍️',
+  'Italian Markets & Delis': '🧀',
+  'Italian-American Heritage': '🇮🇹',
+  'Colleges & Universities': '🎓',
+  'Hospitals & Medical Centers': '🏥',
+  'Event & Convention Spaces': '🎪',
   'Activities': '⭐',
 };
 
@@ -928,6 +1124,14 @@ function closeSearchOverlay() {
   searchOverlay.hidden = true;
   if (globalSearchInput) globalSearchInput.value = '';
   renderSearchResults('');
+}
+
+// Third way to close: clicking the search icon again while the overlay is
+// already open (in addition to clicking outside, and Escape).
+function toggleSearchOverlay() {
+  if (!searchOverlay) return;
+  if (searchOverlay.hidden) openSearchOverlay();
+  else closeSearchOverlay();
 }
 
 function renderSearchResults(query) {
@@ -968,7 +1172,7 @@ function renderSearchResults(query) {
   `).join('');
 }
 
-if (searchIconBtn) searchIconBtn.addEventListener('click', openSearchOverlay);
+if (searchIconBtn) searchIconBtn.addEventListener('click', toggleSearchOverlay);
 if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearchOverlay);
 
 // The map stays interactive behind the search panel now (it's a dropdown,
@@ -1031,10 +1235,10 @@ function showSearchThisAreaBtn() {
 }
 
 let panDetectTimer = null;
-map.on('moveend', () => {
-  // Debounced — MapLibre can fire moveend multiple times in quick
-  // succession during momentum panning, and checking mid-settle was a
-  // likely source of inconsistent show/hide behavior.
+// 'move' (not 'moveend') so this reacts while still panning/mid-momentum,
+// rather than waiting for the whole scroll to settle before checking —
+// that wait was the main source of the button feeling slow to reappear.
+map.on('move', () => {
   clearTimeout(panDetectTimer);
   panDetectTimer = setTimeout(() => {
     const anchor = window.panelAnchor;
@@ -1043,13 +1247,14 @@ map.on('moveend', () => {
       hideSearchThisAreaBtn();
       return;
     }
-    // Shrink the bounds inward by ~15% on each side before checking —
-    // requires a meaningfully clear pan away, not just barely-at-the-edge,
-    // which is inherently flaky with an exact boundary check.
+    // Shrink the bounds inward before checking — requires a meaningfully
+    // clear pan away, not just barely-at-the-edge. Kept fairly tight so
+    // the button reappears promptly after a real pan, rather than making
+    // the user drag most of a screen-width away first.
     const bounds = map.getBounds();
     const sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
-    const latPad = (ne.lat - sw.lat) * 0.15;
-    const lngPad = (ne.lng - sw.lng) * 0.15;
+    const latPad = (ne.lat - sw.lat) * 0.08;
+    const lngPad = (ne.lng - sw.lng) * 0.08;
     const inView = anchor.lat > sw.lat + latPad && anchor.lat < ne.lat - latPad &&
                    anchor.lng > sw.lng + lngPad && anchor.lng < ne.lng - lngPad;
     if (!inView) {
@@ -1057,7 +1262,7 @@ map.on('moveend', () => {
     } else {
       hideSearchThisAreaBtn();
     }
-  }, 150);
+  }, 50);
 });
 
 if (searchThisAreaBtn) {
