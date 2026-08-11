@@ -71,9 +71,9 @@ function sliceSVG(color) {
 }
 
 // ===== Landmark badge color =====
-// Royal blue — reads as a location marker without being washed-out
-// "light blue", and lighter than the old near-black badge.
-const LANDMARK_BADGE_COLOR = '#3457D5';
+// Muted charcoal/gray — reads as a location marker without competing
+// visually with the pizza markers, which should own the map.
+const LANDMARK_BADGE_COLOR = '#7a7a7a';
 
 // ===== Landmark star icon (dark circle badge, white star) =====
 function landmarkStarSVG() {
@@ -191,13 +191,10 @@ function labelsVisible() {
   return map.getZoom() >= LABEL_ZOOM;
 }
 
-// Landmark labels wait until a noticeably closer zoom than pizza labels,
-// so pizza labels always appear first and landmarks never compete with them
-const LANDMARK_LABEL_ZOOM = 15.3;
-
-function landmarksVisible() {
-  return map.getZoom() >= LANDMARK_LABEL_ZOOM;
-}
+// Landmark names are intentionally NOT shown as permanent map labels —
+// only the small badge icon is always visible; the name reveals on
+// hover (desktop) or tap/click (via the popup), so pizza labels are
+// the only text that visually competes for attention on the map.
 
 // ===== Proximity detection for label side =====
 // For each feature, check if any other feature is within ~400m.
@@ -661,14 +658,13 @@ map.on('load', async () => {
   });
 
   // ===== Landmark star markers =====
-  const landmarkLabels = [];
   LANDMARKS.forEach(lm => {
     const wrap = document.createElement('div');
     wrap.className = 'landmark-marker-wrap';
 
     const pin = document.createElement('div');
     pin.className = 'landmark-pin' + (lm.large ? ' landmark-pin-large' : '');
-    pin.innerHTML = lm.icon === 'baseball' ? landmarkBaseballSVG(lm.badgeColor || '#241A10')
+    pin.innerHTML = lm.icon === 'baseball' ? landmarkBaseballSVG(lm.badgeColor || LANDMARK_BADGE_COLOR)
                    : lm.icon === 'basketball' ? landmarkBasketballSVG()
                    : lm.icon === 'cruise' ? landmarkCruiseSVG()
                    : lm.icon === 'statue' ? landmarkStatueSVG()
@@ -677,8 +673,8 @@ map.on('load', async () => {
     const label = document.createElement('div');
     label.className = 'landmark-label';
     label.textContent = lm.name;
-    label.style.opacity = landmarksVisible() ? '1' : '0';
-    landmarkLabels.push(label);
+    // No initial opacity set here — CSS keeps it at 0 by default and
+    // reveals it only on hover; tap/click instead opens the popup below.
 
     wrap.appendChild(pin);
     wrap.appendChild(label);
@@ -745,12 +741,10 @@ map.on('load', async () => {
     landmarkMarker.getElement().style.zIndex = '1';
   });
 
-  // Show/hide labels based on zoom
+  // Show/hide pizza labels based on zoom (landmark labels are hover/click-only, not zoom-based)
   function updateLabels() {
     const show = labelsVisible();
     labels.forEach(l => l.style.opacity = show ? '1' : '0');
-    const showLandmarks = landmarksVisible();
-    landmarkLabels.forEach(l => l.style.opacity = showLandmarks ? '1' : '0');
   }
   map.on('zoomend', updateLabels);
 

@@ -1117,7 +1117,6 @@ button:focus-visible {
   flex-shrink: 0;
   filter: drop-shadow(0 1px 3px rgba(0,0,0,0.35));
   transition: transform 0.12s ease, width 0.15s ease, height 0.15s ease;
-  opacity: 0.88;
 }
 .landmark-pin svg {
   width: 100%;
@@ -1125,11 +1124,13 @@ button:focus-visible {
   display: block;
 }
 
-/* Zoom-responsive sizing — stays visibly smaller than pizza pins at every tier */
-.zoom-far .landmark-pin    { width: 12px; height: 12px; }
-.zoom-mid .landmark-pin     { width: 15px; height: 15px; }
-.zoom-close .landmark-pin   { width: 18px; height: 18px; }
-.zoom-closer .landmark-pin  { width: 22px; height: 22px; }
+/* Zoom-responsive sizing — roughly 75% of the pizza pin's size at every
+   tier (19/23/27/32 for pizza), so landmarks stay visibly smaller and
+   never compete with pizza markers for attention */
+.zoom-far .landmark-pin    { width: 14px; height: 14px; }
+.zoom-mid .landmark-pin     { width: 17px; height: 17px; }
+.zoom-close .landmark-pin   { width: 20px; height: 20px; }
+.zoom-closer .landmark-pin  { width: 24px; height: 24px; }
 
 /* Larger sizing for Yankee Stadium, Citi Field, Madison Square Garden */
 .zoom-far .landmark-pin-large    { width: 17px; height: 17px; }
@@ -1139,10 +1140,9 @@ button:focus-visible {
 
 .landmark-marker-wrap:hover .landmark-pin {
   transform: scale(1.25);
-  opacity: 1;
 }
 .landmark-label {
-  background: #241A10;
+  background: #4a4a4a;
   color: white;
   font-family: 'Work Sans', sans-serif;
   font-size: 0.68rem;
@@ -1155,14 +1155,16 @@ button:focus-visible {
   opacity: 0;
   transition: opacity 0.15s ease;
 }
-/* Hover reveals the label at any zoom level — desktop only, see note above */
+/* The ONLY way a landmark name appears as map text: hover reveals it on
+   desktop. On touch devices there's no hover, so the name only surfaces
+   via the popup on tap/click — landmarks never get a permanent, always-on
+   label at any zoom level. Pizza labels are the only text that's ever
+   automatically visible on the map. */
 @media (hover: hover) and (pointer: fine) {
   .landmark-marker-wrap:hover .landmark-label {
     opacity: 1 !important;
   }
 }
-/* Automatic show/hide (no hover needed) is handled in JS via LANDMARK_LABEL_ZOOM
-   — kept meaningfully later than pizza's LABEL_ZOOM so pizza labels always appear first */
 
 /* ===== Neighborhood chips (shared: List page borough-filter uses these too) ===== */
 .neighborhood-chips {
