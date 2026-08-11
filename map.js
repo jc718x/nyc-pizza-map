@@ -410,15 +410,7 @@ map.on('load', async () => {
     // than truncating, so the full name stays readable.
     requestAnimationFrame(() => {
       const el = activePopup && activePopup.getElement && activePopup.getElement();
-      const nameEl = el && el.querySelector('.ticket-name');
-      if (!nameEl) return;
-      let size = 1.05;
-      let guard = 0;
-      while (nameEl.scrollWidth > nameEl.clientWidth && size > 0.72 && guard < 15) {
-        size -= 0.03;
-        nameEl.style.fontSize = size.toFixed(2) + 'rem';
-        guard++;
-      }
+      fitNameToOneLine(el && el.querySelector('.ticket-name'));
     });
 
     return activePopup;
@@ -532,6 +524,12 @@ map.on('load', async () => {
     const title = document.getElementById('nearMePanelTitle');
     if (!panel || !list || !title) return;
 
+    // Rebuilding the list means we're leaving any pizzeria detail view —
+    // without this, list.hidden could still be true from a prior
+    // selection, so the freshly-built list would render but stay
+    // invisible behind the (now-cleared) detail view.
+    exitDetailMode();
+
     let results, heading;
 
     if (opts.mode === 'area') {
@@ -593,7 +591,7 @@ map.on('load', async () => {
     }).join('');
 
     panel.hidden = false;
-    setNearMePanelCollapsed(window.innerWidth <= 900);
+    setNearMePanelCollapsed(false);
     hideSearchThisAreaBtn();
   };
 
@@ -1005,9 +1003,9 @@ const nearMePanelBack = document.getElementById('nearMePanelBack');
 
 function fitNameToOneLine(el) {
   if (!el) return;
-  let size = 1.05;
+  let size = 1.12;
   let guard = 0;
-  while (el.scrollWidth > el.clientWidth && size > 0.72 && guard < 15) {
+  while (el.scrollWidth > el.clientWidth && size > 0.85 && guard < 12) {
     size -= 0.03;
     el.style.fontSize = size.toFixed(2) + 'rem';
     guard++;
