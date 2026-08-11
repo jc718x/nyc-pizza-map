@@ -556,6 +556,7 @@ map.on('load', async () => {
       // the button again — without this, it would never reappear.
       const center = map.getCenter();
       window.panelAnchor = { lat: center.lat, lng: center.lng };
+      window.panelAnchorZoom = map.getZoom();
     } else {
       // 'nearme' or 'search' — distance-sorted from a fixed anchor point
       const { lat, lng } = opts;
@@ -577,6 +578,7 @@ map.on('load', async () => {
           : `🍕 ${results.length} Pizzerias Near ${opts.label}`;
       }
       window.panelAnchor = { lat, lng };
+      window.panelAnchorZoom = map.getZoom();
     }
 
     title.textContent = heading;
@@ -591,7 +593,7 @@ map.on('load', async () => {
     }).join('');
 
     panel.hidden = false;
-    setNearMePanelCollapsed(false);
+    setNearMePanelCollapsed(!!opts.collapsed);
     hideSearchThisAreaBtn();
   };
 
@@ -884,7 +886,9 @@ map.on('load', async () => {
 // ===== Near Me button =====
 let userMarker = null;
 
-function activateNearMeOnMap(latitude, longitude) {
+function activateNearMeOnMap(latitude, longitude, opts) {
+  opts = opts || {};
+
   // Drop a "you are here" marker
   if (userMarker) userMarker.remove();
   const el = document.createElement('div');
@@ -900,9 +904,15 @@ function activateNearMeOnMap(latitude, longitude) {
   // show real walk-time-from-user if that's still meaningful
   window.userActualLocation = { lat: latitude, lng: longitude };
 
-  // Deliberately does NOT open/rebuild the pizzeria list — the location
-  // button's job is strictly "find/recenter me," not "bring back the
-  // panel." Use Near Me from the search or the list itself for that.
+  // The manual location button is strictly "find/recenter me" — it does
+  // NOT touch the panel. The one-time automatic locate on a returning
+  // visit (permission already granted) is the exception: it also builds
+  // the nearby list, but collapsed to a one-line peek ("N Pizzerias Near
+  // You") rather than expanded, matching how this behaved before the
+  // popup-to-sheet redesign.
+  if (opts.showList && window.buildResultsPanel) {
+    window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed });
+  }
 }
 
 // If location was already granted on a previous visit, locate and show
@@ -912,7 +922,7 @@ if (navigator.permissions && navigator.geolocation) {
   navigator.permissions.query({ name: 'geolocation' }).then(status => {
     if (status.state === 'granted') {
       navigator.geolocation.getCurrentPosition(
-        (pos) => activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude),
+        (pos) => activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, { showList: true, collapsed: true }),
         () => {},
         { timeout: 8000, maximumAge: 60000 }
       );
@@ -950,29 +960,62 @@ if (nearMeBtn) {
   });
 }
 
-// Toggle the near-me panel — collapses the list on mobile, hides the
-// whole sidebar on desktop (see CSS media query for the split behavior)
+// Toggle the near-me panel — collapses the list content on mobile,
+// shrinks to the header-only strip on desktop (see CSS media query)
 const nearMePanelHeader = document.getElementById('nearMePanelHeader');
+const nearMePanelLeftZone = document.getElementById('nearMePanelLeftZone');
+const nearMePanelRightZone = document.getElementById('nearMePanelRightZone');
+const nearMePanelClose = document.getElementById('nearMePanelClose');
+const nearMePanelArrow = document.getElementById('nearMePanelArrow');
 const nearMeReopenTab = document.getElementById('nearMeReopenTab');
 
 function setNearMePanelCollapsed(collapsed) {
   const panel = document.getElementById('nearMePanel');
   if (!panel) return;
   panel.classList.toggle('collapsed', collapsed);
-  if (nearMeReopenTab) nearMeReopenTab.hidden = !collapsed;
-  // On desktop, shift the Near Me button clear of the sidebar when it's open
-  if (nearMeBtn) nearMeBtn.classList.toggle('sidebar-open', !collapsed);
+}
+
+function currentPanelMode() {
+  const panel = document.getElementById('nearMePanel');
+  return panel && panel.dataset.mode === 'detail' ? 'detail' : 'list';
+}
+
+// Left zone: "← 🍕 N Pizzerias in This Area" as one big tap target in
+// detail mode (goes back to the list); the same zone toggles collapse in
+// list mode (previously the whole header did this — now it's just this
+// side, since the right side has its own distinct job below).
+if (nearMePanelLeftZone) {
+  nearMePanelLeftZone.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (currentPanelMode() === 'detail') {
+      exitDetailMode();
+    } else {
+      const panel = document.getElementById('nearMePanel');
+      setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
+    }
+  });
+}
+
+// Right zone: ↑ toggles collapse in list mode; × fully dismisses the
+// sheet in detail mode. Deliberately a different action than the left
+// zone in detail mode — back and close are not the same gesture.
+if (nearMePanelRightZone) {
+  nearMePanelRightZone.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (currentPanelMode() === 'detail') {
+      dismissSheetEntirely();
+    } else {
+      const panel = document.getElementById('nearMePanel');
+      setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
+    }
+  });
 }
 
 if (nearMePanelHeader) {
-  nearMePanelHeader.addEventListener('click', () => {
-    const panel = document.getElementById('nearMePanel');
-    setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
-  });
-
-  // Swipe up/down on the header to expand/collapse — scoped to the header
-  // specifically (not the whole panel) so it never fights with scrolling
-  // the results list itself.
+  // Swipe up/down anywhere on the header row to expand/collapse — kept
+  // independent of the click zones above, and independent of mode, so
+  // dragging always just resizes the sheet regardless of what the tap
+  // targets underneath it currently do.
   let touchStartY = null;
   nearMePanelHeader.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
@@ -1024,6 +1067,10 @@ function enterDetailMode(html) {
   panel.hidden = false;
   panel.dataset.mode = 'detail';
   setNearMePanelCollapsed(false); // always show the card, never land collapsed
+  if (nearMePanelArrow) nearMePanelArrow.hidden = true;
+  if (nearMePanelClose) nearMePanelClose.hidden = false;
+  if (nearMePanelLeftZone) nearMePanelLeftZone.setAttribute('aria-label', 'Back to pizzeria list');
+  if (nearMePanelRightZone) nearMePanelRightZone.setAttribute('aria-label', 'Close');
   requestAnimationFrame(() => fitNameToOneLine(nearMePanelDetail.querySelector('.ticket-name')));
 }
 
@@ -1036,7 +1083,21 @@ function exitDetailMode() {
   list.hidden = false;
   if (nearMePanelBack) nearMePanelBack.hidden = true;
   panel.dataset.mode = 'list';
+  if (nearMePanelArrow) nearMePanelArrow.hidden = false;
+  if (nearMePanelClose) nearMePanelClose.hidden = true;
+  if (nearMePanelLeftZone) nearMePanelLeftZone.setAttribute('aria-label', 'Toggle pizzeria list');
+  if (nearMePanelRightZone) nearMePanelRightZone.setAttribute('aria-label', 'Toggle pizzeria list');
   if (window.clearSelectedPizzeria) window.clearSelectedPizzeria();
+}
+
+// The × control — fully dismisses the sheet (not just collapses it back
+// to a peek). Distinct from ← (goes back one level to the list) and from
+// dragging the handle (resizes/collapses without leaving detail mode).
+function dismissSheetEntirely() {
+  exitDetailMode();
+  const panel = document.getElementById('nearMePanel');
+  if (panel) panel.hidden = true;
+  hideSearchThisAreaBtn();
 }
 
 // If a pizzeria is selected with no list already open (e.g. straight from
@@ -1255,7 +1316,15 @@ map.on('move', () => {
     const lngPad = (ne.lng - sw.lng) * 0.08;
     const inView = anchor.lat > sw.lat + latPad && anchor.lat < ne.lat - latPad &&
                    anchor.lng > sw.lng + lngPad && anchor.lng < ne.lng - lngPad;
-    if (!inView) {
+
+    // Zooming out around the same center point never moves the anchor
+    // out of bounds (it's usually still smack in the middle), but it
+    // does reveal a lot of area the current results never covered —
+    // so treat a meaningful zoom-out as its own trigger too.
+    const anchorZoom = window.panelAnchorZoom;
+    const zoomedOut = typeof anchorZoom === 'number' && (anchorZoom - map.getZoom() > 0.6);
+
+    if (!inView || zoomedOut) {
       showSearchThisAreaBtn();
     } else {
       hideSearchThisAreaBtn();
