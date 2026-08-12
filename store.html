@@ -22,7 +22,7 @@
     <a href="index.html" style="text-decoration:none;"><span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span></a>
   </div>
   <nav class="topbar-nav" id="siteNav" aria-label="Site">
-    <a href="index.html">Map</a>
+    <a href="index.html#map">Map</a>
     <a href="pizza-search.html">Find Pizza</a>
     <div class="nav-dropdown" id="exploreDropdown">
       <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
@@ -60,13 +60,45 @@
 
 <div class="mobile-nav-drawer" id="mobileNav" hidden>
   <div class="mobile-nav-heading">Find Pizza</div>
-  <a href="index.html" class="primary">Map</a>
+  <a href="index.html#map" class="primary">Map</a>
   <a href="pizza-search.html" class="primary">Find Pizza</a>
-  <a href="neighborhood-guides.html" class="primary">Neighborhood Guides</a>
-  <a href="pizza-worth-traveling-for.html" class="primary">Worth the Trip</a>
-  <div class="mobile-nav-heading">Explore</div>
-  <a href="pizza-history.html">Pizza History</a>
-  <a href="pizza-facts.html">Pizza Facts</a>
+
+  <button class="mobile-nav-accordion" id="mobileExploreToggle" aria-expanded="false" aria-controls="mobileExplorePanel">
+    <span class="mobile-nav-accordion-label">Explore</span>
+    <span class="mobile-nav-accordion-caret">›</span>
+  </button>
+  <div class="mobile-nav-accordion-panel" id="mobileExplorePanel" hidden>
+    <button class="mobile-nav-sub-accordion" data-sub="borough" aria-expanded="false">
+      <span>By Borough</span><span class="mobile-nav-sub-caret">›</span>
+    </button>
+    <div class="mobile-nav-sub-panel" id="mobile-sub-borough" hidden>
+      <a href="neighborhood-guides.html#manhattan">Manhattan</a>
+      <a href="neighborhood-guides.html#brooklyn">Brooklyn</a>
+      <a href="neighborhood-guides.html#queens">Queens</a>
+      <a href="neighborhood-guides.html#bronx">Bronx</a>
+      <a href="neighborhood-guides.html#staten-island">Staten Island</a>
+    </div>
+    <button class="mobile-nav-sub-accordion" data-sub="neighborhoods" aria-expanded="false">
+      <span>Neighborhoods</span><span class="mobile-nav-sub-caret">›</span>
+    </button>
+    <div class="mobile-nav-sub-panel" id="mobile-sub-neighborhoods" hidden>
+      <a href="best-pizza-west-village.html">West Village</a>
+      <a href="best-pizza-bay-ridge.html">Bay Ridge</a>
+      <a href="neighborhood-guides.html">Williamsburg</a>
+      <a href="neighborhood-guides.html">Astoria</a>
+      <a href="neighborhood-guides.html">Arthur Avenue</a>
+      <a href="neighborhood-guides.html" class="mobile-nav-viewall">View All →</a>
+    </div>
+    <button class="mobile-nav-sub-accordion" data-sub="discover" aria-expanded="false">
+      <span>Discover</span><span class="mobile-nav-sub-caret">›</span>
+    </button>
+    <div class="mobile-nav-sub-panel" id="mobile-sub-discover" hidden>
+      <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
+      <a href="pizza-history.html">Pizza History</a>
+      <a href="pizza-facts.html">Pizza Facts</a>
+    </div>
+  </div>
+
   <div class="mobile-nav-heading">NYC Pizza</div>
   <a href="how-to-make-pizza.html">Make Pizza</a>
   <a href="store.html" class="active">Shop</a>
@@ -75,55 +107,87 @@
   <a href="about.html">About</a>
 </div>
 
+
 <main class="page-wrap">
   <p class="page-kicker">Store</p>
-  <h2>Coming Soon</h2>
+  <h2>NYC Pizza Map Shop</h2>
+  <p style="color:rgba(36,26,16,0.6); font-size:0.95rem; margin:-8px 0 28px;">All items coming soon. Sign up to be notified when we launch.</p>
 
   <h3>T-Shirts</h3>
   <div class="poster-grid">
+
     <div class="poster-card">
-      <div class="poster-img-wrap" style="aspect-ratio:5/4;">
-        <img src="assets/shirt-nyc-logo.jpg" alt="NYC Pizza Map Logo T-Shirt" />
+      <div class="poster-img-wrap" style="aspect-ratio:1/1;">
+        <img src="assets/shirt-oven-fresh-nyc.png" alt="Oven Fresh NYC T-Shirt" />
         <span class="poster-badge">Coming Soon</span>
       </div>
       <div class="poster-info">
-        <h3>NYC Pizza Map Logo Tee</h3>
+        <h3>Oven Fresh NYC</h3>
+        <p>Classic arch lettering on natural.</p>
       </div>
     </div>
 
     <div class="poster-card">
-      <div class="poster-img-wrap" style="aspect-ratio:5/4;">
-        <img src="assets/shirt-brooklyn-club.jpg" alt="Brooklyn Pizza Club T-Shirt" />
+      <div class="poster-img-wrap" style="aspect-ratio:1/1;">
+        <img src="assets/shirt-oven-fresh-waitress.png" alt="Oven Fresh — Some Like It Hot T-Shirt" />
         <span class="poster-badge">Coming Soon</span>
       </div>
       <div class="poster-info">
-        <h3>Brooklyn Pizza Club</h3>
+        <h3>Oven Fresh — Some Like It Hot</h3>
+        <p>Retro waitress with a fresh pie.</p>
       </div>
     </div>
 
     <div class="poster-card">
-      <div class="poster-img-wrap" style="aspect-ratio:5/4;">
-        <img src="assets/shirt-oven-fresh.jpg" alt="Oven Fresh Pizza T-Shirt" />
+      <div class="poster-img-wrap" style="aspect-ratio:1/1;">
+        <img src="assets/shirt-support-local.png" alt="Support Your Local Pizzeria T-Shirt" />
         <span class="poster-badge">Coming Soon</span>
       </div>
       <div class="poster-info">
-        <h3>Oven Fresh Pizza</h3>
+        <h3>Support Your Local Pizzeria</h3>
+        <p>Keep the slice alive.</p>
       </div>
     </div>
 
     <div class="poster-card">
-      <div class="poster-img-wrap" style="aspect-ratio:5/4;">
-        <img src="assets/shirt-tried-the-rest.jpg" alt="You've Tried All The Rest Now Try The Best T-Shirt" />
+      <div class="poster-img-wrap" style="aspect-ratio:1/1;">
+        <img src="assets/shirt-hot-delicious.png" alt="Hot & Delicious Pizza T-Shirt" />
         <span class="poster-badge">Coming Soon</span>
       </div>
       <div class="poster-info">
-        <h3>Tried the Rest</h3>
+        <h3>Hot &amp; Delicious Pizza</h3>
+        <p>Made the old school way.</p>
       </div>
     </div>
+
+    <div class="poster-card">
+      <div class="poster-img-wrap" style="aspect-ratio:1/1;">
+        <img src="assets/shirt-tried-the-best.png" alt="You've Tried All The Rest, Now Try The Best T-Shirt" />
+        <span class="poster-badge">Coming Soon</span>
+      </div>
+      <div class="poster-info">
+        <h3>You've Tried All The Rest</h3>
+        <p>Now try the best.</p>
+      </div>
+    </div>
+
+    <div class="poster-card">
+      <div class="poster-img-wrap" style="aspect-ratio:1/1;">
+        <img src="assets/shirt-old-school-way.png" alt="Pizza — The Old School Way T-Shirt" />
+        <span class="poster-badge">Coming Soon</span>
+      </div>
+      <div class="poster-info">
+        <h3>Pizza — The Old School Way</h3>
+        <p>Classic pizza chef with peel.</p>
+      </div>
+    </div>
+
   </div>
 
   <h3>Posters</h3>
+<h3>Posters</h3>
   <div class="poster-grid">
+
     <div class="poster-card">
       <div class="poster-img-wrap">
         <img src="assets/poster-brooklyn-web.jpg" alt="Brooklyn Pizza Poster" />
@@ -144,35 +208,6 @@
       </div>
     </div>
 
-    <div class="poster-card">
-      <div class="poster-img-wrap">
-        <img src="assets/poster-queens-web.jpg" alt="Queens Pizza Poster" />
-        <span class="poster-badge">Coming Soon</span>
-      </div>
-      <div class="poster-info">
-        <h3>Queens Pizza Poster</h3>
-      </div>
-    </div>
-
-    <div class="poster-card">
-      <div class="poster-img-wrap">
-        <img src="assets/poster-bronx-web.jpg" alt="Bronx Pizza Poster" />
-        <span class="poster-badge">Coming Soon</span>
-      </div>
-      <div class="poster-info">
-        <h3>Bronx Pizza Poster</h3>
-      </div>
-    </div>
-
-    <div class="poster-card">
-      <div class="poster-img-wrap">
-        <img src="assets/poster-staten-island-web.jpg" alt="Staten Island Pizza Poster" />
-        <span class="poster-badge">Coming Soon</span>
-      </div>
-      <div class="poster-info">
-        <h3>Staten Island Pizza Poster</h3>
-      </div>
-    </div>
   </div>
 
 </main>

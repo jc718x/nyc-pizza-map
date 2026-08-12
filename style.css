@@ -1413,7 +1413,7 @@ body.content-page {
 .page-wrap {
   max-width: 680px;
   margin: 0 auto;
-  padding: calc(var(--topbar-h) + 48px) 24px 80px;
+  padding: calc(var(--topbar-h) + 18px) 24px 60px;
 }
 .page-wrap h2 {
   font-family: var(--font-display);
