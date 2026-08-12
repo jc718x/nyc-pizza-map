@@ -1650,7 +1650,9 @@ button:focus-visible {
 
 .near-me-reopen-tab { display: none; }
 
-/* Desktop: sidebar instead of bottom sheet */
+/* Desktop: sidebar slides over the map from the left edge.
+   Collapsed = completely off-screen with a floating tab to open it.
+   Open = full-width sidebar overlaying the left portion of the map. */
 @media (min-width: 901px) {
   .near-me-panel {
     top: var(--topbar-h) !important;
@@ -1665,7 +1667,18 @@ button:focus-visible {
     border-radius: 0 !important;
     border-top: none !important;
     border-right: 2px solid var(--color-crust) !important;
-    box-shadow: 2px 0 16px rgba(0,0,0,0.12) !important;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.18) !important;
+    transform: translateX(0);
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1) !important;
+  }
+  /* Collapsed: slide the whole panel off-screen to the left.
+     No blank rail — just gone until the floating tab is clicked. */
+  .near-me-panel.collapsed {
+    transform: translateX(-100%) !important;
+    width: 20vw !important;
+    min-width: 300px !important;
+    max-height: calc(100vh - var(--topbar-h)) !important;
+    box-shadow: none !important;
   }
   .near-me-panel-handle { display: none; }
   .near-me-panel-header {
@@ -1674,52 +1687,44 @@ button:focus-visible {
   }
   .near-me-panel-leftzone { justify-content: flex-start; padding: 6px 8px 6px 0; }
   .near-me-panel-title { font-size: 0.85rem; }
-  .near-me-panel-list {
-    max-height: none;
-    flex: 1;
-    padding: 6px 18px 18px;
-  }
-  .near-me-panel-detail {
-    max-height: none;
-    flex: 1;
-    padding: 6px 18px 18px;
-  }
+  .near-me-panel-list { max-height: none; flex: 1; padding: 6px 18px 18px; }
+  .near-me-panel-detail { max-height: none; flex: 1; padding: 6px 18px 18px; }
+  /* Right-zone toggle hidden on desktop — tab handles open/close */
+  .near-me-panel-rightzone { display: none; }
 
-  /* Collapsed desktop = a slim vertical tab on the left edge.
-     Width collapses (not height), so it reads as a sidebar tab
-     rather than a horizontal bar across the top of the map. */
-  .near-me-panel.collapsed {
-    width: 48px !important;
-    min-width: 0 !important;
-    max-height: calc(100vh - var(--topbar-h)) !important;
-    overflow: hidden !important;
-  }
-  /* Hide text in the collapsed tab — only the arrow shows */
-  .near-me-panel.collapsed .near-me-panel-title,
-  .near-me-panel.collapsed .near-me-panel-back { display: none; }
-  .near-me-panel.collapsed .near-me-panel-leftzone { flex: 0; min-width: 0; padding: 0; }
-  .near-me-panel.collapsed .near-me-panel-header {
-    padding: 0;
+  /* ===== Floating sidebar tab ===== */
+  .near-me-sidebar-tab {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 6;
+    background: var(--color-crust);
+    color: white;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    width: 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: left 0.28s cubic-bezier(0.4,0,0.2,1), background 0.15s ease;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.18);
+    line-height: 1;
+    user-select: none;
   }
-  .near-me-panel.collapsed .near-me-panel-rightzone {
-    width: 48px;
-    height: 48px;
-    border-radius: 0;
-  }
+  .near-me-sidebar-tab:hover { background: var(--color-sauce); }
+  .near-me-sidebar-tab.open { left: max(300px, 20vw); }
 
-  /* Arrow: → when collapsed (click to open), ← when expanded (click to close) */
-  .near-me-panel-arrow { transform: rotate(0deg); }
-  .near-me-panel.collapsed .near-me-panel-arrow { transform: rotate(0deg); }
-  .near-me-panel:not(.collapsed) .near-me-panel-arrow { transform: rotate(180deg); }
-
-  /* Near Me button: positioned clear of the open sidebar by default.
-     JS updates this when collapsed (see setNearMePanelCollapsed). */
+  /* Near Me button */
   .near-me-btn {
     left: max(316px, calc(20vw + 16px));
-    transition: left 0.25s ease;
+    transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
   }
-  .near-me-btn.sidebar-collapsed { left: 64px; }
+  .near-me-btn.sidebar-collapsed { left: 40px; }
 
   .near-me-reopen-tab { display: none !important; }
 }

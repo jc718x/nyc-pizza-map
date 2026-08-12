@@ -1080,10 +1080,19 @@ function setNearMePanelCollapsed(collapsed) {
   const panel = document.getElementById('nearMePanel');
   if (!panel) return;
   panel.classList.toggle('collapsed', collapsed);
-  // On desktop, shift the Near Me button: hug the slim 48px tab when
-  // collapsed, move out to clear the full sidebar width when expanded.
+
+  // Desktop: shift the Near Me button and sync the floating tab
   const btn = document.getElementById('nearMeBtn');
   if (btn) btn.classList.toggle('sidebar-collapsed', collapsed);
+
+  const tab = document.getElementById('sidebarTab');
+  if (tab) {
+    const isDesktop = window.innerWidth >= 901;
+    tab.hidden = !isDesktop;
+    tab.classList.toggle('open', !collapsed);
+    tab.textContent = collapsed ? '›' : '‹';
+    tab.setAttribute('aria-label', collapsed ? 'Open pizzeria list' : 'Close pizzeria list');
+  }
 }
 
 function currentPanelMode() {
@@ -1235,9 +1244,39 @@ function showIdleState() {
   window.lastListResultCount = 0;
   list.innerHTML = `<p class="near-me-empty-hint">Tap a pizzeria on the map, search, or use your location to get started.</p>`;
   panel.hidden = false;
+  // Desktop starts collapsed so the full map is visible at load —
+  // the floating tab invites the user to open it when ready.
+  // Mobile starts collapsed to show just the one-line peek bar.
   setNearMePanelCollapsed(true);
 }
 showIdleState();
+
+// ===== Floating sidebar tab (desktop only) =====
+// The tab is the sole way to open/close the sidebar on desktop —
+// no blank rail, no in-panel toggle button. Only shown on wide screens;
+// on mobile the panel is a bottom sheet with its own header controls.
+const sidebarTab = document.getElementById('sidebarTab');
+if (sidebarTab) {
+  const isDesktop = () => window.innerWidth >= 901;
+
+  function syncSidebarTab() {
+    if (!sidebarTab) return;
+    sidebarTab.hidden = !isDesktop();
+    const panel = document.getElementById('nearMePanel');
+    const collapsed = !panel || panel.classList.contains('collapsed');
+    sidebarTab.classList.toggle('open', !collapsed);
+    sidebarTab.textContent = collapsed ? '›' : '‹';
+  }
+
+  sidebarTab.addEventListener('click', () => {
+    const panel = document.getElementById('nearMePanel');
+    if (!panel) return;
+    setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
+  });
+
+  syncSidebarTab();
+  window.addEventListener('resize', syncSidebarTab);
+}
 
 if (nearMePanelDetail) {
   // Swipe the card downward (from the top of its scroll position) to go
