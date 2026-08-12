@@ -193,58 +193,30 @@
   }
   .ps-browse-item:hover { background: var(--pz-accent); border-color: var(--pz-accent); color: white; }
 
-  .ps-controls-label {
+  .ps-near-me-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 12px;
+    height: 32px;
+    border-radius: 20px;
+    border: 1.5px solid var(--color-crust);
+    background: var(--color-parchment);
+    color: var(--color-crust);
     font-family: var(--font-mono);
-    font-size: 0.66rem;
+    font-size: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: rgba(36,26,16,0.5);
-    margin: 0 0 8px;
-  }
-  .ps-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin: 0 0 14px;
-    flex-wrap: wrap;
-  }
-  .ps-borough-filters {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .ps-filter-btn {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(36,26,16,0.15);
-    background: white;
-    color: var(--color-char);
+    letter-spacing: 0.04em;
     cursor: pointer;
+    margin: 12px 0 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    transition: background 0.15s ease, color 0.15s ease;
   }
-  .ps-filter-btn.active { background: var(--color-crust); border-color: var(--color-crust); color: white; }
-  .ps-near-me-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: 20px;
-    border: 1.5px solid rgba(36,26,16,0.2);
-    background: white;
-    color: var(--color-char);
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    cursor: pointer;
-    flex-shrink: 0;
+  .ps-near-me-btn:hover, .ps-near-me-btn.active {
+    background: var(--color-crust);
+    color: white;
   }
-  .ps-near-me-btn.active { background: var(--pz-accent); border-color: var(--pz-accent); color: white; }
 
   .ps-results-header {
     display: flex;
@@ -484,33 +456,20 @@
       <button class="ps-chip" data-name="Williamsburg">Williamsburg</button>
     </div>
 
+    <button class="ps-near-me-btn" id="pageNearMeBtn" title="Sort by distance from me">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+        <path d="M12 2v3M12 19v3M22 12h-3M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      <span>Use Current Location</span>
+    </button>
+
     <button class="ps-browse-toggle" id="browseToggle" aria-expanded="false" aria-controls="browsePanel">
       <span>Browse NYC</span>
       <span class="ps-browse-caret">▾</span>
     </button>
     <div class="ps-browse-panel" id="browsePanel" hidden></div>
-  </div>
-
-  <div class="ps-controls">
-    <div>
-      <p class="ps-controls-label">Filter Pizza Results</p>
-      <div class="ps-borough-filters" id="boroughFilters">
-        <button class="ps-filter-btn active" data-borough="all">All</button>
-        <button class="ps-filter-btn" data-borough="Brooklyn">Brooklyn</button>
-        <button class="ps-filter-btn" data-borough="Manhattan">Manhattan</button>
-        <button class="ps-filter-btn" data-borough="Queens">Queens</button>
-        <button class="ps-filter-btn" data-borough="Bronx">Bronx</button>
-        <button class="ps-filter-btn" data-borough="Staten Island">SI</button>
-      </div>
-    </div>
-    <button class="ps-near-me-btn" id="pageNearMeBtn" title="Sort by distance from me">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="3" fill="currentColor"/>
-        <path d="M12 2v3M12 19v3M22 12h-3M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-      <span>Current Location</span>
-    </button>
   </div>
 
   <div class="ps-results-header">
@@ -610,16 +569,6 @@ fetch('data.json')
     render();
     tryAutoNearMe();
   });
-
-// Borough filter chips
-document.getElementById('boroughFilters').addEventListener('click', e => {
-  const btn = e.target.closest('.ps-filter-btn');
-  if (!btn) return;
-  document.querySelectorAll('.ps-filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  activeBorough = btn.dataset.borough;
-  render();
-});
 
 // Clear destination/near-me mode, back to default browse
 document.getElementById('clearModeBtn').addEventListener('click', () => {
