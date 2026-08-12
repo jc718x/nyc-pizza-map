@@ -309,20 +309,16 @@ map.on('load', async () => {
   // marker without adding a glow, pulse, or motion effect.
   function setSelectedPizzeria(name) {
     if (selectedPizzeriaName && pizzaMarkerEls[selectedPizzeriaName]) {
-      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected', 'selected-spin');
+      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected');
     }
     selectedPizzeriaName = name;
     const el = name && pizzaMarkerEls[name];
-    if (el) {
-      el.classList.add('selected', 'selected-spin');
-      // Remove the spin class after the animation so it can replay next tap
-      el.addEventListener('animationend', () => el.classList.remove('selected-spin'), { once: true });
-    }
+    if (el) el.classList.add('selected');
   }
 
   function clearSelectedPizzeria() {
     if (selectedPizzeriaName && pizzaMarkerEls[selectedPizzeriaName]) {
-      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected', 'selected-spin');
+      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected');
     }
     selectedPizzeriaName = null;
   }
@@ -1344,6 +1340,20 @@ if (sidebarTabEl) sidebarTabEl.hidden = true;
 const exploreMapBtn = document.getElementById('exploreMapBtn');
 if (exploreMapBtn) {
   exploreMapBtn.addEventListener('click', (e) => { e.preventDefault(); expandMap(); });
+}
+
+// USE MY LOCATION button — expand map then immediately fire geolocation
+const useLocationBtn = document.getElementById('useLocationBtn');
+if (useLocationBtn) {
+  useLocationBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    expandMap();
+    // Trigger the near-me button after map expands
+    setTimeout(() => {
+      const nearMeBtn = document.getElementById('nearMeBtn');
+      if (nearMeBtn) nearMeBtn.click();
+    }, 500);
+  });
 }
 
 // Nav links to index.html expand the map instead of reloading the hero

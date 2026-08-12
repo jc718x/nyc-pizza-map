@@ -558,7 +558,7 @@ body.map-page {
 
 /* ===== Landing page layout ===== */
 body.landing-page {
-  background: var(--color-parchment);
+  background: #e8e0d0; /* matches map tile bg so no gap is visible */
   overflow-y: auto;
 }
 
@@ -595,19 +595,19 @@ body.map-expanded .map-section {
 }
 /* restore button removed */
 .hero-inner {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0 48px;
+  padding: 0 40px;
   display: grid;
-  grid-template-columns: 5fr 7fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 40px;
-  min-height: 360px;
+  gap: 32px;
+  min-height: 340px;
 }
 .hero-headline {
   font-family: 'Abril Fatface', serif;
-  font-size: 3.4rem;
-  line-height: 1.1;
+  font-size: 3.2rem;
+  line-height: 1.05;
   color: var(--color-crust);
   margin: 0 0 16px;
   font-weight: 400;
@@ -616,32 +616,34 @@ body.map-expanded .map-section {
 .hero-sub {
   font-family: var(--font-body);
   font-size: 1rem;
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--color-char);
   margin: 0 0 28px;
-  max-width: 380px;
+  max-width: 420px;
 }
 .hero-cta-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
-  margin-bottom: 36px;
-  max-width: 280px;
+  margin-bottom: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 .hero-btn {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-decoration: none;
-  padding: 13px 22px;
+  padding: 14px 22px;
   border-radius: 6px;
   text-align: center;
   transition: all 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  white-space: nowrap;
 }
 .hero-btn-primary {
   background: var(--color-sauce);
@@ -650,7 +652,7 @@ body.map-expanded .map-section {
 }
 .hero-btn-primary:hover { background: #b81c1f; border-color: #b81c1f; }
 .hero-btn-outline {
-  background: white;
+  background: var(--color-parchment);
   color: var(--color-crust);
   border: 2px solid var(--color-crust);
 }
@@ -889,19 +891,15 @@ body.map-expanded .map-section {
     padding-bottom: 16px;
     padding-bottom: 0;
   }
-  /* Mobile hero: text on left, chef on right — proper 2-col layout
-     so the chef has a dedicated column and never overlaps text or buttons */
+  /* Mobile hero: text left, pizza character right — 2-col grid */
   .hero-inner {
-    grid-template-columns: 1fr 130px;
-    padding: 16px 16px 16px;
+    grid-template-columns: 1fr 140px;
+    padding: 14px 16px 16px;
     min-height: auto;
-    gap: 8px;
-    align-items: start;
+    gap: 0;
+    align-items: center;
   }
-  .hero-text {
-    grid-column: 1;
-    grid-row: 1;
-  }
+  .hero-text { grid-column: 1; grid-row: 1; }
   .hero-art {
     grid-column: 2 !important;
     grid-row: 1 !important;
@@ -911,30 +909,35 @@ body.map-expanded .map-section {
     justify-content: center;
     width: 100% !important;
     max-width: 100% !important;
-    top: auto !important;
-    right: auto !important;
     align-self: stretch;
   }
-  .hero-art-img { width: 100%; max-height: 160px; object-fit: contain; object-position: bottom center; }
+  .hero-art-img {
+    width: 100%;
+    max-height: 240px;
+    object-fit: contain;
+    object-position: bottom center;
+  }
   .hero-headline {
     font-size: 2rem;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     max-width: 100% !important;
+    line-height: 1.05;
   }
   .hero-sub {
-    font-size: 0.85rem;
-    margin-bottom: 14px;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
     max-width: 100% !important;
+    line-height: 1.45;
   }
   .hero-cta-group {
     max-width: 100%;
     margin-bottom: 0;
     flex-direction: row;
     gap: 8px;
+    flex-wrap: nowrap;
   }
-  /* Both buttons side by side, same compact size */
-  .hero-btn { flex: 1; font-size: 0.65rem; padding: 10px 6px; letter-spacing: 0.03em; }
-  .hero-btn-outline { display: flex; }
+  .hero-btn { flex: 1; font-size: 0.58rem; padding: 11px 6px; letter-spacing: 0.04em; gap: 5px; }
+  .hero-btn svg { flex-shrink: 0; }
   /* Map expanded — fill screen */
   body.map-expanded .map-section {
     position: fixed !important;
@@ -951,10 +954,10 @@ body.map-expanded .map-section {
 
   .hero { overflow: hidden; }
 
-  /* 2. Map section — 55vh, immediately below the compact hero */
+  /* 2. Map section — fills remaining viewport height after hero */
   .map-section {
-    height: 55vh;
-    min-height: 360px;
+    height: calc(100svh - var(--topbar-h) - 220px);
+    min-height: 340px;
   }
 
   /* 3. Explore tiles — 2×2 grid exactly matching the mockup */
@@ -1114,16 +1117,7 @@ body.landing-page #map {
   fill: var(--color-cheese);
   transition: fill 0.15s ease;
 }
-/* One-shot spin when first selected — slice appears to spin inside
-   the red circle, landing on the persistent 1.12× selected scale */
-@keyframes pizzaSelectSpin {
-  0%   { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-  60%  { transform: translate(-50%, -50%) scale(1.18) rotate(340deg); }
-  100% { transform: translate(-50%, -50%) scale(1.12) rotate(360deg); }
-}
-.pizza-marker-wrap.selected-spin .pizza-pin {
-  animation: pizzaSelectSpin 0.55s cubic-bezier(0.34, 1.2, 0.64, 1) both;
-}
+
 
 .pin-label {
   position: absolute;
