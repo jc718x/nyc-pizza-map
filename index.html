@@ -2050,7 +2050,10 @@
       </div>
     </div>
     <div class="hero-art">
-      <img src="assets/pizza-chef-hero.png" alt="NYC pizza chef illustration" onerror="this.style.display='none'" />
+      <img src="assets/pizza-chef-hero.png" alt="NYC pizza chef illustration" class="hero-art-img" onerror="this.parentElement.classList.add('hero-art-missing')" />
+      <div class="hero-art-fallback" aria-hidden="true">
+        <div class="hero-art-map-preview" id="heroMapPreview"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -2091,27 +2094,27 @@
     <div class="explore-grid">
       <a href="neighborhood-guides.html" class="explore-card">
         <div class="explore-card-icon">🏘️</div>
-        <div class="explore-card-title">NEIGHBORHOOD<br>GUIDES</div>
-        <p class="explore-card-desc">In-depth guides to the best pizza in every neighborhood.</p>
-        <span class="explore-card-link">EXPLORE GUIDES →</span>
+        <div class="explore-card-title">Neighborhood Guides</div>
+        <p class="explore-card-desc">Best pizza in every neighborhood.</p>
+        <span class="explore-card-link">›</span>
       </a>
       <a href="pizza-worth-traveling-for.html" class="explore-card">
         <div class="explore-card-icon">🚕</div>
-        <div class="explore-card-title">WORTH<br>THE TRIP</div>
-        <p class="explore-card-desc">Pizzerias that are worth leaving your neighborhood for.</p>
-        <span class="explore-card-link">SEE THE LIST →</span>
+        <div class="explore-card-title">Worth the Trip</div>
+        <p class="explore-card-desc">Worth leaving your neighborhood for.</p>
+        <span class="explore-card-link">›</span>
       </a>
       <a href="pizza-history.html" class="explore-card">
         <div class="explore-card-icon">🍕</div>
-        <div class="explore-card-title">PIZZA<br>HISTORY</div>
-        <p class="explore-card-desc">The story of New York pizza and how it became iconic.</p>
-        <span class="explore-card-link">READ MORE →</span>
+        <div class="explore-card-title">Pizza History</div>
+        <p class="explore-card-desc">How NYC pizza became iconic.</p>
+        <span class="explore-card-link">›</span>
       </a>
       <a href="pizza-facts.html" class="explore-card">
         <div class="explore-card-icon">📋</div>
-        <div class="explore-card-title">PIZZA<br>FACTS</div>
-        <p class="explore-card-desc">Fun facts, stats, and trivia about pizza in NYC.</p>
-        <span class="explore-card-link">GET THE FACTS →</span>
+        <div class="explore-card-title">Pizza Facts</div>
+        <p class="explore-card-desc">Stats and trivia about NYC pizza.</p>
+        <span class="explore-card-link">›</span>
       </a>
     </div>
   </div>

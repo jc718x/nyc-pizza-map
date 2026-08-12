@@ -661,11 +661,30 @@ body.landing-page {
   justify-content: center;
   height: 440px;
   overflow: hidden;
+  position: relative;
+  border-radius: 12px;
 }
-.hero-art img {
+.hero-art-img {
   max-height: 420px;
   width: auto;
   object-fit: contain;
+  position: relative;
+  z-index: 1;
+}
+.hero-art-fallback {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+.hero-art.hero-art-missing .hero-art-img { display: none; }
+.hero-art.hero-art-missing .hero-art-fallback { display: block; }
+.hero-art-map-preview {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(36,26,16,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
 
 /* ===== Live map section ===== */
@@ -727,6 +746,7 @@ body.landing-page {
   font-weight: 700;
   font-size: 0.88rem;
   letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--color-char);
   line-height: 1.3;
 }
@@ -744,6 +764,13 @@ body.landing-page {
   color: var(--color-sauce);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+/* Desktop: hide the bare › arrow, show it formatted */
+@media (min-width: 901px) {
+  .explore-card-link::before { content: 'EXPLORE →'; }
+  .explore-card-link { font-size: 0; }
+  .explore-card-link::before { font-size: 0.65rem; }
 }
 
 /* ===== Popular Neighborhoods ===== */
@@ -844,27 +871,145 @@ body.landing-page {
 .footer-social a { font-size: 1.1rem; text-decoration: none; opacity: 0.7; }
 .footer-social a:hover { opacity: 1; }
 
-/* ===== Landing page mobile ===== */
+/* ===== Landing page — mobile (intentionally different from desktop) ===== */
 @media (max-width: 900px) {
+
+  /* 1. Compact hero — just headline, one-liner, one CTA */
+  .hero {
+    padding-top: calc(var(--topbar-h) + 20px);
+    padding-bottom: 0;
+  }
   .hero-inner {
     grid-template-columns: 1fr;
-    padding: 24px 20px 0;
+    padding: 20px 20px 20px;
     min-height: auto;
     gap: 0;
   }
-  .hero-headline { font-size: 2.4rem; }
+  .hero-headline {
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+  }
+  .hero-sub {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    max-width: 100%;
+  }
+  /* One CTA only — second button hidden on mobile */
+  .hero-cta-group {
+    max-width: 100%;
+    margin-bottom: 0;
+    gap: 0;
+  }
+  .hero-btn-outline { display: none; }
+  .hero-btn-primary { font-size: 0.88rem; padding: 14px 20px; }
+
+  /* Stats hidden on mobile — space is precious */
+  .hero-stats { display: none; }
+
+  /* Hero art hidden — map shows right below */
   .hero-art { display: none; }
-  .hero-cta-group { max-width: 100%; }
-  .hero-stats { flex-wrap: wrap; gap: 20px; margin-bottom: 32px; }
-  .hero { padding-top: calc(var(--topbar-h) + 24px); }
-  .map-section { height: 55vh; min-height: 360px; }
-  .explore-inner, .neighborhoods-inner { padding: 0 16px; }
-  .explore-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .explore-section { padding: 40px 0; }
-  .neighborhoods-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .neighborhoods-section { padding: 0 0 40px; }
-  .nbhd-card:last-child { display: none; }
-  .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+
+  /* 2. Map section — 55vh, immediately below the compact hero */
+  .map-section {
+    height: 55vh;
+    min-height: 360px;
+  }
+
+  /* 3. Explore tiles — 2×2 compact list style (matches mockup) */
+  .explore-section {
+    padding: 24px 0 8px;
+  }
+  .explore-inner, .neighborhoods-inner {
+    padding: 0 16px;
+  }
+  .section-heading {
+    font-size: 0.75rem;
+    margin-bottom: 14px;
+  }
+  /* Override the card grid to match mockup: icon + label + arrow in one row */
+  .explore-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .explore-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(36,26,16,0.08);
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    grid-template-rows: auto auto;
+  }
+  .explore-card:last-child { border-bottom: none; }
+  .explore-card:hover { box-shadow: none; border-color: transparent; }
+  .explore-card-icon {
+    font-size: 1.6rem;
+    grid-row: 1 / 3;
+    grid-column: 1;
+    align-self: center;
+  }
+  .explore-card-title {
+    font-size: 0.88rem;
+    letter-spacing: 0;
+    text-transform: none;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+  }
+  .explore-card-desc {
+    font-size: 0.75rem;
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    color: rgba(36,26,16,0.5);
+  }
+  .explore-card-link {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    align-self: center;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--color-sauce);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* 4. Neighborhoods — horizontal swipe carousel */
+  .neighborhoods-section { padding: 24px 0 32px; }
+  .neighborhoods-inner { padding: 0; }
+  .neighborhoods-header { padding: 0 16px; margin-bottom: 14px; }
+  .neighborhoods-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding: 0 16px 8px;
+    grid-template-columns: unset;
+  }
+  .neighborhoods-grid::-webkit-scrollbar { display: none; }
+  .nbhd-card {
+    flex: 0 0 160px;
+    height: 120px;
+    scroll-snap-align: start;
+  }
+  /* Show all cards on mobile in carousel */
+  .nbhd-card:last-child { display: block; }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
   .site-footer { padding: 20px 16px; }
 }
 
@@ -877,33 +1022,9 @@ body.landing-page #map {
   right: 0 !important;
 }
 
-/* On the landing page, the near-me button and panel are inside
-   .map-section so they position within that section, not the viewport */
-body.landing-page .near-me-btn {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 5;
-}
-body.landing-page .near-me-panel {
-  top: 0 !important;
-  height: 100% !important;
-  max-height: 100% !important;
-}
-body.landing-page .near-me-sidebar-tab {
-  position: absolute;
-  top: 50%;
-}
-body.landing-page .search-this-area-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 5;
-}
-/* Sidebar tab open position on landing page */
-body.landing-page .near-me-sidebar-tab.open {
-  left: max(300px, 20vw);
-}
+/* Landing page: keep all fixed UI (near-me btn, panel, search btn) in their
+   normal fixed positions — they're designed to work with a fixed map but also
+   work fine floating over a scrollable page. No overrides needed. */
 
 /* ===== Pizza slice marker ===== */
 .pizza-marker-wrap {

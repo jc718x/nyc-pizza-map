@@ -1263,6 +1263,38 @@ if (exploreMapBtn) {
   });
 }
 
+// ===== Hero mini-map (fallback when pizza-chef-hero.png is missing) =====
+// Only initializes on desktop after the main map has loaded its data.
+function initHeroMiniMap() {
+  const el = document.getElementById('heroMapPreview');
+  if (!el || window.innerWidth < 901) return;
+  const miniMap = new maplibregl.Map({
+    container: 'heroMapPreview',
+    style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+    center: [-73.98, 40.73],
+    zoom: 11,
+    interactive: false,
+    attributionControl: false,
+  });
+  miniMap.on('load', () => {
+    // Add a few representative markers
+    const spots = [
+      [-74.0022, 40.7307], [-74.0004, 40.6818], [-73.9916, 40.7638],
+      [-73.9571, 40.7081], [-73.9440, 40.6582], [-73.8448, 40.7196],
+    ];
+    spots.forEach(([lng, lat]) => {
+      const el = document.createElement('div');
+      el.innerHTML = `<svg viewBox="0 0 100 100" width="18" height="18"><circle cx="50" cy="46" r="42" fill="#DC2225" stroke="white" stroke-width="4"/><path d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="white"/></svg>`;
+      new maplibregl.Marker({ element: el, anchor: 'bottom' }).setLngLat([lng, lat]).addTo(miniMap);
+    });
+  });
+}
+
+map.on('load', () => {
+  // Small delay so the hero art onerror has time to fire
+  setTimeout(initHeroMiniMap, 500);
+});
+
 // ===== Floating sidebar tab (desktop only) =====
 // The tab is the sole way to open/close the sidebar on desktop —
 // no blank rail, no in-panel toggle button. Only shown on wide screens;
