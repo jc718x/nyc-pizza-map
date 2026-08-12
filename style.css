@@ -566,15 +566,13 @@ body.landing-page {
 .hero {
   background: var(--color-parchment);
   padding: calc(var(--topbar-h) + 16px) 0 48px;
-  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1),
-              padding 0.5s cubic-bezier(0.4,0,0.2,1),
-              opacity 0.35s ease;
+  transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1),
+              padding 0.45s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.3s ease;
   overflow: hidden;
   max-height: 900px;
   opacity: 1;
 }
-/* Hero rolls upward by collapsing height — combined with fixed map-section
-   expanding to fill the viewport, this creates the "rolling up" effect */
 .hero.collapsed {
   max-height: 0 !important;
   padding-top: 0 !important;
@@ -582,9 +580,8 @@ body.landing-page {
   opacity: 0;
   pointer-events: none;
 }
-/* Map section expands to fill full screen when hero is collapsed */
 .map-section {
-  transition: height 0.5s cubic-bezier(0.4,0,0.2,1);
+  transition: height 0.45s cubic-bezier(0.4,0,0.2,1);
 }
 body.map-expanded .map-section {
   position: fixed !important;
@@ -596,7 +593,6 @@ body.map-expanded .map-section {
   min-height: 0 !important;
   z-index: 2;
 }
-/* "Return to home" button appears when map is expanded */
 /* restore button removed */
 .hero-inner {
   max-width: 1200px;
@@ -1117,6 +1113,16 @@ body.landing-page #map {
 .pizza-marker-wrap.selected .slice-fill {
   fill: var(--color-cheese);
   transition: fill 0.15s ease;
+}
+/* One-shot spin when first selected — slice appears to spin inside
+   the red circle, landing on the persistent 1.12× selected scale */
+@keyframes pizzaSelectSpin {
+  0%   { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  60%  { transform: translate(-50%, -50%) scale(1.18) rotate(340deg); }
+  100% { transform: translate(-50%, -50%) scale(1.12) rotate(360deg); }
+}
+.pizza-marker-wrap.selected-spin .pizza-pin {
+  animation: pizzaSelectSpin 0.55s cubic-bezier(0.34, 1.2, 0.64, 1) both;
 }
 
 .pin-label {

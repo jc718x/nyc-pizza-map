@@ -309,16 +309,20 @@ map.on('load', async () => {
   // marker without adding a glow, pulse, or motion effect.
   function setSelectedPizzeria(name) {
     if (selectedPizzeriaName && pizzaMarkerEls[selectedPizzeriaName]) {
-      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected');
+      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected', 'selected-spin');
     }
     selectedPizzeriaName = name;
     const el = name && pizzaMarkerEls[name];
-    if (el) el.classList.add('selected');
+    if (el) {
+      el.classList.add('selected', 'selected-spin');
+      // Remove the spin class after the animation so it can replay next tap
+      el.addEventListener('animationend', () => el.classList.remove('selected-spin'), { once: true });
+    }
   }
 
   function clearSelectedPizzeria() {
     if (selectedPizzeriaName && pizzaMarkerEls[selectedPizzeriaName]) {
-      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected');
+      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected', 'selected-spin');
     }
     selectedPizzeriaName = null;
   }
@@ -1320,10 +1324,15 @@ let suppressSearchThisArea = false;
 function expandMap() {
   if (!heroExpanded) return;
   heroExpanded = false;
+  // Step 1: collapse the hero (max-height animates over 450ms)
   if (heroSection) heroSection.classList.add('collapsed');
-  document.body.classList.add('map-expanded');
-  if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
-  if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
+  // Step 2: after hero finishes rolling up, snap map to fullscreen
+  // and reveal map UI — doing both at once made the collapse look instant
+  setTimeout(() => {
+    document.body.classList.add('map-expanded');
+    if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
+    if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
+  }, 460);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
