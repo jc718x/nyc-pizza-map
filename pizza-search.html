@@ -111,17 +111,18 @@
     align-items: center;
     gap: 6px;
     padding: 0 12px;
-    height: 32px;
+    height: 26px;
     border-radius: 20px;
     border: 1.5px solid var(--pz-green);
     background: var(--pz-parchment);
     color: var(--pz-green);
     font-family: var(--font-mono);
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     cursor: pointer;
+    margin: 8px 0 0;
     transition: background 0.15s ease, color 0.15s ease;
   }
   .ps-near-me-btn:hover, .ps-near-me-btn.active {
@@ -133,17 +134,18 @@
     align-items: center;
     gap: 6px;
     padding: 0 12px;
-    height: 32px;
+    height: 26px;
     border-radius: 20px;
     border: 1.5px solid var(--pz-green);
     background: var(--pz-parchment);
     color: var(--pz-green);
     font-family: var(--font-mono);
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     cursor: pointer;
+    margin: 8px 0 0;
     transition: background 0.15s ease, color 0.15s ease;
   }
   .ps-browse-toggle:hover,
@@ -480,17 +482,30 @@
 
 <main class="ps-wrap">
 
-  <!-- STATE A: Choosing a location (default) -->
+  <!-- Headline — visible in both states via psStateChoose -->
   <div id="psStateChoose">
     <p class="page-kicker">Find Pizza</p>
     <h2>Find pizza anywhere in NYC.</h2>
+  </div>
 
-    <div class="ps-search-row">
-      <span class="ps-search-icon">🔍</span>
-      <input type="text" id="pageSearchInput" placeholder="Search pizzerias or destinations…" autocomplete="off" />
-      <div class="ps-search-dropdown" id="pageSearchDropdown" hidden></div>
+  <!-- STATE B active bar — replaces the h2 area -->
+  <div id="psStateActive" hidden>
+    <div class="ps-active-bar">
+      <span class="ps-active-icon">📍</span>
+      <span class="ps-active-label" id="psActiveLabel">Current Location</span>
+      <button class="ps-active-change" id="psChangeBtn">Change</button>
     </div>
+  </div>
 
+  <!-- Search row — always visible in both states -->
+  <div class="ps-search-row">
+    <span class="ps-search-icon">🔍</span>
+    <input type="text" id="pageSearchInput" placeholder="Search pizzerias or destinations…" autocomplete="off" />
+    <div class="ps-search-dropdown" id="pageSearchDropdown" hidden></div>
+  </div>
+
+  <!-- Location button + chips — only in state A -->
+  <div id="psStateChooseActions">
     <div class="ps-actions-row">
       <button class="ps-near-me-btn" id="pageNearMeBtn">
         <svg viewBox="0 0 24 24" width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -500,12 +515,7 @@
         </svg>
         <span>Use Current Location</span>
       </button>
-      <button class="ps-browse-toggle" id="browseToggle" aria-expanded="false" aria-controls="browsePanel">
-        <span>Browse NYC</span>
-        <span class="ps-browse-caret">▾</span>
-      </button>
     </div>
-    <div class="ps-browse-panel" id="browsePanel" hidden></div>
 
     <div class="ps-chips" id="popularChips" hidden>
       <button class="ps-chip" data-name="Times Square">Times Square</button>
@@ -516,14 +526,12 @@
     </div>
   </div>
 
-  <!-- STATE B: Location chosen — compact active bar -->
-  <div id="psStateActive" hidden>
-    <div class="ps-active-bar">
-      <span class="ps-active-icon">📍</span>
-      <span class="ps-active-label" id="psActiveLabel">Current Location</span>
-      <button class="ps-active-change" id="psChangeBtn">Change</button>
-    </div>
-  </div>
+  <!-- Browse NYC — always visible in both states -->
+  <button class="ps-browse-toggle" id="browseToggle" aria-expanded="false" aria-controls="browsePanel">
+    <span>Browse NYC</span>
+    <span class="ps-browse-caret">▾</span>
+  </button>
+  <div class="ps-browse-panel" id="browsePanel" hidden></div>
 
   <div class="ps-results-header">
     <p class="ps-results-title" id="resultsTitle">Essential NYC Pizza</p>
@@ -652,16 +660,15 @@ function render() {
 
 // ===== State switching =====
 const stateChoose = document.getElementById('psStateChoose');
+const stateChooseActions = document.getElementById('psStateChooseActions');
 const stateActive = document.getElementById('psStateActive');
 const activeLabel = document.getElementById('psActiveLabel');
 
 function enterActiveState(label) {
   stateChoose.hidden = true;
+  if (stateChooseActions) stateChooseActions.hidden = true;
   stateActive.hidden = false;
   activeLabel.textContent = label;
-  // Collapse browse panel if open
-  document.getElementById('browsePanel').hidden = true;
-  document.getElementById('browseToggle').setAttribute('aria-expanded', 'false');
   document.getElementById('popularChips').hidden = true;
   document.getElementById('pageSearchDropdown').hidden = true;
 }
@@ -669,7 +676,7 @@ function enterActiveState(label) {
 function enterChooseState() {
   stateActive.hidden = true;
   stateChoose.hidden = false;
-  // Reset
+  if (stateChooseActions) stateChooseActions.hidden = false;
   modeAnchor = null;
   userLoc = null;
   document.getElementById('pageNearMeBtn').classList.remove('active');

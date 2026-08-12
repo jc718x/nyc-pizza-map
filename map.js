@@ -15,6 +15,34 @@ const BOROUGH_COLORS = {
 const _initParams = new URLSearchParams(window.location.search);
 const _initPin = _initParams.get('pin');
 
+// ===== Session state: restore where the user left off =====
+// Saved to sessionStorage on every move/zoom — restored when returning to the
+// map without a specific ?pin= or ?lat= destination. Cleared when the browser
+// session ends, so stale state from days ago never comes back.
+const SESSION_KEY = 'nycpm_mapstate';
+let suppressSearchThisArea = false; // declared here — used inside near-me click callback
+
+function saveMapState() {
+  const c = map.getCenter();
+  const state = {
+    lng: c.lng,
+    lat: c.lat,
+    zoom: map.getZoom(),
+    panelAnchor: window.panelAnchor || null,
+    lastBuildOpts: window.lastBuildOpts || null,
+    lastListHeading: window.lastListHeading || null,
+    panelCollapsed: document.getElementById('nearMePanel')?.classList.contains('collapsed'),
+  };
+  try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function getSavedState() {
+  try { return JSON.parse(sessionStorage.getItem(SESSION_KEY)); } catch(e) { return null; }
+}
+
+// Restore saved state: start map at last center/zoom instead of default NYC view
+const _savedState = (!_initPin && !_initParams.get('lat')) ? getSavedState() : null;
+
 // Populated once data.json loads (see map.on('load') below) — lets code
 // outside that closure (like the search feature) access pizzeria data.
 window.pizzaGeojsonFeatures = [];
@@ -38,13 +66,17 @@ const map = new maplibregl.Map({
     },
     layers: [{ id: 'carto-voyager', type: 'raster', source: 'carto-voyager' }]
   },
-  center: [-73.96, 40.72],
-  zoom: _initPin ? 16 : 10.4,
+  center: _savedState ? [_savedState.lng, _savedState.lat] : [-73.96, 40.72],
+  zoom: _initPin ? 16 : (_savedState ? _savedState.zoom : 10.4),
   minZoom: 9,
   maxZoom: 18
 });
 
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+
+// Save map position on every move/zoom — rate-limited to avoid thrashing storage
+map.on('moveend', saveMapState);
+map.on('zoomend', saveMapState);
 
 // ===== Zoom-responsive marker sizing =====
 // Shrinks pizza pins when zoomed out so 190+ markers don't overwhelm the city view
@@ -262,9 +294,6 @@ map.on('load', async () => {
   const res = await fetch('data.json');
   const geojson = await res.json();
   window.pizzaGeojsonFeatures = geojson.features;
-
-  const countEl = document.getElementById('entryCount');
-  if (countEl) countEl.textContent = geojson.features.length;
 
   const labelDirections = computeLabelDirections(geojson.features);
 
@@ -671,12 +700,12 @@ map.on('load', async () => {
             <span class="near-me-item-meta">${metaText}</span>
           </div>`;
         }).join('') +
-        (isPeek ? `<div class="near-me-view-all" id="nearMeViewAll">View all ${results.length} →</div>` : '')
+        (isPeek ? `<div class="near-me-view-all">View all ${results.length} →</div>` : '')
       : `<p class="near-me-empty-hint">Try zooming out, panning somewhere else, or searching a different spot.</p>`;
 
     // "View all" expands to the full list in-place
     if (isPeek) {
-      const viewAll = document.getElementById('nearMeViewAll');
+      const viewAll = list.querySelector('.near-me-view-all');
       if (viewAll) {
         viewAll.addEventListener('click', () => {
           window.buildResultsPanel({ ...opts, peek: false, collapsed: false });
@@ -708,7 +737,9 @@ map.on('load', async () => {
   // since those don't depend on this closure, but window.buildResultsPanel
   // didn't exist yet, so the list-building call silently no-op'd and the
   // panel stayed stuck on the idle "Where are we getting pizza?" message.
-  if (navigator.permissions && navigator.geolocation) {
+  // Auto-locate on return visit — only when NOT arriving via a specific
+  // ?pin= or ?lat= destination (those take priority over the user's saved location)
+  if (navigator.permissions && navigator.geolocation && !_initPin && !_initParams.get('lat')) {
     navigator.permissions.query({ name: 'geolocation' }).then(status => {
       if (status.state === 'granted') {
         navigator.geolocation.getCurrentPosition(
@@ -986,7 +1017,7 @@ map.on('load', async () => {
     );
     if (match) {
       // Small delay so map-expanded has time to apply before the sheet opens
-      setTimeout(() => showPizzeriaInSheet(match), 100);
+      setTimeout(() => showPizzeriaInSheet(match), 600); // wait for expandMap's 460ms to complete
     }
   }
 
@@ -1006,6 +1037,35 @@ map.on('load', async () => {
       }, 1150);
     }
   }
+
+  // ===== Restore saved session state (panel/results) =====
+  // Only when not arriving via ?pin= or ?lat= (those take priority).
+  // Map center/zoom already restored via the _savedState init above.
+  if (_savedState && !_initPin && !params.get('lat')) {
+    if (_savedState.lastBuildOpts && window.buildResultsPanel && _savedState.panelAnchor) {
+      // Only restore the panel if the anchor (where the search was centered) is
+      // close to the saved map center — prevents 'Pizza Near Times Square' showing
+      // while the map is restored to a completely different area.
+      const R = 6371000;
+      const dlat = (_savedState.panelAnchor.lat - _savedState.lat) * Math.PI / 180;
+      const dlng = (_savedState.panelAnchor.lng - _savedState.lng) * Math.PI / 180;
+      const a = Math.sin(dlat/2)**2 + Math.cos(_savedState.panelAnchor.lat * Math.PI/180) *
+                Math.cos(_savedState.lat * Math.PI/180) * Math.sin(dlng/2)**2;
+      const anchorDistFromCenter = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+      if (anchorDistFromCenter < 3000) { // within 3km — panel is still relevant
+        window.panelAnchor = _savedState.panelAnchor;
+        window.lastListHeading = _savedState.lastListHeading;
+        window.buildResultsPanel({
+          ..._savedState.lastBuildOpts,
+          collapsed: true, // always restore collapsed — don't cover the map
+          peek: false,
+        });
+      }
+    }
+    window.lastBuildOpts = _savedState.lastBuildOpts;
+    window.lastListHeading = _savedState.lastListHeading;
+  }
 });
 
 // ===== Near Me button =====
@@ -1024,6 +1084,10 @@ function activateNearMeOnMap(latitude, longitude, opts) {
 
   // Fly to user location at zoom 14
   map.flyTo({ center: [longitude, latitude], zoom: 14, duration: 1000 });
+
+  // Deliberately starting a new location search — clear saved state so
+  // this becomes the new baseline rather than restoring the old one.
+  try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
 
   window.userActualLocation = { lat: latitude, lng: longitude };
 
@@ -1318,7 +1382,6 @@ const nearMeBtnEl = document.getElementById('nearMeBtn');
 const sidebarTabEl = document.getElementById('sidebarTab');
 
 let heroExpanded = true;
-let suppressSearchThisArea = false;
 
 function expandMap() {
   // Already expanded (e.g. arrived via #map hash) — just ensure UI is visible
