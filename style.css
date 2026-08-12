@@ -877,6 +877,34 @@ body.landing-page #map {
   right: 0 !important;
 }
 
+/* On the landing page, the near-me button and panel are inside
+   .map-section so they position within that section, not the viewport */
+body.landing-page .near-me-btn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 5;
+}
+body.landing-page .near-me-panel {
+  top: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+body.landing-page .near-me-sidebar-tab {
+  position: absolute;
+  top: 50%;
+}
+body.landing-page .search-this-area-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+}
+/* Sidebar tab open position on landing page */
+body.landing-page .near-me-sidebar-tab.open {
+  left: max(300px, 20vw);
+}
+
 /* ===== Pizza slice marker ===== */
 .pizza-marker-wrap {
   position: relative;
