@@ -1346,6 +1346,9 @@ function exitDetailMode() {
 // reset somehow — quietly build one from the current map view first, so
 // "back" always has somewhere real to return to instead of an empty list.
 function ensureListBacking() {
+  // Skip when arriving via ?pin= — the pin itself will be the context,
+  // building an area list first just flashes unrelated results before the card
+  if (_initPin) return;
   const panel = document.getElementById('nearMePanel');
   if (panel && (panel.hidden || !window.panelAnchor) && window.buildResultsPanel) {
     window.buildResultsPanel({ mode: 'area' });
