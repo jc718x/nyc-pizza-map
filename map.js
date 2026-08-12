@@ -1586,9 +1586,11 @@ function showSearchThisAreaBtn() {
 }
 
 let panDetectTimer = null;
-map.on('move', () => {
-  // User moving after Locate → lift suppression
-  if (suppressSearchThisArea) suppressSearchThisArea = false;
+map.on('move', (e) => {
+  // Only lift suppression on genuine user gestures — flyTo/jumpTo also
+  // fire 'move' but have no originalEvent, so they'd incorrectly clear
+  // the suppression before the user has actually moved the map.
+  if (suppressSearchThisArea && e.originalEvent) suppressSearchThisArea = false;
 
   clearTimeout(panDetectTimer);
   panDetectTimer = setTimeout(() => {

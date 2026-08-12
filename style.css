@@ -565,7 +565,7 @@ body.landing-page {
 /* ===== Hero ===== */
 .hero {
   background: var(--color-parchment);
-  padding: calc(var(--topbar-h) + 16px) 0 48px;
+  padding: calc(var(--topbar-h) + 8px) 0 20px;
   transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1),
               padding 0.45s cubic-bezier(0.4,0,0.2,1),
               opacity 0.3s ease;
@@ -602,14 +602,14 @@ body.map-expanded .map-section {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 32px;
-  min-height: 340px;
+  min-height: 0;
 }
 .hero-headline {
   font-family: 'Abril Fatface', serif;
-  font-size: 3.2rem;
+  font-size: 2.6rem;
   line-height: 1.05;
   color: var(--color-crust);
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   font-weight: 400;
 }
 .hero-headline-red { color: var(--color-sauce); }
@@ -618,7 +618,7 @@ body.map-expanded .map-section {
   font-size: 1rem;
   line-height: 1.55;
   color: var(--color-char);
-  margin: 0 0 28px;
+  margin: 0 0 20px;
   max-width: 420px;
 }
 .hero-cta-group {
@@ -691,8 +691,9 @@ body.map-expanded .map-section {
   overflow: hidden;
 }
 .hero-art-img {
-  width: 100%;
-  max-width: 560px;
+  width: auto;
+  max-width: 100%;
+  max-height: 320px;
   height: auto;
   object-fit: contain;
   display: block;
