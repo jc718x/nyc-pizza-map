@@ -1080,6 +1080,10 @@ function setNearMePanelCollapsed(collapsed) {
   const panel = document.getElementById('nearMePanel');
   if (!panel) return;
   panel.classList.toggle('collapsed', collapsed);
+  // On desktop, shift the Near Me button: hug the slim 48px tab when
+  // collapsed, move out to clear the full sidebar width when expanded.
+  const btn = document.getElementById('nearMeBtn');
+  if (btn) btn.classList.toggle('sidebar-collapsed', collapsed);
 }
 
 function currentPanelMode() {

@@ -1435,7 +1435,7 @@ button:focus-visible {
   position: fixed;
   z-index: 4;
   background: var(--color-parchment-panel);
-  transition: max-height 0.25s ease, width 0.25s ease;
+  transition: max-height 0.25s ease, width 0.25s ease, min-width 0.25s ease;
   bottom: 0;
   left: 0;
   right: 0;
@@ -1685,37 +1685,43 @@ button:focus-visible {
     padding: 6px 18px 18px;
   }
 
-  /* Collapsing now behaves like mobile: the header stays put as a
-     persistent one-line strip ("N Pizzerias Near You" + arrow), always
-     visible whether the list/detail content underneath is expanded or
-     not — rather than the sidebar disappearing entirely behind a
-     separate floating reopen button. Only max-height ever changes here
-     (top/bottom/height stay fixed) so the transition is smooth instead
-     of snapping — bottom isn't a transitioned property, and toggling it
-     directly was causing a visible jump during the animation. */
+  /* Collapsed desktop = a slim vertical tab on the left edge.
+     Width collapses (not height), so it reads as a sidebar tab
+     rather than a horizontal bar across the top of the map. */
   .near-me-panel.collapsed {
-    max-height: 58px !important;
-    right: auto !important;
-    width: 20vw !important;
-    min-width: 300px !important;
+    width: 48px !important;
+    min-width: 0 !important;
+    max-height: calc(100vh - var(--topbar-h)) !important;
+    overflow: hidden !important;
+  }
+  /* Hide text in the collapsed tab — only the arrow shows */
+  .near-me-panel.collapsed .near-me-panel-title,
+  .near-me-panel.collapsed .near-me-panel-back { display: none; }
+  .near-me-panel.collapsed .near-me-panel-leftzone { flex: 0; min-width: 0; padding: 0; }
+  .near-me-panel.collapsed .near-me-panel-header {
+    padding: 0;
+    justify-content: center;
+  }
+  .near-me-panel.collapsed .near-me-panel-rightzone {
+    width: 48px;
+    height: 48px;
+    border-radius: 0;
   }
 
-  /* Same interaction as mobile (permanent 1-line bar, tap to roll out,
-     tap the arrow to roll back in) — just rotated 90° since this sidebar
-     opens horizontally, not vertically. Collapsed → (roll out to the
-     right); expanded ← (roll back in to the left edge it's docked on). */
-  .near-me-panel-arrow { transform: rotate(90deg); }
-  .near-me-panel:not(.collapsed) .near-me-panel-arrow { transform: rotate(-90deg); }
+  /* Arrow: → when collapsed (click to open), ← when expanded (click to close) */
+  .near-me-panel-arrow { transform: rotate(0deg); }
+  .near-me-panel.collapsed .near-me-panel-arrow { transform: rotate(0deg); }
+  .near-me-panel:not(.collapsed) .near-me-panel-arrow { transform: rotate(180deg); }
 
-  /* Keep the Near Me button clear of the sidebar's column at all times —
-     the header strip now occupies that space even when "collapsed" */
+  /* Near Me button: positioned clear of the open sidebar by default.
+     JS updates this when collapsed (see setNearMePanelCollapsed). */
   .near-me-btn {
     left: max(316px, calc(20vw + 16px));
+    transition: left 0.25s ease;
   }
+  .near-me-btn.sidebar-collapsed { left: 64px; }
 
-  .near-me-reopen-tab {
-    display: none !important;
-  }
+  .near-me-reopen-tab { display: none !important; }
 }
 
 /* ===== "Search This Area" floating button ===== */
