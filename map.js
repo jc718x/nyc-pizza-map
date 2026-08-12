@@ -979,11 +979,14 @@ map.on('load', async () => {
   const params = new URLSearchParams(window.location.search);
   const pinName = params.get('pin');
   if (pinName) {
+    // Always expand to map mode when arriving via ?pin= link
+    expandMap();
     const match = geojson.features.find(
       f => f.properties.name.toLowerCase() === pinName.toLowerCase()
     );
     if (match) {
-      showPizzeriaInSheet(match);
+      // Small delay so map-expanded has time to apply before the sheet opens
+      setTimeout(() => showPizzeriaInSheet(match), 100);
     }
   }
 
@@ -1318,27 +1321,29 @@ let heroExpanded = true;
 let suppressSearchThisArea = false;
 
 function expandMap() {
-  if (!heroExpanded) return;
+  // Already expanded (e.g. arrived via #map hash) — just ensure UI is visible
+  if (!heroExpanded) {
+    if (!document.body.classList.contains('map-expanded')) {
+      document.body.classList.add('map-expanded');
+    }
+    if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
+    if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
+    return;
+  }
   heroExpanded = false;
 
-  // Force scroll to top instantly (no smooth) before any animation —
-  // smooth scroll + collapsing height create competing reflows and a jump
+  // Force scroll to top instantly before animation
   window.scrollTo(0, 0);
 
-  // Add map-expanded first so the map section goes fixed immediately,
-  // filling the space the hero will vacate — this prevents the beige
-  // body background from showing through during the collapse animation
+  // Map section goes fixed first, then hero collapses behind it
   document.body.classList.add('map-expanded');
 
-  // Tiny rAF delay so the browser has painted the fixed map section
-  // before we start collapsing the hero — eliminates the visual jump
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       if (heroSection) heroSection.classList.add('collapsed');
     });
   });
 
-  // Reveal map UI after hero animation completes
   setTimeout(() => {
     if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
     if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
@@ -1397,17 +1402,14 @@ document.querySelectorAll('a[href="index.html"], a[href="#map-section"], a[href=
   });
 });
 
-// If landed here via #map hash (from clicking "Map" in nav on another page),
-// auto-expand to map mode immediately — no hero needed.
+// If landed here via #map hash (from any other page — nav "Map" link,
+// pizzeria card link, destination link), expand to map immediately.
 // The preload-map class on <html> already hid the hero before first paint.
 if (window.location.hash === '#map') {
   history.replaceState(null, '', window.location.pathname + window.location.search);
   document.documentElement.classList.remove('preload-map');
-  // Mark as already expanded without running the animation
   heroExpanded = false;
-  if (heroSection) {
-    heroSection.style.display = 'none'; // keep hidden, no transition needed
-  }
+  if (heroSection) heroSection.style.display = 'none';
   document.body.classList.add('map-expanded');
   if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
   if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }

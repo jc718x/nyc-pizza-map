@@ -321,6 +321,44 @@
   .ps-entry-links a { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; color: var(--pz-accent); text-decoration: none; text-transform: uppercase; letter-spacing: 0.03em; }
   .ps-entry-links a:hover { text-decoration: underline; }
   .ps-empty { color: rgba(36,26,16,0.5); font-size: 0.9rem; padding: 20px 0; text-align: center; }
+
+  /* ===== Two-state transitions ===== */
+  #psStateChoose, #psStateActive { transition: opacity 0.2s ease; }
+  #psStateChoose[hidden], #psStateActive[hidden] { display: none; }
+
+  /* ===== Active location bar ===== */
+  .ps-active-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0 14px;
+    border-bottom: 1px solid rgba(36,26,16,0.1);
+    margin-bottom: 4px;
+  }
+  .ps-active-icon { font-size: 1rem; flex-shrink: 0; }
+  .ps-active-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--pz-green);
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .ps-active-change {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--pz-accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+  .ps-active-change:hover { text-decoration: underline; }
 </style>
 </head>
 <body class="content-page">
@@ -442,41 +480,49 @@
 
 <main class="ps-wrap">
 
-  <p class="page-kicker">Find Pizza</p>
-  <h2>Find pizza anywhere in NYC.</h2>
+  <!-- STATE A: Choosing a location (default) -->
+  <div id="psStateChoose">
+    <p class="page-kicker">Find Pizza</p>
+    <h2>Find pizza anywhere in NYC.</h2>
 
-  <!-- Search input — no white card wrapper -->
-  <div class="ps-search-row">
-    <span class="ps-search-icon">🔍</span>
-    <input type="text" id="pageSearchInput" placeholder="Search pizzerias or destinations…" autocomplete="off" />
-    <!-- Popular destinations appear here when input is focused -->
-    <div class="ps-search-dropdown" id="pageSearchDropdown" hidden></div>
+    <div class="ps-search-row">
+      <span class="ps-search-icon">🔍</span>
+      <input type="text" id="pageSearchInput" placeholder="Search pizzerias or destinations…" autocomplete="off" />
+      <div class="ps-search-dropdown" id="pageSearchDropdown" hidden></div>
+    </div>
+
+    <div class="ps-actions-row">
+      <button class="ps-near-me-btn" id="pageNearMeBtn">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="3" fill="currentColor"/>
+          <path d="M12 2v3M12 19v3M22 12h-3M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span>Use Current Location</span>
+      </button>
+      <button class="ps-browse-toggle" id="browseToggle" aria-expanded="false" aria-controls="browsePanel">
+        <span>Browse NYC</span>
+        <span class="ps-browse-caret">▾</span>
+      </button>
+    </div>
+    <div class="ps-browse-panel" id="browsePanel" hidden></div>
+
+    <div class="ps-chips" id="popularChips" hidden>
+      <button class="ps-chip" data-name="Times Square">Times Square</button>
+      <button class="ps-chip" data-name="Central Park">Central Park</button>
+      <button class="ps-chip" data-name="Brooklyn Bridge">Brooklyn Bridge</button>
+      <button class="ps-chip" data-name="The Metropolitan Museum of Art">The Met</button>
+      <button class="ps-chip" data-name="Williamsburg">Williamsburg</button>
+    </div>
   </div>
 
-  <!-- Two actions only: location + browse -->
-  <div class="ps-actions-row">
-    <button class="ps-near-me-btn" id="pageNearMeBtn">
-      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="3" fill="currentColor"/>
-        <path d="M12 2v3M12 19v3M22 12h-3M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"/>
-      </svg>
-      <span>Use Current Location</span>
-    </button>
-    <button class="ps-browse-toggle" id="browseToggle" aria-expanded="false" aria-controls="browsePanel">
-      <span>Browse NYC</span>
-      <span class="ps-browse-caret">▾</span>
-    </button>
-  </div>
-  <div class="ps-browse-panel" id="browsePanel" hidden></div>
-
-  <!-- Hidden chips — populated dynamically when search focused -->
-  <div class="ps-chips" id="popularChips" hidden>
-    <button class="ps-chip" data-name="Times Square">Times Square</button>
-    <button class="ps-chip" data-name="Central Park">Central Park</button>
-    <button class="ps-chip" data-name="Brooklyn Bridge">Brooklyn Bridge</button>
-    <button class="ps-chip" data-name="The Metropolitan Museum of Art">The Met</button>
-    <button class="ps-chip" data-name="Williamsburg">Williamsburg</button>
+  <!-- STATE B: Location chosen — compact active bar -->
+  <div id="psStateActive" hidden>
+    <div class="ps-active-bar">
+      <span class="ps-active-icon">📍</span>
+      <span class="ps-active-label" id="psActiveLabel">Current Location</span>
+      <button class="ps-active-change" id="psChangeBtn">Change</button>
+    </div>
   </div>
 
   <div class="ps-results-header">
@@ -511,7 +557,7 @@ function walkMins(m) {
 
 function buildEntryHTML(p) {
   const col = BOROUGH_COLORS[p.borough] || '#DC2225';
-  const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}`;
+  const mapUrl = `index.html?pin=${encodeURIComponent(p.name)}#map`;
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
   const distLabel = p.d !== undefined ? walkMins(p.d) : '';
   return `
@@ -603,6 +649,35 @@ function render() {
     : '<p class="ps-empty">No pizzerias found — try a different search.</p>';
 }
 
+// ===== State switching =====
+const stateChoose = document.getElementById('psStateChoose');
+const stateActive = document.getElementById('psStateActive');
+const activeLabel = document.getElementById('psActiveLabel');
+
+function enterActiveState(label) {
+  stateChoose.hidden = true;
+  stateActive.hidden = false;
+  activeLabel.textContent = label;
+  // Collapse browse panel if open
+  document.getElementById('browsePanel').hidden = true;
+  document.getElementById('browseToggle').setAttribute('aria-expanded', 'false');
+  document.getElementById('popularChips').hidden = true;
+  document.getElementById('pageSearchDropdown').hidden = true;
+}
+
+function enterChooseState() {
+  stateActive.hidden = true;
+  stateChoose.hidden = false;
+  // Reset
+  modeAnchor = null;
+  userLoc = null;
+  document.getElementById('pageNearMeBtn').classList.remove('active');
+  document.getElementById('pageSearchInput').value = '';
+  render();
+}
+
+document.getElementById('psChangeBtn').addEventListener('click', enterChooseState);
+
 fetch('data.json')
   .then(r => r.json())
   .then(geojson => {
@@ -626,7 +701,7 @@ function doNearMe() {
     document.getElementById('pageNearMeBtn').classList.add('active');
     document.getElementById('pageSearchInput').value = '';
     render();
-    // No auto-scroll — user stays where they are
+    enterActiveState('Current Location');
   }, () => {}, { timeout: 8000, maximumAge: 60000 });
 }
 
@@ -636,13 +711,7 @@ document.getElementById('pageNearMeBtn').addEventListener('click', () => {
 });
 
 // ===== Clear =====
-document.getElementById('clearModeBtn').addEventListener('click', () => {
-  modeAnchor = null;
-  userLoc = null;
-  document.getElementById('pageNearMeBtn').classList.remove('active');
-  document.getElementById('pageSearchInput').value = '';
-  render();
-});
+document.getElementById('clearModeBtn').addEventListener('click', enterChooseState);
 
 // ===== Destination lookup =====
 function lookupDestination(name) {
@@ -658,9 +727,8 @@ function goToDestination(name) {
   document.getElementById('pageNearMeBtn').classList.remove('active');
   document.getElementById('pageSearchInput').value = d.name;
   closeDropdown();
-  document.getElementById('popularChips').hidden = true;
   render();
-  // No auto-scroll
+  enterActiveState(d.name);
 }
 
 // ===== Search input =====
@@ -718,7 +786,7 @@ dropdown.addEventListener('click', e => {
   const btn = e.target.closest('.ps-dropdown-chip');
   if (!btn) return;
   if (btn.dataset.type === 'pizzeria') {
-    window.location.href = `index.html?pin=${encodeURIComponent(btn.dataset.name)}`;
+    window.location.href = `index.html?pin=${encodeURIComponent(btn.dataset.name)}#map`;
   } else {
     goToDestination(btn.dataset.name);
   }
