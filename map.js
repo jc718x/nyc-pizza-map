@@ -1174,12 +1174,14 @@ function enterDetailMode(html) {
   panel.dataset.mode = 'detail';
   setNearMePanelCollapsed(false); // always show the card, never land collapsed
   if (nearMePanelLeftZone) nearMePanelLeftZone.setAttribute('aria-label', 'Back to pizzeria list');
-  // "Back to N Pizzerias" — N from whatever list is actually backing this
-  // detail view, so it's always accurate even if entered via a fresh
-  // ensureListBacking() build rather than an existing visible list.
+  // Reuse the list's actual heading rather than a generic "Back to N
+  // Pizzerias" — that already has the right mode-specific phrasing
+  // ("Near You", "in This Area", "Near Madison Square Garden", "in
+  // Williamsburg"...), so just insert "Back to" right after the emoji
+  // rather than rebuilding a separate, context-free string.
   if (title) {
-    const n = typeof window.lastListResultCount === 'number' ? window.lastListResultCount : 0;
-    title.textContent = `🍕 Back to ${n} ${pizzaWord(n)}`;
+    const base = window.lastListHeading || '🍕 Where are we getting pizza?';
+    title.textContent = base.startsWith('🍕 ') ? base.replace('🍕 ', '🍕 Back to ') : base;
   }
   requestAnimationFrame(() => fitNameToOneLine(nearMePanelDetail.querySelector('.ticket-name')));
 }
