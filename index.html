@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <!-- Runs before first paint: if arriving via #map hash, mark body immediately
      so the hero never renders/flashes before JS collapses it -->
-<script>if(location.hash==='#map'){document.documentElement.classList.add('preload-map');}</script>
+<script>if(location.hash==='#map'){document.documentElement.classList.add('preload-map');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('map-expanded');});}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NYC Pizza Map — Best Pizzerias in New York City</title>
 <meta name="description" content="Discover the best pizzerias in all 5 boroughs of New York City. Curated by a Brooklyn native — from classic NY slices to Neapolitan, Sicilian, grandma pies, and bar pies." />
