@@ -1990,8 +1990,13 @@ button:focus-visible {
   flex-direction: column;
   max-height: 42vh;
 }
-/* Peek state — partial expansion after Find Pizza Near Me.
-   Shows ~3–5 results without covering too much of the map. */
+/* Pizzeria selected — sheet rises to give the place more prominence.
+   ~58vh leaves ~42% of map visible so the highlighted pin is still
+   clearly connected to the card below it. */
+.near-me-panel[data-mode="detail"] {
+  max-height: 58vh;
+}
+/* Peek state — partial expansion after Find Pizza Near Me. */
 .near-me-panel.peek {
   max-height: 36vh;
 }
@@ -2108,6 +2113,11 @@ button:focus-visible {
   padding: 0 14px 14px;
   max-height: 36vh;
   transition: max-height 0.25s ease, padding 0.25s ease;
+  flex: 1; /* fill available panel height when panel is taller */
+}
+/* In detail mode the panel is 58vh — let the content use all of it */
+.near-me-panel[data-mode="detail"] .near-me-panel-detail {
+  max-height: none;
 }
 .near-me-panel.collapsed .near-me-panel-detail {
   max-height: 0;

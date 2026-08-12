@@ -737,6 +737,15 @@ map.on('load', async () => {
   // since those don't depend on this closure, but window.buildResultsPanel
   // didn't exist yet, so the list-building call silently no-op'd and the
   // panel stayed stuck on the idle "Where are we getting pizza?" message.
+  // When arriving via ?pin=, clear any stale location state from the
+  // previous session so nothing can fly to the old location unexpectedly
+  if (_initPin) {
+    window.userActualLocation = null;
+    window.panelAnchor = null;
+    window.lastBuildOpts = null;
+    window.lastListHeading = null;
+  }
+
   // Auto-locate on return visit — only when NOT arriving via a specific
   // ?pin= or ?lat= destination (those take priority over the user's saved location)
   if (navigator.permissions && navigator.geolocation && !_initPin && !_initParams.get('lat')) {
@@ -1039,13 +1048,11 @@ map.on('load', async () => {
   }
 
   // ===== Restore saved session state (panel/results) =====
-  // Only when not arriving via ?pin= or ?lat= (those take priority).
-  // Map center/zoom already restored via the _savedState init above.
+  // Skip entirely when arriving via ?pin= or ?lat= — those destinations
+  // own the panel completely. Any session restore would flash stale results
+  // before the pin/destination handler fires.
   if (_savedState && !_initPin && !params.get('lat')) {
     if (_savedState.lastBuildOpts && window.buildResultsPanel && _savedState.panelAnchor) {
-      // Only restore the panel if the anchor (where the search was centered) is
-      // close to the saved map center — prevents 'Pizza Near Times Square' showing
-      // while the map is restored to a completely different area.
       const R = 6371000;
       const dlat = (_savedState.panelAnchor.lat - _savedState.lat) * Math.PI / 180;
       const dlng = (_savedState.panelAnchor.lng - _savedState.lng) * Math.PI / 180;
@@ -1053,16 +1060,17 @@ map.on('load', async () => {
                 Math.cos(_savedState.lat * Math.PI/180) * Math.sin(dlng/2)**2;
       const anchorDistFromCenter = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-      if (anchorDistFromCenter < 3000) { // within 3km — panel is still relevant
+      if (anchorDistFromCenter < 3000) {
         window.panelAnchor = _savedState.panelAnchor;
         window.lastListHeading = _savedState.lastListHeading;
         window.buildResultsPanel({
           ..._savedState.lastBuildOpts,
-          collapsed: true, // always restore collapsed — don't cover the map
+          collapsed: true,
           peek: false,
         });
       }
     }
+    // Only restore these caches when NOT arriving via pin
     window.lastBuildOpts = _savedState.lastBuildOpts;
     window.lastListHeading = _savedState.lastListHeading;
   }
