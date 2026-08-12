@@ -6512,6 +6512,138 @@
         "seating": "Indoor",
         "worth_a_trip": false
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85558639999999,
+          40.856507
+        ]
+      },
+      "properties": {
+        "name": "Original Joe’s Pizzeria",
+        "address": "2136 Williamsbridge Rd, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A neighborhood pizzeria serving classic NY-style pies.",
+        "website": "https://www.originaljoespizzeria.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.87572999999999,
+          40.8293305
+        ]
+      },
+      "properties": {
+        "name": "Yankee’s Pizza",
+        "address": "1599 Westchester Ave, Bronx, NY 10472",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A neighborhood pizzeria serving classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8655162,
+          40.6752842
+        ]
+      },
+      "properties": {
+        "name": "Original Brother’s Pizza",
+        "address": "640 Conduit Blvd, Brooklyn, NY 11208",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A neighborhood pizzeria serving classic NY-style pies.",
+        "website": "https://originalbrothers.pizza/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8838641,
+          40.747999
+        ]
+      },
+      "properties": {
+        "name": "Champion Pizza -Jackson Heights",
+        "address": "37-61 82nd St, Jackson Heights, NY 11372",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "The Jackson Heights outpost of Champion Pizza — Neapolitan pies in one of Queens' most vibrant and diverse neighborhoods.",
+        "website": "http://championpizzajacksonheights.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.830501,
+          40.700240900000004
+        ]
+      },
+      "properties": {
+        "name": "Ricky’s pizza",
+        "address": "119-11 Jamaica Ave, Richmond Hill, NY 11418",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A neighborhood pizzeria serving classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8140354,
+          40.7890126
+        ]
+      },
+      "properties": {
+        "name": "Freddy’s Pizza Whitestone",
+        "address": "12-66 150th St, Whitestone, NY 11357",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A neighborhood pizzeria serving classic NY-style pies.",
+        "website": "https://www.freddyspizzany.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
     }
   ]
 }

@@ -336,6 +336,51 @@ html, body {
   border-top: 1px solid rgba(36,26,16,0.07);
 }
 
+/* ===== Explore mega-menu (three-column layout) ===== */
+.nav-dropdown-menu--wide {
+  min-width: 540px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.nav-dropdown-cols {
+  display: flex;
+  gap: 0;
+}
+.nav-dropdown-col {
+  flex: 1;
+  border-right: 1px solid rgba(36,26,16,0.07);
+  padding-bottom: 8px;
+}
+.nav-dropdown-col:last-child { border-right: none; }
+.nav-dropdown-col .nav-dropdown-heading {
+  margin-top: 0;
+}
+.nav-dropdown-col a {
+  padding: 8px 16px;
+  font-size: 0.8rem;
+}
+.nav-dropdown-col a + a {
+  border-top: 1px solid rgba(36,26,16,0.06);
+}
+.nav-dropdown-viewall {
+  font-weight: 700 !important;
+  color: var(--color-sauce) !important;
+  font-size: 0.75rem !important;
+  opacity: 0.9;
+}
+/* On narrow screens, stack the columns vertically */
+@media (max-width: 700px) {
+  .nav-dropdown-menu--wide {
+    min-width: 220px;
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+  .nav-dropdown-cols { flex-direction: column; }
+  .nav-dropdown-col { border-right: none; border-bottom: 1px solid rgba(36,26,16,0.07); }
+  .nav-dropdown-col:last-child { border-bottom: none; }
+}
+
 /* ===== Hamburger (mobile only) ===== */
 .nav-toggle {
   display: none;

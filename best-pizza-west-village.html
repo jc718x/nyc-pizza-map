@@ -17,9 +17,43 @@
 <link rel="canonical" href="https://nycpizzamap.com/best-pizza-west-village.html" />
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
 
 <style>
   :root { --pz-accent: #DC2225; }
+
+  /* ===== Neighborhood mini-map (shared with Bay Ridge + future pages) ===== */
+  .nbhd-map-wrap {
+    width: 100%;
+    height: 340px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(36,26,16,0.12);
+    margin: 0 0 36px;
+    position: relative;
+  }
+  .nbhd-map-wrap .maplibregl-map { width: 100%; height: 100%; }
+  .nbhd-map-wrap .maplibregl-ctrl-attrib { font-size: 9px; }
+  .nbhd-pin { width: 28px; height: 28px; cursor: pointer;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    transition: transform 0.15s ease; }
+  .nbhd-pin:hover { transform: scale(1.2); }
+  .maplibregl-popup-content {
+    padding: 0 !important; border-radius: 8px !important; overflow: hidden;
+    font-family: 'Work Sans', sans-serif;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18) !important;
+    min-width: 180px; max-width: 240px;
+  }
+  .nbhd-popup-head { background: var(--color-crust, #1F4B33); color: white;
+    padding: 8px 12px; font-weight: 700; font-size: 0.85rem; line-height: 1.25; }
+  .nbhd-popup-body { padding: 8px 12px; font-size: 0.78rem; color: #241A10; line-height: 1.4; }
+  .nbhd-popup-style { display: inline-block; font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 2px 7px; border-radius: 20px; background: rgba(36,26,16,0.08); margin-bottom: 4px; }
+  .nbhd-popup-link { display: block; margin-top: 6px; font-size: 0.75rem;
+    color: #DC2225; font-weight: 600; text-decoration: none; }
+  .nbhd-popup-link:hover { text-decoration: underline; }
+  @media (max-width: 600px) { .nbhd-map-wrap { height: 260px; } }
 
   .rd-wrap { max-width: 760px; margin: 0 auto; padding: calc(var(--topbar-h) + 48px) 24px 80px; }
 
@@ -146,17 +180,36 @@
   <nav class="topbar-nav" id="siteNav" aria-label="Site">
     <a href="index.html">Map</a>
     <a href="pizza-search.html">Find Pizza</a>
-    <div class="nav-dropdown" id="exploreDropdown">
-      <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
-      <div class="nav-dropdown-menu">
-        <div class="nav-dropdown-heading">Find Pizza</div>
-        <a href="neighborhood-guides.html" class="active">Neighborhood Guides</a>
-        <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
-        <div class="nav-dropdown-heading">Learn</div>
-        <a href="pizza-history.html">Pizza History</a>
-        <a href="pizza-facts.html">Pizza Facts</a>
+          <div class="nav-dropdown" id="exploreDropdown">
+        <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">Explore</button>
+        <div class="nav-dropdown-menu nav-dropdown-menu--wide">
+          <div class="nav-dropdown-cols">
+            <div class="nav-dropdown-col">
+              <div class="nav-dropdown-heading">By Borough</div>
+              <a href="neighborhood-guides.html#manhattan">Manhattan</a>
+              <a href="neighborhood-guides.html#brooklyn">Brooklyn</a>
+              <a href="neighborhood-guides.html#queens">Queens</a>
+              <a href="neighborhood-guides.html#bronx">Bronx</a>
+              <a href="neighborhood-guides.html#staten-island">Staten Island</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <div class="nav-dropdown-heading">Neighborhoods</div>
+              <a href="best-pizza-west-village.html">West Village</a>
+              <a href="best-pizza-bay-ridge.html">Bay Ridge</a>
+              <a href="neighborhood-guides.html">Williamsburg</a>
+              <a href="neighborhood-guides.html">Astoria</a>
+              <a href="neighborhood-guides.html">Arthur Avenue</a>
+              <a href="neighborhood-guides.html" class="nav-dropdown-viewall">View All &#8594;</a>
+            </div>
+            <div class="nav-dropdown-col">
+              <div class="nav-dropdown-heading">Discover</div>
+              <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
+              <a href="pizza-history.html">Pizza History</a>
+              <a href="pizza-facts.html">Pizza Facts</a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
     <a href="how-to-make-pizza.html">Make Pizza</a>
     <a href="store.html">Shop</a>
     <a href="suggest.html">Suggest a Spot</a>
@@ -184,7 +237,11 @@
   <a href="pizza-search.html" class="primary">Find Pizza</a>
   <a href="neighborhood-guides.html" class="primary active">Neighborhood Guides</a>
   <a href="pizza-worth-traveling-for.html" class="primary">Worth the Trip</a>
-  <div class="mobile-nav-heading">Explore</div>
+    <div class="mobile-nav-heading">Explore</div>
+  <a href="neighborhood-guides.html">Neighborhood Guides</a>
+  <a href="best-pizza-west-village.html">West Village</a>
+  <a href="best-pizza-bay-ridge.html">Bay Ridge</a>
+  <a href="pizza-worth-traveling-for.html">Worth the Trip</a>
   <a href="pizza-history.html">Pizza History</a>
   <a href="pizza-facts.html">Pizza Facts</a>
   <div class="mobile-nav-heading">NYC Pizza</div>
@@ -204,6 +261,8 @@
     <p>You get the best of both worlds here: the institutions — John's, Lombardi's, Joe's — alongside newer spots like L'Industrie and Mama's TOO! that are causing lines around the block. Even an old-school pizza traditionalist has to admit some of these newer slices are genuinely great. If you want to do a pizza walk in New York City, this neighborhood is the answer.</p>
     <p>Go off-hours and you can get into any place without a line. Know which spots are whole-pie-only and cash-only before you go. And don't sleep on the less famous options — with this density of quality, even the supporting cast is worth your time.</p>
   </div>
+
+  <div class="nbhd-map-wrap" id="nbhdMap" aria-label="Map of West Village pizzerias"></div>
 
   <h3 class="rd-style-heading">All West Village Pizzerias <span class="rd-style-count">(9 spots)</span></h3>
   <div class="rd-list">
@@ -307,6 +366,92 @@
   </div>
 </main>
 
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+const NEIGHBORHOOD_PINS = [
+  { name: "Joe's Pizza",                      lat: 40.7307, lng: -74.0022 },
+  { name: "John's of Bleecker Street",        lat: 40.7316, lng: -74.0034 },
+  { name: "L'Industrie West Village",         lat: 40.7332, lng: -74.0049 },
+  { name: "Mama's TOO! – West Village",       lat: 40.7349, lng: -74.0002 },
+  { name: "Slicehaus Pizzeria",               lat: 40.7301, lng: -74.0029 },
+  { name: "Bleecker Street Pizza",            lat: 40.7322, lng: -74.0034 },
+  { name: "Briciola Pizza Bar",               lat: 40.7291, lng: -74.0035 },
+  { name: "Fermento Pizza NYC",               lat: 40.7291, lng: -74.0050 },
+  { name: "Numero 28 Pizzeria – Carmine St",  lat: 40.7303, lng: -74.0028 },
+];
+const MAP_CENTER = [-74.0030, 40.7310];
+const MAP_ZOOM   = 15.2;
+
+function pizzaSliceSVG(selected) {
+  const sliceColor = selected ? '#FFD500' : 'white';
+  return `<svg class="nbhd-pin" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="46" r="42" fill="#DC2225" stroke="white" stroke-width="3.5"/>
+    <path d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="${sliceColor}"/>
+    <circle cx="41" cy="38" r="3.6" fill="#DC2225"/>
+    <circle cx="50" cy="50" r="3.6" fill="#DC2225"/>
+  </svg>`;
+}
+
+async function initNeighborhoodMap() {
+  const el = document.getElementById('nbhdMap');
+  if (!el) return;
+
+  let pizzeriaData = {};
+  try {
+    const res = await fetch('data.json');
+    const geojson = await res.json();
+    geojson.features.forEach(f => { pizzeriaData[f.properties.name] = f.properties; });
+  } catch(e) {}
+
+  const map = new maplibregl.Map({
+    container: 'nbhdMap',
+    style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+    center: MAP_CENTER,
+    zoom: MAP_ZOOM,
+    attributionControl: true,
+  });
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+  map.scrollZoom.disable();
+
+  let activePopup = null;
+  const markerEls = {};
+
+  NEIGHBORHOOD_PINS.forEach(pin => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:28px;height:28px;cursor:pointer;';
+    wrap.innerHTML = pizzaSliceSVG(false);
+    const marker = new maplibregl.Marker({ element: wrap, anchor: 'bottom' })
+      .setLngLat([pin.lng, pin.lat]).addTo(map);
+    markerEls[pin.name] = wrap;
+
+    wrap.addEventListener('click', e => {
+      e.stopPropagation();
+      Object.entries(markerEls).forEach(([n, el]) => { el.innerHTML = pizzaSliceSVG(n === pin.name); });
+      if (activePopup) { activePopup.remove(); activePopup = null; }
+      const p = pizzeriaData[pin.name] || {};
+      const pills = [p.style, p.price, p.slices ? 'Slices ✓' : null].filter(Boolean)
+        .map(s => `<span class="nbhd-popup-style">${s}</span>`).join(' ');
+      activePopup = new maplibregl.Popup({ closeButton: true, offset: [0,-24], maxWidth:'240px' })
+        .setLngLat([pin.lng, pin.lat])
+        .setHTML(`<div class="nbhd-popup-head">${pin.name}</div>
+          <div class="nbhd-popup-body">
+            ${pills ? `<div style="margin-bottom:4px">${pills}</div>` : ''}
+            ${p.address ? `<div style="opacity:0.7;font-size:0.72rem">${p.address}</div>` : ''}
+            <a class="nbhd-popup-link" href="index.html?pin=${encodeURIComponent(pin.name)}">View on map →</a>
+          </div>`).addTo(map);
+      activePopup.on('close', () => {
+        activePopup = null;
+        Object.values(markerEls).forEach(el => { el.innerHTML = pizzaSliceSVG(false); });
+      });
+    });
+  });
+  map.on('click', () => {
+    if (activePopup) { activePopup.remove(); activePopup = null; }
+    Object.values(markerEls).forEach(el => { el.innerHTML = pizzaSliceSVG(false); });
+  });
+}
+initNeighborhoodMap();
+</script>
 <script src="search-destinations.js"></script>
 <script src="search.js"></script>
 <script src="nav.js"></script>
