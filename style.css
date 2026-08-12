@@ -566,21 +566,20 @@ body.landing-page {
 .hero {
   background: var(--color-parchment);
   padding: calc(var(--topbar-h) + 16px) 0 48px;
-  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1),
-              opacity 0.4s ease,
-              max-height 0.55s cubic-bezier(0.4,0,0.2,1),
-              padding 0.55s cubic-bezier(0.4,0,0.2,1);
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1),
+              padding 0.5s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.35s ease;
   overflow: hidden;
   max-height: 900px;
-  transform: translateY(0);
-  will-change: transform, opacity;
+  opacity: 1;
 }
-/* Hero rolls upward and fades out — the map section expands upward
-   simultaneously via the fixed positioning it gets in map-expanded state */
+/* Hero rolls upward by collapsing height — combined with fixed map-section
+   expanding to fill the viewport, this creates the "rolling up" effect */
 .hero.collapsed {
-  transform: translateY(-100%);
+  max-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   opacity: 0;
-  margin-bottom: -100vh; /* pulls subsequent content up so no beige gap */
   pointer-events: none;
 }
 /* Map section expands to fill full screen when hero is collapsed */
@@ -1711,53 +1710,35 @@ button:focus-visible {
   top: calc(var(--topbar-h) + 10px);
   left: 10px;
   z-index: 5;
-  width: 32px;
-  height: 32px;
+  height: 28px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.95rem;
+  gap: 6px;
+  padding: 0 11px;
+  font-size: 0.85rem;
   background: var(--color-parchment);
   color: var(--color-crust);
   border: 1.5px solid var(--color-crust);
-  border-radius: 50%;
-  padding: 0;
+  border-radius: 20px;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   transition: all 0.15s ease;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  white-space: nowrap;
 }
 .near-me-btn:hover {
   background: var(--color-crust);
   color: white;
   border-color: var(--color-crust);
 }
-/* 'Find Pizza Near Me' pill label — same height/font as Search This Area */
-.near-me-btn::after {
-  content: 'Find Pizza Near Me';
-  position: absolute;
-  left: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--color-parchment);
-  color: var(--color-crust);
-  border: 1.5px solid var(--color-crust);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  font-weight: 700;
+/* Label text inside the pill button */
+.near-me-btn .near-me-label {
+  font-size: 0.56rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  white-space: nowrap;
-  padding: 0 10px;
-  height: 32px;
-  line-height: 32px;
-  border-radius: 20px;
-  pointer-events: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.near-me-btn:hover::after {
-  background: var(--color-crust);
-  color: white;
-  border-color: var(--color-crust);
+  font-weight: 700;
+  font-family: var(--font-mono);
 }
 .near-me-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .near-me-btn.locating svg { animation: near-me-pulse 1s ease-in-out infinite; }
@@ -2272,12 +2253,12 @@ button:focus-visible {
   .near-me-sidebar-tab:hover { background: var(--color-sauce); }
   .near-me-sidebar-tab.open { left: max(300px, 20vw); }
 
-  /* Near Me button */
+  /* Near Me pill button on desktop */
   .near-me-btn {
-    left: max(316px, calc(20vw + 16px));
+    left: max(316px, calc(20vw + 10px));
     transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
   }
-  .near-me-btn.sidebar-collapsed { left: 40px; }
+  .near-me-btn.sidebar-collapsed { left: 10px; }
 
   .near-me-reopen-tab { display: none !important; }
 }
@@ -2288,23 +2269,26 @@ button:focus-visible {
   top: calc(var(--topbar-h) + 10px);
   right: 10px;
   z-index: 5;
-  background: var(--color-crust);
-  color: white;
+  background: var(--color-parchment);
+  color: var(--color-crust);
   border: 1.5px solid var(--color-crust);
   border-radius: 20px;
-  padding: 0 12px;
-  height: 32px;
-  line-height: 32px;
+  padding: 0 11px;
+  height: 28px;
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.56rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   gap: 5px;
 }
 .search-this-area-btn[hidden] { display: none; }
-.search-this-area-btn:hover { background: #163d28; border-color: #163d28; }
+.search-this-area-btn:hover, .search-this-area-btn.active {
+  background: var(--color-crust);
+  color: white;
+  border-color: var(--color-crust);
+}
