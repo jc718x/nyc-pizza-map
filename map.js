@@ -1251,6 +1251,24 @@ function showIdleState() {
 }
 showIdleState();
 
+// ===== Landing page: hide near-me-btn until map section is visible =====
+const mapSection = document.getElementById('map-section');
+const nearMeBtnEl = document.getElementById('nearMeBtn');
+const sidebarTabEl = document.getElementById('sidebarTab');
+if (mapSection && document.body.classList.contains('landing-page')) {
+  // Hide map UI until map section scrolls into view
+  if (nearMeBtnEl) nearMeBtnEl.style.opacity = '0';
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const visible = e.isIntersecting;
+      if (nearMeBtnEl) nearMeBtnEl.style.opacity = visible ? '1' : '0';
+      if (nearMeBtnEl) nearMeBtnEl.style.pointerEvents = visible ? '' : 'none';
+      if (sidebarTabEl) sidebarTabEl.style.display = visible && window.innerWidth >= 901 ? '' : 'none';
+    });
+  }, { threshold: 0.1 });
+  observer.observe(mapSection);
+}
+
 // ===== Landing page: smooth scroll to map section =====
 const exploreMapBtn = document.getElementById('exploreMapBtn');
 if (exploreMapBtn) {
@@ -1291,8 +1309,8 @@ function initHeroMiniMap() {
 }
 
 map.on('load', () => {
-  // Small delay so the hero art onerror has time to fire
-  setTimeout(initHeroMiniMap, 500);
+  // Small delay so IntersectionObserver has time to initialize
+  setTimeout(() => {}, 100);
 });
 
 // ===== Floating sidebar tab (desktop only) =====
