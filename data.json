@@ -4972,6 +4972,1546 @@
         "seating": "Indoor",
         "worth_a_trip": false
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8555864,
+          40.856507
+        ]
+      },
+      "properties": {
+        "name": "Original Joe's Pizzeria",
+        "address": "2136 Williamsbridge Rd, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Morris Park neighborhood pizzeria on Williamsbridge Road, a reliable classic NY-style spot in one of the Bronx's most Italian-American pockets.",
+        "website": "https://www.originaljoespizzeria.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8299599,
+          40.8520078
+        ]
+      },
+      "properties": {
+        "name": "The Alley Pizza Lounge",
+        "address": "3209 Westchester Ave, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Westchester Avenue pizzeria and lounge in the Bronx, serving classic pies in a sit-down setting.",
+        "website": "http://thealleypizzalounge.com/",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8866334,
+          40.8553074
+        ]
+      },
+      "properties": {
+        "name": "Famosa Pizza",
+        "address": "621 E 187th St, Bronx, NY 10458",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "Right on Arthur Avenue's corridor at 187th Street, Famosa is a neighborhood staple for classic NY-style slices steps from the Bronx's Little Italy.",
+        "website": "http://famosapizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.87573,
+          40.8293305
+        ]
+      },
+      "properties": {
+        "name": "Yankee's Pizza",
+        "address": "1599 Westchester Ave, Bronx, NY 10472",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Westchester Avenue neighborhood pizzeria in Parkchester, serving the Bronx community with dependable classic pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8612833,
+          40.8164488
+        ]
+      },
+      "properties": {
+        "name": "Soundview Slices NYC",
+        "address": "553 Soundview Ave, Bronx, NY 10473",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Soundview pizzeria putting out classic NY-style slices in a part of the Bronx that doesn't always make the pizza conversation.",
+        "website": "https://www.soundviewslicesnyc.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8507726,
+          40.8300049
+        ]
+      },
+      "properties": {
+        "name": "Cross Bronx Pizzeria",
+        "address": "1105 Castle Hill Ave, Bronx, NY 10472",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Castle Hill neighborhood pizzeria in the Bronx, a reliable corner spot for classic pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8914591,
+          40.8702312
+        ]
+      },
+      "properties": {
+        "name": "Singas Famous Pizza",
+        "address": "2841 Grand Concourse, Bronx, NY 10468",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Grand Concourse institution. Singas is known city-wide for its thick, generously topped slices — a Bronx classic that's been around since the 1960s.",
+        "website": "https://singaspizzas.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8769084,
+          40.871485
+        ]
+      },
+      "properties": {
+        "name": "Lona's Pizza",
+        "address": "373 E 204th St, Bronx, NY 10467",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Norwood/Bedford Park neighborhood pizzeria on East 204th Street, serving the Bronx community with classic pies.",
+        "website": "http://lonaspizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.923008,
+          40.8085671
+        ]
+      },
+      "properties": {
+        "name": "Villano Pizza",
+        "address": "226 Willis Ave, Bronx, NY 10454",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Mott Haven pizzeria on Willis Avenue, holding down classic NY-style slices in the south Bronx.",
+        "website": "http://villanopizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8659036,
+          40.8545641
+        ]
+      },
+      "properties": {
+        "name": "John & Joe's Pizzeria and Restaurant",
+        "address": "749 Lydig Ave, Bronx, NY 10462",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Pelham Parkway pizzeria and full restaurant on Lydig Avenue, serving the neighborhood with classic pies and a broader Italian-American menu.",
+        "website": "https://johnjoespizzeriaandrestaurant.shop/",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8195292,
+          40.8463784
+        ]
+      },
+      "properties": {
+        "name": "Country Bay Pizza",
+        "address": "3233 Ampere Ave, Bronx, NY 10465",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Throggs Neck pizzeria on Ampere Avenue, a neighborhood staple for classic NY-style pies near the water.",
+        "website": "https://www.mycountrybaypizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8486061,
+          40.8228332
+        ]
+      },
+      "properties": {
+        "name": "Frank's Original Pizza Italia",
+        "address": "772 Castle Hill Ave, Bronx, NY 10473",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Castle Hill neighborhood pizzeria on Castle Hill Avenue serving the Bronx community with dependable classic pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8676806,
+          40.8987086
+        ]
+      },
+      "properties": {
+        "name": "Katonah Pizza & Pasta",
+        "address": "4307 Katonah Ave, Bronx, NY 10470",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Woodlawn pizzeria on Katonah Avenue, steps from the Metro-North stop, serving the neighborhood with classic pies.",
+        "website": "https://katonahpizza.net/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8492006,
+          40.8847246
+        ]
+      },
+      "properties": {
+        "name": "Laconia Pizzeria",
+        "address": "3985A Laconia Ave, Bronx, NY 10466",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Laconia neighborhood pizzeria in the northeast Bronx, a reliable local go-to for classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.884261,
+          40.8677517
+        ]
+      },
+      "properties": {
+        "name": "Bedford Pizza",
+        "address": "380 Bedford Park Blvd, Bronx, NY 10458",
+        "borough": "Bronx",
+        "style": "Classic Slice",
+        "blurb": "A Bedford Park pizzeria near Fordham University, serving the neighborhood and student crowd with classic pies and pasta.",
+        "website": "https://www.bedfordpizzapastarestaurant.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8655162,
+          40.6752842
+        ]
+      },
+      "properties": {
+        "name": "Original Brother's Pizza",
+        "address": "640 Conduit Blvd, Brooklyn, NY 11208",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Conduit Boulevard pizzeria in East New York, serving classic NY-style pies to the neighborhood.",
+        "website": "https://originalbrothers.pizza/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9630459,
+          40.6499788
+        ]
+      },
+      "properties": {
+        "name": "El Centenario Pizza",
+        "address": "57 E 18th St, Brooklyn, NY 11226",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Flatbush neighborhood pizzeria serving the community with classic NY-style pies.",
+        "website": "https://elcentenariopizzamenu.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.940418,
+          40.6124806
+        ]
+      },
+      "properties": {
+        "name": "Cento Uno Pizzeria",
+        "address": "3101 Quentin Rd, Brooklyn, NY 11234",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Marine Park neighborhood pizzeria on Quentin Road, a reliable spot for classic NY-style pies in deep southern Brooklyn.",
+        "website": "https://centounopizzeria.getsauce.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9020777,
+          40.6682217
+        ]
+      },
+      "properties": {
+        "name": "BK Pizza",
+        "address": "456 Sutter Ave, Brooklyn, NY 11212",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Brownsville pizzeria on Sutter Avenue, serving the community with classic NY-style pies.",
+        "website": "https://bkpizza.nyc/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9170969,
+          40.6206048
+        ]
+      },
+      "properties": {
+        "name": "Original Pizza",
+        "address": "2351 Ralph Ave, Brooklyn, NY 11234",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Canarsie neighborhood pizzeria on Ralph Avenue, a classic NY spot serving the surrounding community for years.",
+        "website": "http://www.originalpizzaofbrooklyn.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9503133,
+          40.655655
+        ]
+      },
+      "properties": {
+        "name": "THE SWISS SLICE",
+        "address": "1290 Nostrand Ave, Brooklyn, NY 11226",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Flatbush pizzeria on Nostrand Avenue known for its oversized slices — a neighborhood go-to with a devoted local following.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.925483,
+          40.592846
+        ]
+      },
+      "properties": {
+        "name": "Victoria Pizzeria",
+        "address": "2716 Gerritsen Ave, Brooklyn, NY 11229",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Gerritsen Beach pizzeria on Gerritsen Avenue, one of Brooklyn's most tight-knit communities. A neighborhood staple.",
+        "website": "https://www.victoriapizzabk.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.912821,
+          40.636112
+        ]
+      },
+      "properties": {
+        "name": "Frank's Pizza",
+        "address": "8025 Flatlands Ave, Brooklyn, NY 11236",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "A Canarsie pizzeria on Flatlands Avenue serving the neighborhood with classic NY-style pies.",
+        "website": "http://franksbrooklyn.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.939153,
+          40.8442869
+        ]
+      },
+      "properties": {
+        "name": "Koronet Pizza",
+        "address": "4087 Broadway, New York, NY 10032",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Columbia University neighborhood institution on Broadway in Washington Heights. Known for absurdly large, foldable slices — a rite of passage for students and residents.",
+        "website": "https://koronetpizzamenu.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Standing only",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9221152,
+          40.8648384
+        ]
+      },
+      "properties": {
+        "name": "Inwood Pizza",
+        "address": "179 Sherman Ave, New York, NY 10034",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "An Inwood neighborhood pizzeria on Sherman Avenue, at the northern tip of Manhattan. Classic NY-style pies for a neighborhood that tends to get overlooked.",
+        "website": "https://www.inwoodpizzanyc.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9372607,
+          40.8550954
+        ]
+      },
+      "properties": {
+        "name": "Fresco's Pizzeria",
+        "address": "804 W 187th St, New York, NY 10040",
+        "borough": "Manhattan",
+        "style": "Classic Slice",
+        "blurb": "A Washington Heights pizzeria on West 187th Street, a reliable neighborhood classic in a part of upper Manhattan with real pizza roots.",
+        "website": "https://www.frescospizzerianewyork.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8460989,
+          40.7828386
+        ]
+      },
+      "properties": {
+        "name": "Donabella Restaurant Pizzeria",
+        "address": "18-12 College Point Blvd, College Point, NY 11356",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A College Point pizzeria and full restaurant on College Point Boulevard, serving classic pies and a broader Italian-American menu to the neighborhood.",
+        "website": "http://donabellarestaurante.com/",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8327968,
+          40.6998596
+        ]
+      },
+      "properties": {
+        "name": "Alfie's Pizzeria & Restaurant",
+        "address": "86-08 117th St, Richmond Hill, NY 11418",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Richmond Hill neighborhood pizzeria and restaurant, serving the community with classic pies and Italian-American fare.",
+        "website": "",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8741052,
+          40.7225795
+        ]
+      },
+      "properties": {
+        "name": "Gino's of Middle Village Pizza",
+        "address": "62-69 Dry Harbor Rd, Middle Village, NY 11379",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Middle Village neighborhood pizzeria on Dry Harbor Road, a reliable classic spot in one of Queens' most Italian-American communities.",
+        "website": "https://ginosexpresspizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8781394,
+          40.7127002
+        ]
+      },
+      "properties": {
+        "name": "Carlo's Pizza",
+        "address": "74-02 Metropolitan Ave, Middle Village, NY 11379",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Metropolitan Avenue neighborhood pizzeria in Middle Village, serving the community with classic NY-style pies.",
+        "website": "https://www.carlospizzaofmv.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7889878,
+          40.739773
+        ]
+      },
+      "properties": {
+        "name": "Brother's Pizza",
+        "address": "185-04 Horace Harding Expy, Flushing, NY 11365",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Fresh Meadows/Flushing borderline pizzeria on the Horace Harding Expressway, a solid neighborhood go-to.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7347348,
+          40.7718555
+        ]
+      },
+      "properties": {
+        "name": "Bocconcini Pizzeria & Restaurant",
+        "address": "254-19 Northern Blvd, Little Neck, NY 11362",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Little Neck pizzeria and restaurant on Northern Boulevard, serving Neapolitan pies and Italian-American fare to the northeastern Queens community.",
+        "website": "http://www.bocconcininy.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.884323,
+          40.755936
+        ]
+      },
+      "properties": {
+        "name": "Elements Pizzeria",
+        "address": "83-01 Northern Blvd, Jackson Heights, NY 11372",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Jackson Heights pizzeria on Northern Boulevard, classic NY-style pies in one of Queens' most diverse and vibrant neighborhoods.",
+        "website": "https://linktr.ee/elementspizza",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7807327,
+          40.7291628
+        ]
+      },
+      "properties": {
+        "name": "Romeo's Pizzeria",
+        "address": "188-08 Union Tpke, Fresh Meadows, NY 11366",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Fresh Meadows neighborhood pizzeria on Union Turnpike, serving the community with classic NY-style pies.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9046047,
+          40.7419469
+        ]
+      },
+      "properties": {
+        "name": "Woodside Pizzeria",
+        "address": "44-06 60th St, Woodside, NY 11377",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Woodside neighborhood pizzeria on 60th Street, an old-school NY-style spot serving the community.",
+        "website": "http://woodsidenypizza.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7391655,
+          40.7176183
+        ]
+      },
+      "properties": {
+        "name": "Spice on a Slice",
+        "address": "215-45 Jamaica Ave, Jamaica, NY 11428",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Jamaica pizzeria on Jamaica Avenue known for bringing some heat to its slices — a neighborhood go-to with a bit of a twist on the classic NY style.",
+        "website": "http://spiceonaslice.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7967214,
+          40.704566
+        ]
+      },
+      "properties": {
+        "name": "Margherita Pizza",
+        "address": "163-04 Jamaica Ave, Jamaica, NY 11433",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Jamaica Avenue neighborhood pizzeria, classic NY-style pies in a busy commercial corridor.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8435422,
+          40.6738642
+        ]
+      },
+      "properties": {
+        "name": "Romeo Pizzeria",
+        "address": "134-24 Cross Bay Blvd, Jamaica, NY 11417",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Cross Bay Boulevard pizzeria in South Ozone Park, a classic NY-style neighborhood spot on one of Queens' busiest roads.",
+        "website": "http://romeopizzeria.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7857128,
+          40.712361
+        ]
+      },
+      "properties": {
+        "name": "Benny's Pizza",
+        "address": "175-63 Hillside Ave, Jamaica, NY 11432",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Hillside Avenue neighborhood pizzeria in Jamaica, a reliable classic go-to on one of the borough's major commercial corridors.",
+        "website": "https://bennyshillside.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8426307,
+          40.6808917
+        ]
+      },
+      "properties": {
+        "name": "Ozone Pizzeria",
+        "address": "96-15 Liberty Ave, Ozone Park, NY 11417",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "An Ozone Park pizzeria on Liberty Avenue, serving the neighborhood with straightforward classic NY-style pies.",
+        "website": "http://www.ozonepizzeria.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8526602,
+          40.6936055
+        ]
+      },
+      "properties": {
+        "name": "Prima Pizza",
+        "address": "92-15 Jamaica Ave, Woodhaven, NY 11421",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Jamaica Avenue pizzeria in Woodhaven, a classic neighborhood spot in one of Queens' most underrated Italian-American communities.",
+        "website": "http://www.primapizzaofwoodhaven.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7107647,
+          40.727952
+        ]
+      },
+      "properties": {
+        "name": "Vaccaros Pizza",
+        "address": "88-02 Little Neck Pkwy, Queens, NY 11001",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Little Neck Parkway neighborhood pizzeria at the Queens-Nassau border, reliable classic pies for the surrounding community.",
+        "website": "https://www.vaccarospizzamenu.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9043592,
+          40.7221573
+        ]
+      },
+      "properties": {
+        "name": "Danny Pizzeria & Restaurant",
+        "address": "57-29 61st St, Maspeth, NY 11378",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Maspeth pizzeria and full-service restaurant, classic pies and Italian-American fare in a neighborhood with deep roots.",
+        "website": "https://www.dannypizzeriarestaurant.com/",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.7936222,
+          40.7803394
+        ]
+      },
+      "properties": {
+        "name": "The Parlor Pizza Kitchen Whitestone",
+        "address": "19-03 Utopia Pkwy, Whitestone, NY 11357",
+        "borough": "Queens",
+        "style": "Bar pie",
+        "blurb": "A Whitestone pizza kitchen and dining room on Utopia Parkway, offering a more upscale sit-down pizza experience in a neighborhood that doesn't get enough credit.",
+        "website": "https://theparlorpkwhitestone.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8635189,
+          40.732948
+        ]
+      },
+      "properties": {
+        "name": "Champion Pizza",
+        "address": "61-35 Junction Blvd, Rego Park, NY 11374",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Rego Park outpost of the well-regarded Champion Pizza, known for Neapolitan-leaning pies with quality ingredients.",
+        "website": "https://championpizzanyc.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8838641,
+          40.747999
+        ]
+      },
+      "properties": {
+        "name": "Champion Pizza – Jackson Heights",
+        "address": "37-61 82nd St, Jackson Heights, NY 11372",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "The Jackson Heights location of Champion Pizza, bringing quality Neapolitan-style pies to one of Queens' most vibrant neighborhoods.",
+        "website": "http://championpizzajacksonheights.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9128353,
+          40.7444265
+        ]
+      },
+      "properties": {
+        "name": "La Mozzarella Pizzeria",
+        "address": "51-21 43rd Ave, Woodside, NY 11377",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Woodside neighborhood pizzeria on 43rd Avenue, classic NY-style pies in a quietly Italian-American part of Queens.",
+        "website": "http://lamozzarellapizzeriany.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8963608,
+          40.7004691
+        ]
+      },
+      "properties": {
+        "name": "Mattarello Pizzeria",
+        "address": "60-48 Myrtle Ave, Ridgewood, NY 11385",
+        "borough": "Queens",
+        "style": "Neapolitan",
+        "blurb": "A Ridgewood Neapolitan pizzeria on Myrtle Avenue that's earned a following for quality pies in a neighborhood increasingly worth the trip.",
+        "website": "https://mattarellony.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.830501,
+          40.7002409
+        ]
+      },
+      "properties": {
+        "name": "Ricky's Pizza",
+        "address": "119-11 Jamaica Ave, Richmond Hill, NY 11418",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Jamaica Avenue neighborhood pizzeria in Richmond Hill, an after-school classic NY-style spot.",
+        "website": "",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8556417,
+          40.7067981
+        ]
+      },
+      "properties": {
+        "name": "Pizza Classica",
+        "address": "89-89 Union Tpke, Glendale, NY 11385",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Glendale pizzeria on Union Turnpike, classic NY-style pies in a quiet, working-class Queens neighborhood.",
+        "website": "http://www.pizzaclassicany.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8140354,
+          40.7890126
+        ]
+      },
+      "properties": {
+        "name": "Freddy's Pizza Whitestone",
+        "address": "12-66 150th St, Whitestone, NY 11357",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Whitestone neighborhood pizzeria that's been feeding the community with classic NY-style pies for years.",
+        "website": "https://www.freddyspizzany.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.8587716,
+          40.6926684
+        ]
+      },
+      "properties": {
+        "name": "Sal's Pizzeria",
+        "address": "85-07 Jamaica Ave, Woodhaven, NY 11421",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "A Jamaica Avenue pizzeria in Woodhaven, a neighborhood classic with a loyal following in this underrated part of Queens.",
+        "website": "http://www.salspizzeriaofwoodhaven.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.895632,
+          40.726969
+        ]
+      },
+      "properties": {
+        "name": "Rosa's Pizza – Maspeth",
+        "address": "55-26 69th St, Maspeth, NY 11378",
+        "borough": "Queens",
+        "style": "Classic Slice",
+        "blurb": "The Maspeth location of Rosa's, a Queens staple for classic NY-style pies on the Queens-Brooklyn border.",
+        "website": "https://rosaspizzanyc.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1900259,
+          40.5922762
+        ]
+      },
+      "properties": {
+        "name": "Parma Pizzeria & Restaurant",
+        "address": "4085 Victory Blvd, Staten Island, NY 10314",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Victory Boulevard pizzeria and restaurant in Staten Island, serving classic pies and Italian-American fare to the mid-island community.",
+        "website": "https://www.parmasiny.com/",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1971929,
+          40.5596981
+        ]
+      },
+      "properties": {
+        "name": "Royal Pizza",
+        "address": "1757 Arthur Kill Rd, Staten Island, NY 10312",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "An Arthur Kill Road neighborhood pizzeria in Woodrow, classic NY-style pies in the quiet southern end of Staten Island.",
+        "website": "http://royalpizzaofsi.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1211973,
+          40.6046669
+        ]
+      },
+      "properties": {
+        "name": "Italian Touch Pizza Pasta and Catering",
+        "address": "11 Holden Blvd, Staten Island, NY 10314",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Staten Island pizzeria and catering operation on Holden Boulevard, serving classic pies and full Italian-American fare.",
+        "website": "https://www.italiantouchsi.com/",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1652023,
+          40.5438827
+        ]
+      },
+      "properties": {
+        "name": "Sal & Lloyd's Pizza Place",
+        "address": "3850 Richmond Ave, Staten Island, NY 10312",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Richmond Avenue pizzeria in Eltingville, a classic neighborhood spot that's been serving Staten Island with no-frills NY-style pies.",
+        "website": "http://salandlloydspizzaplace.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.130396,
+          40.6262208
+        ]
+      },
+      "properties": {
+        "name": "Metro Pizza",
+        "address": "1218 Forest Ave, Staten Island, NY 10310",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Forest Avenue neighborhood pizzeria in West Brighton, serving the Staten Island community with classic NY-style pies.",
+        "website": "http://www.metropizzasi.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.182886,
+          40.5657706
+        ]
+      },
+      "properties": {
+        "name": "Casa Nino's Pizza Bar",
+        "address": "1281 Arthur Kill Rd, Staten Island, NY 10312",
+        "borough": "Staten Island",
+        "style": "Bar pie",
+        "blurb": "A Staten Island pizza bar on Arthur Kill Road, known for thin-crust bar pies and a sit-down atmosphere in the Woodrow neighborhood.",
+        "website": "https://bestpizzastatenisland.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1766281,
+          40.6013804
+        ]
+      },
+      "properties": {
+        "name": "Ti Amo Pizza",
+        "address": "3555 Victory Blvd, Staten Island, NY 10314",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Victory Boulevard neighborhood pizzeria in mid-island Staten Island, serving classic NY-style pies to the community.",
+        "website": "http://www.tiamopizzastatenisland.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1589282,
+          40.545628
+        ]
+      },
+      "properties": {
+        "name": "Original Giuseppes Pizza",
+        "address": "4300 Amboy Rd, Staten Island, NY 10312",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "An Amboy Road pizzeria in Tottenville-adjacent Staten Island, a classic neighborhood go-to for NY-style pies.",
+        "website": "http://giuseppespizzasi.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.2439936,
+          40.5100828
+        ]
+      },
+      "properties": {
+        "name": "Vesuvio Trattoria & Pizzeria",
+        "address": "7423 Amboy Rd, Staten Island, NY 10307",
+        "borough": "Staten Island",
+        "style": "Neapolitan",
+        "blurb": "A Tottenville trattoria and pizzeria on Amboy Road, at the very southern tip of Staten Island and New York City. Sit-down Neapolitan pies and Italian-American fare.",
+        "website": "http://vesuviostrattoriapizzeria.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.16409,
+          40.542787
+        ]
+      },
+      "properties": {
+        "name": "Campania Coal-Fired Pizza",
+        "address": "3900 Richmond Ave, Staten Island, NY 10312",
+        "borough": "Staten Island",
+        "style": "Neapolitan",
+        "blurb": "A coal-fired Neapolitan pizzeria on Richmond Avenue in Staten Island, one of the borough's best destinations for a quality sit-down pie — worth a trip from anywhere on the island.",
+        "website": "https://campaniacoalfiredpizza.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "worth_a_trip": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.129289,
+          40.61286
+        ]
+      },
+      "properties": {
+        "name": "Round Pie Pizza Company",
+        "address": "1957 Victory Blvd, Staten Island, NY 10314",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Victory Boulevard pizzeria in mid-island Staten Island, classic NY-style pies for the neighborhood.",
+        "website": "http://www.roundpie.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1047187,
+          40.5865432
+        ]
+      },
+      "properties": {
+        "name": "Rustic Pizza & Pasteria",
+        "address": "1789 Richmond Rd, Staten Island, NY 10306",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Richmond Road pizzeria and pasteria in New Dorp, Staten Island, classic pies alongside fresh pasta in a neighborhood dining room.",
+        "website": "http://www.rusticpizzapasteria.com/",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1633123,
+          40.6262547
+        ]
+      },
+      "properties": {
+        "name": "Verde's Pizza & Pasta House",
+        "address": "2220B Forest Ave, Staten Island, NY 10303",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Forest Avenue pizzeria and pasta house in Mariners Harbor, Staten Island, serving the community with classic pies and Italian-American fare.",
+        "website": "",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.2161169,
+          40.5235882
+        ]
+      },
+      "properties": {
+        "name": "Amici Brick Oven Pizza",
+        "address": "6309 Amboy Rd, Staten Island, NY 10309",
+        "borough": "Staten Island",
+        "style": "Neapolitan",
+        "blurb": "A brick oven pizzeria on Amboy Road in the Prince's Bay area of Staten Island, sit-down Neapolitan-style pies in the borough's quieter south end.",
+        "website": "http://amicibrickoven.com/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0775219,
+          40.6439818
+        ]
+      },
+      "properties": {
+        "name": "A & S Pizza",
+        "address": "87 Stuyvesant Pl, Staten Island, NY 10301",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A St. George pizzeria steps from the Staten Island Ferry terminal, a classic NY-style spot that's often the first slice of Staten Island pizza visitors ever have.",
+        "website": "https://www.aspizzarestaurant.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.1354539,
+          40.6346218
+        ]
+      },
+      "properties": {
+        "name": "Piccolo Pinos Pizzeria",
+        "address": "275 Port Richmond Ave, Staten Island, NY 10302",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Port Richmond neighborhood pizzeria, a classic NY-style spot in one of Staten Island's most historically Italian-American corridors.",
+        "website": "https://www.piccolopinospizzeria.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.063474,
+          40.610016
+        ]
+      },
+      "properties": {
+        "name": "Rosebank Pizza",
+        "address": "1372 Bay St, Staten Island, NY 10305",
+        "borough": "Staten Island",
+        "style": "Classic Slice",
+        "blurb": "A Bay Street neighborhood pizzeria in Rosebank, Staten Island, a classic local spot serving the community near the Verrazzano waterfront area.",
+        "website": "https://www.rosebankpizzastatenisland.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
     }
   ]
 }
