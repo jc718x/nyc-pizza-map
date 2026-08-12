@@ -593,6 +593,10 @@ body.landing-page {
 .map-section {
   transition: height 0.45s cubic-bezier(0.4,0,0.2,1);
 }
+body.map-expanded {
+  overflow: hidden !important;
+  height: 100vh !important;
+}
 body.map-expanded .map-section {
   position: fixed !important;
   top: var(--topbar-h) !important;
@@ -603,7 +607,10 @@ body.map-expanded .map-section {
   min-height: 0 !important;
   z-index: 2;
 }
-/* restore button removed */
+/* Collapsed hero takes up no space so body height matches the viewport */
+body.map-expanded .hero {
+  display: none;
+}
 .hero-inner {
   max-width: 1100px;
   margin: 0 auto;
@@ -949,7 +956,7 @@ body.map-expanded .map-section {
   }
   .hero-btn { flex: 1; font-size: 0.58rem; padding: 11px 6px; letter-spacing: 0.04em; gap: 5px; }
   .hero-btn svg { flex-shrink: 0; }
-  /* Map expanded — fill screen */
+  /* Map expanded — fill screen, lock body so beige bg can't show */
   body.map-expanded .map-section {
     position: fixed !important;
     top: var(--topbar-h) !important;

@@ -555,7 +555,7 @@ map.on('load', async () => {
 
     map.flyTo({
       center: [lng, lat],
-      zoom: Math.max(map.getZoom(), 15.5),
+      zoom: Math.max(map.getZoom(), 14.5),
       duration: 700,
       offset,
     });
