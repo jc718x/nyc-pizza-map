@@ -21,7 +21,7 @@
 <style>
   :root { --pz-accent: #DC2225; }
 
-  .ps-wrap { max-width: 720px; margin: 0 auto; padding: calc(var(--topbar-h) + 48px) 20px 80px; }
+  .ps-wrap { max-width: 720px; margin: 0 auto; padding: calc(var(--topbar-h) + 18px) 20px 80px; }
 
   .ps-wrap .page-kicker {
     font-family: var(--font-mono);
@@ -30,7 +30,7 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-sauce);
-    margin: 0 0 8px;
+    margin: 0 0 4px;
   }
   .ps-wrap h2 {
     font-family: var(--font-display);
@@ -38,13 +38,13 @@
     font-size: 2rem;
     line-height: 1.1;
     color: var(--color-crust);
-    margin: 0 0 10px;
+    margin: 0 0 8px;
   }
   .ps-intro-text {
     font-size: 1rem;
     line-height: 1.6;
     color: var(--color-char);
-    margin: 0 0 24px;
+    margin: 0 0 16px;
   }
 
   .ps-search-block {
@@ -88,61 +88,120 @@
   }
   .ps-search-dropdown[hidden] { display: none; }
 
+  .ps-chips-label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(36,26,16,0.5);
+    margin: 4px 0 8px;
+  }
   .ps-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 12px;
+    margin-top: 0;
   }
   .ps-chip {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    padding: 5px 11px 5px 9px;
+    padding: 6px 13px;
     border-radius: 20px;
     border: 1px solid rgba(36,26,16,0.15);
     background: var(--color-parchment);
     color: var(--color-char);
     cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .ps-chip::before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--b, #999);
-    flex-shrink: 0;
   }
   .ps-chip:hover { background: var(--pz-accent); border-color: var(--pz-accent); color: white; }
 
-  .ps-chip-legend {
+  /* ===== Browse NYC accordion ===== */
+  .ps-browse-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(36,26,16,0.12);
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    width: 100%;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--color-crust);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .ps-browse-toggle .ps-browse-caret {
+    transition: transform 0.2s ease;
+    font-size: 0.7rem;
+  }
+  .ps-browse-toggle[aria-expanded="true"] .ps-browse-caret { transform: rotate(180deg); }
+  .ps-browse-panel {
+    margin-top: 10px;
+  }
+  .ps-browse-panel[hidden] { display: none; }
+  .ps-browse-cat {
+    border-top: 1px solid rgba(36,26,16,0.08);
+  }
+  .ps-browse-cat:last-child { border-bottom: 1px solid rgba(36,26,16,0.08); }
+  .ps-browse-cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 11px 4px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--color-char);
+    text-align: left;
+  }
+  .ps-browse-cat-icon { font-size: 1rem; flex-shrink: 0; }
+  .ps-browse-cat-caret {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: rgba(36,26,16,0.4);
+    transition: transform 0.2s ease;
+  }
+  .ps-browse-cat-btn[aria-expanded="true"] .ps-browse-cat-caret { transform: rotate(180deg); }
+  .ps-browse-cat-items {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed rgba(36,26,16,0.12);
+    gap: 6px;
+    padding: 0 4px 14px;
   }
-  .ps-chip-legend span {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+  .ps-browse-cat-items[hidden] { display: none; }
+  .ps-browse-item {
     font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: rgba(36,26,16,0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(36,26,16,0.15);
+    background: var(--color-parchment);
+    color: var(--color-char);
+    cursor: pointer;
   }
-  .ps-chip-legend i {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    display: inline-block;
-  }
+  .ps-browse-item:hover { background: var(--pz-accent); border-color: var(--pz-accent); color: white; }
 
+  .ps-controls-label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(36,26,16,0.5);
+    margin: 0 0 8px;
+  }
   .ps-controls {
     display: flex;
     align-items: center;
@@ -242,9 +301,13 @@
     text-decoration: none;
   }
   .ps-entry-dist {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: rgba(36,26,16,0.55);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--pz-accent);
     white-space: nowrap;
     flex-shrink: 0;
   }
@@ -355,37 +418,35 @@
       <input type="text" id="pageSearchInput" placeholder="Search pizzerias or a destination…" autocomplete="off" />
       <div class="ps-search-dropdown" id="pageSearchDropdown" hidden></div>
     </div>
+
+    <p class="ps-chips-label">Popular Destinations</p>
     <div class="ps-chips" id="popularChips">
-      <button class="ps-chip" style="--b:#276E40" data-name="Times Square" data-lat="40.7555923" data-lng="-73.9858388" data-neighborhood="0">Times Square</button>
-      <button class="ps-chip" style="--b:#276E40" data-name="West Village" data-lat="40.7341857" data-lng="-74.00558" data-neighborhood="1">West Village</button>
-      <button class="ps-chip" style="--b:#276E40" data-name="Midtown" data-lat="40.7551169" data-lng="-73.98478" data-neighborhood="1">Midtown</button>
-      <button class="ps-chip" style="--b:#276E40" data-name="Central Park" data-lat="40.7827725" data-lng="-73.9653627" data-neighborhood="0">Central Park</button>
-      <button class="ps-chip" style="--b:#276E40" data-name="SoHo" data-lat="40.72288" data-lng="-73.9987505" data-neighborhood="1">SoHo</button>
-      <button class="ps-chip" style="--b:#DC2225" data-name="Williamsburg" data-lat="40.714622" data-lng="-73.95345" data-neighborhood="1">Williamsburg</button>
-      <button class="ps-chip" style="--b:#DC2225" data-name="Park Slope" data-lat="40.6701033" data-lng="-73.9859723" data-neighborhood="1">Park Slope</button>
-      <button class="ps-chip" style="--b:#DC2225" data-name="Bay Ridge" data-lat="40.6320062" data-lng="-74.0232101" data-neighborhood="1">Bay Ridge</button>
-      <button class="ps-chip" style="--b:#DC2225" data-name="Brooklyn Bridge" data-lat="40.7020375" data-lng="-73.9915987" data-neighborhood="0">Brooklyn Bridge</button>
-      <button class="ps-chip" style="--b:#FF6B00" data-name="Flushing" data-lat="40.7654301" data-lng="-73.8174291" data-neighborhood="1">Flushing</button>
-      <button class="ps-chip" style="--b:#8B3A62" data-name="Arthur Avenue" data-lat="40.8550" data-lng="-73.8874" data-neighborhood="1">Arthur Avenue</button>
-      <button class="ps-chip" style="--b:#3C5A80" data-name="Port Richmond" data-lat="40.6331592" data-lng="-74.1365318" data-neighborhood="1">Port Richmond</button>
+      <button class="ps-chip" data-name="Times Square">Times Square</button>
+      <button class="ps-chip" data-name="Central Park">Central Park</button>
+      <button class="ps-chip" data-name="Madison Square Garden">MSG</button>
+      <button class="ps-chip" data-name="Brooklyn Bridge">Brooklyn Bridge</button>
+      <button class="ps-chip" data-name="The Metropolitan Museum of Art">The Met</button>
+      <button class="ps-chip" data-name="Williamsburg">Williamsburg</button>
     </div>
-    <div class="ps-chip-legend">
-      <span><i style="background:#276E40"></i>Manhattan</span>
-      <span><i style="background:#DC2225"></i>Brooklyn</span>
-      <span><i style="background:#FF6B00"></i>Queens</span>
-      <span><i style="background:#8B3A62"></i>Bronx</span>
-      <span><i style="background:#3C5A80"></i>Staten Island</span>
-    </div>
+
+    <button class="ps-browse-toggle" id="browseToggle" aria-expanded="false" aria-controls="browsePanel">
+      <span>Browse NYC</span>
+      <span class="ps-browse-caret">▾</span>
+    </button>
+    <div class="ps-browse-panel" id="browsePanel" hidden></div>
   </div>
 
   <div class="ps-controls">
-    <div class="ps-borough-filters" id="boroughFilters">
-      <button class="ps-filter-btn active" data-borough="all">All</button>
-      <button class="ps-filter-btn" data-borough="Brooklyn">Brooklyn</button>
-      <button class="ps-filter-btn" data-borough="Manhattan">Manhattan</button>
-      <button class="ps-filter-btn" data-borough="Queens">Queens</button>
-      <button class="ps-filter-btn" data-borough="Bronx">Bronx</button>
-      <button class="ps-filter-btn" data-borough="Staten Island">SI</button>
+    <div>
+      <p class="ps-controls-label">Filter Pizza Results</p>
+      <div class="ps-borough-filters" id="boroughFilters">
+        <button class="ps-filter-btn active" data-borough="all">All</button>
+        <button class="ps-filter-btn" data-borough="Brooklyn">Brooklyn</button>
+        <button class="ps-filter-btn" data-borough="Manhattan">Manhattan</button>
+        <button class="ps-filter-btn" data-borough="Queens">Queens</button>
+        <button class="ps-filter-btn" data-borough="Bronx">Bronx</button>
+        <button class="ps-filter-btn" data-borough="Staten Island">SI</button>
+      </div>
     </div>
     <button class="ps-near-me-btn" id="pageNearMeBtn" title="Sort by distance from me">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -424,7 +485,7 @@ function haversine(lat1, lng1, lat2, lng2) {
 }
 function walkMins(m) {
   const mins = Math.round(m / 83);
-  return mins < 1 ? '< 1 min walk' : `${mins} min walk`;
+  return mins < 1 ? '🚶 <1 min' : `🚶 ${mins} min`;
 }
 
 function buildEntryHTML(p) {
@@ -514,16 +575,111 @@ document.getElementById('clearModeBtn').addEventListener('click', () => {
   render();
 });
 
+// Shared destination lookup — resolves a name against the same master
+// dataset the map and global search use, so Popular Destinations and
+// Browse NYC never need their own hardcoded coordinates to maintain.
+function lookupDestination(name) {
+  if (typeof SEARCH_DESTINATIONS === 'undefined') return null;
+  return SEARCH_DESTINATIONS.find(d => d.name === name) || null;
+}
+
+function goToDestination(name) {
+  const d = lookupDestination(name);
+  if (!d) return;
+  modeAnchor = { lat: d.lat, lng: d.lng, label: d.name, isNeighborhood: d.category === 'Neighborhoods' };
+  userLoc = null;
+  document.getElementById('pageNearMeBtn').classList.remove('active');
+  document.getElementById('pageSearchInput').value = d.name;
+  render();
+  document.getElementById('resultsTitle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 // Popular destination chips
 document.getElementById('popularChips').addEventListener('click', e => {
   const chip = e.target.closest('.ps-chip');
   if (!chip) return;
-  modeAnchor = {
-    lat: parseFloat(chip.dataset.lat), lng: parseFloat(chip.dataset.lng),
-    label: chip.dataset.name, isNeighborhood: chip.dataset.neighborhood === '1',
-  };
-  document.getElementById('pageSearchInput').value = chip.dataset.name;
-  render();
+  goToDestination(chip.dataset.name);
+});
+
+// ===== Browse NYC =====
+// Curated groupings over the same destination database the search bar
+// already covers — most visitors would never think to search "Whitney
+// Museum" or "Villabate Alba" unless something showed them it's in there.
+const BROWSE_CATEGORIES = [
+  { label: 'Neighborhoods', icon: '📍', names: [
+    'Williamsburg', 'West Village', 'SoHo', 'Bay Ridge', 'Park Slope',
+    'Astoria', 'Bushwick', 'Upper East Side', 'Central Harlem', 'Belmont',
+  ]},
+  { label: 'Attractions', icon: '🗽', names: [
+    'Empire State Building', 'Edge', 'SUMMIT One Vanderbilt', 'Madame Tussauds New York',
+    'Circle Line Sightseeing Cruises', 'Rockefeller Center', '9/11 Memorial & Museum',
+    'Brooklyn Bridge', 'Coney Island',
+  ]},
+  { label: 'Sports & Entertainment', icon: '🏟️', names: [
+    'Madison Square Garden', 'Barclays Center', 'Yankee Stadium', 'Citi Field',
+    'Brooklyn Steel', 'Radio City Music Hall', 'Broadway Theatre', 'Arthur Ashe Stadium',
+  ]},
+  { label: 'Museums & Culture', icon: '🏛️', names: [
+    'The Metropolitan Museum of Art', 'Museum of Modern Art', 'American Museum of Natural History',
+    'Whitney Museum of American Art', 'Brooklyn Museum', 'Solomon R. Guggenheim Museum',
+  ]},
+  { label: 'Hotels', icon: '🏨', names: [
+    'The Plaza New York', 'New York Marriott Marquis', 'The William Vale', 'Chelsea Hotel',
+    'Ace Hotel New York', 'The Mark Hotel', 'Soho Grand Hotel', 'The Bowery Hotel',
+  ]},
+  { label: 'Italian NYC', icon: '🇮🇹', names: [
+    "Di Palo's Fine Foods", 'Villabate Alba', 'Pastosa Ravioli – Bensonhurst', 'Casa Della Mozzarella',
+    "Borgatti's Ravioli & Egg Noodles", 'Arthur Avenue Retail Market', 'Teitel Brothers',
+    'Ferrara Bakery & Cafe', 'Lioni Italian Heroes', "Defonte's Sandwich Shop",
+  ]},
+];
+
+function buildBrowsePanel() {
+  const panel = document.getElementById('browsePanel');
+  panel.innerHTML = BROWSE_CATEGORIES.map((cat, i) => {
+    const items = cat.names.filter(n => lookupDestination(n)); // skip any that don't resolve
+    if (!items.length) return '';
+    return `
+      <div class="ps-browse-cat">
+        <button class="ps-browse-cat-btn" data-cat="${i}" aria-expanded="false">
+          <span class="ps-browse-cat-icon">${cat.icon}</span>
+          <span>${cat.label}</span>
+          <span class="ps-browse-cat-caret">▾</span>
+        </button>
+        <div class="ps-browse-cat-items" id="browseCatItems${i}" hidden>
+          ${items.map(n => `<button class="ps-browse-item" data-name="${n.replace(/"/g,'&quot;')}">${n}</button>`).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+buildBrowsePanel();
+
+const browseToggle = document.getElementById('browseToggle');
+const browsePanel = document.getElementById('browsePanel');
+browseToggle.addEventListener('click', () => {
+  const expanded = browseToggle.getAttribute('aria-expanded') === 'true';
+  browseToggle.setAttribute('aria-expanded', String(!expanded));
+  browsePanel.hidden = expanded;
+});
+
+browsePanel.addEventListener('click', e => {
+  const catBtn = e.target.closest('.ps-browse-cat-btn');
+  if (catBtn) {
+    const items = document.getElementById('browseCatItems' + catBtn.dataset.cat);
+    const expanded = catBtn.getAttribute('aria-expanded') === 'true';
+    // Accordion: close any other open category first
+    document.querySelectorAll('.ps-browse-cat-btn[aria-expanded="true"]').forEach(b => {
+      if (b !== catBtn) {
+        b.setAttribute('aria-expanded', 'false');
+        document.getElementById('browseCatItems' + b.dataset.cat).hidden = true;
+      }
+    });
+    catBtn.setAttribute('aria-expanded', String(!expanded));
+    items.hidden = expanded;
+    return;
+  }
+  const item = e.target.closest('.ps-browse-item');
+  if (item) goToDestination(item.dataset.name);
 });
 
 // Near Me

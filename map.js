@@ -64,7 +64,7 @@ map.on('load', updateZoomMarkerSize);
 function sliceSVG(color) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
     <circle cx="50" cy="46" r="42" fill="${color}" stroke="white" stroke-width="3.5"/>
-    <path d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="white"/>
+    <path class="slice-fill" d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="white"/>
     <circle cx="41" cy="38" r="3.6" fill="${color}"/>
     <circle cx="50" cy="50" r="3.6" fill="${color}"/>
   </svg>`;
@@ -79,7 +79,7 @@ const LANDMARK_BADGE_COLOR = '#7a7a7a';
 function landmarkStarSVG() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 100 100">
     <circle cx="50" cy="46" r="42" fill="${LANDMARK_BADGE_COLOR}" stroke="white" stroke-width="3.5"/>
-    <path d="M50 22 L58 40 L78 42 L63 55 L67 75 L50 64 L33 75 L37 55 L22 42 L42 40 Z" fill="white"/>
+    <path class="star-fill" d="M50 22 L58 40 L78 42 L63 55 L67 75 L50 64 L33 75 L37 55 L22 42 L42 40 Z" fill="white"/>
   </svg>`;
 }
 
@@ -302,32 +302,48 @@ map.on('load', async () => {
   let pizzaMarkerEls = {};       // name -> marker wrapper element, rebuilt on every render
   let selectedPizzeriaName = null;
 
-  // Apply the "selected" highlight to a pizzeria's marker (soft glow +
+  // Apply the "selected" highlight to a pizzeria's marker (yellow slice +
   // slightly larger), removing it from whichever marker had it before.
-  // animate=true plays the one-time pop; false just re-applies the
-  // persistent state silently (used after markers get rebuilt, e.g. a
-  // cluster re-render, so the highlight doesn't just vanish).
-  function setSelectedPizzeria(name, animate) {
+  // No animation flourish beyond the CSS transition already on the pin —
+  // the color + size change alone is enough to connect the card to its
+  // marker without adding a glow, pulse, or motion effect.
+  function setSelectedPizzeria(name) {
     if (selectedPizzeriaName && pizzaMarkerEls[selectedPizzeriaName]) {
-      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected', 'selected-pop');
+      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected');
     }
     selectedPizzeriaName = name;
     const el = name && pizzaMarkerEls[name];
-    if (!el) return;
-    el.classList.add('selected');
-    if (animate) {
-      el.classList.add('selected-pop');
-      el.addEventListener('animationend', () => el.classList.remove('selected-pop'), { once: true });
-    }
+    if (el) el.classList.add('selected');
   }
 
   function clearSelectedPizzeria() {
     if (selectedPizzeriaName && pizzaMarkerEls[selectedPizzeriaName]) {
-      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected', 'selected-pop');
+      pizzaMarkerEls[selectedPizzeriaName].classList.remove('selected');
     }
     selectedPizzeriaName = null;
   }
   window.clearSelectedPizzeria = clearSelectedPizzeria;
+
+  // Same idea for landmarks — gray badge stays, star turns blue while its
+  // popup is open. Only one at a time, cleared when the popup closes.
+  let landmarkMarkerEls = {};
+  let selectedLandmarkName = null;
+
+  function setSelectedLandmark(name) {
+    if (selectedLandmarkName && landmarkMarkerEls[selectedLandmarkName]) {
+      landmarkMarkerEls[selectedLandmarkName].classList.remove('selected');
+    }
+    selectedLandmarkName = name;
+    const el = name && landmarkMarkerEls[name];
+    if (el) el.classList.add('selected');
+  }
+
+  function clearSelectedLandmark() {
+    if (selectedLandmarkName && landmarkMarkerEls[selectedLandmarkName]) {
+      landmarkMarkerEls[selectedLandmarkName].classList.remove('selected');
+    }
+    selectedLandmarkName = null;
+  }
 
   // ===== Smart popup placement =====
   // A fixed diagonal offset used to regularly let the card cover the
@@ -339,7 +355,7 @@ map.on('load', async () => {
   // card never sits directly on top of the marker. Only as a last resort
   // (and never on mobile, where there's no space to spare) do we nudge the
   // map to make room.
-  function openSmartPopup(lng, lat, html, maxWidth) {
+  function openSmartPopup(lng, lat, html, maxWidth, forLandmarkName) {
     if (activePopup) { activePopup.remove(); activePopup = null; }
 
     const container = map.getContainer();
@@ -404,7 +420,16 @@ map.on('load', async () => {
       .setLngLat([lng, lat])
       .setHTML(html)
       .addTo(map);
-    activePopup.on('close', () => { activePopup = null; });
+    activePopup.on('close', () => {
+      activePopup = null;
+      // Only clear if this closing popup's landmark is still the current
+      // selection — if the user already clicked a different landmark,
+      // that landmark was set as selected before this old popup's removal
+      // even fires, and this closure would otherwise wipe it right back out.
+      if (forLandmarkName && selectedLandmarkName === forLandmarkName) {
+        clearSelectedLandmark();
+      }
+    });
 
     // Keep the name on one line: shrink its font size step by step rather
     // than truncating, so the full name stays readable.
@@ -421,6 +446,14 @@ map.on('load', async () => {
   // landmark "nearest pizza" rows) =====
   function buildPizzeriaCardHTML(p, lng, lat) {
     const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+
+    let fromYouHTML = '';
+    const userLoc = window.userActualLocation;
+    if (userLoc) {
+      const d = stationDist(userLoc.lat, userLoc.lng, lat, lng);
+      const miles = (d / 1609.34).toFixed(1);
+      fromYouHTML = `<div class="ticket-from-you">🚶 <span class="ticket-from-you-label">From You</span> — <span class="ticket-from-you-time">${walkMinutes(d)} · ${miles} mi</span></div>`;
+    }
 
     let subwayHTML = '';
     try {
@@ -474,6 +507,7 @@ map.on('load', async () => {
             ${p.seating && p.seating !== 'Indoor' ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
           </div>
           <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
+          ${fromYouHTML}
           ${subwayHTML ? `<div class="ticket-subway">
             <div class="ticket-subway-label">🚇 Nearest subway</div>
             ${subwayHTML}
@@ -500,7 +534,7 @@ map.on('load', async () => {
 
     ensureListBacking();
     enterDetailMode(html);
-    setSelectedPizzeria(p.name, true);
+    setSelectedPizzeria(p.name);
 
     // Center the marker in the space that's actually free of the sheet —
     // above it on mobile (bottom sheet), to the right of it on desktop
@@ -634,6 +668,28 @@ map.on('load', async () => {
   window.buildNearMePanel = function(userLat, userLng) {
     window.buildResultsPanel({ lat: userLat, lng: userLng, mode: 'nearme' });
   };
+
+  // If location was already granted on a previous visit, locate and show
+  // nearby pizzerias automatically — this check never triggers a new
+  // permission prompt itself. Deliberately placed here (inside the map's
+  // 'load' callback, after buildResultsPanel exists) rather than at the
+  // top level: geolocation can resolve near-instantly when a cached
+  // position is available (see maximumAge below), which was winning the
+  // race against the map still loading — the marker/flyTo would work
+  // since those don't depend on this closure, but window.buildResultsPanel
+  // didn't exist yet, so the list-building call silently no-op'd and the
+  // panel stayed stuck on the idle "Where are we getting pizza?" message.
+  if (navigator.permissions && navigator.geolocation) {
+    navigator.permissions.query({ name: 'geolocation' }).then(status => {
+      if (status.state === 'granted') {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, { showList: true, collapsed: true }),
+          () => {},
+          { timeout: 8000, maximumAge: 60000 }
+        );
+      }
+    }).catch(() => {});
+  }
 
   // All pizza markers use one consistent brand red — geography (the map itself)
   // already communicates which borough a spot is in, so per-borough marker
@@ -774,8 +830,8 @@ map.on('load', async () => {
 
     // Markers were just rebuilt from scratch — if a pizzeria is currently
     // selected, its old marker element is gone, so re-apply the highlight
-    // to the new one (silently, no pop replay) rather than losing it.
-    if (selectedPizzeriaName) setSelectedPizzeria(selectedPizzeriaName, false);
+    // to the new one rather than losing it.
+    if (selectedPizzeriaName) setSelectedPizzeria(selectedPizzeriaName);
   }
 
   renderPizzaMarkers();
@@ -823,9 +879,11 @@ map.on('load', async () => {
 
     wrap.appendChild(pin);
     wrap.appendChild(label);
+    landmarkMarkerEls[lm.name] = wrap;
 
     wrap.addEventListener('click', (e) => {
       e.stopPropagation();
+      setSelectedLandmark(lm.name);
 
       // Center on the landmark — never zoom OUT below the current zoom,
       // only zoom in if currently zoomed out further than 15.5
@@ -866,7 +924,7 @@ map.on('load', async () => {
         </div>`;
 
       setTimeout(() => {
-        openSmartPopup(lm.lng, lm.lat, html, 270);
+        openSmartPopup(lm.lng, lm.lat, html, 270, lm.name);
       }, 400);
     });
 
@@ -946,21 +1004,6 @@ function activateNearMeOnMap(latitude, longitude, opts) {
   if (opts.showList && window.buildResultsPanel) {
     window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed });
   }
-}
-
-// If location was already granted on a previous visit, locate and show
-// nearby pizzerias automatically — this check never triggers a new
-// permission prompt itself.
-if (navigator.permissions && navigator.geolocation) {
-  navigator.permissions.query({ name: 'geolocation' }).then(status => {
-    if (status.state === 'granted') {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, { showList: true, collapsed: true }),
-        () => {},
-        { timeout: 8000, maximumAge: 60000 }
-      );
-    }
-  }).catch(() => {});
 }
 
 const nearMeBtn = document.getElementById('nearMeBtn');

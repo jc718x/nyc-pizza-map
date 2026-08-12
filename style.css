@@ -7,6 +7,8 @@
   --color-parchment-panel: #FFFBF3;
   --color-sauce: #DC2225;
   --color-char: #241A10;
+  --color-cheese: #F4B942;
+  --color-landmark-selected: #2E5FE8;
 
   --color-brooklyn: #DC2225;
   --color-manhattan: #276E40;
@@ -465,27 +467,17 @@ body.map-page {
 }
 
 /* Selected marker — the pizzeria currently shown in the bottom sheet/
-   sidebar. Same red pin, just a soft cream glow behind it and 20%
-   larger, so it's obvious which one you picked now that there's no
-   popup pointing at it directly. */
+   sidebar. Keeps the red outer pin exactly as-is (that's what reads as
+   "pizzeria" at a glance) and just swaps the white slice for a warm
+   pizza-box yellow, plus a modest size bump — no glow, no pulse, no
+   motion, since the color change alone is enough to connect the card to
+   its marker. */
 .pizza-marker-wrap.selected .pizza-pin {
-  transform: translate(-50%, -50%) scale(1.2);
-  filter:
-    drop-shadow(0 2px 4px rgba(0,0,0,0.3))
-    drop-shadow(0 0 6px rgba(255,251,243,1))
-    drop-shadow(0 0 13px rgba(255,251,243,0.95))
-    drop-shadow(0 0 20px rgba(255,251,243,0.7));
+  transform: translate(-50%, -50%) scale(1.12);
 }
-/* One-time gentle pop on selection — overshoots slightly then settles
-   back to the same 1.2 "selected" size, rather than just snapping to it. */
-@keyframes pizzaSelectPop {
-  0%   { transform: translate(-50%, -50%) scale(1); }
-  45%  { transform: translate(-50%, -50%) scale(1.38); }
-  70%  { transform: translate(-50%, -50%) scale(1.12); }
-  100% { transform: translate(-50%, -50%) scale(1.2); }
-}
-.pizza-marker-wrap.selected-pop .pizza-pin {
-  animation: pizzaSelectPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+.pizza-marker-wrap.selected .slice-fill {
+  fill: var(--color-cheese);
+  transition: fill 0.15s ease;
 }
 
 .pin-label {
@@ -654,9 +646,30 @@ body.map-page {
   font-size: 0.82rem;
   line-height: 1.45;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.ticket-from-you {
+  font-size: 0.8rem;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.ticket-from-you-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(36,26,16,0.55);
+  font-weight: 700;
+}
+.ticket-from-you-time {
+  font-weight: 700;
+  color: var(--color-sauce);
 }
 
 .ticket-subway {
@@ -1178,6 +1191,16 @@ button:focus-visible {
 .landmark-marker-wrap:hover .landmark-pin {
   transform: scale(1.25);
 }
+/* Selected landmark — same principle as the pizza marker: keep the gray
+   badge (that's what reads as "landmark" on the map), just swap the
+   white star for blue so it's clear which one the open popup belongs to. */
+.landmark-marker-wrap.selected .landmark-pin {
+  transform: scale(1.15);
+}
+.landmark-marker-wrap.selected .star-fill {
+  fill: var(--color-landmark-selected);
+  transition: fill 0.15s ease;
+}
 .landmark-label {
   background: #4a4a4a;
   color: white;
@@ -1497,11 +1520,13 @@ button:focus-visible {
 @media (min-width: 901px) {
   .near-me-panel {
     top: var(--topbar-h);
-    bottom: 0;
+    bottom: auto;
     left: 0;
     right: auto;
     width: 300px;
-    max-height: none;
+    height: calc(100vh - var(--topbar-h));
+    max-height: calc(100vh - var(--topbar-h));
+    overflow: hidden;
     border-radius: 0;
     border-top: none;
     border-right: 2px solid var(--color-crust);
@@ -1529,11 +1554,12 @@ button:focus-visible {
      persistent one-line strip ("N Pizzerias Near You" + arrow), always
      visible whether the list/detail content underneath is expanded or
      not — rather than the sidebar disappearing entirely behind a
-     separate floating reopen button. */
+     separate floating reopen button. Only max-height ever changes here
+     (top/bottom/height stay fixed) so the transition is smooth instead
+     of snapping — bottom isn't a transitioned property, and toggling it
+     directly was causing a visible jump during the animation. */
   .near-me-panel.collapsed {
-    bottom: auto;
     max-height: 58px;
-    overflow: hidden;
   }
 
   /* Same interaction as mobile (permanent 1-line bar, tap to roll out,
