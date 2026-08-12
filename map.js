@@ -1356,15 +1356,41 @@ if (useLocationBtn) {
   });
 }
 
-// Nav links to index.html expand the map instead of reloading the hero
-document.querySelectorAll('a[href="index.html"], a[href="#map-section"]').forEach(a => {
-  if (a.id === 'exploreMapBtn') return;
+// ===== Logo → restore hero; Map nav link → expand to map =====
+document.querySelectorAll('a[href="index.html"], a[href="#map-section"], a[href="#map"]').forEach(a => {
+  if (a.id === 'exploreMapBtn' || a.id === 'useLocationBtn') return;
+
+  const isMapLink = (a.getAttribute('href') === '#map') || (
+    a.textContent.trim() === 'Map' && (
+      a.closest('.topbar-nav') || a.closest('.mobile-nav-drawer')
+    )
+  );
+  const isBrandLink = a.closest('.topbar-brand');
+
   a.addEventListener('click', (e) => {
-    if (heroExpanded || window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
-      e.preventDefault(); expandMap();
+    e.preventDefault();
+    if (isBrandLink) {
+      // Logo: if map is expanded, return to hero. If hero already showing, scroll top.
+      if (!heroExpanded) {
+        window.location.href = 'index.html';
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    } else if (isMapLink) {
+      expandMap();
+    } else {
+      expandMap();
     }
   });
 });
+
+// If landed here via #map hash (from clicking "Map" in nav on another page),
+// auto-expand to map mode immediately — no hero needed.
+if (window.location.hash === '#map') {
+  // Clear hash without adding history entry, then expand
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+  expandMap();
+}
 
 // Pan or zoom with hero visible → collapse it automatically
 // Only triggers on genuine user interaction (e.originalEvent), not programmatic flyTo
