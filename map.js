@@ -1027,13 +1027,24 @@ if (nearMeBtn) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         try {
-          activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, { showList: true, collapsed: true });
+          // Locate tapped → collapse the hero first if still showing
+          expandMap();
+          // Suppress "Search This Area" right after locate — results are
+          // already fresh; only show it once the user actually moves
+          suppressSearchThisArea = true;
+          // Desktop: open sidebar expanded. Mobile: collapsed peek bar.
+          const isDesktop = window.innerWidth >= 901;
+          activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, {
+            showList: true,
+            collapsed: !isDesktop
+          });
+          if (isDesktop) {
+            setNearMePanelCollapsed(false);
+            if (sidebarTabEl) { sidebarTabEl.hidden = false; sidebarTabEl.classList.add('open'); }
+          }
         } catch (err) {
           console.error('activateNearMeOnMap failed:', err);
         } finally {
-          // Always re-enable, even if something above threw — otherwise
-          // an unhandled error here permanently disables the button, and
-          // every future click silently does nothing at all.
           nearMeBtn.classList.remove('locating');
           nearMeBtn.disabled = false;
         }
@@ -1253,51 +1264,49 @@ showIdleState();
 
 // ===== Landing page: hero collapse / map expand =====
 const heroSection = document.querySelector('.hero');
-const heroRestoreBtn = document.getElementById('heroRestoreBtn');
 const mapSectionEl = document.getElementById('map-section');
 const nearMeBtnEl = document.getElementById('nearMeBtn');
 const sidebarTabEl = document.getElementById('sidebarTab');
 
+let heroExpanded = true;
+let suppressSearchThisArea = false;
+
 function expandMap() {
-  if (!heroSection) return;
-  heroSection.classList.add('collapsed');
+  if (!heroExpanded) return;
+  heroExpanded = false;
+  if (heroSection) heroSection.classList.add('collapsed');
   document.body.classList.add('map-expanded');
-  // Show location button and sidebar tab once map is full-screen
   if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
   if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
-  // Scroll to top so map fills screen cleanly
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function collapseMap() {
-  if (!heroSection) return;
-  heroSection.classList.remove('collapsed');
-  document.body.classList.remove('map-expanded');
-  if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '0'; nearMeBtnEl.style.pointerEvents = 'none'; }
-  if (sidebarTabEl) { sidebarTabEl.hidden = true; }
-}
-
-// Hide near-me btn and sidebar tab initially
+// Hide map UI initially
 if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '0'; nearMeBtnEl.style.pointerEvents = 'none'; }
 if (sidebarTabEl) sidebarTabEl.hidden = true;
 
+// Explore the Map button
 const exploreMapBtn = document.getElementById('exploreMapBtn');
 if (exploreMapBtn) {
-  exploreMapBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    expandMap();
+  exploreMapBtn.addEventListener('click', (e) => { e.preventDefault(); expandMap(); });
+}
+
+// Nav links to index.html expand the map instead of reloading the hero
+document.querySelectorAll('a[href="index.html"], a[href="#map-section"]').forEach(a => {
+  if (a.id === 'exploreMapBtn') return;
+  a.addEventListener('click', (e) => {
+    if (heroExpanded || window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+      e.preventDefault(); expandMap();
+    }
   });
-}
+});
 
-if (heroRestoreBtn) {
-  heroRestoreBtn.addEventListener('click', collapseMap);
-}
-
-// On desktop, "Find Pizza Near Me" also expands the map then triggers location
-const findPizzaBtn = document.querySelector('.hero-btn-outline');
-if (findPizzaBtn && !findPizzaBtn.href.includes('pizza-search')) {
-  // Only intercept if it's not already pointing to a separate page
-}
+// Pan or zoom with hero visible → collapse it automatically
+// Only triggers on genuine user interaction (e.originalEvent), not programmatic flyTo
+map.on('movestart', (e) => {
+  if (!heroExpanded || !e.originalEvent) return;
+  expandMap();
+});
 
 // ===== Floating sidebar tab (desktop only) =====
 // The tab is the sole way to open/close the sidebar on desktop —
@@ -1503,50 +1512,34 @@ if (globalSearchResults) {
 // panned far enough that the anchor point is no longer visible on screen,
 // show a floating button to manually re-query for the current view.
 const searchThisAreaBtn = document.getElementById('searchThisAreaBtn');
-
 function hideSearchThisAreaBtn() {
   if (searchThisAreaBtn) searchThisAreaBtn.hidden = true;
 }
 function showSearchThisAreaBtn() {
+  if (suppressSearchThisArea) return;
   if (searchThisAreaBtn) searchThisAreaBtn.hidden = false;
 }
 
 let panDetectTimer = null;
-// 'move' (not 'moveend') so this reacts while still panning/mid-momentum,
-// rather than waiting for the whole scroll to settle before checking —
-// that wait was the main source of the button feeling slow to reappear.
 map.on('move', () => {
+  // User moving after Locate → lift suppression
+  if (suppressSearchThisArea) suppressSearchThisArea = false;
+
   clearTimeout(panDetectTimer);
   panDetectTimer = setTimeout(() => {
     const anchor = window.panelAnchor;
     const panel = document.getElementById('nearMePanel');
-    if (!anchor || !panel || panel.hidden) {
-      hideSearchThisAreaBtn();
-      return;
-    }
-    // Shrink the bounds inward before checking — requires a meaningfully
-    // clear pan away, not just barely-at-the-edge. Kept fairly tight so
-    // the button reappears promptly after a real pan, rather than making
-    // the user drag most of a screen-width away first.
+    if (!anchor || !panel || panel.hidden) { hideSearchThisAreaBtn(); return; }
     const bounds = map.getBounds();
     const sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
     const latPad = (ne.lat - sw.lat) * 0.08;
     const lngPad = (ne.lng - sw.lng) * 0.08;
     const inView = anchor.lat > sw.lat + latPad && anchor.lat < ne.lat - latPad &&
                    anchor.lng > sw.lng + lngPad && anchor.lng < ne.lng - lngPad;
-
-    // Zooming out around the same center point never moves the anchor
-    // out of bounds (it's usually still smack in the middle), but it
-    // does reveal a lot of area the current results never covered —
-    // so treat a meaningful zoom-out as its own trigger too.
     const anchorZoom = window.panelAnchorZoom;
     const zoomedOut = typeof anchorZoom === 'number' && (anchorZoom - map.getZoom() > 0.6);
-
-    if (!inView || zoomedOut) {
-      showSearchThisAreaBtn();
-    } else {
-      hideSearchThisAreaBtn();
-    }
+    if (!inView || zoomedOut) showSearchThisAreaBtn();
+    else hideSearchThisAreaBtn();
   }, 50);
 });
 
@@ -1555,4 +1548,5 @@ if (searchThisAreaBtn) {
     if (window.buildResultsPanel) window.buildResultsPanel({ mode: 'area' });
   });
 }
+
 
