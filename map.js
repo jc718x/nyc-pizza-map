@@ -1251,67 +1251,53 @@ function showIdleState() {
 }
 showIdleState();
 
-// ===== Landing page: hide near-me-btn until map section is visible =====
-const mapSection = document.getElementById('map-section');
+// ===== Landing page: hero collapse / map expand =====
+const heroSection = document.querySelector('.hero');
+const heroRestoreBtn = document.getElementById('heroRestoreBtn');
+const mapSectionEl = document.getElementById('map-section');
 const nearMeBtnEl = document.getElementById('nearMeBtn');
 const sidebarTabEl = document.getElementById('sidebarTab');
-if (mapSection && document.body.classList.contains('landing-page')) {
-  // Hide map UI until map section scrolls into view
-  if (nearMeBtnEl) nearMeBtnEl.style.opacity = '0';
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      const visible = e.isIntersecting;
-      if (nearMeBtnEl) nearMeBtnEl.style.opacity = visible ? '1' : '0';
-      if (nearMeBtnEl) nearMeBtnEl.style.pointerEvents = visible ? '' : 'none';
-      if (sidebarTabEl) sidebarTabEl.style.display = visible && window.innerWidth >= 901 ? '' : 'none';
-    });
-  }, { threshold: 0.1 });
-  observer.observe(mapSection);
+
+function expandMap() {
+  if (!heroSection) return;
+  heroSection.classList.add('collapsed');
+  document.body.classList.add('map-expanded');
+  // Show location button and sidebar tab once map is full-screen
+  if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
+  if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
+  // Scroll to top so map fills screen cleanly
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ===== Landing page: smooth scroll to map section =====
+function collapseMap() {
+  if (!heroSection) return;
+  heroSection.classList.remove('collapsed');
+  document.body.classList.remove('map-expanded');
+  if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '0'; nearMeBtnEl.style.pointerEvents = 'none'; }
+  if (sidebarTabEl) { sidebarTabEl.hidden = true; }
+}
+
+// Hide near-me btn and sidebar tab initially
+if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '0'; nearMeBtnEl.style.pointerEvents = 'none'; }
+if (sidebarTabEl) sidebarTabEl.hidden = true;
+
 const exploreMapBtn = document.getElementById('exploreMapBtn');
 if (exploreMapBtn) {
   exploreMapBtn.addEventListener('click', (e) => {
-    const target = document.getElementById('map-section');
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    e.preventDefault();
+    expandMap();
   });
 }
 
-// ===== Hero mini-map (fallback when pizza-chef-hero.png is missing) =====
-// Only initializes on desktop after the main map has loaded its data.
-function initHeroMiniMap() {
-  const el = document.getElementById('heroMapPreview');
-  if (!el || window.innerWidth < 901) return;
-  const miniMap = new maplibregl.Map({
-    container: 'heroMapPreview',
-    style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
-    center: [-73.98, 40.73],
-    zoom: 11,
-    interactive: false,
-    attributionControl: false,
-  });
-  miniMap.on('load', () => {
-    // Add a few representative markers
-    const spots = [
-      [-74.0022, 40.7307], [-74.0004, 40.6818], [-73.9916, 40.7638],
-      [-73.9571, 40.7081], [-73.9440, 40.6582], [-73.8448, 40.7196],
-    ];
-    spots.forEach(([lng, lat]) => {
-      const el = document.createElement('div');
-      el.innerHTML = `<svg viewBox="0 0 100 100" width="18" height="18"><circle cx="50" cy="46" r="42" fill="#DC2225" stroke="white" stroke-width="4"/><path d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="white"/></svg>`;
-      new maplibregl.Marker({ element: el, anchor: 'bottom' }).setLngLat([lng, lat]).addTo(miniMap);
-    });
-  });
+if (heroRestoreBtn) {
+  heroRestoreBtn.addEventListener('click', collapseMap);
 }
 
-map.on('load', () => {
-  // Small delay so IntersectionObserver has time to initialize
-  setTimeout(() => {}, 100);
-});
+// On desktop, "Find Pizza Near Me" also expands the map then triggers location
+const findPizzaBtn = document.querySelector('.hero-btn-outline');
+if (findPizzaBtn && !findPizzaBtn.href.includes('pizza-search')) {
+  // Only intercept if it's not already pointing to a separate page
+}
 
 // ===== Floating sidebar tab (desktop only) =====
 // The tab is the sole way to open/close the sidebar on desktop —

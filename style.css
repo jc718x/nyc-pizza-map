@@ -566,7 +566,55 @@ body.landing-page {
 .hero {
   background: var(--color-parchment);
   padding: calc(var(--topbar-h) + 48px) 0 0;
+  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1),
+              padding 0.5s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.35s ease;
+  overflow: hidden;
+  max-height: 800px;
 }
+/* When Explore the Map is clicked, hero collapses away */
+.hero.collapsed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+/* Map section expands to fill full screen when hero is collapsed */
+.map-section {
+  transition: height 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+body.map-expanded .map-section {
+  position: fixed !important;
+  top: var(--topbar-h) !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  z-index: 2;
+}
+/* "Return to home" button appears when map is expanded */
+.hero-restore-btn {
+  display: none;
+  position: fixed;
+  top: calc(var(--topbar-h) + 12px);
+  right: 60px;
+  z-index: 10;
+  background: white;
+  border: 1.5px solid rgba(36,26,16,0.2);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-char);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.hero-restore-btn:hover { background: var(--color-sauce); color: white; border-color: var(--color-sauce); }
+body.map-expanded .hero-restore-btn { display: block; }
 .hero-inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -876,20 +924,44 @@ body.landing-page {
     margin-bottom: 20px;
     max-width: 100%;
   }
-  /* One CTA only — second button hidden on mobile */
   .hero-cta-group {
     max-width: 100%;
     margin-bottom: 0;
-    gap: 0;
+    gap: 10px;
   }
-  .hero-btn-outline { display: none; }
+  /* Both buttons visible on mobile */
+  .hero-btn-outline { display: block; }
   .hero-btn-primary { font-size: 0.88rem; padding: 14px 20px; }
+  .hero-btn-outline { font-size: 0.82rem; padding: 12px 20px; }
+  /* Map expanded — fill screen */
+  body.map-expanded .map-section {
+    position: fixed !important;
+    top: var(--topbar-h) !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: auto !important;
+    z-index: 2;
+  }
 
   /* Stats hidden on mobile — space is precious */
   .hero-stats { display: none; }
 
-  /* Hero art hidden — map shows right below */
-  .hero-art { display: none; }
+  /* Hero art: show on mobile but overlay top-right, small */
+  .hero-art {
+    display: block;
+    position: absolute;
+    top: calc(var(--topbar-h) + 8px);
+    right: -12px;
+    width: 160px;
+    pointer-events: none;
+    opacity: 0.92;
+  }
+  .hero-art-img { width: 100%; }
+  .hero { position: relative; }
+  /* Indent hero text on the left so chef doesn't cover it */
+  .hero-headline { max-width: calc(100% - 130px); }
+  .hero-sub { max-width: calc(100% - 80px); }
 
   /* 2. Map section — 55vh, immediately below the compact hero */
   .map-section {
