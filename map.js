@@ -585,59 +585,68 @@ map.on('load', async () => {
     // invisible behind the (now-cleared) detail view.
     exitDetailMode();
 
-    let results, heading;
+    let results = [], heading = '🍕 Where are we getting pizza?';
 
-    if (opts.mode === 'area') {
-      // Bounds-based: whatever pizzerias are actually visible right now
-      const bounds = map.getBounds();
-      const userLoc = window.userActualLocation;
-      results = geojson.features
-        .filter(f => bounds.contains(f.geometry.coordinates))
-        .map(f => ({
-          ...f.properties,
-          lat: f.geometry.coordinates[1],
-          lng: f.geometry.coordinates[0],
-          d: userLoc ? stationDist(userLoc.lat, userLoc.lng, f.geometry.coordinates[1], f.geometry.coordinates[0]) : null,
-        }))
-        .sort((a, b) => {
-          if (a.d !== null && b.d !== null) return a.d - b.d;
-          const c = map.getCenter();
-          return stationDist(c.lat, c.lng, a.lat, a.lng) - stationDist(c.lat, c.lng, b.lat, b.lng);
-        })
-        .slice(0, 20);
-      heading = results.length === 0
-        ? `🍕 ${zeroResultMessage()}`
-        : `🍕 ${results.length} ${pizzaWord(results.length)} in This Area`;
-      // Even in area mode, keep an anchor (the center of the area that
-      // was just searched) so panning further away can still trigger
-      // the button again — without this, it would never reappear.
-      const center = map.getCenter();
-      window.panelAnchor = { lat: center.lat, lng: center.lng };
-      window.panelAnchorZoom = map.getZoom();
-    } else {
-      // 'nearme' or 'search' — distance-sorted from a fixed anchor point
-      const { lat, lng } = opts;
-      results = geojson.features
-        .map(f => ({
-          ...f.properties,
-          lat: f.geometry.coordinates[1],
-          lng: f.geometry.coordinates[0],
-          d: stationDist(lat, lng, f.geometry.coordinates[1], f.geometry.coordinates[0]),
-        }))
-        .sort((a, b) => a.d - b.d)
-        .slice(0, 12);
-
-      if (results.length === 0) {
-        heading = `🍕 ${zeroResultMessage()}`;
-      } else if (opts.mode === 'nearme') {
-        heading = `🍕 ${results.length} ${pizzaWord(results.length)} Near You`;
+    try {
+      if (opts.mode === 'area') {
+        // Bounds-based: whatever pizzerias are actually visible right now
+        const bounds = map.getBounds();
+        const userLoc = window.userActualLocation;
+        results = geojson.features
+          .filter(f => bounds.contains(f.geometry.coordinates))
+          .map(f => ({
+            ...f.properties,
+            lat: f.geometry.coordinates[1],
+            lng: f.geometry.coordinates[0],
+            d: userLoc ? stationDist(userLoc.lat, userLoc.lng, f.geometry.coordinates[1], f.geometry.coordinates[0]) : null,
+          }))
+          .sort((a, b) => {
+            if (a.d !== null && b.d !== null) return a.d - b.d;
+            const c = map.getCenter();
+            return stationDist(c.lat, c.lng, a.lat, a.lng) - stationDist(c.lat, c.lng, b.lat, b.lng);
+          })
+          .slice(0, 20);
+        heading = results.length === 0
+          ? `🍕 ${zeroResultMessage()}`
+          : `🍕 ${results.length} ${pizzaWord(results.length)} in This Area`;
+        // Even in area mode, keep an anchor (the center of the area that
+        // was just searched) so panning further away can still trigger
+        // the button again — without this, it would never reappear.
+        const center = map.getCenter();
+        window.panelAnchor = { lat: center.lat, lng: center.lng };
+        window.panelAnchorZoom = map.getZoom();
       } else {
-        heading = opts.isNeighborhood
-          ? `🍕 ${results.length} ${pizzaWord(results.length)} in ${opts.label}`
-          : `🍕 ${results.length} ${pizzaWord(results.length)} Near ${opts.label}`;
+        // 'nearme' or 'search' — distance-sorted from a fixed anchor point
+        const { lat, lng } = opts;
+        results = geojson.features
+          .map(f => ({
+            ...f.properties,
+            lat: f.geometry.coordinates[1],
+            lng: f.geometry.coordinates[0],
+            d: stationDist(lat, lng, f.geometry.coordinates[1], f.geometry.coordinates[0]),
+          }))
+          .sort((a, b) => a.d - b.d)
+          .slice(0, 12);
+
+        if (results.length === 0) {
+          heading = `🍕 ${zeroResultMessage()}`;
+        } else if (opts.mode === 'nearme') {
+          heading = `🍕 ${results.length} ${pizzaWord(results.length)} Near You`;
+        } else {
+          heading = opts.isNeighborhood
+            ? `🍕 ${results.length} ${pizzaWord(results.length)} in ${opts.label}`
+            : `🍕 ${results.length} ${pizzaWord(results.length)} Near ${opts.label}`;
+        }
+        window.panelAnchor = { lat, lng };
+        window.panelAnchorZoom = map.getZoom();
       }
-      window.panelAnchor = { lat, lng };
-      window.panelAnchorZoom = map.getZoom();
+    } catch (err) {
+      // Whatever went wrong, don't leave the header/list frozen on stale
+      // text with no visible sign anything failed — log it so it's
+      // actually diagnosable, and fall back to a a plain heading.
+      console.error('buildResultsPanel failed:', err);
+      heading = '🍕 Pizzerias Near You';
+      results = [];
     }
 
     title.textContent = heading;
@@ -995,12 +1004,11 @@ function activateNearMeOnMap(latitude, longitude, opts) {
   // show real walk-time-from-user if that's still meaningful
   window.userActualLocation = { lat: latitude, lng: longitude };
 
-  // The manual location button is strictly "find/recenter me" — it does
-  // NOT touch the panel. The one-time automatic locate on a returning
-  // visit (permission already granted) is the exception: it also builds
-  // the nearby list, but collapsed to a one-line peek ("N Pizzerias Near
-  // You") rather than expanded, matching how this behaved before the
-  // popup-to-sheet redesign.
+  // Both the manual location button and the one-time auto-locate on a
+  // returning visit build the nearby list — opts.collapsed controls
+  // whether it lands expanded (manual click — high intent, show results
+  // immediately) or peeked (auto-locate on load — a quieter, ambient
+  // update rather than something the user explicitly asked for).
   if (opts.showList && window.buildResultsPanel) {
     window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed });
   }
@@ -1018,9 +1026,17 @@ if (nearMeBtn) {
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude);
-        nearMeBtn.classList.remove('locating');
-        nearMeBtn.disabled = false;
+        try {
+          activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, { showList: true, collapsed: true });
+        } catch (err) {
+          console.error('activateNearMeOnMap failed:', err);
+        } finally {
+          // Always re-enable, even if something above threw — otherwise
+          // an unhandled error here permanently disables the button, and
+          // every future click silently does nothing at all.
+          nearMeBtn.classList.remove('locating');
+          nearMeBtn.disabled = false;
+        }
       },
       (err) => {
         nearMeBtn.classList.remove('locating');

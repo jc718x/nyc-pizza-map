@@ -7,7 +7,7 @@
   --color-parchment-panel: #FFFBF3;
   --color-sauce: #DC2225;
   --color-char: #241A10;
-  --color-cheese: #F4B942;
+  --color-cheese: #FFD500;
   --color-landmark-selected: #2E5FE8;
 
   --color-brooklyn: #DC2225;
@@ -1523,7 +1523,8 @@ button:focus-visible {
     bottom: auto;
     left: 0;
     right: auto;
-    width: 300px;
+    width: 20vw;
+    min-width: 300px;
     height: calc(100vh - var(--topbar-h));
     max-height: calc(100vh - var(--topbar-h));
     overflow: hidden;
@@ -1572,7 +1573,7 @@ button:focus-visible {
   /* Keep the Near Me button clear of the sidebar's column at all times —
      the header strip now occupies that space even when "collapsed" */
   .near-me-btn {
-    left: 316px;
+    left: max(316px, calc(20vw + 16px));
   }
 
   .near-me-reopen-tab {
