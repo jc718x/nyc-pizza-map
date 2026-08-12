@@ -650,14 +650,19 @@ map.on('load', async () => {
     }
 
     title.textContent = heading;
-    // Cached so detail mode can show "← Back to N Pizzerias" and so
-    // backing out of detail mode restores the exact right-hand text,
-    // rather than either mode having to guess at the other's phrasing.
     window.lastListHeading = heading;
     window.lastListResultCount = results.length;
+    window.lastBuildOpts = opts; // cache so peek→full expansion works
+
+    // Peek mode: show only the first 3 results + a "View all N" row.
+    // Used after Find Pizza Near Me so the user gets immediate payoff
+    // without the full list covering the map.
+    const peekCount = 3;
+    const isPeek = !!opts.peek && results.length > peekCount;
+    const displayResults = isPeek ? results.slice(0, peekCount) : results;
 
     list.innerHTML = results.length
-      ? results.map(p => {
+      ? displayResults.map(p => {
           const metaText = p.d !== null
             ? `${walkMinutes(p.d)} walk · ${(p.d / 1609.34).toFixed(1)} mi`
             : p.borough;
@@ -665,11 +670,26 @@ map.on('load', async () => {
             <span class="near-me-item-name">${escapeHTML(p.name)}</span>
             <span class="near-me-item-meta">${metaText}</span>
           </div>`;
-        }).join('')
+        }).join('') +
+        (isPeek ? `<div class="near-me-view-all" id="nearMeViewAll">View all ${results.length} →</div>` : '')
       : `<p class="near-me-empty-hint">Try zooming out, panning somewhere else, or searching a different spot.</p>`;
 
+    // "View all" expands to the full list in-place
+    if (isPeek) {
+      const viewAll = document.getElementById('nearMeViewAll');
+      if (viewAll) {
+        viewAll.addEventListener('click', () => {
+          window.buildResultsPanel({ ...opts, peek: false, collapsed: false });
+        });
+      }
+    }
+
     panel.hidden = false;
-    setNearMePanelCollapsed(!!opts.collapsed);
+    if (opts.peek) {
+      setNearMePanelPeek();
+    } else {
+      setNearMePanelCollapsed(!!opts.collapsed);
+    }
     hideSearchThisAreaBtn();
   };
 
@@ -1010,7 +1030,7 @@ function activateNearMeOnMap(latitude, longitude, opts) {
   // immediately) or peeked (auto-locate on load — a quieter, ambient
   // update rather than something the user explicitly asked for).
   if (opts.showList && window.buildResultsPanel) {
-    window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed });
+    window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed, peek: !!opts.peek });
   }
 }
 
@@ -1032,16 +1052,11 @@ if (nearMeBtn) {
           // Suppress "Search This Area" right after locate — results are
           // already fresh; only show it once the user actually moves
           suppressSearchThisArea = true;
-          // Desktop: open sidebar expanded. Mobile: collapsed peek bar.
-          const isDesktop = window.innerWidth >= 901;
+          // Activate near me with peek mode — partial sheet showing 3 results
           activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, {
             showList: true,
-            collapsed: !isDesktop
+            peek: true
           });
-          if (isDesktop) {
-            setNearMePanelCollapsed(false);
-            if (sidebarTabEl) { sidebarTabEl.hidden = false; sidebarTabEl.classList.add('open'); }
-          }
         } catch (err) {
           console.error('activateNearMeOnMap failed:', err);
         } finally {
@@ -1091,6 +1106,7 @@ function setNearMePanelCollapsed(collapsed) {
   const panel = document.getElementById('nearMePanel');
   if (!panel) return;
   panel.classList.toggle('collapsed', collapsed);
+  panel.classList.remove('peek'); // clear peek state when explicitly collapsed/expanded
 
   // Desktop: shift the Near Me button and sync the floating tab
   const btn = document.getElementById('nearMeBtn');
@@ -1103,6 +1119,25 @@ function setNearMePanelCollapsed(collapsed) {
     tab.classList.toggle('open', !collapsed);
     tab.textContent = collapsed ? '›' : '‹';
     tab.setAttribute('aria-label', collapsed ? 'Open pizzeria list' : 'Close pizzeria list');
+  }
+}
+
+// Peek state: panel visible and partially open (~35vh), showing 3 results.
+// The user can tap the header to collapse or drag up to expand fully.
+// Distinct from collapsed (just the header) and expanded (full list).
+function setNearMePanelPeek() {
+  const panel = document.getElementById('nearMePanel');
+  if (!panel) return;
+  panel.classList.remove('collapsed');
+  panel.classList.add('peek');
+  const btn = document.getElementById('nearMeBtn');
+  if (btn) btn.classList.remove('sidebar-collapsed');
+  const tab = document.getElementById('sidebarTab');
+  if (tab) {
+    const isDesktop = window.innerWidth >= 901;
+    tab.hidden = !isDesktop;
+    tab.classList.add('open');
+    tab.textContent = '‹';
   }
 }
 
@@ -1122,7 +1157,13 @@ if (nearMePanelLeftZone) {
       exitDetailMode();
     } else {
       const panel = document.getElementById('nearMePanel');
-      setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
+      if (panel.classList.contains('peek')) {
+        // Peek → expand to full list (rebuild without peek limit)
+        if (window.lastBuildOpts) window.buildResultsPanel({ ...window.lastBuildOpts, peek: false, collapsed: false });
+        else setNearMePanelCollapsed(false);
+      } else {
+        setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
+      }
     }
   });
 }
@@ -1136,7 +1177,12 @@ if (nearMePanelRightZone) {
   nearMePanelRightZone.addEventListener('click', (e) => {
     e.stopPropagation();
     const panel = document.getElementById('nearMePanel');
-    setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
+    if (panel.classList.contains('peek')) {
+      if (window.lastBuildOpts) window.buildResultsPanel({ ...window.lastBuildOpts, peek: false, collapsed: false });
+      else setNearMePanelCollapsed(false);
+    } else {
+      setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
+    }
   });
 }
 

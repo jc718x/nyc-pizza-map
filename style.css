@@ -580,9 +580,7 @@ body.landing-page {
 .hero.collapsed {
   transform: translateY(-100%);
   opacity: 0;
-  max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin-bottom: -100vh; /* pulls subsequent content up so no beige gap */
   pointer-events: none;
 }
 /* Map section expands to fill full screen when hero is collapsed */
@@ -896,20 +894,42 @@ body.map-expanded .map-section {
     padding-bottom: 16px;
     padding-bottom: 0;
   }
+  /* Mobile hero: text on left, chef on right — proper 2-col layout
+     so the chef has a dedicated column and never overlaps text or buttons */
   .hero-inner {
-    grid-template-columns: 1fr;
-    padding: 20px 20px 20px;
+    grid-template-columns: 1fr 130px;
+    padding: 16px 16px 16px;
     min-height: auto;
-    gap: 0;
+    gap: 8px;
+    align-items: start;
   }
+  .hero-text {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .hero-art {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    position: static !important;
+    display: flex !important;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100% !important;
+    max-width: 100% !important;
+    top: auto !important;
+    right: auto !important;
+    align-self: stretch;
+  }
+  .hero-art-img { width: 100%; max-height: 160px; object-fit: contain; object-position: bottom center; }
   .hero-headline {
-    font-size: 2.8rem;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    margin-bottom: 6px;
+    max-width: 100% !important;
   }
   .hero-sub {
-    font-size: 1rem;
-    margin-bottom: 20px;
-    max-width: 100%;
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+    max-width: 100% !important;
   }
   .hero-cta-group {
     max-width: 100%;
@@ -918,7 +938,7 @@ body.map-expanded .map-section {
     gap: 8px;
   }
   /* Both buttons side by side, same compact size */
-  .hero-btn { flex: 1; font-size: 0.68rem; padding: 10px 8px; letter-spacing: 0.03em; }
+  .hero-btn { flex: 1; font-size: 0.65rem; padding: 10px 6px; letter-spacing: 0.03em; }
   .hero-btn-outline { display: flex; }
   /* Map expanded — fill screen */
   body.map-expanded .map-section {
@@ -934,23 +954,7 @@ body.map-expanded .map-section {
   /* Stats hidden on mobile — space is precious */
   .hero-stats { display: none; }
 
-  /* Hero art: top-right, occupies the empty space next to the headline.
-     Sized so it never reaches below the sub-copy — the buttons span
-     full width below it without any overlap. */
-  .hero-art {
-    display: block;
-    position: absolute;
-    top: calc(var(--topbar-h));
-    right: -4px;
-    width: 40vw;
-    max-width: 170px;
-    pointer-events: none;
-  }
-  .hero-art-img { width: 100%; }
-  .hero { position: relative; overflow: hidden; }
-  /* Keep headline/sub clear of the chef */
-  .hero-headline { max-width: calc(100% - 140px); font-size: 2.4rem; }
-  .hero-sub { max-width: 65%; font-size: 0.88rem; }
+  .hero { overflow: hidden; }
 
   /* 2. Map section — 55vh, immediately below the compact hero */
   .map-section {
@@ -1977,6 +1981,11 @@ button:focus-visible {
   flex-direction: column;
   max-height: 42vh;
 }
+/* Peek state — partial expansion after Find Pizza Near Me.
+   Shows ~3–5 results without covering too much of the map. */
+.near-me-panel.peek {
+  max-height: 36vh;
+}
 .near-me-panel[hidden] {
   display: none;
 }
@@ -2179,6 +2188,20 @@ button:focus-visible {
   flex-shrink: 0;
 }
 
+.near-me-view-all {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-crust);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 12px 6px;
+  cursor: pointer;
+  border-top: 1px solid rgba(36,26,16,0.1);
+  text-align: center;
+}
+.near-me-view-all:hover { color: var(--color-sauce); }
+
 .near-me-reopen-tab { display: none; }
 
 /* Desktop: sidebar slides over the map from the left edge.
@@ -2263,26 +2286,26 @@ button:focus-visible {
 /* ===== "Search This Area" floating button ===== */
 .search-this-area-btn {
   position: fixed;
-  top: calc(var(--topbar-h) + 12px);
-  right: 12px;
+  top: calc(var(--topbar-h) + 10px);
+  right: 10px;
   z-index: 5;
   background: var(--color-crust);
   color: white;
   border: 1.5px solid var(--color-crust);
   border-radius: 20px;
-  padding: 0 16px;
-  height: 42px;
-  line-height: 1;
+  padding: 0 12px;
+  height: 32px;
+  line-height: 32px;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 .search-this-area-btn[hidden] { display: none; }
 .search-this-area-btn:hover { background: #163d28; border-color: #163d28; }
