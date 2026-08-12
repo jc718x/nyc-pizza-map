@@ -655,7 +655,7 @@ map.on('load', async () => {
             d: stationDist(lat, lng, f.geometry.coordinates[1], f.geometry.coordinates[0]),
           }))
           .sort((a, b) => a.d - b.d)
-          .slice(0, 12);
+          .slice(0, 10);
 
         if (results.length === 0) {
           heading = `🍕 ${zeroResultMessage()}`;
@@ -681,17 +681,10 @@ map.on('load', async () => {
     title.textContent = heading;
     window.lastListHeading = heading;
     window.lastListResultCount = results.length;
-    window.lastBuildOpts = opts; // cache so peek→full expansion works
-
-    // Peek mode: show only the first 3 results + a "View all N" row.
-    // Used after Find Pizza Near Me so the user gets immediate payoff
-    // without the full list covering the map.
-    const peekCount = 3;
-    const isPeek = !!opts.peek && results.length > peekCount;
-    const displayResults = isPeek ? results.slice(0, peekCount) : results;
+    window.lastBuildOpts = opts; // cache for panel rebuilds
 
     list.innerHTML = results.length
-      ? displayResults.map(p => {
+      ? results.map(p => {
           const metaText = p.d !== null
             ? `${walkMinutes(p.d)} walk · ${(p.d / 1609.34).toFixed(1)} mi`
             : p.borough;
@@ -699,26 +692,11 @@ map.on('load', async () => {
             <span class="near-me-item-name">${escapeHTML(p.name)}</span>
             <span class="near-me-item-meta">${metaText}</span>
           </div>`;
-        }).join('') +
-        (isPeek ? `<div class="near-me-view-all">View all ${results.length} →</div>` : '')
+        }).join('')
       : `<p class="near-me-empty-hint">Try zooming out, panning somewhere else, or searching a different spot.</p>`;
 
-    // "View all" expands to the full list in-place
-    if (isPeek) {
-      const viewAll = list.querySelector('.near-me-view-all');
-      if (viewAll) {
-        viewAll.addEventListener('click', () => {
-          window.buildResultsPanel({ ...opts, peek: false, collapsed: false });
-        });
-      }
-    }
-
     panel.hidden = false;
-    if (opts.peek) {
-      setNearMePanelPeek();
-    } else {
-      setNearMePanelCollapsed(!!opts.collapsed);
-    }
+    setNearMePanelCollapsed(!!opts.collapsed);
     hideSearchThisAreaBtn();
   };
 
@@ -1065,8 +1043,7 @@ map.on('load', async () => {
         window.lastListHeading = _savedState.lastListHeading;
         window.buildResultsPanel({
           ..._savedState.lastBuildOpts,
-          collapsed: true,
-          peek: false,
+          collapsed: true
         });
       }
     }
@@ -1104,7 +1081,7 @@ function activateNearMeOnMap(latitude, longitude, opts) {
   // "here's where you are" → "here's the pizza near you."
   if (opts.showList && window.buildResultsPanel) {
     setTimeout(() => {
-      window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed, peek: !!opts.peek });
+      window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed });
     }, 1250);
   }
 }
@@ -1127,10 +1104,9 @@ if (nearMeBtn) {
           // Suppress "Search This Area" right after locate — results are
           // already fresh; only show it once the user actually moves
           suppressSearchThisArea = true;
-          // Activate near me with peek mode — partial sheet showing 3 results
           activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, {
             showList: true,
-            peek: true
+            collapsed: false
           });
         } catch (err) {
           console.error('activateNearMeOnMap failed:', err);
@@ -1181,7 +1157,6 @@ function setNearMePanelCollapsed(collapsed) {
   const panel = document.getElementById('nearMePanel');
   if (!panel) return;
   panel.classList.toggle('collapsed', collapsed);
-  panel.classList.remove('peek'); // clear peek state when explicitly collapsed/expanded
 
   // Desktop: shift the Near Me button and sync the floating tab
   const btn = document.getElementById('nearMeBtn');
@@ -1194,25 +1169,6 @@ function setNearMePanelCollapsed(collapsed) {
     tab.classList.toggle('open', !collapsed);
     tab.textContent = collapsed ? '›' : '‹';
     tab.setAttribute('aria-label', collapsed ? 'Open pizzeria list' : 'Close pizzeria list');
-  }
-}
-
-// Peek state: panel visible and partially open (~35vh), showing 3 results.
-// The user can tap the header to collapse or drag up to expand fully.
-// Distinct from collapsed (just the header) and expanded (full list).
-function setNearMePanelPeek() {
-  const panel = document.getElementById('nearMePanel');
-  if (!panel) return;
-  panel.classList.remove('collapsed');
-  panel.classList.add('peek');
-  const btn = document.getElementById('nearMeBtn');
-  if (btn) btn.classList.remove('sidebar-collapsed');
-  const tab = document.getElementById('sidebarTab');
-  if (tab) {
-    const isDesktop = window.innerWidth >= 901;
-    tab.hidden = !isDesktop;
-    tab.classList.add('open');
-    tab.textContent = '‹';
   }
 }
 
@@ -1232,13 +1188,7 @@ if (nearMePanelLeftZone) {
       exitDetailMode();
     } else {
       const panel = document.getElementById('nearMePanel');
-      if (panel.classList.contains('peek')) {
-        // Peek → expand to full list (rebuild without peek limit)
-        if (window.lastBuildOpts) window.buildResultsPanel({ ...window.lastBuildOpts, peek: false, collapsed: false });
-        else setNearMePanelCollapsed(false);
-      } else {
-        setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
-      }
+      setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
     }
   });
 }
@@ -1252,12 +1202,7 @@ if (nearMePanelRightZone) {
   nearMePanelRightZone.addEventListener('click', (e) => {
     e.stopPropagation();
     const panel = document.getElementById('nearMePanel');
-    if (panel.classList.contains('peek')) {
-      if (window.lastBuildOpts) window.buildResultsPanel({ ...window.lastBuildOpts, peek: false, collapsed: false });
-      else setNearMePanelCollapsed(false);
-    } else {
-      setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
-    }
+    setNearMePanelCollapsed(!panel.classList.contains('collapsed'));
   });
 }
 
