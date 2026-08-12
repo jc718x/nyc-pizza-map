@@ -1251,6 +1251,18 @@ function showIdleState() {
 }
 showIdleState();
 
+// ===== Landing page: smooth scroll to map section =====
+const exploreMapBtn = document.getElementById('exploreMapBtn');
+if (exploreMapBtn) {
+  exploreMapBtn.addEventListener('click', (e) => {
+    const target = document.getElementById('map-section');
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+}
+
 // ===== Floating sidebar tab (desktop only) =====
 // The tab is the sole way to open/close the sidebar on desktop —
 // no blank rail, no in-panel toggle button. Only shown on wide screens;

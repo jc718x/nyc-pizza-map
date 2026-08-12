@@ -1898,7 +1898,9 @@
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
 </head>
-<body class="map-page">
+<body class="landing-page">
+
+
 
 <header class="topbar">
   <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
@@ -2033,33 +2035,168 @@
   <a href="about.html">About</a>
 </div>
 
-<div id="map"></div>
-
-<button class="near-me-btn" id="nearMeBtn" title="Find pizza near me" aria-label="Find pizza near me">
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="3" fill="currentColor"/>
-    <path d="M12 2v3M12 19v3M22 12h-3M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"/>
-  </svg>
-</button>
-
-<div class="near-me-panel" id="nearMePanel" hidden>
-  <div class="near-me-panel-header" id="nearMePanelHeader">
-    <span class="near-me-panel-handle"></span>
-    <button class="near-me-panel-leftzone" id="nearMePanelLeftZone" aria-label="Toggle pizzeria list">
-      <span class="near-me-panel-back" id="nearMePanelBack" hidden aria-hidden="true">←</span>
-      <span class="near-me-panel-title" id="nearMePanelTitle">🍕 Pizzerias Near You</span>
-    </button>
-    <button class="near-me-panel-rightzone" id="nearMePanelRightZone" aria-label="Expand list">
-      <span class="near-me-panel-arrow" id="nearMePanelArrow">↑</span>
-    </button>
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h1 class="hero-headline">
+        NYC's Pizza,<br>
+        <span class="hero-headline-red">Mapped.</span>
+      </h1>
+      <p class="hero-sub">Discover the best pizzerias across all five boroughs. Curated guides, neighborhood favorites, and hidden gems worth the trip.</p>
+      <div class="hero-cta-group">
+        <a href="#map-section" class="hero-btn hero-btn-primary" id="exploreMapBtn">EXPLORE THE MAP 📍</a>
+        <a href="pizza-search.html" class="hero-btn hero-btn-outline">FIND PIZZA NEAR ME ◎</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-icon">🍕</span>
+          <span class="hero-stat-num">295+</span>
+          <span class="hero-stat-label">Pizzerias</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-icon">🗺️</span>
+          <span class="hero-stat-num">5</span>
+          <span class="hero-stat-label">Boroughs</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-icon">⭐</span>
+          <span class="hero-stat-num">Curated</span>
+          <span class="hero-stat-label">by True New York Pizza Lovers</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="assets/pizza-chef-hero.png" alt="NYC pizza chef illustration" onerror="this.style.display='none'" />
+    </div>
   </div>
-  <div class="near-me-panel-list" id="nearMePanelList"></div>
-  <div class="near-me-panel-detail" id="nearMePanelDetail" hidden></div>
-</div>
-<button class="near-me-reopen-tab" id="nearMeReopenTab" hidden aria-label="Show nearby pizzerias">🍕</button>
-<button class="search-this-area-btn" id="searchThisAreaBtn" hidden>🔍 Search This Area</button>
-<button class="near-me-sidebar-tab" id="sidebarTab" aria-label="Open pizzeria list" hidden>›</button>
+</section>
+
+<!-- ===== LIVE MAP SECTION ===== -->
+<section class="map-section" id="map-section">
+  <div id="map"></div>
+  <button class="near-me-btn" id="nearMeBtn" title="Find pizza near me" aria-label="Find pizza near me">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="3" fill="currentColor"/>
+      <path d="M12 2v3M12 19v3M22 12h-3M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+  </button>
+  <div class="near-me-panel" id="nearMePanel" hidden>
+    <div class="near-me-panel-header" id="nearMePanelHeader">
+      <span class="near-me-panel-handle"></span>
+      <button class="near-me-panel-leftzone" id="nearMePanelLeftZone" aria-label="Toggle pizzeria list">
+        <span class="near-me-panel-back" id="nearMePanelBack" hidden aria-hidden="true">←</span>
+        <span class="near-me-panel-title" id="nearMePanelTitle">🍕 Pizzerias Near You</span>
+      </button>
+      <button class="near-me-panel-rightzone" id="nearMePanelRightZone" aria-label="Expand list">
+        <span class="near-me-panel-arrow" id="nearMePanelArrow">↑</span>
+      </button>
+    </div>
+    <div class="near-me-panel-list" id="nearMePanelList"></div>
+    <div class="near-me-panel-detail" id="nearMePanelDetail" hidden></div>
+  </div>
+  <button class="near-me-reopen-tab" id="nearMeReopenTab" hidden aria-label="Show nearby pizzerias">🍕</button>
+  <button class="search-this-area-btn" id="searchThisAreaBtn" hidden>🔍 Search This Area</button>
+  <button class="near-me-sidebar-tab" id="sidebarTab" aria-label="Open pizzeria list" hidden>›</button>
+</section>
+
+<!-- ===== EXPLORE NYC PIZZA ===== -->
+<section class="explore-section">
+  <div class="explore-inner">
+    <h2 class="section-heading">EXPLORE NYC PIZZA</h2>
+    <div class="explore-grid">
+      <a href="neighborhood-guides.html" class="explore-card">
+        <div class="explore-card-icon">🏘️</div>
+        <div class="explore-card-title">NEIGHBORHOOD<br>GUIDES</div>
+        <p class="explore-card-desc">In-depth guides to the best pizza in every neighborhood.</p>
+        <span class="explore-card-link">EXPLORE GUIDES →</span>
+      </a>
+      <a href="pizza-worth-traveling-for.html" class="explore-card">
+        <div class="explore-card-icon">🚕</div>
+        <div class="explore-card-title">WORTH<br>THE TRIP</div>
+        <p class="explore-card-desc">Pizzerias that are worth leaving your neighborhood for.</p>
+        <span class="explore-card-link">SEE THE LIST →</span>
+      </a>
+      <a href="pizza-history.html" class="explore-card">
+        <div class="explore-card-icon">🍕</div>
+        <div class="explore-card-title">PIZZA<br>HISTORY</div>
+        <p class="explore-card-desc">The story of New York pizza and how it became iconic.</p>
+        <span class="explore-card-link">READ MORE →</span>
+      </a>
+      <a href="pizza-facts.html" class="explore-card">
+        <div class="explore-card-icon">📋</div>
+        <div class="explore-card-title">PIZZA<br>FACTS</div>
+        <p class="explore-card-desc">Fun facts, stats, and trivia about pizza in NYC.</p>
+        <span class="explore-card-link">GET THE FACTS →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POPULAR NEIGHBORHOODS ===== -->
+<section class="neighborhoods-section">
+  <div class="neighborhoods-inner">
+    <div class="neighborhoods-header">
+      <h2 class="section-heading">POPULAR NEIGHBORHOODS</h2>
+      <a href="neighborhood-guides.html" class="view-all-link">VIEW ALL →</a>
+    </div>
+    <div class="neighborhoods-grid">
+      <a href="best-pizza-west-village.html" class="nbhd-card">
+        <div class="nbhd-card-bg" style="background:#4a7c59 url() center/cover"></div>
+        <div class="nbhd-card-content">
+          <span class="nbhd-card-name">WEST VILLAGE</span>
+          <span class="nbhd-card-count">9 Pizzerias</span>
+        </div>
+      </a>
+      <a href="neighborhood-guides.html" class="nbhd-card">
+        <div class="nbhd-card-bg" style="background:#7a4f3a"></div>
+        <div class="nbhd-card-content">
+          <span class="nbhd-card-name">WILLIAMSBURG</span>
+          <span class="nbhd-card-count">28 Pizzerias</span>
+        </div>
+      </a>
+      <a href="best-pizza-bay-ridge.html" class="nbhd-card">
+        <div class="nbhd-card-bg" style="background:#3a5a7a"></div>
+        <div class="nbhd-card-content">
+          <span class="nbhd-card-name">BAY RIDGE</span>
+          <span class="nbhd-card-count">12 Pizzerias</span>
+        </div>
+      </a>
+      <a href="neighborhood-guides.html" class="nbhd-card">
+        <div class="nbhd-card-bg" style="background:#7a3a4a"></div>
+        <div class="nbhd-card-content">
+          <span class="nbhd-card-name">ASTORIA</span>
+          <span class="nbhd-card-count">21 Pizzerias</span>
+        </div>
+      </a>
+      <a href="neighborhood-guides.html" class="nbhd-card">
+        <div class="nbhd-card-bg" style="background:#5a3a7a"></div>
+        <div class="nbhd-card-content">
+          <span class="nbhd-card-name">ARTHUR AVENUE</span>
+          <span class="nbhd-card-count">18 Pizzerias</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-copy">© 2025 NYC Pizza Map</span>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="suggest.html">Contact</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram">&#x1F4F7;</a>
+      <a href="mailto:hello@nycpizzamap.com" aria-label="Email">&#x2709;</a>
+    </div>
+  </div>
+</footer>
 
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="stations.js"></script>
