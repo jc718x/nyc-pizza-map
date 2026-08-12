@@ -998,10 +998,12 @@ map.on('load', async () => {
     const latNum = parseFloat(destLat), lngNum = parseFloat(destLng);
     map.flyTo({ center: [lngNum, latNum], zoom: 14.5, duration: 900 });
     if (window.buildResultsPanel) {
-      window.buildResultsPanel({
-        lat: latNum, lng: lngNum, mode: 'search',
-        label: destLabel || 'This Spot', isNeighborhood: params.get('isNeighborhood') === '1',
-      });
+      setTimeout(() => {
+        window.buildResultsPanel({
+          lat: latNum, lng: lngNum, mode: 'search',
+          label: destLabel || 'This Spot', isNeighborhood: params.get('isNeighborhood') === '1',
+        });
+      }, 1150);
     }
   }
 });
@@ -1023,17 +1025,15 @@ function activateNearMeOnMap(latitude, longitude, opts) {
   // Fly to user location at zoom 14
   map.flyTo({ center: [longitude, latitude], zoom: 14, duration: 1000 });
 
-  // Persists even after later searches, so "Search This Area" can still
-  // show real walk-time-from-user if that's still meaningful
   window.userActualLocation = { lat: latitude, lng: longitude };
 
-  // Both the manual location button and the one-time auto-locate on a
-  // returning visit build the nearby list — opts.collapsed controls
-  // whether it lands expanded (manual click — high intent, show results
-  // immediately) or peeked (auto-locate on load — a quieter, ambient
-  // update rather than something the user explicitly asked for).
+  // Sequence: fly settles (1000ms) → 250ms pause → sheet eases up.
+  // Separating the two movements gives the interaction a narrative:
+  // "here's where you are" → "here's the pizza near you."
   if (opts.showList && window.buildResultsPanel) {
-    window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed, peek: !!opts.peek });
+    setTimeout(() => {
+      window.buildResultsPanel({ lat: latitude, lng: longitude, mode: 'nearme', collapsed: !!opts.collapsed, peek: !!opts.peek });
+    }, 1250);
   }
 }
 
@@ -1611,10 +1611,12 @@ if (globalSearchResults) {
       const latNum = parseFloat(lat), lngNum = parseFloat(lng);
       map.flyTo({ center: [lngNum, latNum], zoom: 14.5, duration: 900 });
       if (window.buildResultsPanel) {
-        window.buildResultsPanel({
-          lat: latNum, lng: lngNum, mode: 'search',
-          label: name, isNeighborhood: category === 'Neighborhoods',
-        });
+        setTimeout(() => {
+          window.buildResultsPanel({
+            lat: latNum, lng: lngNum, mode: 'search',
+            label: name, isNeighborhood: category === 'Neighborhoods',
+          });
+        }, 1150);
       }
     }
   });
