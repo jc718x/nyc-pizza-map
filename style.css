@@ -1564,19 +1564,19 @@ button:focus-visible {
 /* Desktop: sidebar instead of bottom sheet */
 @media (min-width: 901px) {
   .near-me-panel {
-    top: var(--topbar-h);
-    bottom: auto;
-    left: 0;
-    right: auto;
-    width: 20vw;
-    min-width: 300px;
-    height: calc(100vh - var(--topbar-h));
-    max-height: calc(100vh - var(--topbar-h));
+    top: var(--topbar-h) !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
+    width: 20vw !important;
+    min-width: 300px !important;
+    height: calc(100vh - var(--topbar-h)) !important;
+    max-height: calc(100vh - var(--topbar-h)) !important;
     overflow: hidden;
-    border-radius: 0;
-    border-top: none;
-    border-right: 2px solid var(--color-crust);
-    box-shadow: 2px 0 16px rgba(0,0,0,0.12);
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-right: 2px solid var(--color-crust) !important;
+    box-shadow: 2px 0 16px rgba(0,0,0,0.12) !important;
   }
   .near-me-panel-handle { display: none; }
   .near-me-panel-header {
@@ -1605,7 +1605,10 @@ button:focus-visible {
      of snapping — bottom isn't a transitioned property, and toggling it
      directly was causing a visible jump during the animation. */
   .near-me-panel.collapsed {
-    max-height: 58px;
+    max-height: 58px !important;
+    right: auto !important;
+    width: 20vw !important;
+    min-width: 300px !important;
   }
 
   /* Same interaction as mobile (permanent 1-line bar, tap to roll out,
