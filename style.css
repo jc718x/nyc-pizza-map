@@ -566,18 +566,23 @@ body.landing-page {
 .hero {
   background: var(--color-parchment);
   padding: calc(var(--topbar-h) + 16px) 0 48px;
-  transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1),
-              padding 0.5s cubic-bezier(0.4,0,0.2,1),
-              opacity 0.35s ease;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.4s ease,
+              max-height 0.55s cubic-bezier(0.4,0,0.2,1),
+              padding 0.55s cubic-bezier(0.4,0,0.2,1);
   overflow: hidden;
-  max-height: 800px;
+  max-height: 900px;
+  transform: translateY(0);
+  will-change: transform, opacity;
 }
-/* When Explore the Map is clicked, hero collapses away */
+/* Hero rolls upward and fades out — the map section expands upward
+   simultaneously via the fixed positioning it gets in map-expanded state */
 .hero.collapsed {
+  transform: translateY(-100%);
+  opacity: 0;
   max-height: 0;
   padding-top: 0;
   padding-bottom: 0;
-  opacity: 0;
   pointer-events: none;
 }
 /* Map section expands to fill full screen when hero is collapsed */
@@ -652,11 +657,11 @@ body.map-expanded .map-section {
 }
 .hero-btn-primary:hover { background: #b81c1f; border-color: #b81c1f; }
 .hero-btn-outline {
-  background: transparent;
-  color: var(--color-char);
-  border: 2px solid var(--color-char);
+  background: white;
+  color: var(--color-crust);
+  border: 2px solid var(--color-crust);
 }
-.hero-btn-outline:hover { background: var(--color-char); color: white; }
+.hero-btn-outline:hover { background: var(--color-crust); color: white; }
 
 .hero-stats {
   display: flex;
@@ -909,12 +914,12 @@ body.map-expanded .map-section {
   .hero-cta-group {
     max-width: 100%;
     margin-bottom: 0;
-    gap: 10px;
+    flex-direction: row;
+    gap: 8px;
   }
-  /* Both buttons visible on mobile */
-  .hero-btn-outline { display: block; }
-  .hero-btn-primary { font-size: 0.88rem; padding: 14px 20px; }
-  .hero-btn-outline { font-size: 0.82rem; padding: 12px 20px; }
+  /* Both buttons side by side, same compact size */
+  .hero-btn { flex: 1; font-size: 0.68rem; padding: 10px 8px; letter-spacing: 0.03em; }
+  .hero-btn-outline { display: flex; }
   /* Map expanded — fill screen */
   body.map-expanded .map-section {
     position: fixed !important;
@@ -929,23 +934,23 @@ body.map-expanded .map-section {
   /* Stats hidden on mobile — space is precious */
   .hero-stats { display: none; }
 
-  /* Hero art: show on mobile — centered between text and right edge, positioned lower */
+  /* Hero art: top-right, occupies the empty space next to the headline.
+     Sized so it never reaches below the sub-copy — the buttons span
+     full width below it without any overlap. */
   .hero-art {
     display: block;
     position: absolute;
-    top: auto;
-    bottom: 0;
-    right: 0;
-    width: 52vw;
-    max-width: 220px;
+    top: calc(var(--topbar-h));
+    right: -4px;
+    width: 40vw;
+    max-width: 170px;
     pointer-events: none;
-    opacity: 0.95;
   }
   .hero-art-img { width: 100%; }
-  .hero { position: relative; overflow: visible; }
-  /* Keep text clear of the chef */
-  .hero-headline { max-width: calc(100% - 110px); }
-  .hero-sub { max-width: calc(100% - 80px); }
+  .hero { position: relative; overflow: hidden; }
+  /* Keep headline/sub clear of the chef */
+  .hero-headline { max-width: calc(100% - 140px); font-size: 2.4rem; }
+  .hero-sub { max-width: 65%; font-size: 0.88rem; }
 
   /* 2. Map section — 55vh, immediately below the compact hero */
   .map-section {
@@ -1722,27 +1727,35 @@ button:focus-visible {
   color: white;
   border-color: var(--color-sauce);
 }
-/* Persistent 'Find Pizza Near Me' label pill next to the button */
+/* 'Find Pizza Near Me' label — cream bg, dark green border + text.
+   Same height (42px) as Search This Area for visual alignment. */
 .near-me-btn::after {
   content: 'Find Pizza Near Me';
   position: absolute;
   left: 50px;
   top: 50%;
   transform: translateY(-50%);
-  background: var(--color-crust);
-  color: white;
+  background: var(--color-parchment);
+  color: var(--color-crust);
+  border: 1.5px solid var(--color-crust);
   font-family: var(--font-mono);
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   white-space: nowrap;
-  padding: 5px 12px;
+  padding: 0 14px;
+  height: 42px;
+  line-height: 42px;
   border-radius: 20px;
   pointer-events: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
-.near-me-btn:hover::after { background: var(--color-sauce); }
+.near-me-btn:hover::after {
+  background: var(--color-parchment);
+  color: var(--color-crust);
+  border-color: var(--color-crust);
+}
 .near-me-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .near-me-btn.locating svg { animation: near-me-pulse 1s ease-in-out infinite; }
 @keyframes near-me-pulse {
@@ -2255,14 +2268,21 @@ button:focus-visible {
   z-index: 5;
   background: var(--color-crust);
   color: white;
-  border: none;
+  border: 1.5px solid var(--color-crust);
   border-radius: 20px;
-  padding: 8px 16px;
+  padding: 0 16px;
+  height: 42px;
+  line-height: 1;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .search-this-area-btn[hidden] { display: none; }
-.search-this-area-btn:hover { background: var(--color-sauce); }
+.search-this-area-btn:hover { background: #163d28; border-color: #163d28; }
