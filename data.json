@@ -6644,6 +6644,160 @@
         "seating": "Indoor",
         "worth_a_trip": false
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95943682433258,
+          40.5933791614846
+        ]
+      },
+      "properties": {
+        "name": "Sonny's Pizza Napoletana",
+        "address": "1039 Lancaster Ave, Brooklyn, NY 11223",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "price": "$$",
+        "slices": false,
+        "seating": "Sit-down",
+        "website": "",
+        "blurb": "A Neapolitan-focused pizzeria in Gravesend serving proper wood-fired pies in a neighborhood that knows its Italian food. The name says it all — this is serious pizza.",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9783628376238,
+          40.61060826802143
+        ]
+      },
+      "properties": {
+        "name": "Jules Pizza",
+        "address": "176 Avenue O, Brooklyn, NY 11204",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "website": "",
+        "blurb": "A classic Brooklyn neighborhood pizzeria on Avenue O in Bensonhurst — the kind of spot that anchors a block and feeds the community without making a fuss about it.",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95415391552696,
+          40.61028267964015
+        ]
+      },
+      "properties": {
+        "name": "J & R Pizzeria",
+        "address": "1916 Kings Hwy, Brooklyn, NY 11229",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "website": "",
+        "blurb": "A Kings Highway classic slice shop feeding the Marine Park and Sheepshead Bay corridor. Reliable, unpretentious, exactly what the neighborhood needs.",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94306832947316,
+          40.60043223522324
+        ]
+      },
+      "properties": {
+        "name": "N & D Pizza East 29",
+        "address": "2823 Avenue U, Brooklyn, NY 11229",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "website": "",
+        "blurb": "A deep southern Brooklyn pizzeria on Avenue U in the Sheepshead Bay area — a solid neighborhood spot for the kind of straightforward NY slice this part of Brooklyn still does well.",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97322962252991,
+          40.59035991711255
+        ]
+      },
+      "properties": {
+        "name": "Knapp Pizza II",
+        "address": "261 Avenue X, Brooklyn, NY 11223",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "website": "",
+        "blurb": "The second location of the Knapp Street family, serving Avenue X in Gravesend. Consistent classic pies for one of Brooklyn's most residential southern neighborhoods.",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.97405441153865,
+          40.604533166409446
+        ]
+      },
+      "properties": {
+        "name": "Knapp Pizza III",
+        "address": "427 Kings Hwy, Brooklyn, NY 11223",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "website": "",
+        "blurb": "The Kings Highway outpost of the Knapp Pizza family — a local chain that's built a reputation across southern Brooklyn for reliable, no-frills classic NY pies.",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.98784618665138,
+          40.58632976670551
+        ]
+      },
+      "properties": {
+        "name": "Di Farina Pizzeria",
+        "address": "2811 Cropsey Ave, Brooklyn, NY 11214",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "website": "",
+        "blurb": "A Cropsey Avenue pizzeria right on the edge of Bensonhurst and Bath Beach — deep southern Brooklyn, steps from the water, the kind of neighborhood spot that keeps the area fed.",
+        "worth_a_trip": false
+      }
     }
   ]
 }

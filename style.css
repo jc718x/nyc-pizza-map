@@ -562,6 +562,16 @@ body.landing-page {
   overflow-y: auto;
 }
 
+/* Instantly hide hero before first paint when arriving via #map hash.
+   Applied to <html> by a blocking inline script so it takes effect
+   before the browser renders anything — no flash, no transition. */
+.preload-map .hero {
+  display: none !important;
+}
+.preload-map body {
+  overflow: hidden;
+}
+
 /* ===== Hero ===== */
 .hero {
   background: var(--color-parchment);

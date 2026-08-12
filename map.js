@@ -1320,16 +1320,29 @@ let suppressSearchThisArea = false;
 function expandMap() {
   if (!heroExpanded) return;
   heroExpanded = false;
-  // Step 1: collapse the hero (max-height animates over 450ms)
-  if (heroSection) heroSection.classList.add('collapsed');
-  // Step 2: after hero finishes rolling up, snap map to fullscreen
-  // and reveal map UI — doing both at once made the collapse look instant
+
+  // Force scroll to top instantly (no smooth) before any animation —
+  // smooth scroll + collapsing height create competing reflows and a jump
+  window.scrollTo(0, 0);
+
+  // Add map-expanded first so the map section goes fixed immediately,
+  // filling the space the hero will vacate — this prevents the beige
+  // body background from showing through during the collapse animation
+  document.body.classList.add('map-expanded');
+
+  // Tiny rAF delay so the browser has painted the fixed map section
+  // before we start collapsing the hero — eliminates the visual jump
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (heroSection) heroSection.classList.add('collapsed');
+    });
+  });
+
+  // Reveal map UI after hero animation completes
   setTimeout(() => {
-    document.body.classList.add('map-expanded');
     if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
     if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
   }, 460);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Hide map UI initially
@@ -1386,10 +1399,18 @@ document.querySelectorAll('a[href="index.html"], a[href="#map-section"], a[href=
 
 // If landed here via #map hash (from clicking "Map" in nav on another page),
 // auto-expand to map mode immediately — no hero needed.
+// The preload-map class on <html> already hid the hero before first paint.
 if (window.location.hash === '#map') {
-  // Clear hash without adding history entry, then expand
   history.replaceState(null, '', window.location.pathname + window.location.search);
-  expandMap();
+  document.documentElement.classList.remove('preload-map');
+  // Mark as already expanded without running the animation
+  heroExpanded = false;
+  if (heroSection) {
+    heroSection.style.display = 'none'; // keep hidden, no transition needed
+  }
+  document.body.classList.add('map-expanded');
+  if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
+  if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
 }
 
 // Pan or zoom with hero visible → collapse it automatically
