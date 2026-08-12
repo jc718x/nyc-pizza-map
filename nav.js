@@ -6,6 +6,22 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeDrawer() {
     if (drawer) drawer.hidden = true;
     if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    // Collapse all accordions when drawer closes so it's always
+    // in its default compact state when reopened
+    collapseAllAccordions();
+  }
+
+  function collapseAllAccordions() {
+    const explorePanel = document.getElementById('mobileExplorePanel');
+    const exploreToggle = document.getElementById('mobileExploreToggle');
+    if (explorePanel) explorePanel.hidden = true;
+    if (exploreToggle) exploreToggle.setAttribute('aria-expanded', 'false');
+    document.querySelectorAll('.mobile-nav-sub-accordion').forEach(btn => {
+      btn.setAttribute('aria-expanded', 'false');
+      const panelId = 'mobile-sub-' + btn.dataset.sub;
+      const panel = document.getElementById(panelId);
+      if (panel) panel.hidden = true;
+    });
   }
 
   if (toggle && drawer) {
@@ -14,13 +30,47 @@ document.addEventListener('DOMContentLoaded', () => {
       const isOpen = !drawer.hidden;
       drawer.hidden = isOpen;
       toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (isOpen) collapseAllAccordions();
     });
 
-    // Close when a link inside drawer is clicked
+    // Close when any link inside drawer is clicked (including sub-panels)
     drawer.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', closeDrawer);
     });
   }
+
+  // ===== Explore top-level accordion =====
+  const exploreToggle = document.getElementById('mobileExploreToggle');
+  const explorePanel = document.getElementById('mobileExplorePanel');
+  if (exploreToggle && explorePanel) {
+    exploreToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !explorePanel.hidden;
+      explorePanel.hidden = isOpen;
+      exploreToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+  }
+
+  // ===== Sub-accordions: By Borough / Neighborhoods / Discover =====
+  document.querySelectorAll('.mobile-nav-sub-accordion').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const panelId = 'mobile-sub-' + btn.dataset.sub;
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+      const isOpen = !panel.hidden;
+      // Close any other open sub-panels first (accordion behavior)
+      document.querySelectorAll('.mobile-nav-sub-accordion').forEach(other => {
+        if (other === btn) return;
+        other.setAttribute('aria-expanded', 'false');
+        const otherId = 'mobile-sub-' + other.dataset.sub;
+        const otherPanel = document.getElementById(otherId);
+        if (otherPanel) otherPanel.hidden = true;
+      });
+      panel.hidden = isOpen;
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  });
 
   // Close drawer when clicking anywhere outside the topbar/drawer
   document.addEventListener('click', (e) => {

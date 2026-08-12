@@ -430,6 +430,7 @@ html, body {
   text-decoration: none;
   padding: 12px 20px;
   border-bottom: 1px solid rgba(36, 26, 16, 0.08);
+  display: block;
 }
 .mobile-nav-drawer a:hover,
 .mobile-nav-drawer a.active { color: var(--color-sauce); }
@@ -447,11 +448,9 @@ html, body {
   margin-top: 4px;
 }
 .mobile-nav-drawer > a:first-of-type,
-.mobile-nav-heading:first-child {
-  margin-top: 0;
-}
+.mobile-nav-heading:first-child { margin-top: 0; }
 
-/* The three primary actions get slightly larger, bolder type */
+/* Primary actions — slightly larger */
 .mobile-nav-drawer a.primary {
   font-size: 0.88rem;
   font-weight: 700;
@@ -460,6 +459,96 @@ html, body {
 .mobile-nav-divider {
   border-top: 1px dashed rgba(36, 26, 16, 0.15);
   margin: 4px 0 0;
+}
+
+/* ===== Explore accordion (top-level) ===== */
+.mobile-nav-accordion {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-crust);
+  background: rgba(39, 110, 64, 0.08);
+  padding: 8px 20px 6px;
+  margin-top: 4px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.mobile-nav-accordion:hover { background: rgba(39, 110, 64, 0.14); }
+.mobile-nav-accordion-label { flex: 1; }
+.mobile-nav-accordion-caret {
+  font-size: 1rem;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+.mobile-nav-accordion[aria-expanded="true"] .mobile-nav-accordion-caret {
+  transform: rotate(90deg);
+}
+.mobile-nav-accordion-panel {
+  background: var(--color-parchment-panel);
+  border-bottom: 1px solid rgba(36,26,16,0.1);
+}
+.mobile-nav-accordion-panel[hidden] { display: none; }
+
+/* ===== Sub-accordions (By Borough / Neighborhoods / Discover) ===== */
+.mobile-nav-sub-accordion {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-char);
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(36,26,16,0.07);
+  padding: 11px 20px 11px 32px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mobile-nav-sub-accordion:hover { color: var(--color-sauce); }
+.mobile-nav-sub-caret {
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+.mobile-nav-sub-accordion[aria-expanded="true"] .mobile-nav-sub-caret {
+  transform: rotate(90deg);
+}
+.mobile-nav-sub-panel {
+  background: rgba(36,26,16,0.025);
+  border-bottom: 1px solid rgba(36,26,16,0.07);
+}
+.mobile-nav-sub-panel[hidden] { display: none; }
+.mobile-nav-sub-panel a {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 10px 20px 10px 44px;
+  color: var(--color-char);
+  border-bottom: 1px solid rgba(36,26,16,0.06);
+  display: block;
+  text-decoration: none;
+}
+.mobile-nav-sub-panel a:last-child { border-bottom: none; }
+.mobile-nav-sub-panel a:hover,
+.mobile-nav-sub-panel a.active { color: var(--color-sauce); }
+.mobile-nav-viewall {
+  font-weight: 700 !important;
+  color: var(--color-sauce) !important;
 }
 
 /* ===== Map page ===== */
