@@ -710,10 +710,11 @@ map.on('load', async () => {
         }).join('')
       : `<p class="near-me-empty-hint">Try zooming out, panning somewhere else, or searching a different spot.</p>`;
 
-    // Real results replace the idle CTA — clear the idle sizing/body state
+    // Real results replace the idle hint. Only a genuine 'nearme' result
+    // counts as located — an area or search rebuild must NOT clear the CTA.
     panel.dataset.state = 'results';
-    if (typeof setLocationUIState === 'function') {
-      setLocationUIState(opts.mode === 'nearme' ? 'located' : 'browsing');
+    if (opts.mode === 'nearme' && typeof setLocationUIState === 'function') {
+      setLocationUIState('located');
     }
 
     panel.hidden = false;
@@ -1157,15 +1158,11 @@ function requestUserLocation(triggerEl) {
   );
 }
 
-// 'idle'    — no location yet; sheet shows the CTA, pill hidden on mobile
-// 'located' — we have a fix; pill shrinks to a round recenter button
-// 'browsing'— user dismissed the CTA or searched instead; pill returns
+// Two states only. 'located' means we have a real fix from the user —
+// nothing else (panning, searching, browsing an area) clears the ask.
 function setLocationUIState(state) {
-  document.body.classList.toggle('nm-idle', state === 'idle');
   document.body.classList.toggle('nm-located', state === 'located');
 
-  // The pill's job changes with the state, so its accessible name has to
-  // change too — it's icon-only once we're located.
   const btn = document.getElementById('nearMeBtn');
   if (btn) {
     const label = state === 'located' ? 'Recenter on my location' : 'Find pizza near me';
@@ -1177,6 +1174,13 @@ function setLocationUIState(state) {
 const nearMeBtn = document.getElementById('nearMeBtn');
 if (nearMeBtn) {
   nearMeBtn.addEventListener('click', () => requestUserLocation(nearMeBtn));
+}
+
+// Bound once at load — the CTA is a permanent element now, so this
+// listener never needs re-attaching after a list rebuild.
+const nearMeSheetCta = document.getElementById('nearMeSheetCta');
+if (nearMeSheetCta) {
+  nearMeSheetCta.addEventListener('click', () => requestUserLocation(nearMeSheetCta));
 }
 
 // Toggle the near-me panel — collapses the list content on mobile,
@@ -1393,45 +1397,16 @@ function showIdleState() {
   window.lastListHeading = heading;
   window.lastListResultCount = 0;
 
-  // An empty sheet is an invitation to act, not a shrug. This is the
-  // primary location CTA now — people kept missing the small pill in the
-  // map's top-left corner, and the sheet is where the eye already lands.
-  list.innerHTML = `
-    <div class="near-me-cta-wrap">
-      <button class="near-me-cta" id="nearMeSheetCta">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="12" cy="12" r="3" fill="currentColor"/>
-          <path d="M12 2v3M12 19v3M22 12h-3M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"/>
-        </svg>
-        Use My Location
-      </button>
-      <p class="near-me-cta-note">
-        We use it once to find the closest slices. Nothing is saved.<br>
-        Or <button type="button" id="nearMeBrowseInstead">browse the map</button> instead.
-      </p>
-    </div>`;
+  // The CTA lives in its own permanent element (#nearMeCtaWrap), so the
+  // list body here stays a plain hint and can be safely overwritten.
+  list.innerHTML = `<p class="near-me-empty-hint">Or tap any pizzeria on the map to see its card.</p>`;
 
   panel.dataset.state = 'idle';
   panel.hidden = false;
-  setLocationUIState('idle');
 
-  const cta = document.getElementById('nearMeSheetCta');
-  if (cta) cta.addEventListener('click', () => requestUserLocation(cta));
-
-  const browse = document.getElementById('nearMeBrowseInstead');
-  if (browse) {
-    browse.addEventListener('click', () => {
-      setLocationUIState('browsing');
-      setNearMePanelCollapsed(true);
-      if (window.buildResultsPanel) window.buildResultsPanel({ mode: 'area', collapsed: true });
-    });
-  }
-
-  // Desktop keeps its collapsed-sidebar default (the floating tab invites
-  // the user in, and the enlarged pill is still visible on the map).
-  // Mobile opens to rest so the CTA is actually on screen — a collapsed
-  // one-line bar is exactly what people were failing to notice.
+  // Desktop keeps its collapsed-sidebar default. Mobile opens to rest so
+  // the CTA is actually on screen — a collapsed one-line bar is exactly
+  // what people were failing to notice.
   setNearMePanelCollapsed(window.innerWidth >= 901);
 }
 showIdleState();

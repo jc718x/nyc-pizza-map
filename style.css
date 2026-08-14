@@ -1734,23 +1734,30 @@ button:focus-visible {
 .form-submit:hover { background: #b81c1f; }
 
 /* ===== Near Me button (map page) ===== */
+/* ===== Floating map controls (Near Me, Search This Area) =====
+   One shared geometry so they read as a set on the map. Near Me is the
+   primary action (solid green); Search This Area is secondary (outlined). */
+:root {
+  --map-ctrl-h: 34px;
+  --map-ctrl-r: 18px;
+  --map-ctrl-label: 0.64rem;
+}
 .near-me-btn {
   position: fixed;
   top: calc(var(--topbar-h) + 12px);
   left: 12px;
   z-index: 5;
-  height: 40px;
+  height: var(--map-ctrl-h);
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 18px;
-  font-size: 0.85rem;
+  gap: 7px;
+  padding: 0 15px;
   /* Solid fill, not an outline: this is the primary action on the map,
      and the old parchment pill disappeared against the map's street detail. */
   background: var(--color-crust);
   color: var(--color-parchment);
-  border: none;
-  border-radius: 22px;
+  border: 1.5px solid var(--color-crust);
+  border-radius: var(--map-ctrl-r);
   cursor: pointer;
   box-shadow: 0 3px 10px rgba(0,0,0,0.22);
   transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
@@ -1758,45 +1765,42 @@ button:focus-visible {
   font-weight: 700;
   white-space: nowrap;
 }
-.near-me-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+.near-me-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
 @media (hover: hover) and (pointer: fine) {
   .near-me-btn:hover {
     background: #163C28;
+    border-color: #163C28;
     box-shadow: 0 4px 14px rgba(0,0,0,0.28);
   }
 }
 .near-me-btn:active { transform: scale(0.97); }
 /* Label text inside the pill button */
 .near-me-btn .near-me-label {
-  font-size: 0.72rem;
+  font-size: var(--map-ctrl-label);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 700;
   font-family: var(--font-mono);
 }
 
-/* Once we actually have the user's location the big CTA has done its job —
-   it demotes to a plain round recenter control so it stops competing with
-   the results in the sheet. */
+/* Once we have the user's location the CTA has done its job — it demotes
+   to a round recenter control. Stays brand green rather than going white,
+   so it still reads as part of this site and not a stock map widget. */
 body.nm-located .near-me-btn {
-  width: 40px;
+  width: var(--map-ctrl-h);
   padding: 0;
   justify-content: center;
   border-radius: 50%;
-  background: var(--color-parchment-panel);
-  color: var(--color-crust);
-  border: 1.5px solid rgba(36,26,16,0.18);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.16);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 body.nm-located .near-me-btn .near-me-label { display: none; }
-@media (hover: hover) and (pointer: fine) {
-  body.nm-located .near-me-btn:hover { background: var(--color-parchment); }
-}
 
 /* Mobile, before location is granted: the in-sheet CTA is the primary
-   ask, so the floating pill would just be a second competing button. */
+   ask, so the floating pill would just be a second competing button.
+   Keyed off "not located" rather than an idle flag, so browsing the map
+   or searching never resurrects a duplicate ask. */
 @media (max-width: 900px) {
-  body.nm-idle .near-me-btn { display: none; }
+  body:not(.nm-located) .near-me-btn { display: none; }
 }
 
 .near-me-btn:disabled { opacity: 0.6; cursor: not-allowed; }
@@ -2208,10 +2212,19 @@ body.nm-located .near-me-btn .near-me-label { display: none; }
   flex-shrink: 0;
 }
 
-/* ===== In-sheet location CTA (idle state) =====
-   The sheet is already where the eye lands, so before we have a location
-   this is the primary ask rather than a floating pill in a screen corner. */
-.near-me-cta-wrap { padding: 2px 6px 16px; }
+/* ===== In-sheet location CTA =====
+   A permanent fixture between the header and the list — NOT list content,
+   so rebuilding the list (panning, searching, area re-query) can't wipe it.
+   It disappears only when we actually have a location. */
+.near-me-cta-wrap {
+  padding: 2px 14px 14px;
+  flex-shrink: 0;
+}
+/* Location granted — the ask is answered, reclaim the space. */
+body.nm-located .near-me-cta-wrap { display: none; }
+/* Not while a pizzeria card is showing, and not in the collapsed strip. */
+.near-me-panel[data-mode="detail"] .near-me-cta-wrap,
+.near-me-panel.collapsed .near-me-cta-wrap { display: none; }
 .near-me-cta {
   width: 100%;
   display: flex;
@@ -2393,10 +2406,10 @@ body.nm-located .near-me-btn .near-me-label { display: none; }
 
   /* Near Me pill button on desktop */
   .near-me-btn {
-    left: max(316px, calc(20vw + 10px));
-    transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
+    left: max(316px, calc(20vw + 12px));
+    transition: left 0.28s cubic-bezier(0.4,0,0.2,1), background 0.15s ease;
   }
-  .near-me-btn.sidebar-collapsed { left: 10px; }
+  .near-me-btn.sidebar-collapsed { left: 12px; }
 
   .near-me-reopen-tab { display: none !important; }
 }
@@ -2404,29 +2417,36 @@ body.nm-located .near-me-btn .near-me-label { display: none; }
 /* ===== "Search This Area" floating button ===== */
 .search-this-area-btn {
   position: fixed;
-  top: calc(var(--topbar-h) + 10px);
-  right: 10px;
+  top: calc(var(--topbar-h) + 12px);
+  right: 12px;
   z-index: 5;
+  /* Secondary to Near Me: same geometry, outlined instead of filled.
+     It's a transient utility that appears after panning — it shouldn't
+     compete with the primary location action across the map. */
   background: var(--color-parchment);
   color: var(--color-crust);
   border: 1.5px solid var(--color-crust);
-  border-radius: 20px;
-  padding: 0 11px;
-  height: 28px;
+  border-radius: var(--map-ctrl-r);
+  padding: 0 15px;
+  height: var(--map-ctrl-h);
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: var(--map-ctrl-label);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.16);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  white-space: nowrap;
 }
 .search-this-area-btn[hidden] { display: none; }
-.search-this-area-btn:hover, .search-this-area-btn.active {
-  background: var(--color-crust);
-  color: white;
-  border-color: var(--color-crust);
+.search-this-area-btn:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .search-this-area-btn:hover {
+    background: var(--color-crust);
+    color: var(--color-parchment);
+  }
 }
