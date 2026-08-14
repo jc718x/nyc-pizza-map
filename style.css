@@ -1393,46 +1393,38 @@ body.landing-page #map {
 .ticket-links {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 18px;
   border-top: 1px solid rgba(36,26,16,0.1);
-  padding-top: 10px;
+  padding-top: 12px;
 }
 .ticket-links a {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--color-sauce);
+  letter-spacing: 0.05em;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   outline: none;
+  padding: 4px 0;
 }
-@media (hover: hover) and (pointer: fine) {
-  .ticket-links a:hover { border-bottom-color: var(--color-sauce); }
-}
-/* Directions is the most likely thing anyone does from this card, so it
-   gets to look like an action rather than a line of metadata. */
+/* Directions is the likeliest action, so it leads and carries the colour.
+   Priority comes from order and weight, not from a box — the card already
+   has a green header and coloured badges competing for attention. */
 .ticket-links .ticket-directions {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 40px;
-  border: 1.5px solid var(--color-crust);
-  border-radius: 8px;
-  color: var(--color-crust);
+  color: var(--color-sauce);
   font-weight: 700;
-  letter-spacing: 0.05em;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
-.ticket-links .ticket-directions:active { transform: scale(0.985); }
+/* Secondary: same shape, quieter colour and weight. */
+.ticket-links .ticket-website {
+  color: rgba(36,26,16,0.55);
+  font-weight: 600;
+}
 @media (hover: hover) and (pointer: fine) {
-  .ticket-links .ticket-directions:hover {
-    background: var(--color-crust);
-    color: var(--color-parchment);
-    border-bottom-color: var(--color-crust);
-  }
+  .ticket-links .ticket-directions:hover { border-bottom-color: var(--color-sauce); }
+  .ticket-links .ticket-website:hover { border-bottom-color: rgba(36,26,16,0.4); }
 }
 
 /* ===== Content pages (About, Store, How To) ===== */

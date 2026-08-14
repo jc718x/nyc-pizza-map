@@ -553,8 +553,8 @@ map.on('load', async () => {
             ${subwayHTML}
           </div>` : ''}
           <div class="ticket-links">
-            ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
             <a class="ticket-directions" href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Get Directions <span aria-hidden="true">\u2197</span></a>
+            ${p.website ? `<a class="ticket-website" href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
           </div>
         </div>
       </div>${nearbyHTML}`;
