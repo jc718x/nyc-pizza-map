@@ -1325,15 +1325,8 @@ body.landing-page #map {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 3px;
-}
-.ticket-from-you-label {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: rgba(36,26,16,0.55);
-  font-weight: 700;
+  gap: 4px;
+  color: rgba(36,26,16,0.7);
 }
 .ticket-from-you-time {
   font-weight: 700;
@@ -1341,10 +1334,9 @@ body.landing-page #map {
 }
 
 .ticket-subway {
-  background: rgba(36,26,16,0.05);
-  border-radius: 4px;
-  padding: 6px 10px;
-  margin-bottom: 6px;
+  border-top: 1px solid rgba(36,26,16,0.1);
+  padding: 9px 0 4px;
+  margin-bottom: 8px;
 }
 .ticket-subway-label {
   font-family: var(--font-mono);
@@ -1400,9 +1392,10 @@ body.landing-page #map {
 
 .ticket-links {
   display: flex;
-  gap: 10px;
-  border-top: 1px dashed rgba(29,20,12,0.25);
-  padding-top: 7px;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgba(36,26,16,0.1);
+  padding-top: 10px;
 }
 .ticket-links a {
   font-family: var(--font-mono);
@@ -1414,7 +1407,33 @@ body.landing-page #map {
   border-bottom: 1px solid transparent;
   outline: none;
 }
-.ticket-links a:hover { border-bottom-color: var(--color-sauce); }
+@media (hover: hover) and (pointer: fine) {
+  .ticket-links a:hover { border-bottom-color: var(--color-sauce); }
+}
+/* Directions is the most likely thing anyone does from this card, so it
+   gets to look like an action rather than a line of metadata. */
+.ticket-links .ticket-directions {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  border: 1.5px solid var(--color-crust);
+  border-radius: 8px;
+  color: var(--color-crust);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
+}
+.ticket-links .ticket-directions:active { transform: scale(0.985); }
+@media (hover: hover) and (pointer: fine) {
+  .ticket-links .ticket-directions:hover {
+    background: var(--color-crust);
+    color: var(--color-parchment);
+    border-bottom-color: var(--color-crust);
+  }
+}
 
 /* ===== Content pages (About, Store, How To) ===== */
 body.content-page {
@@ -2178,14 +2197,30 @@ body.nm-located .near-me-btn .near-me-label { display: none; }
   padding: 0 14px;
   overflow: hidden;
 }
-/* Reuse the popup's .ticket card styling, just full-width in the sheet
-   instead of a fixed floating-card width, with its own rounded/shadowed
-   frame since it's no longer wrapped by MapLibre's popup chrome. */
+/* In the sheet the card is NOT a card. A shadowed white panel floating
+   inside the cream sheet is one container too many — the content sits
+   directly on the sheet, separated by dividers, the way a native map app
+   does it. The green name/address header stays; it's doing real work.
+   Scoped to the sheet: .ticket is still a genuine floating card inside
+   MapLibre popups, and that usage must keep its frame. */
 .near-me-panel-detail .ticket {
   width: 100%;
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-panel);
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+}
+/* Let the green header run edge to edge instead of sitting inset. */
+.near-me-panel-detail .ticket-head {
+  margin: 0 -14px;
+  padding: 10px 14px 9px;
+  border-radius: 0;
+}
+.near-me-panel-detail .ticket-photo { margin: 0 -14px; }
+.near-me-panel-detail .ticket-worth-trip { margin: 0 -14px; }
+.near-me-panel-detail .ticket-body {
+  padding: 12px 0 4px;
+  background: transparent;
 }
 
 .near-me-item {
@@ -2282,8 +2317,9 @@ body.nm-located .near-me-cta-wrap { display: none; }
 /* "Other Pizza Nearby..." — sits below the main card in the detail view,
    its own distinct block rather than crammed inside the ticket card. */
 .ticket-nearby {
-  margin-top: 12px;
-  padding-top: 4px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(36,26,16,0.1);
 }
 .ticket-nearby-label {
   font-family: var(--font-mono);

@@ -492,7 +492,7 @@ map.on('load', async () => {
     if (userLoc) {
       const d = stationDist(userLoc.lat, userLoc.lng, lat, lng);
       const miles = (d / 1609.34).toFixed(1);
-      fromYouHTML = `<div class="ticket-from-you">🚶 <span class="ticket-from-you-label">From You</span> — <span class="ticket-from-you-time">${walkMinutes(d)} · ${miles} mi</span></div>`;
+      fromYouHTML = `<div class="ticket-from-you">🚶 <span class="ticket-from-you-time">${walkMinutes(d)} walk</span> · ${miles} mi away</div>`;
     }
 
     let subwayHTML = '';
@@ -554,7 +554,7 @@ map.on('load', async () => {
           </div>` : ''}
           <div class="ticket-links">
             ${p.website ? `<a href="${escapeAttr(p.website)}" target="_blank" rel="noopener">Website</a>` : ''}
-            <a href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Directions</a>
+            <a class="ticket-directions" href="${escapeAttr(directionsUrl)}" target="_blank" rel="noopener">Get Directions <span aria-hidden="true">\u2197</span></a>
           </div>
         </div>
       </div>${nearbyHTML}`;
@@ -1338,15 +1338,10 @@ function enterDetailMode(html) {
   panel.dataset.mode = 'detail';
   setNearMePanelCollapsed(false); // always show the card, never land collapsed
   if (nearMePanelLeftZone) nearMePanelLeftZone.setAttribute('aria-label', 'Back to pizzeria list');
-  // Reuse the list's actual heading rather than a generic "Back to N
-  // Pizzerias" — that already has the right mode-specific phrasing
-  // ("Near You", "in This Area", "Near Madison Square Garden", "in
-  // Williamsburg"...), so just insert "Back to" right after the emoji
-  // rather than rebuilding a separate, context-free string.
-  if (title) {
-    const base = window.lastListHeading || '🍕 Where are we getting pizza?';
-    title.textContent = base.startsWith('🍕 ') ? base.replace('🍕 ', '🍕 Back to ') : base;
-  }
+  // A short, constant label beats echoing the list's own heading back at
+  // the user. They can see the pizzeria's name right below; this row only
+  // needs to say where "back" goes.
+  if (title) title.textContent = 'Nearby pizzerias';
   requestAnimationFrame(() => fitNameToOneLine(nearMePanelDetail.querySelector('.ticket-name')));
 }
 
