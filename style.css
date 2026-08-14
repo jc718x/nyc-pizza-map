@@ -1736,39 +1736,69 @@ button:focus-visible {
 /* ===== Near Me button (map page) ===== */
 .near-me-btn {
   position: fixed;
-  top: calc(var(--topbar-h) + 10px);
-  left: 10px;
+  top: calc(var(--topbar-h) + 12px);
+  left: 12px;
   z-index: 5;
-  height: 28px;
+  height: 40px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 11px;
+  gap: 8px;
+  padding: 0 18px;
   font-size: 0.85rem;
-  background: var(--color-parchment);
-  color: var(--color-crust);
-  border: 1.5px solid var(--color-crust);
-  border-radius: 20px;
+  /* Solid fill, not an outline: this is the primary action on the map,
+     and the old parchment pill disappeared against the map's street detail. */
+  background: var(--color-crust);
+  color: var(--color-parchment);
+  border: none;
+  border-radius: 22px;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: all 0.15s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.22);
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
   font-family: var(--font-mono);
   font-weight: 700;
   white-space: nowrap;
 }
-.near-me-btn:hover {
-  background: var(--color-crust);
-  color: white;
-  border-color: var(--color-crust);
+.near-me-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .near-me-btn:hover {
+    background: #163C28;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+  }
 }
+.near-me-btn:active { transform: scale(0.97); }
 /* Label text inside the pill button */
 .near-me-btn .near-me-label {
-  font-size: 0.56rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   font-weight: 700;
   font-family: var(--font-mono);
 }
+
+/* Once we actually have the user's location the big CTA has done its job —
+   it demotes to a plain round recenter control so it stops competing with
+   the results in the sheet. */
+body.nm-located .near-me-btn {
+  width: 40px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-parchment-panel);
+  color: var(--color-crust);
+  border: 1.5px solid rgba(36,26,16,0.18);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.16);
+}
+body.nm-located .near-me-btn .near-me-label { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  body.nm-located .near-me-btn:hover { background: var(--color-parchment); }
+}
+
+/* Mobile, before location is granted: the in-sheet CTA is the primary
+   ask, so the floating pill would just be a second competing button. */
+@media (max-width: 900px) {
+  body.nm-idle .near-me-btn { display: none; }
+}
+
 .near-me-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .near-me-btn.locating svg { animation: near-me-pulse 1s ease-in-out infinite; }
 @keyframes near-me-pulse {
@@ -1976,6 +2006,8 @@ button:focus-visible {
 
 /* ===== "Pizzerias Near You" panel — bottom sheet (mobile) / sidebar (desktop) ===== */
 .near-me-panel {
+  --nm-item-h: 41px;   /* one .near-me-item row incl. its divider */
+  --nm-header-h: 58px; /* handle + title row */
   position: fixed;
   z-index: 4;
   background: var(--color-parchment-panel);
@@ -1988,13 +2020,21 @@ button:focus-visible {
   box-shadow: 0 -4px 16px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
-  max-height: 44vh;
+  /* Resting height is derived from CONTENT, not a round percentage: header
+     plus 4.5 rows, so the 5th row is deliberately half-cut — that sliver is
+     what tells people the list scrolls. Capped in dvh (not vh) so the sheet
+     doesn't jump when mobile browser chrome collapses. */
+  max-height: min(calc(var(--nm-header-h) + var(--nm-item-h) * 4.5 + 14px), 46vh);
+  max-height: min(calc(var(--nm-header-h) + var(--nm-item-h) * 4.5 + 14px), 46dvh);
 }
+/* Before location is granted the sheet holds the location CTA instead of a
+   list — let it size to that content rather than reserving list height. */
+.near-me-panel[data-state="idle"] { max-height: none; }
 /* Pizzeria selected — sheet rises to give the place more prominence.
    ~58vh leaves ~42% of map visible so the highlighted pin is still
    clearly connected to the card below it. */
 .near-me-panel[data-mode="detail"] {
-  max-height: 58vh;
+  max-height: 58dvh;
 }
 .near-me-panel[hidden] {
   display: none;
@@ -2039,10 +2079,10 @@ button:focus-visible {
 .near-me-panel-leftzone:has(.near-me-panel-back:not([hidden])) {
   justify-content: flex-start;
 }
-.near-me-panel-leftzone:hover,
-.near-me-panel-leftzone:active {
-  background: rgba(31,75,51,0.08);
-}
+/* Deliberately no background change on hover or tap. The header's job is
+   to LABEL the list; a full-width fill made it read like a generic button
+   row. It stays tappable (cursor + the chevron opposite), but the only
+   visible feedback lives on the chevron itself. */
 .near-me-panel-title {
   font-family: var(--font-mono);
   font-weight: 700;
@@ -2077,25 +2117,39 @@ button:focus-visible {
   border-radius: 8px;
   transition: background 0.15s ease;
 }
-.near-me-panel-rightzone:hover,
-.near-me-panel-rightzone:active {
-  background: rgba(31,75,51,0.08);
-}
+/* No box, no fill — the chevron is the affordance. Gated behind a real
+   pointer so mobile taps don't leave a stuck :hover state behind. */
 .near-me-panel-arrow {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--color-crust);
-  transition: transform 0.2s ease;
+  opacity: 0.5;
+  transition: transform 0.22s ease, opacity 0.15s ease;
   display: inline-block;
 }
+@media (hover: hover) and (pointer: fine) {
+  .near-me-panel-leftzone:hover ~ .near-me-panel-rightzone .near-me-panel-arrow,
+  .near-me-panel-rightzone:hover .near-me-panel-arrow { opacity: 1; }
+}
+.near-me-panel-rightzone:active .near-me-panel-arrow { opacity: 1; }
 /* Base glyph is ↑ — shown as-is when collapsed ("tap to bring it up"),
    rotated to ↓ when expanded ("tap to bring it back down"). */
 .near-me-panel:not(.collapsed) .near-me-panel-arrow { transform: rotate(180deg); }
 
 .near-me-panel-list {
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 0 14px 14px;
-  max-height: 36vh;
+  max-height: min(calc(var(--nm-item-h) * 4.5), calc(46vh - var(--nm-header-h)));
+  max-height: min(calc(var(--nm-item-h) * 4.5), calc(46dvh - var(--nm-header-h)));
   transition: max-height 0.25s ease, padding 0.25s ease;
+}
+/* Third snap point, reached by swiping up from rest — the browse position.
+   Mobile only: the desktop sidebar is already full-height. */
+@media (max-width: 900px) {
+  .near-me-panel.expanded { max-height: 80dvh; }
+  .near-me-panel.expanded .near-me-panel-list {
+    max-height: calc(80dvh - var(--nm-header-h));
+  }
 }
 .near-me-panel.collapsed .near-me-panel-list {
   max-height: 0;
@@ -2107,7 +2161,7 @@ button:focus-visible {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 0 14px 14px;
-  max-height: 36vh;
+  max-height: 46dvh;
   transition: max-height 0.25s ease, padding 0.25s ease;
   flex: 1; /* fill available panel height when panel is taller */
 }
@@ -2152,6 +2206,55 @@ button:focus-visible {
   color: rgba(36,26,16,0.55);
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+/* ===== In-sheet location CTA (idle state) =====
+   The sheet is already where the eye lands, so before we have a location
+   this is the primary ask rather than a floating pill in a screen corner. */
+.near-me-cta-wrap { padding: 2px 6px 16px; }
+.near-me-cta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 48px;
+  background: var(--color-crust);
+  color: var(--color-parchment);
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(31,75,51,0.28);
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+.near-me-cta svg { width: 18px; height: 18px; flex-shrink: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .near-me-cta:hover { background: #163C28; }
+}
+.near-me-cta:active { transform: scale(0.985); }
+.near-me-cta:disabled { opacity: 0.65; cursor: not-allowed; }
+.near-me-cta.locating svg { animation: near-me-pulse 1s ease-in-out infinite; }
+.near-me-cta-note {
+  margin: 9px 0 0;
+  text-align: center;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(36,26,16,0.55);
+}
+.near-me-cta-note button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--color-crust);
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .near-me-empty-hint {

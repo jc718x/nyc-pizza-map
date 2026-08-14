@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nycpizzamap.com/sitemap.xml
+Sitemap: https://pizzamap.nyc/sitemap.xml

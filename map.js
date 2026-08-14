@@ -11,6 +11,17 @@ const BOROUGH_COLORS = {
   'Staten Island': '#3C5A80'
 };
 
+// ===== "Near You" list tuning =====
+// 10 is a good number for a nearby list: enough to feel like there's real
+// choice, short enough to scan. Only ~4.5 show in the sheet's resting
+// position — the rest are one scroll away.
+const NEAR_ME_RESULT_LIMIT = 10;
+// Distance ceiling in metres. null = no cap (current behaviour). Set to
+// something like 3200 (≈2 mi) if you'd rather show "4 Pizzerias Near You"
+// in thin-coverage areas than pad the list out to 10 with places nobody
+// would actually walk to.
+const NEAR_ME_MAX_DISTANCE_M = null;
+
 // Check for ?pin= param before initializing map so we can start at the right location
 const _initParams = new URLSearchParams(window.location.search);
 const _initPin = _initParams.get('pin');
@@ -655,7 +666,11 @@ map.on('load', async () => {
             d: stationDist(lat, lng, f.geometry.coordinates[1], f.geometry.coordinates[0]),
           }))
           .sort((a, b) => a.d - b.d)
-          .slice(0, 10);
+          // Optional honesty guard: in thin-coverage areas the "nearest 10"
+          // can stretch for miles, which makes the list useless. Set this to
+          // a number of metres (e.g. 3200 ≈ 2 mi) to cap it; null = off.
+          .filter(p => NEAR_ME_MAX_DISTANCE_M === null || p.d <= NEAR_ME_MAX_DISTANCE_M)
+          .slice(0, NEAR_ME_RESULT_LIMIT);
 
         if (results.length === 0) {
           heading = `🍕 ${zeroResultMessage()}`;
@@ -694,6 +709,12 @@ map.on('load', async () => {
           </div>`;
         }).join('')
       : `<p class="near-me-empty-hint">Try zooming out, panning somewhere else, or searching a different spot.</p>`;
+
+    // Real results replace the idle CTA — clear the idle sizing/body state
+    panel.dataset.state = 'results';
+    if (typeof setLocationUIState === 'function') {
+      setLocationUIState(opts.mode === 'nearme' ? 'located' : 'browsing');
+    }
 
     panel.hidden = false;
     setNearMePanelCollapsed(!!opts.collapsed);
@@ -1086,47 +1107,76 @@ function activateNearMeOnMap(latitude, longitude, opts) {
   }
 }
 
+// Shared by both entry points: the floating map pill and the in-sheet CTA.
+// `triggerEl` is whichever control was pressed, so the pulsing/disabled
+// state lands on the button the user actually touched.
+function requestUserLocation(triggerEl) {
+  if (!navigator.geolocation) {
+    alert('Geolocation is not supported by your browser.');
+    return;
+  }
+  if (triggerEl) {
+    triggerEl.classList.add('locating');
+    triggerEl.disabled = true;
+  }
+  const done = () => {
+    if (!triggerEl) return;
+    triggerEl.classList.remove('locating');
+    triggerEl.disabled = false;
+  };
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      try {
+        // Locate tapped → collapse the hero first if still showing
+        expandMap();
+        // Suppress "Search This Area" right after locate — results are
+        // already fresh; only show it once the user actually moves
+        suppressSearchThisArea = true;
+        // The big ask is answered: demote the CTA to a recenter control
+        setLocationUIState('located');
+        activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, {
+          showList: true,
+          collapsed: false
+        });
+      } catch (err) {
+        console.error('activateNearMeOnMap failed:', err);
+      } finally {
+        done();
+      }
+    },
+    (err) => {
+      done();
+      if (err.code === 1) {
+        alert('Location access denied. Please allow location access in your browser settings.');
+      } else {
+        alert('Unable to get your location. Please try again.');
+      }
+    },
+    { timeout: 10000, maximumAge: 60000 }
+  );
+}
+
+// 'idle'    — no location yet; sheet shows the CTA, pill hidden on mobile
+// 'located' — we have a fix; pill shrinks to a round recenter button
+// 'browsing'— user dismissed the CTA or searched instead; pill returns
+function setLocationUIState(state) {
+  document.body.classList.toggle('nm-idle', state === 'idle');
+  document.body.classList.toggle('nm-located', state === 'located');
+
+  // The pill's job changes with the state, so its accessible name has to
+  // change too — it's icon-only once we're located.
+  const btn = document.getElementById('nearMeBtn');
+  if (btn) {
+    const label = state === 'located' ? 'Recenter on my location' : 'Find pizza near me';
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('title', label);
+  }
+}
+
 const nearMeBtn = document.getElementById('nearMeBtn');
 if (nearMeBtn) {
-  nearMeBtn.addEventListener('click', () => {
-    if (!navigator.geolocation) {
-      alert('Geolocation is not supported by your browser.');
-      return;
-    }
-    nearMeBtn.classList.add('locating');
-    nearMeBtn.disabled = true;
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        try {
-          // Locate tapped → collapse the hero first if still showing
-          expandMap();
-          // Suppress "Search This Area" right after locate — results are
-          // already fresh; only show it once the user actually moves
-          suppressSearchThisArea = true;
-          activateNearMeOnMap(pos.coords.latitude, pos.coords.longitude, {
-            showList: true,
-            collapsed: false
-          });
-        } catch (err) {
-          console.error('activateNearMeOnMap failed:', err);
-        } finally {
-          nearMeBtn.classList.remove('locating');
-          nearMeBtn.disabled = false;
-        }
-      },
-      (err) => {
-        nearMeBtn.classList.remove('locating');
-        nearMeBtn.disabled = false;
-        if (err.code === 1) {
-          alert('Location access denied. Please allow location access in your browser settings.');
-        } else {
-          alert('Unable to get your location. Please try again.');
-        }
-      },
-      { timeout: 10000, maximumAge: 60000 }
-    );
-  });
+  nearMeBtn.addEventListener('click', () => requestUserLocation(nearMeBtn));
 }
 
 // Toggle the near-me panel — collapses the list content on mobile,
@@ -1153,9 +1203,16 @@ function zeroResultMessage() {
   return ZERO_RESULT_MESSAGES[Math.floor(Math.random() * ZERO_RESULT_MESSAGES.length)];
 }
 
+// The sheet has three snap positions on mobile:
+//   collapsed — handle + header only
+//   rest      — header + ~4.5 rows (the default; keeps the map the star)
+//   expanded  — ~80dvh for browsing the whole list
+// setNearMePanelCollapsed(false) always means "rest", never "expanded",
+// so every existing call site lands on the calm default.
 function setNearMePanelCollapsed(collapsed) {
   const panel = document.getElementById('nearMePanel');
   if (!panel) return;
+  panel.classList.remove('expanded');
   panel.classList.toggle('collapsed', collapsed);
 
   // Desktop: shift the Near Me button and sync the floating tab
@@ -1220,8 +1277,21 @@ if (nearMePanelHeader) {
     if (touchStartY === null) return;
     const deltaY = e.changedTouches[0].clientY - touchStartY;
     touchStartY = null;
-    if (deltaY > 40) setNearMePanelCollapsed(true);
-    else if (deltaY < -40) setNearMePanelCollapsed(false);
+    if (Math.abs(deltaY) < 40) return;
+    const panel = document.getElementById('nearMePanel');
+    if (!panel) return;
+    const isCollapsed = panel.classList.contains('collapsed');
+    const isExpanded = panel.classList.contains('expanded');
+
+    if (deltaY < 0) {
+      // Swipe up: collapsed → rest → expanded
+      if (isCollapsed) setNearMePanelCollapsed(false);
+      else if (!isExpanded) { panel.classList.remove('collapsed'); panel.classList.add('expanded'); }
+    } else {
+      // Swipe down: expanded → rest → collapsed
+      if (isExpanded) setNearMePanelCollapsed(false);
+      else setNearMePanelCollapsed(true);
+    }
   }, { passive: true });
 }
 
@@ -1317,17 +1387,52 @@ function showIdleState() {
   const panel = document.getElementById('nearMePanel');
   const list = document.getElementById('nearMePanelList');
   const title = document.getElementById('nearMePanelTitle');
-  if (!panel || !list || !title) return;
+  if (!panel || !title || !list) return;
   const heading = '🍕 Where are we getting pizza?';
   title.textContent = heading;
   window.lastListHeading = heading;
   window.lastListResultCount = 0;
-  list.innerHTML = `<p class="near-me-empty-hint">Tap a pizzeria on the map, search, or use your location to get started.</p>`;
+
+  // An empty sheet is an invitation to act, not a shrug. This is the
+  // primary location CTA now — people kept missing the small pill in the
+  // map's top-left corner, and the sheet is where the eye already lands.
+  list.innerHTML = `
+    <div class="near-me-cta-wrap">
+      <button class="near-me-cta" id="nearMeSheetCta">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="12" r="3" fill="currentColor"/>
+          <path d="M12 2v3M12 19v3M22 12h-3M5 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        Use My Location
+      </button>
+      <p class="near-me-cta-note">
+        We use it once to find the closest slices. Nothing is saved.<br>
+        Or <button type="button" id="nearMeBrowseInstead">browse the map</button> instead.
+      </p>
+    </div>`;
+
+  panel.dataset.state = 'idle';
   panel.hidden = false;
-  // Desktop starts collapsed so the full map is visible at load —
-  // the floating tab invites the user to open it when ready.
-  // Mobile starts collapsed to show just the one-line peek bar.
-  setNearMePanelCollapsed(true);
+  setLocationUIState('idle');
+
+  const cta = document.getElementById('nearMeSheetCta');
+  if (cta) cta.addEventListener('click', () => requestUserLocation(cta));
+
+  const browse = document.getElementById('nearMeBrowseInstead');
+  if (browse) {
+    browse.addEventListener('click', () => {
+      setLocationUIState('browsing');
+      setNearMePanelCollapsed(true);
+      if (window.buildResultsPanel) window.buildResultsPanel({ mode: 'area', collapsed: true });
+    });
+  }
+
+  // Desktop keeps its collapsed-sidebar default (the floating tab invites
+  // the user in, and the enlarged pill is still visible on the map).
+  // Mobile opens to rest so the CTA is actually on screen — a collapsed
+  // one-line bar is exactly what people were failing to notice.
+  setNearMePanelCollapsed(window.innerWidth >= 901);
 }
 showIdleState();
 
