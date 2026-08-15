@@ -1,36 +1,49 @@
-// Google star ratings for NYC Pizza Map.
+// Google ratings + opening hours for NYC Pizza Map.
 //
 //   <span class="g-rating" data-place-id="ChIJ..."></span>
+//   <span class="g-hours"  data-place-id="ChIJ..."></span>          compact status
+//   <span class="g-hours"  data-place-id="ChIJ..." data-full="1"></span>   + full week
 //
-// Static pages: nothing to do, it self-starts on DOMContentLoaded.
-// Content built after load: GoogleRating.hydrate(container)
-// Long lists: GoogleRating.hydrate(container, { lazy: true })  <- fetches on scroll
-// NOTE: assigned to window deliberately. A top-level `const` lives in the
-// global lexical scope, not on the window object, so `window.GoogleRating`
-// would be undefined and the hydrate() guards on other pages would silently
-// never fire.
+// Static pages self-start. Content built after load: GoogleRating.hydrate(el).
+// Long lists: GoogleRating.hydrate(el, { lazy: true }).
+//
+// Open/closed is computed here from the visitor's own clock, never cached —
+// Google's own `openNow` is a request-time value and would be wrong within
+// the hour. Holiday closures are not in the weekly pattern, which is why the
+// hours link out to Google.
 window.GoogleRating = (() => {
   const CSS = `
-.g-rating{--g-star:#c8102e;--g-txt:#6b6660;display:inline-block;min-height:1.2em}
+.g-rating,.g-hours{--g-star:#c8102e;--g-txt:#6b6660;display:inline-block;min-height:1.2em}
 .g-rating-cell{grid-column:1/-1}
-.g-rating__link{display:inline-flex;align-items:center;gap:.4em;white-space:nowrap;text-decoration:none;color:var(--g-txt);font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.8125rem;line-height:1;border-bottom:1px solid transparent;transition:border-color .15s}
-.g-rating__link:hover{border-bottom-color:var(--g-txt)}
+.g-rating__link,.g-hours__link{display:inline-flex;align-items:center;gap:.4em;white-space:nowrap;text-decoration:none;color:var(--g-txt);font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.8125rem;line-height:1;border-bottom:1px solid transparent;transition:border-color .15s}
+.g-rating__link:hover,.g-hours__link:hover{border-bottom-color:var(--g-txt)}
 .g-rating__stars{display:inline-flex;gap:1px;color:var(--g-star)}
 .g-star{width:.9em;height:.9em;display:block}
 .g-rating__num{font-weight:600;color:#1a1a1a}
 .g-rating__src{font-weight:500}
 .g-rating__sep{opacity:.4}
 .g-rating__num,.g-rating__count{font-variant-numeric:tabular-nums}
-.ticket .g-rating__link,.ps-entry .g-rating__link{font-size:.72rem}
-/* On the dark green card header: red stars stay, the number goes cream so it
-   reads as sibling to the address, and the attribution sits back quietly. */
-.ticket-head .g-rating{margin-top:7px}
+.g-dot{width:.5em;height:.5em;border-radius:50%;flex:0 0 auto;background:#9a948c}
+.g-hours--open .g-dot{background:#2e7d32}
+.g-hours--open .g-hours__state{color:#2e7d32;font-weight:600}
+.g-hours__state{font-weight:600;color:#1a1a1a}
+.g-hours__rest{opacity:.75}
+.g-week{margin:6px 0 0;font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;line-height:1.7;color:var(--g-txt)}
+.g-week div{display:flex;justify-content:space-between;gap:12px}
+.g-week .is-today{font-weight:600;color:#1a1a1a}
+.g-week__src{display:block;margin-top:4px;opacity:.6;font-size:.66rem}
+.ticket .g-rating__link,.ps-entry .g-rating__link,.ticket .g-hours__link,.ps-entry .g-hours__link{font-size:.72rem}
+/* Dark green card header: red stars, cream number, attribution sits back. */
+.ticket-head .g-rating,.ticket-head .g-hours{margin-top:7px}
 .ticket-head .g-rating__stars{color:#DC2225}
-.ticket-head .g-rating__num{color:var(--color-parchment,#FDF4E7)}
-.ticket-head .g-rating__link,.ticket-head .g-rating__count,.ticket-head .g-rating__src{color:rgba(253,244,231,.72)}
-.ticket-head .g-rating__link:hover{border-bottom-color:rgba(253,244,231,.5)}
-@media(max-width:480px){.g-rating__link{font-size:.75rem}}`;
+.ticket-head .g-rating__num,.ticket-head .g-hours__state{color:var(--color-parchment,#FDF4E7)}
+.ticket-head .g-hours--open .g-hours__state{color:#8FD3A0}
+.ticket-head .g-hours--open .g-dot{background:#8FD3A0}
+.ticket-head .g-rating__link,.ticket-head .g-rating__count,.ticket-head .g-rating__src,.ticket-head .g-hours__link{color:rgba(253,244,231,.72)}
+.ticket-head .g-rating__link:hover,.ticket-head .g-hours__link:hover{border-bottom-color:rgba(253,244,231,.5)}
+@media(max-width:480px){.g-rating__link,.g-hours__link{font-size:.75rem}}`;
 
+  const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const memo = new Map();
   let uid = 0;
 
@@ -50,6 +63,12 @@ window.GoogleRating = (() => {
     return memo.get(id);
   }
 
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, m =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+  }
+
+  // ---- stars ----
   function stars(n) {
     const full = Math.floor(n);
     const half = n - full >= 0.25 && n - full < 0.75;
@@ -63,21 +82,88 @@ window.GoogleRating = (() => {
     return out;
   }
 
+  // ---- hours ----
+  const mins = t => t.day * 1440 + t.hour * 60 + (t.minute || 0);
+  function clock(t) {
+    let h = t.hour % 12; if (h === 0) h = 12;
+    return t.minute ? `${h}:${String(t.minute).padStart(2, '0')} ${t.hour >= 12 ? 'PM' : 'AM'}`
+                    : `${h} ${t.hour >= 12 ? 'PM' : 'AM'}`;
+  }
+
+  function status(periods, now) {
+    if (!periods || !periods.length) return null;
+    if (periods.length === 1 && !periods[0].close) return { open: true, state: 'Open 24 hours', rest: '' };
+
+    const WEEK = 10080;
+    const nowMin = now.getDay() * 1440 + now.getHours() * 60 + now.getMinutes();
+
+    for (const p of periods) {
+      if (!p.open || !p.close) continue;
+      const start = mins(p.open);
+      let end = mins(p.close);
+      if (end <= start) end += WEEK;            // closes after midnight
+      if ((nowMin >= start && nowMin < end) || (nowMin + WEEK >= start && nowMin + WEEK < end)) {
+        return { open: true, state: 'Open', rest: `until ${clock(p.close)}` };
+      }
+    }
+
+    let best = null;
+    for (const p of periods) {
+      if (!p.open) continue;
+      let wait = mins(p.open) - nowMin;
+      if (wait < 0) wait += WEEK;
+      if (best === null || wait < best.wait) best = { wait, p };
+    }
+    if (!best) return { open: false, state: 'Closed', rest: '' };
+    const today = best.p.open.day === now.getDay() && best.wait < 1440;
+    return {
+      open: false,
+      state: 'Closed',
+      rest: today ? `opens ${clock(best.p.open)}`
+                  : `opens ${DAYS[best.p.open.day]} ${clock(best.p.open)}`
+    };
+  }
+
+  function renderHours(el, d) {
+    const h = d && d.hours;
+    const st = h && status(h.periods, new Date());
+    if (!st) { (el.closest('.g-rating-cell') || el).remove(); return; }
+
+    let week = '';
+    if (el.dataset.full && h.week && h.week.length) {
+      const todayIdx = (new Date().getDay() + 6) % 7;   // Google lists Monday first
+      week = `<div class="g-week">${h.week.map((line, i) => {
+        const [day, ...rest] = String(line).split(': ');
+        return `<div class="${i === todayIdx ? 'is-today' : ''}"><span>${esc(day)}</span><span>${esc(rest.join(': '))}</span></div>`;
+      }).join('')}<span class="g-week__src">Hours via Google</span></div>`;
+    }
+
+    el.className += st.open ? ' g-hours--open' : '';
+    el.innerHTML =
+      `<a class="g-hours__link" href="${esc(d.url)}" target="_blank" rel="noopener nofollow" aria-label="${st.state}${st.rest ? ', ' + st.rest : ''} — opening hours from Google">` +
+      `<span class="g-dot" aria-hidden="true"></span><span class="g-hours__state">${st.state}</span>` +
+      (st.rest ? `<span class="g-hours__rest">· ${st.rest}</span>` : '') + `</a>` + week;
+    el.classList.add('is-loaded');
+  }
+
+  function renderRating(el, d) {
+    if (!d || d.rating == null) { (el.closest('.g-rating-cell') || el).remove(); return; }
+    const c = d.count.toLocaleString('en-US');
+    el.innerHTML = `<a class="g-rating__link" href="${esc(d.url)}" target="_blank" rel="noopener nofollow" aria-label="Rated ${d.rating} out of 5 by ${c} Google reviews"><span class="g-rating__stars" aria-hidden="true">${stars(d.rating)}</span><span class="g-rating__num">${d.rating.toFixed(1)}</span><span class="g-rating__sep" aria-hidden="true">·</span><span class="g-rating__count">${c} <span class="g-rating__src">Google</span> reviews</span></a>`;
+    el.classList.add('is-loaded');
+  }
+
   function load(el) {
     const id = el.dataset.placeId;
     if (!id) return;
+    const isHours = el.classList.contains('g-hours');
     el.classList.add('is-loading');
     get(id).then(d => {
       el.classList.remove('is-loading');
-      if (!d || d.rating == null) { (el.closest('.g-rating-cell') || el).remove(); return; }
-      const c = d.count.toLocaleString('en-US');
-      el.innerHTML = `<a class="g-rating__link" href="${d.url}" target="_blank" rel="noopener nofollow" aria-label="Rated ${d.rating} out of 5 by ${c} Google reviews"><span class="g-rating__stars" aria-hidden="true">${stars(d.rating)}</span><span class="g-rating__num">${d.rating.toFixed(1)}</span><span class="g-rating__sep" aria-hidden="true">·</span><span class="g-rating__count">${c} <span class="g-rating__src">Google</span> reviews</span></a>`;
-      el.classList.add('is-loaded');
+      isHours ? renderHours(el, d) : renderRating(el, d);
     });
   }
 
-  // Lazy mode: only fetch a card's rating once it's near the viewport, so a
-  // 300-result list doesn't fire 300 requests the moment it renders.
   let io = null;
   function observer() {
     if (!io) {
@@ -94,7 +180,8 @@ window.GoogleRating = (() => {
 
   function hydrate(root = document, opts = {}) {
     styles();
-    const els = root.querySelectorAll('.g-rating:not(.is-loaded):not(.is-loading)');
+    const sel = '.g-rating:not(.is-loaded):not(.is-loading),.g-hours:not(.is-loaded):not(.is-loading)';
+    const els = root.querySelectorAll(sel);
     if (opts.lazy && 'IntersectionObserver' in window) {
       const ob = observer();
       els.forEach(el => ob.observe(el));
@@ -106,5 +193,5 @@ window.GoogleRating = (() => {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => hydrate());
   else hydrate();
 
-  return { hydrate };
+  return { hydrate, _status: status };
 })();
