@@ -538,6 +538,7 @@ map.on('load', async () => {
         <div class="ticket-head">
           <p class="ticket-name">${escapeHTML(p.name)}</p>
           <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
+          ${p.place_id ? `<span class="g-rating" data-place-id="${escapeAttr(p.place_id)}"></span>` : ''}
         </div>
         <div class="ticket-body">
           <div class="ticket-meta">
@@ -1330,6 +1331,7 @@ function enterDetailMode(html) {
   const title = document.getElementById('nearMePanelTitle');
   if (!panel || !list || !nearMePanelDetail) return;
   nearMePanelDetail.innerHTML = html;
+  if (window.GoogleRating) GoogleRating.hydrate(nearMePanelDetail);
   nearMePanelDetail.scrollTop = 0;
   list.hidden = true;
   nearMePanelDetail.hidden = false;
@@ -1760,5 +1762,3 @@ if (searchThisAreaBtn) {
     if (window.buildResultsPanel) window.buildResultsPanel({ mode: 'area' });
   });
 }
-
-
