@@ -1901,12 +1901,19 @@
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
 <style>
-  /* Hero art backdrop. The stage shrink-wraps the chef (inline-flex, no width),
-     which is what lets the disc be sized as a % of HIM rather than of the
-     column — otherwise the circle floats at a fixed size while he scales.
-     overflow must be visible or the disc gets clipped into a rounded square. */
+  /* Hero art backdrop.
+     The binding constraint on mobile is the grid column, not max-height:
+     style.css sets `grid-template-columns: 1fr 140px`, so the chef was capped
+     at 140px wide (~173px tall) and max-height:240px never applied. Widening
+     the column to 48% is what actually makes him bigger. */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr 48%; }
+  }
+
   .hero-art { overflow: visible; }
 
+  /* Shrink-wraps the chef, so the disc can be sized as a % of HIM rather than
+     of the column — otherwise the circle floats free while he scales. */
   .hero-art-stage {
     position: relative;
     display: inline-flex;
@@ -1914,15 +1921,15 @@
     justify-content: center;
   }
 
-  /* Beat the stylesheet's mobile rules (width:100%, object-position:bottom),
-     which shrink him and pin him low. Two-class selector wins on specificity. */
+  /* Two-class selector to beat style.css's mobile rules (width:100% and
+     object-position:bottom center), which shrank him and pinned him low. */
   .hero-art-stage .hero-art-img {
     position: relative;
     z-index: 2;
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: 320px;
+    max-height: 340px;
     object-fit: contain;
     object-position: center;
   }
@@ -1931,7 +1938,7 @@
     position: absolute;
     z-index: 0;
     top: 46%;
-    left: 56%;
+    left: 53%;
     transform: translate(-50%, -50%);
     height: 66%;            /* of the chef, not the column */
     aspect-ratio: 1 / 1;
@@ -1946,7 +1953,7 @@
   .hero-spark.s4 { width: 19px; height: 19px; top: 70%; left: 4%;  fill: #1F4B33; }
 
   @media (max-width: 900px) {
-    .hero-art-stage .hero-art-img { max-height: 240px; }
+    .hero-art-stage .hero-art-img { max-height: 250px; }
     .hero-spark.s1 { width: 20px; height: 20px; }
     .hero-spark.s4 { width: 15px; height: 15px; }
     .hero-spark.s2, .hero-spark.s3 { width: 11px; height: 11px; }
