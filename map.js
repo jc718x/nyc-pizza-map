@@ -1744,15 +1744,29 @@ map.on('move', (e) => {
     const anchor = window.panelAnchor;
     const panel = document.getElementById('nearMePanel');
     if (!anchor || !panel || panel.hidden) { hideSearchThisAreaBtn(); return; }
-    const bounds = map.getBounds();
-    const sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
-    const latPad = (ne.lat - sw.lat) * 0.08;
-    const lngPad = (ne.lng - sw.lng) * 0.08;
-    const inView = anchor.lat > sw.lat + latPad && anchor.lat < ne.lat - latPad &&
-                   anchor.lng > sw.lng + lngPad && anchor.lng < ne.lng - lngPad;
+
+    // Reading one pizzeria's card isn't browsing an area, and selecting a
+    // marker flies the map away from the anchor — without this the button
+    // would pop up over the card almost every time you tapped a pin.
+    if (panel.dataset.mode === 'detail') { hideSearchThisAreaBtn(); return; }
+
+    // How far the anchor has drifted from the centre of the screen, as a
+    // fraction of the viewport's half-diagonal. Fires well before the anchor
+    // leaves the screen entirely, so panning a couple of neighbourhoods over
+    // offers a re-search instead of silently showing a stale list.
+    const c = map.getContainer();
+    const pt = map.project([anchor.lng, anchor.lat]);
+    const halfW = c.clientWidth / 2, halfH = c.clientHeight / 2;
+    const drift = Math.hypot(pt.x - halfW, pt.y - halfH) / Math.hypot(halfW, halfH);
+
+    // Symmetric on purpose. Zooming IN past the anchor zoom matters as much as
+    // zooming out — going from a borough-wide view down to one neighbourhood
+    // should offer to narrow the list. The old check subtracted in one
+    // direction only, so zooming in could never trigger it.
     const anchorZoom = window.panelAnchorZoom;
-    const zoomedOut = typeof anchorZoom === 'number' && (anchorZoom - map.getZoom() > 0.6);
-    if (!inView || zoomedOut) showSearchThisAreaBtn();
+    const zoomDelta = typeof anchorZoom === 'number' ? Math.abs(anchorZoom - map.getZoom()) : 0;
+
+    if (drift > 0.4 || zoomDelta > 0.75) showSearchThisAreaBtn();
     else hideSearchThisAreaBtn();
   }, 50);
 });
