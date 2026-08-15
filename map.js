@@ -539,6 +539,7 @@ map.on('load', async () => {
           <p class="ticket-name">${escapeHTML(p.name)}</p>
           <p class="ticket-address">${escapeHTML(p.address)}</p>
           ${p.place_id ? `<span class="g-rating" data-place-id="${escapeAttr(p.place_id)}"></span>` : ''}
+          ${p.place_id ? `<span class="g-hours" data-place-id="${escapeAttr(p.place_id)}"></span>` : ''}
         </div>
         <div class="ticket-body">
           <div class="ticket-meta">
