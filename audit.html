@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Audit — NYC Pizza Map</title>
+<style>
+  :root { --red:#DC2225; --green:#1F4B33; --amber:#b8860b; --ink:#241A10; --paper:#FDF4E7; --line:#d8d2c8;
+          --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace; }
+  *{box-sizing:border-box}
+  body{font-family:var(--mono);background:var(--paper);color:var(--ink);margin:0;padding:24px;font-size:14px;line-height:1.5}
+  .wrap{max-width:940px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px;letter-spacing:-.02em}
+  h2{font-size:12px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.08em;color:var(--green)}
+  .kicker{color:var(--red);text-transform:uppercase;font-size:11px;letter-spacing:.12em;margin-bottom:16px}
+  .panel{border:1px solid var(--line);background:#fff;padding:16px;margin-bottom:16px}
+  .panel.bad{border-left:3px solid var(--red)}
+  .panel.warn{border-left:3px solid var(--amber)}
+  .muted{color:#6b6660;font-size:12px}
+  button{font-family:var(--mono);font-size:13px;padding:9px 16px;border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer}
+  button:disabled{opacity:.35;cursor:default}
+  button.ghost{background:#fff;color:var(--ink)}
+  input[type=number]{font-family:var(--mono);font-size:13px;padding:6px;border:1px solid var(--line);background:var(--paper);width:80px}
+  .stats{display:flex;gap:26px;flex-wrap:wrap}
+  .stats div{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#666}
+  .stats b{display:block;font-size:22px;color:var(--ink)}
+  .stats .bad b{color:var(--red)} .stats .warn b{color:var(--amber)} .stats .ok b{color:#2e7d32}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#666;border-bottom:1px solid var(--line);padding:5px 8px 5px 0;font-weight:400}
+  td{padding:5px 8px 5px 0;border-bottom:1px solid #f0ece6;vertical-align:top}
+  td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr.flag td{background:#fff5f5}
+  .bar{height:5px;background:var(--line);margin:10px 0 6px}
+  .bar>span{display:block;height:100%;background:var(--red);width:0;transition:width .15s}
+  .hist{font-size:11px;line-height:1.9}
+  .hist span{display:inline-block;background:var(--green);height:9px;vertical-align:middle;margin-right:6px}
+  .hidden{display:none}
+  a{color:var(--red)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Internal — not linked from the site</div>
+  <h1>Dataset audit</h1>
+  <p class="muted" style="margin-top:4px">Pulls every pizzeria's Google rating through your own <code>/api/rating</code>, then measures neighbourhood coverage from <code>search-destinations.js</code>. Read-only — changes nothing.</p>
+
+  <div class="panel">
+    <div style="display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap">
+      <div>
+        <label class="muted" style="display:block">Flag ratings at or below</label>
+        <input type="number" id="thresh" value="4.1" step="0.1" min="1" max="5">
+      </div>
+      <div>
+        <label class="muted" style="display:block">Desert threshold (min walk)</label>
+        <input type="number" id="walk" value="12" step="1" min="3" max="45">
+      </div>
+      <button id="run">Run audit</button>
+    </div>
+    <div class="bar"><span id="bar"></span></div>
+    <div class="muted" id="progress">Ready.</div>
+    <p class="muted" style="margin:8px 0 0">Uncached pizzerias hit Google once each. With ~300 entries that's a few hundred calls against your 800 ceiling — and it warms the cache for real visitors.</p>
+  </div>
+
+  <div id="out"></div>
+</div>
+
+<script src="search-destinations.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const R = 6371000;
+function dist(a, b) {
+  const r = d => d * Math.PI / 180;
+  const dLa = r(b.lat - a.lat), dLo = r(b.lng - a.lng);
+  const h = Math.sin(dLa/2)**2 + Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dLo/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+const walkMin = m => Math.round(m / 83);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+$('run').onclick = async () => {
+  $('run').disabled = true;
+  const geo = await (await fetch('data.json')).json();
+  const places = (geo.features || []).map(f => ({
+    name: f.properties.name,
+    address: f.properties.address,
+    borough: f.properties.borough,
+    id: f.properties.place_id || null,
+    worth: !!f.properties.worth_a_trip,
+    lat: f.geometry.coordinates[1],
+    lng: f.geometry.coordinates[0]
+  }));
+
+  // ---- pull every rating through the site's own endpoint, 6 at a time ----
+  const queue = places.filter(p => p.id).slice();
+  const total = queue.length;
+  let done = 0;
+  async function worker() {
+    while (queue.length) {
+      const p = queue.shift();
+      try {
+        const r = await fetch(`/api/rating?place_id=${encodeURIComponent(p.id)}`);
+        if (r.ok) {
+          const d = await r.json();
+          p.rating = d.rating; p.count = d.count; p.url = d.url;
+          p.hasHours = !!(d.hours && d.hours.week && d.hours.week.length);
+          p.capped = !!d.capped;
+        }
+      } catch (e) { /* leave undefined */ }
+      done++;
+      $('bar').style.width = (done / total * 100) + '%';
+      $('progress').textContent = `${done} of ${total} fetched`;
+    }
+  }
+  await Promise.all(Array.from({ length: 6 }, worker));
+  $('progress').textContent = `Done — ${total} fetched.`;
+  report(places);
+  $('run').disabled = false;
+};
+
+function report(places) {
+  const thresh = parseFloat($('thresh').value);
+  const walkCut = parseInt($('walk').value, 10);
+  const rated = places.filter(p => typeof p.rating === 'number');
+  const low = rated.filter(p => p.rating <= thresh).sort((a,b) => a.rating - b.rating);
+  const noRating = places.filter(p => p.id && typeof p.rating !== 'number');
+  const noId = places.filter(p => !p.id);
+  const capped = places.filter(p => p.capped);
+  const thin = rated.filter(p => p.count < 100).sort((a,b) => a.count - b.count);
+  const avg = rated.reduce((s,p) => s + p.rating, 0) / (rated.length || 1);
+
+  let html = `<div class="panel"><div class="stats">
+    <div class="ok"><b>${places.length}</b>pizzerias</div>
+    <div><b>${avg.toFixed(2)}</b>average rating</div>
+    <div class="${low.length ? 'bad' : 'ok'}"><b>${low.length}</b>at or below ${thresh}</div>
+    <div class="${thin.length ? 'warn' : 'ok'}"><b>${thin.length}</b>under 100 reviews</div>
+    <div class="${noRating.length ? 'warn' : 'ok'}"><b>${noRating.length}</b>no rating</div>
+    <div class="${noId.length ? 'warn' : 'ok'}"><b>${noId.length}</b>no place ID</div>
+  </div>${capped.length ? `<p class="muted" style="color:var(--red);margin:10px 0 0">${capped.length} came back capped — the monthly ceiling was hit mid-run, so those figures are missing rather than low.</p>` : ''}</div>`;
+
+  // ---- distribution ----
+  const buckets = {};
+  rated.forEach(p => { const k = (Math.floor(p.rating * 10) / 10).toFixed(1); buckets[k] = (buckets[k] || 0) + 1; });
+  const keys = Object.keys(buckets).sort();
+  const max = Math.max(...Object.values(buckets));
+  html += `<div class="panel"><h2>Rating distribution</h2><div class="hist">` +
+    keys.map(k => `${k} <span style="width:${(buckets[k]/max*260)|0}px"></span> ${buckets[k]}`).join('<br>') +
+    `</div></div>`;
+
+  // ---- the thing he asked for ----
+  html += low.length
+    ? `<div class="panel bad"><h2>${low.length} rated ${thresh} or below</h2>
+       <p class="muted">Worth a look — a low score on a place you've written up warmly is either a bad listing match or a genuine change.</p>
+       <table><tr><th>Pizzeria</th><th>Borough</th><th class="n">Rating</th><th class="n">Reviews</th><th></th></tr>` +
+       low.map(p => `<tr class="flag"><td>${esc(p.name)}<br><span class="muted">${esc(p.address)}</span></td>
+         <td>${esc(p.borough)}</td><td class="n">${p.rating.toFixed(1)}</td><td class="n">${p.count.toLocaleString()}</td>
+         <td class="n"><a href="${esc(p.url)}" target="_blank" rel="noopener">check ↗</a></td></tr>`).join('') +
+       `</table></div>`
+    : `<div class="panel"><h2>Nothing at or below ${thresh}</h2><p class="muted">Every rated entry scores above the threshold.</p></div>`;
+
+  // ---- low confidence ----
+  if (thin.length) {
+    html += `<div class="panel warn"><h2>${thin.length} with fewer than 100 reviews</h2>
+      <p class="muted">Small samples move a lot. A 4.8 from 12 people isn't the same claim as a 4.8 from 3,000.</p>
+      <table><tr><th>Pizzeria</th><th class="n">Rating</th><th class="n">Reviews</th></tr>` +
+      thin.slice(0, 30).map(p => `<tr><td>${esc(p.name)}</td><td class="n">${p.rating.toFixed(1)}</td><td class="n">${p.count}</td></tr>`).join('') +
+      `</table></div>`;
+  }
+
+  // ---- coverage ----
+  const hoods = (typeof SEARCH_DESTINATIONS !== 'undefined' ? SEARCH_DESTINATIONS : [])
+    .filter(d => d.category === 'Neighborhoods');
+  if (hoods.length) {
+    const scored = hoods.map(h => {
+      let best = Infinity, who = '';
+      places.forEach(p => { const d = dist(h, p); if (d < best) { best = d; who = p.name; } });
+      const within = places.filter(p => dist(h, p) < 1000).length;
+      return { name: h.name, borough: h.borough, d: best, who, within };
+    }).sort((a,b) => b.d - a.d);
+
+    const deserts = scored.filter(h => walkMin(h.d) > walkCut);
+    html += `<div class="panel ${deserts.length ? 'warn' : ''}"><h2>Coverage — ${hoods.length} neighbourhoods</h2>
+      <p class="muted">Walk time from each neighbourhood centre to your nearest entry. Anything over ${walkCut} min is a gap.</p>
+      <table><tr><th>Neighbourhood</th><th>Borough</th><th class="n">Nearest</th><th>Which</th><th class="n">Within 1km</th></tr>` +
+      scored.slice(0, 25).map(h => `<tr class="${walkMin(h.d) > walkCut ? 'flag' : ''}">
+        <td>${esc(h.name)}</td><td>${esc(h.borough)}</td>
+        <td class="n">${walkMin(h.d)} min</td><td class="muted">${esc(h.who)}</td>
+        <td class="n">${h.within}</td></tr>`).join('') +
+      `</table></div>`;
+
+    // most crowded — candidates for pruning
+    const crowded = scored.filter(h => h.within >= 4).sort((a,b) => b.within - a.within);
+    if (crowded.length) {
+      html += `<div class="panel"><h2>Densest neighbourhoods</h2>
+        <p class="muted">Four or more entries within a kilometre of the centre. If any share an interchangeable blurb, this is where a cut costs least.</p>
+        <table><tr><th>Neighbourhood</th><th>Borough</th><th class="n">Within 1km</th></tr>` +
+        crowded.map(h => `<tr><td>${esc(h.name)}</td><td>${esc(h.borough)}</td><td class="n">${h.within}</td></tr>`).join('') +
+        `</table></div>`;
+    }
+  } else {
+    html += `<div class="panel warn"><h2>Coverage unavailable</h2><p class="muted">SEARCH_DESTINATIONS didn't load, so neighbourhood analysis was skipped.</p></div>`;
+  }
+
+  $('out').innerHTML = html;
+}
+</script>
+</body>
+</html>
