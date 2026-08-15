@@ -537,7 +537,7 @@ map.on('load', async () => {
         ${p.worth_a_trip ? `<div class="ticket-worth-trip">⭐ Worth a special trip</div>` : ''}
         <div class="ticket-head">
           <p class="ticket-name">${escapeHTML(p.name)}</p>
-          <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
+          <p class="ticket-address">${escapeHTML(p.address)}</p>
           ${p.place_id ? `<span class="g-rating" data-place-id="${escapeAttr(p.place_id)}"></span>` : ''}
         </div>
         <div class="ticket-body">
