@@ -11,6 +11,11 @@ const TTL = 2505600;              // 29 days, under Google's 30-day cap
 const MAX_CALLS_PER_MONTH = 800;  // ceiling; free allowance is 1000
 const PLACE_ID_RE = /^[A-Za-z0-9_-]{20,255}$/;
 
+// Bump this whenever the response shape changes. Both caches are keyed by it,
+// so old entries are simply never looked up again and expire on their own.
+// Forgetting it means the Function runs new code and still serves old JSON.
+const V = 2;
+
 export async function onRequestGet({ request, env, waitUntil }) {
   const url = new URL(request.url);
   const id = url.searchParams.get('place_id');
@@ -18,14 +23,14 @@ export async function onRequestGet({ request, env, waitUntil }) {
 
   // 1. edge cache
   const cache = caches.default;
-  const cacheKey = new Request(`${url.origin}/api/rating?place_id=${id}`, request);
+  const cacheKey = new Request(`${url.origin}/api/rating?v=${V}&place_id=${id}`, request);
   const hit = await cache.match(cacheKey);
   if (hit) return hit;
 
   if (!(await isKnownPlace(id, url.origin, env))) return json({ error: 'unknown place' }, 404);
 
   // 2. KV
-  let body = await env.RATINGS.get(`p2:${id}`, { type: 'json' });
+  let body = await env.RATINGS.get(`p${V}:${id}`, { type: 'json' });
 
   // 3. Google, if we're still under the monthly ceiling
   if (!body) {
@@ -68,7 +73,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
     // Count the call, then store. Not transactional — concurrent requests can
     // undercount slightly. It's a safety net, not a billing ledger.
     waitUntil(env.RATINGS.put(key, String(used + 1), { expirationTtl: 5356800 })); // 62 days
-    waitUntil(env.RATINGS.put(`p2:${id}`, JSON.stringify(body), { expirationTtl: TTL }));
+    waitUntil(env.RATINGS.put(`p${V}:${id}`, JSON.stringify(body), { expirationTtl: TTL }));
   }
 
   const response = json(body, 200, {
