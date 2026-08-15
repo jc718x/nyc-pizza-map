@@ -25,7 +25,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
   if (!(await isKnownPlace(id, url.origin, env))) return json({ error: 'unknown place' }, 404);
 
   // 2. KV
-  let body = await env.RATINGS.get(`p:${id}`, { type: 'json' });
+  let body = await env.RATINGS.get(`p2:${id}`, { type: 'json' });
 
   // 3. Google, if we're still under the monthly ceiling
   if (!body) {
@@ -45,7 +45,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
       res = await fetch(`https://places.googleapis.com/v1/places/${id}`, {
         headers: {
           'X-Goog-Api-Key': env.PLACES_API_KEY,
-          'X-Goog-FieldMask': 'id,rating,userRatingCount,googleMapsUri'
+          'X-Goog-FieldMask': 'id,rating,userRatingCount,googleMapsUri,regularOpeningHours'
         }
       });
     } catch (e) {
@@ -54,16 +54,21 @@ export async function onRequestGet({ request, env, waitUntil }) {
     if (!res.ok) return json({ error: 'upstream error', status: res.status }, 502);
 
     const d = await res.json();
+    const oh = d.regularOpeningHours;
     body = {
       rating: d.rating ?? null,
       count: d.userRatingCount ?? 0,
-      url: d.googleMapsUri ?? mapsUrl(id)
+      url: d.googleMapsUri ?? mapsUrl(id),
+      // Only the weekly pattern is cacheable. `openNow` is computed by Google
+      // at request time and would be a lie within the hour, so it is dropped
+      // here and recomputed in the browser from the visitor's own clock.
+      hours: oh ? { periods: oh.periods || [], week: oh.weekdayDescriptions || [] } : null
     };
 
     // Count the call, then store. Not transactional — concurrent requests can
     // undercount slightly. It's a safety net, not a billing ledger.
     waitUntil(env.RATINGS.put(key, String(used + 1), { expirationTtl: 5356800 })); // 62 days
-    waitUntil(env.RATINGS.put(`p:${id}`, JSON.stringify(body), { expirationTtl: TTL }));
+    waitUntil(env.RATINGS.put(`p2:${id}`, JSON.stringify(body), { expirationTtl: TTL }));
   }
 
   const response = json(body, 200, {
