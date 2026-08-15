@@ -323,6 +323,7 @@
   .ps-entry-links a { font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700; color: var(--pz-accent); text-decoration: none; text-transform: uppercase; letter-spacing: 0.03em; }
   .ps-entry-links a:hover { text-decoration: underline; }
   .ps-empty { color: rgba(36,26,16,0.5); font-size: 0.9rem; padding: 20px 0; text-align: center; }
+  .ps-entry-rating { margin: 0 0 6px; }
 
   /* ===== Two-state transitions ===== */
   #psStateChoose, #psStateActive { transition: opacity 0.2s ease; }
@@ -546,6 +547,7 @@
 <script src="search-destinations.js"></script>
 <script src="search.js"></script>
 <script src="nav.js"></script>
+<script src="google-rating.js"></script>
 <script>
 const BOROUGH_COLORS = { Brooklyn:'#DC2225', Manhattan:'#276E40', Queens:'#FF6B00', Bronx:'#8B3A62', 'Staten Island':'#3C5A80' };
 
@@ -582,6 +584,7 @@ function buildEntryHTML(p) {
         ${p.slices ? `<span class="ps-pill">Slices ✓</span>` : `<span class="ps-pill">Whole pies</span>`}
         ${p.worth_a_trip ? `<span class="ps-pill worth">⭐ Worth a special trip</span>` : ''}
       </div>
+      ${p.place_id ? `<div class="ps-entry-rating"><span class="g-rating" data-place-id="${p.place_id}"></span></div>` : ''}
       <p class="ps-entry-blurb">${p.blurb}</p>
       <div class="ps-entry-links">
         <a href="${directionsUrl}" target="_blank" rel="noopener">Directions</a>
@@ -656,6 +659,9 @@ function render() {
   list.innerHTML = items.length
     ? items.map(buildEntryHTML).join('')
     : '<p class="ps-empty">No pizzerias found — try a different search.</p>';
+  // Lazy: ratings load as cards scroll into view, so a 300-result list
+  // doesn't fire 300 requests at once.
+  if (window.GoogleRating) GoogleRating.hydrate(list, { lazy: true });
 }
 
 // ===== State switching =====
