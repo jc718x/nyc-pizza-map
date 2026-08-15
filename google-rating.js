@@ -1,3 +1,10 @@
+// Google star ratings for NYC Pizza Map.
+//
+//   <span class="g-rating" data-place-id="ChIJ..."></span>
+//
+// Static pages: nothing to do, it self-starts on DOMContentLoaded.
+// Content built after load: GoogleRating.hydrate(container)
+// Long lists: GoogleRating.hydrate(container, { lazy: true })  <- fetches on scroll
 const GoogleRating = (() => {
   const CSS = `
 .g-rating{--g-star:#c8102e;--g-txt:#6b6660;display:inline-block;min-height:1.2em}
@@ -8,8 +15,7 @@ const GoogleRating = (() => {
 .g-star{width:.9em;height:.9em;display:block}
 .g-rating__num,.g-rating__src{font-weight:600;color:#1a1a1a}
 .g-rating__num,.g-rating__count{font-variant-numeric:tabular-nums}
-.maplibregl-popup .g-rating__count{font-size:0}
-.maplibregl-popup .g-rating__src{font-size:.8125rem}
+.ticket .g-rating__link,.ps-entry .g-rating__link{font-size:.72rem}
 @media(max-width:480px){.g-rating__link{font-size:.75rem}}`;
 
   const memo = new Map();
@@ -44,22 +50,44 @@ const GoogleRating = (() => {
     return out;
   }
 
-  function hydrate(root = document) {
-    styles();
-    root.querySelectorAll('.g-rating:not(.is-loaded):not(.is-loading)').forEach(el => {
-      const id = el.dataset.placeId;
-      if (!id) return;
-      el.classList.add('is-loading');
-      get(id).then(d => {
-        el.classList.remove('is-loading');
-        // No rating: remove the whole labelled cell if there is one, so we
-        // don't leave an orphaned "Google Rating" heading with nothing under it.
-        if (!d || d.rating == null) { (el.closest('.g-rating-cell') || el).remove(); return; }
-        const c = d.count.toLocaleString('en-US');
-        el.innerHTML = `<a class="g-rating__link" href="${d.url}" target="_blank" rel="noopener nofollow" aria-label="Rated ${d.rating} out of 5 by ${c} Google reviews"><span class="g-rating__stars" aria-hidden="true">${stars(d.rating)}</span><span class="g-rating__num">${d.rating.toFixed(1)}</span><span class="g-rating__count">${c} <span class="g-rating__src">Google</span> reviews</span></a>`;
-        el.classList.add('is-loaded');
-      });
+  function load(el) {
+    const id = el.dataset.placeId;
+    if (!id) return;
+    el.classList.add('is-loading');
+    get(id).then(d => {
+      el.classList.remove('is-loading');
+      if (!d || d.rating == null) { (el.closest('.g-rating-cell') || el).remove(); return; }
+      const c = d.count.toLocaleString('en-US');
+      el.innerHTML = `<a class="g-rating__link" href="${d.url}" target="_blank" rel="noopener nofollow" aria-label="Rated ${d.rating} out of 5 by ${c} Google reviews"><span class="g-rating__stars" aria-hidden="true">${stars(d.rating)}</span><span class="g-rating__num">${d.rating.toFixed(1)}</span><span class="g-rating__count">${c} <span class="g-rating__src">Google</span> reviews</span></a>`;
+      el.classList.add('is-loaded');
     });
+  }
+
+  // Lazy mode: only fetch a card's rating once it's near the viewport, so a
+  // 300-result list doesn't fire 300 requests the moment it renders.
+  let io = null;
+  function observer() {
+    if (!io) {
+      io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          obs.unobserve(e.target);
+          load(e.target);
+        });
+      }, { rootMargin: '300px 0px' });
+    }
+    return io;
+  }
+
+  function hydrate(root = document, opts = {}) {
+    styles();
+    const els = root.querySelectorAll('.g-rating:not(.is-loaded):not(.is-loading)');
+    if (opts.lazy && 'IntersectionObserver' in window) {
+      const ob = observer();
+      els.forEach(el => ob.observe(el));
+    } else {
+      els.forEach(load);
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => hydrate());
