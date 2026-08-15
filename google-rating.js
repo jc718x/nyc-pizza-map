@@ -28,13 +28,25 @@ window.GoogleRating = (() => {
 .g-hours--open .g-hours__state{color:#2e7d32;font-weight:600}
 .g-hours__state{font-weight:600;color:#1a1a1a}
 .g-hours__rest{opacity:.75}
-.g-week{margin:6px 0 0;font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;line-height:1.7;color:var(--g-txt)}
-.g-week div{display:flex;justify-content:space-between;gap:12px}
+.g-hours__toggle{display:inline-flex;align-items:center;gap:.4em;white-space:nowrap;background:none;border:0;padding:0;cursor:pointer;font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.8125rem;line-height:1;color:var(--g-txt)}
+.g-hours__caret{font-size:.9em;opacity:.6;transition:transform .18s ease}
+.g-hours__toggle[aria-expanded="true"] .g-hours__caret{transform:rotate(180deg)}
+.g-week{margin:8px 0 0;font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.72rem;line-height:1.75;color:var(--g-txt)}
+.g-week[hidden]{display:none}
+.g-week div{display:flex;justify-content:space-between;gap:16px}
 .g-week .is-today{font-weight:600;color:#1a1a1a}
-.g-week__src{display:block;margin-top:4px;opacity:.6;font-size:.66rem}
+.g-week__src{display:inline-block;margin-top:5px;opacity:.65;font-size:.66rem;color:inherit;text-decoration:none}
+.g-week__src:hover{text-decoration:underline}
 .ticket .g-rating__link,.ps-entry .g-rating__link,.ticket .g-hours__link,.ps-entry .g-hours__link{font-size:.72rem}
-/* Dark green card header: red stars, cream number, attribution sits back. */
-.ticket-head .g-rating,.ticket-head .g-hours{margin-top:7px}
+/* Dark green card header: two stacked lines — status first, then rating.
+   display:block is what splits them; inline-block would let them sit side by
+   side and wrap mid-phrase in a narrow card. */
+.ticket-head .g-rating,.ticket-head .g-hours{display:block}
+.ticket-head .g-rating{margin-top:9px}
+.ticket-head .g-hours{margin-top:4px}
+.ticket-head .g-hours__toggle{color:rgba(253,244,231,.72)}
+.ticket-head .g-week{color:rgba(253,244,231,.75)}
+.ticket-head .g-week .is-today{color:var(--color-parchment,#FDF4E7)}
 .ticket-head .g-rating__stars{color:#DC2225}
 .ticket-head .g-rating__num,.ticket-head .g-hours__state{color:var(--color-parchment,#FDF4E7)}
 .ticket-head .g-hours--open .g-hours__state{color:#8FD3A0}
@@ -103,7 +115,7 @@ window.GoogleRating = (() => {
       let end = mins(p.close);
       if (end <= start) end += WEEK;            // closes after midnight
       if ((nowMin >= start && nowMin < end) || (nowMin + WEEK >= start && nowMin + WEEK < end)) {
-        return { open: true, state: 'Open', rest: `until ${clock(p.close)}` };
+        return { open: true, state: 'Open now', rest: `until ${clock(p.close)}` };
       }
     }
 
@@ -129,22 +141,47 @@ window.GoogleRating = (() => {
     const st = h && status(h.periods, new Date());
     if (!st) { (el.closest('.g-rating-cell') || el).remove(); return; }
 
+    const hasWeek = !!(h.week && h.week.length);
+    const wid = `gw${uid++}`;
+
+    // The full week hangs off the status line as a disclosure rather than
+    // sitting open — the status is what someone needs at a glance, the week is
+    // what they need when planning. This panel is also where the attribution
+    // for the hours lives.
     let week = '';
-    if (el.dataset.full && h.week && h.week.length) {
+    if (hasWeek) {
       const todayIdx = (new Date().getDay() + 6) % 7;   // Google lists Monday first
-      week = `<div class="g-week">${h.week.map((line, i) => {
+      week = `<div class="g-week" id="${wid}" hidden>${h.week.map((line, i) => {
         const [day, ...rest] = String(line).split(': ');
         return `<div class="${i === todayIdx ? 'is-today' : ''}"><span>${esc(day)}</span><span>${esc(rest.join(': '))}</span></div>`;
-      }).join('')}<span class="g-week__src">Hours via Google</span></div>`;
+      }).join('')}<a class="g-week__src" href="${esc(d.url)}" target="_blank" rel="noopener nofollow">Hours via Google &#8599;</a></div>`;
     }
 
-    el.className += st.open ? ' g-hours--open' : '';
-    el.innerHTML =
-      `<a class="g-hours__link" href="${esc(d.url)}" target="_blank" rel="noopener nofollow" aria-label="${st.state}${st.rest ? ', ' + st.rest : ''} — opening hours from Google">` +
+    const inner =
       `<span class="g-dot" aria-hidden="true"></span><span class="g-hours__state">${st.state}</span>` +
-      (st.rest ? `<span class="g-hours__rest">· ${st.rest}</span>` : '') + `</a>` + week;
+      // "Open now until 9:30 PM" reads as one phrase; "Closed opens Wed" doesn't,
+      // so the separator only appears when it's needed.
+      (st.rest ? `<span class="g-hours__rest">${st.open ? '' : '· '}${st.rest}</span>` : '');
+
+    if (st.open) el.classList.add('g-hours--open');
+    el.innerHTML = hasWeek
+      ? `<button type="button" class="g-hours__toggle" aria-expanded="false" aria-controls="${wid}">` +
+        `${inner}<span class="g-hours__caret" aria-hidden="true">&#9662;</span></button>${week}`
+      : `<a class="g-hours__link" href="${esc(d.url)}" target="_blank" rel="noopener nofollow">${inner}</a>`;
     el.classList.add('is-loaded');
   }
+
+  // One delegated listener rather than one per card — popups and search results
+  // are rebuilt constantly, and per-element handlers would leak with them.
+  document.addEventListener('click', e => {
+    const btn = e.target.closest && e.target.closest('.g-hours__toggle');
+    if (!btn) return;
+    e.preventDefault();
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    const panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (panel) panel.hidden = open;
+  });
 
   function renderRating(el, d) {
     if (!d || d.rating == null) { (el.closest('.g-rating-cell') || el).remove(); return; }
