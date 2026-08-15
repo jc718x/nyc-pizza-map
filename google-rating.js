@@ -1,7 +1,8 @@
 const GoogleRating = (() => {
   const CSS = `
 .g-rating{--g-star:#c8102e;--g-txt:#6b6660;display:inline-block;min-height:1.2em}
-.g-rating__link{display:inline-flex;align-items:center;gap:.4em;text-decoration:none;color:var(--g-txt);font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.8125rem;line-height:1;border-bottom:1px solid transparent;transition:border-color .15s}
+.g-rating-cell{grid-column:1/-1}
+.g-rating__link{display:inline-flex;align-items:center;gap:.4em;white-space:nowrap;text-decoration:none;color:var(--g-txt);font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.8125rem;line-height:1;border-bottom:1px solid transparent;transition:border-color .15s}
 .g-rating__link:hover{border-bottom-color:var(--g-txt)}
 .g-rating__stars{display:inline-flex;gap:1px;color:var(--g-star)}
 .g-star{width:.9em;height:.9em;display:block}
