@@ -17,9 +17,18 @@ window.GoogleRating = (() => {
 .g-rating__link:hover{border-bottom-color:var(--g-txt)}
 .g-rating__stars{display:inline-flex;gap:1px;color:var(--g-star)}
 .g-star{width:.9em;height:.9em;display:block}
-.g-rating__num,.g-rating__src{font-weight:600;color:#1a1a1a}
+.g-rating__num{font-weight:600;color:#1a1a1a}
+.g-rating__src{font-weight:500}
+.g-rating__sep{opacity:.4}
 .g-rating__num,.g-rating__count{font-variant-numeric:tabular-nums}
 .ticket .g-rating__link,.ps-entry .g-rating__link{font-size:.72rem}
+/* On the dark green card header: red stars stay, the number goes cream so it
+   reads as sibling to the address, and the attribution sits back quietly. */
+.ticket-head .g-rating{margin-top:7px}
+.ticket-head .g-rating__stars{color:#DC2225}
+.ticket-head .g-rating__num{color:var(--color-parchment,#FDF4E7)}
+.ticket-head .g-rating__link,.ticket-head .g-rating__count,.ticket-head .g-rating__src{color:rgba(253,244,231,.72)}
+.ticket-head .g-rating__link:hover{border-bottom-color:rgba(253,244,231,.5)}
 @media(max-width:480px){.g-rating__link{font-size:.75rem}}`;
 
   const memo = new Map();
@@ -62,7 +71,7 @@ window.GoogleRating = (() => {
       el.classList.remove('is-loading');
       if (!d || d.rating == null) { (el.closest('.g-rating-cell') || el).remove(); return; }
       const c = d.count.toLocaleString('en-US');
-      el.innerHTML = `<a class="g-rating__link" href="${d.url}" target="_blank" rel="noopener nofollow" aria-label="Rated ${d.rating} out of 5 by ${c} Google reviews"><span class="g-rating__stars" aria-hidden="true">${stars(d.rating)}</span><span class="g-rating__num">${d.rating.toFixed(1)}</span><span class="g-rating__count">${c} <span class="g-rating__src">Google</span> reviews</span></a>`;
+      el.innerHTML = `<a class="g-rating__link" href="${d.url}" target="_blank" rel="noopener nofollow" aria-label="Rated ${d.rating} out of 5 by ${c} Google reviews"><span class="g-rating__stars" aria-hidden="true">${stars(d.rating)}</span><span class="g-rating__num">${d.rating.toFixed(1)}</span><span class="g-rating__sep" aria-hidden="true">·</span><span class="g-rating__count">${c} <span class="g-rating__src">Google</span> reviews</span></a>`;
       el.classList.add('is-loaded');
     });
   }
