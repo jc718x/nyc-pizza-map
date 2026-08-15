@@ -7,8 +7,20 @@
 //
 // Needs a KV namespace bound as RATINGS, and PLACES_API_KEY as a secret.
 
-const TTL = 2505600;              // 29 days, under Google's 30-day cap
-const MAX_CALLS_PER_MONTH = 800;  // ceiling; free allowance is 1000
+// Google's terms cap caching at 30 days, so ~29 is the floor for call volume.
+// The jitter matters more than the number: without it every entry expires on
+// the same day it was written, so a cache-wide refresh (a V bump, an audit)
+// comes back as one thundering herd. Spreading expiry over a week turns that
+// into a trickle.
+const TTL_MIN = 1900800;          // 22 days
+const TTL_MAX = 2505600;          // 29 days
+const ttl = () => TTL_MIN + Math.floor(Math.random() * (TTL_MAX - TTL_MIN));
+
+const MAX_CALLS_PER_MONTH = 750;  // ceiling; free allowance is 1000
+// The counter is written once every ~BATCH calls and stepped by BATCH, rather
+// than written every call. Cuts KV writes by ~80% at the cost of some slack in
+// the count — which is what the 250-call gap below the free tier absorbs.
+const COUNT_BATCH = 5;
 const PLACE_ID_RE = /^[A-Za-z0-9_-]{20,255}$/;
 
 // Bump this whenever the response shape changes. Both caches are keyed by it,
@@ -70,10 +82,13 @@ export async function onRequestGet({ request, env, waitUntil }) {
       hours: oh ? { periods: oh.periods || [], week: oh.weekdayDescriptions || [] } : null
     };
 
-    // Count the call, then store. Not transactional — concurrent requests can
-    // undercount slightly. It's a safety net, not a billing ledger.
-    waitUntil(env.RATINGS.put(key, String(used + 1), { expirationTtl: 5356800 })); // 62 days
-    waitUntil(env.RATINGS.put(`p${V}:${id}`, JSON.stringify(body), { expirationTtl: TTL }));
+    // Sampled counter: ~1 write per COUNT_BATCH calls, stepping by COUNT_BATCH.
+    // Expected value tracks the true count; the variance is why the ceiling
+    // sits 250 below the free allowance rather than 1 below.
+    if (Math.random() < 1 / COUNT_BATCH) {
+      waitUntil(env.RATINGS.put(key, String(used + COUNT_BATCH), { expirationTtl: 5356800 })); // 62 days
+    }
+    waitUntil(env.RATINGS.put(`p${V}:${id}`, JSON.stringify(body), { expirationTtl: ttl() }));
   }
 
   const response = json(body, 200, {
