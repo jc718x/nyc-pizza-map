@@ -1900,6 +1900,38 @@
 </script>
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
+<style>
+  /* Hero art backdrop — disc and sparkles are drawn rather than baked into the
+     PNG, so they stay sharp at any size and recolour with a hex change. The
+     chef sits above them; nothing here affects his existing sizing rules. */
+  .hero-art-stage { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
+  .hero-art-stage .hero-art-img { position: relative; z-index: 2; }
+
+  .hero-art-disc {
+    position: absolute;
+    z-index: 0;
+    top: 48%;
+    left: 54%;
+    transform: translate(-50%, -50%);
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background: #C9D4C0;
+    opacity: .9;
+  }
+
+  .hero-spark { position: absolute; z-index: 1; display: block; }
+  .hero-spark.s1 { width: 26px; height: 26px; top: 8%;  left: 6%;  fill: #DC2225; }
+  .hero-spark.s2 { width: 14px; height: 14px; top: 20%; left: 17%; fill: #1F4B33; }
+  .hero-spark.s3 { width: 12px; height: 12px; top: 66%; left: 2%;  fill: #DC2225; }
+  .hero-spark.s4 { width: 20px; height: 20px; top: 74%; left: 10%; fill: #1F4B33; }
+
+  @media (max-width: 900px) {
+    .hero-art-disc { width: 160px; height: 160px; }
+    .hero-spark.s1 { width: 20px; height: 20px; }
+    .hero-spark.s4 { width: 15px; height: 15px; }
+  }
+</style>
 </head>
 <body class="landing-page">
 
@@ -2026,10 +2058,10 @@
   <div class="hero-inner">
     <div class="hero-text">
       <h1 class="hero-headline">
-        Find Great Pizza.<br>
-        <span class="hero-headline-red">Anywhere in NYC.</span>
+        Looking for<br>pizza in NYC?<br>
+        <span class="hero-headline-red">We know a<br>few places.</span>
       </h1>
-      <p class="hero-sub">Curated neighborhood guides, nearby favorites, and worth-the-trip slices.</p>
+      <p class="hero-sub">Explore neighborhood favorites, old-school institutions, and some of the city&rsquo;s best slices.</p>
       <div class="hero-cta-group">
         <a href="#map-section" class="hero-btn hero-btn-primary" id="exploreMapBtn">
           <svg viewBox="0 0 100 100" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="46" r="42" fill="rgba(255,255,255,0.25)" stroke="white" stroke-width="3"/><path d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="white"/><circle cx="41" cy="38" r="3.6" fill="#DC2225"/><circle cx="50" cy="50" r="3.6" fill="#DC2225"/></svg>
@@ -2042,7 +2074,14 @@
       </div>
     </div>
     <div class="hero-art">
-      <img src="assets/pizzachef.png" alt="Pizza chef holding a pepperoni pie" class="hero-art-img" />
+      <div class="hero-art-stage">
+        <span class="hero-art-disc" aria-hidden="true"></span>
+        <svg class="hero-spark s1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
+        <svg class="hero-spark s2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
+        <svg class="hero-spark s3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
+        <svg class="hero-spark s4" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
+        <img src="assets/pizzachef.png" alt="Pizza chef holding a pepperoni pie" class="hero-art-img" />
+      </div>
     </div>
   </div>
 </section>
