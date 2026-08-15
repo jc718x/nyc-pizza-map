@@ -51,7 +51,9 @@ const GoogleRating = (() => {
       el.classList.add('is-loading');
       get(id).then(d => {
         el.classList.remove('is-loading');
-        if (!d || d.rating == null) { el.remove(); return; }
+        // No rating: remove the whole labelled cell if there is one, so we
+        // don't leave an orphaned "Google Rating" heading with nothing under it.
+        if (!d || d.rating == null) { (el.closest('.g-rating-cell') || el).remove(); return; }
         const c = d.count.toLocaleString('en-US');
         el.innerHTML = `<a class="g-rating__link" href="${d.url}" target="_blank" rel="noopener nofollow" aria-label="Rated ${d.rating} out of 5 by ${c} Google reviews"><span class="g-rating__stars" aria-hidden="true">${stars(d.rating)}</span><span class="g-rating__num">${d.rating.toFixed(1)}</span><span class="g-rating__count">${c} <span class="g-rating__src">Google</span> reviews</span></a>`;
         el.classList.add('is-loaded');
