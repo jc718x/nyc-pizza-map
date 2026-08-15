@@ -5,7 +5,11 @@
 // Static pages: nothing to do, it self-starts on DOMContentLoaded.
 // Content built after load: GoogleRating.hydrate(container)
 // Long lists: GoogleRating.hydrate(container, { lazy: true })  <- fetches on scroll
-const GoogleRating = (() => {
+// NOTE: assigned to window deliberately. A top-level `const` lives in the
+// global lexical scope, not on the window object, so `window.GoogleRating`
+// would be undefined and the hydrate() guards on other pages would silently
+// never fire.
+window.GoogleRating = (() => {
   const CSS = `
 .g-rating{--g-star:#c8102e;--g-txt:#6b6660;display:inline-block;min-height:1.2em}
 .g-rating-cell{grid-column:1/-1}
