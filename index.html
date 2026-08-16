@@ -1902,67 +1902,68 @@
 <link rel="stylesheet" href="style.css" />
 <style>
   /* Hero art.
-     Three things in style.css govern the chef on mobile:
+     style.css governs the chef on mobile via three rules, all overridden here:
        grid-template-columns: 1fr 140px   -> caps his width
        .hero-art align-items: flex-end    -> pins him to the bottom
        .hero-art-img width:100%           -> stretches then shrinks him
-     All three are overridden below.
 
-     The stage must carry max-width:100% or it shrink-wraps the image and the
-     image's own max-width has nothing to resolve against — which is how he
-     ended up wider than his column and clipped by the screen edge. */
+     The stage is display:block, NOT flex. As a flex item the image carried
+     min-width:auto, which refuses to shrink below the intrinsic 566px — that
+     is why max-width:100% kept failing and he ran off the right edge. */
   @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr 62%; padding: 4px 16px 4px; }
+    .hero-inner { grid-template-columns: 1fr 56%; padding: 0 16px; }
     .hero-art {
       align-items: center !important;
       align-self: center !important;
     }
-    .hero-art-stage .hero-art-img { max-height: 300px; }
+    .hero-art-stage .hero-art-img { max-height: 260px; }
   }
 
-  /* Tighter top and bottom — the art column sets the hero's height now, so the
-     padding was stacking on top of an already tall row. */
-  .hero { padding-top: calc(var(--topbar-h) + 2px); padding-bottom: 4px; }
+  .hero { padding-top: calc(var(--topbar-h) + 2px); padding-bottom: 0; }
 
   .hero-art { overflow: visible; align-items: center; }
 
   .hero-art-stage {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     max-width: 100%;
+    min-width: 0;
+    margin-top: -10px;          /* lift him off the baseline a touch */
   }
 
   .hero-art-stage .hero-art-img {
-    position: relative;
+    display: block;
+    margin: 0 auto;
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: 420px;
+    min-width: 0;
+    max-height: 380px;
     object-fit: contain;
     object-position: center;
   }
 
-  /* Scroll cue. It's an <a href="#map-section">, which map.js already wires to
-     expandMap() via its generic handler — same action as Explore the Map,
-     no extra JS. */
+  /* Scroll cue, built to read as the top edge of the bottom sheet: same 34x5
+     pill at the same 0.32 opacity. It's an <a href="#map-section">, which
+     map.js already routes to expandMap() — no extra JS. */
   .hero-scroll {
     display: block;
-    width: 44px;
-    height: 30px;
-    margin: 0 auto;
-    padding: 4px 0 0;
-    color: var(--color-crust, #1F4B33);
-    opacity: .55;
-    transition: opacity .18s ease;
+    padding: 7px 0 9px;
+    text-align: center;
     animation: heroNudge 2.4s ease-in-out infinite;
   }
-  .hero-scroll:hover, .hero-scroll:focus-visible { opacity: 1; }
-  .hero-scroll svg { width: 26px; height: 26px; display: block; margin: 0 auto; }
+  .hero-scroll-handle {
+    display: inline-block;
+    width: 34px;
+    height: 5px;
+    border-radius: 2.5px;
+    background: rgba(36,26,16,0.32);
+    transition: background .18s ease;
+  }
+  .hero-scroll:hover .hero-scroll-handle,
+  .hero-scroll:focus-visible .hero-scroll-handle { background: rgba(36,26,16,0.55); }
   @keyframes heroNudge {
     0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(4px); }
+    50%      { transform: translateY(3px); }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-scroll { animation: none; }
@@ -2116,7 +2117,7 @@
     </div>
   </div>
   <a class="hero-scroll" href="#map-section" aria-label="Scroll down to the map">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5L12 15.5L19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="hero-scroll-handle" aria-hidden="true"></span>
   </a>
 </section>
 
