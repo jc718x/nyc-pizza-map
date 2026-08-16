@@ -6966,6 +6966,94 @@
         "worth_a_trip": false,
         "place_id": "ChIJZWfyQiRFwokRckKzqShNOUg"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.95858190346739,
+          40.72968129573769
+        ]
+      },
+      "properties": {
+        "name": "Me and Paul's",
+        "address": "60 Greenpoint Ave, Brooklyn, NY 11222",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "The original Paulie Gee's, reopened in April 2026 as a neighborhood tavern — same wood-fired oven and the pies that built the reputation, now with a pool table, darts, and a jukebox. The room got looser; the pizza didn't change.",
+        "website": "https://pauliegee.com/restaurant/greenpoint/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94944818842632,
+          40.715621956919925
+        ]
+      },
+      "properties": {
+        "name": "Mo's General Pizza & Provisions",
+        "address": "620 Lorimer St, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "Part slice shop, part corner grocery — pizza by the slice alongside pastries, coffee, and shelves of provisions. Open since 2021, and built for a quick stop rather than a sit-down.",
+        "website": "https://www.mosgeneral.com/",
+        "price": "$",
+        "slices": true,
+        "seating": "Indoor",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.94946219708193,
+          40.710948119641166
+        ]
+      },
+      "properties": {
+        "name": "Da Francesco Pizza & Cucina",
+        "address": "552 Grand St, Brooklyn, NY 11211",
+        "borough": "Brooklyn",
+        "style": "Classic Slice",
+        "blurb": "Francesco Cuozzo ran this place on Graham Avenue for 22 years before moving it to Grand Street. Slices and a full Italian kitchen behind them — pasta, ravioli, cannoli — built on ingredients imported from his native Salerno.",
+        "website": "https://www.dafrancescopizzaandcucina.com/",
+        "price": "$$",
+        "slices": true,
+        "seating": "Sit-down",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.92617675597836,
+          40.702340690298556
+        ]
+      },
+      "properties": {
+        "name": "Starrlight Pizza",
+        "address": "95 Starr St, Brooklyn, NY 11237",
+        "borough": "Brooklyn",
+        "style": "Neapolitan",
+        "blurb": "Emanuel Ruffler's sourdough micro-bakery grew into a pizzeria through weekend pop-ups, and the naturally leavened crust still tastes like the bread came first. A Bushwick pickup window running on solar power, with staff hired through Hot Bread Kitchen.",
+        "website": "https://www.starrlight.nyc/",
+        "price": "$$",
+        "slices": false,
+        "seating": "Standing only",
+        "worth_a_trip": false
+      }
     }
   ]
 }
