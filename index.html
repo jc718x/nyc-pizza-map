@@ -1901,19 +1901,22 @@
 <link rel="icon" type="image/png" href="assets/favicon.png" />
 <link rel="stylesheet" href="style.css" />
 <style>
-  /* Hero art backdrop.
-     The binding constraint on mobile is the grid column, not max-height:
-     style.css sets `grid-template-columns: 1fr 140px`, so the chef was capped
-     at 140px wide (~173px tall) and max-height:240px never applied. Widening
-     the column to 48% is what actually makes him bigger. */
+  /* Hero art.
+     Two constraints in style.css govern the chef on mobile, and neither is
+     max-height: the grid column is `1fr 140px`, which caps his WIDTH, and
+     .hero-art uses align-items:flex-end, which pins him to the BOTTOM of the
+     row. Both are overridden here. */
   @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr 48%; }
+    .hero-inner { grid-template-columns: 1fr 60%; }
+    .hero-art {
+      align-items: center !important;
+      align-self: center !important;
+    }
+    .hero-art-stage .hero-art-img { max-height: 330px; }
   }
 
-  .hero-art { overflow: visible; }
+  .hero-art { overflow: visible; align-items: center; }
 
-  /* Shrink-wraps the chef, so the disc can be sized as a % of HIM rather than
-     of the column — otherwise the circle floats free while he scales. */
   .hero-art-stage {
     position: relative;
     display: inline-flex;
@@ -1921,29 +1924,17 @@
     justify-content: center;
   }
 
-  /* Two-class selector to beat style.css's mobile rules (width:100% and
-     object-position:bottom center), which shrank him and pinned him low. */
+  /* Two-class selector to beat style.css's width:100% and
+     object-position:bottom center, which shrink him and drop him low. */
   .hero-art-stage .hero-art-img {
     position: relative;
     z-index: 2;
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: 340px;
+    max-height: 420px;
     object-fit: contain;
     object-position: center;
-  }
-
-  .hero-art-disc {
-    position: absolute;
-    z-index: 0;
-    top: 46%;
-    left: 53%;
-    transform: translate(-50%, -50%);
-    height: 66%;            /* of the chef, not the column */
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    background: #C9D4C0;
   }
 
   .hero-spark { position: absolute; z-index: 1; display: block; }
@@ -1953,7 +1944,6 @@
   .hero-spark.s4 { width: 19px; height: 19px; top: 70%; left: 4%;  fill: #1F4B33; }
 
   @media (max-width: 900px) {
-    .hero-art-stage .hero-art-img { max-height: 250px; }
     .hero-spark.s1 { width: 20px; height: 20px; }
     .hero-spark.s4 { width: 15px; height: 15px; }
     .hero-spark.s2, .hero-spark.s3 { width: 11px; height: 11px; }
@@ -2102,7 +2092,6 @@
     </div>
     <div class="hero-art">
       <div class="hero-art-stage">
-        <span class="hero-art-disc" aria-hidden="true"></span>
         <svg class="hero-spark s1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
         <svg class="hero-spark s2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
         <svg class="hero-spark s3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
