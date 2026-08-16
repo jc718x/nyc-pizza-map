@@ -1902,33 +1902,40 @@
 <link rel="stylesheet" href="style.css" />
 <style>
   /* Hero art.
-     Two constraints in style.css govern the chef on mobile, and neither is
-     max-height: the grid column is `1fr 140px`, which caps his WIDTH, and
-     .hero-art uses align-items:flex-end, which pins him to the BOTTOM of the
-     row. Both are overridden here. */
+     Three things in style.css govern the chef on mobile:
+       grid-template-columns: 1fr 140px   -> caps his width
+       .hero-art align-items: flex-end    -> pins him to the bottom
+       .hero-art-img width:100%           -> stretches then shrinks him
+     All three are overridden below.
+
+     The stage must carry max-width:100% or it shrink-wraps the image and the
+     image's own max-width has nothing to resolve against — which is how he
+     ended up wider than his column and clipped by the screen edge. */
   @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr 60%; }
+    .hero-inner { grid-template-columns: 1fr 62%; padding: 4px 16px 4px; }
     .hero-art {
       align-items: center !important;
       align-self: center !important;
     }
-    .hero-art-stage .hero-art-img { max-height: 330px; }
+    .hero-art-stage .hero-art-img { max-height: 300px; }
   }
+
+  /* Tighter top and bottom — the art column sets the hero's height now, so the
+     padding was stacking on top of an already tall row. */
+  .hero { padding-top: calc(var(--topbar-h) + 2px); padding-bottom: 4px; }
 
   .hero-art { overflow: visible; align-items: center; }
 
   .hero-art-stage {
     position: relative;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 100%;
   }
 
-  /* Two-class selector to beat style.css's width:100% and
-     object-position:bottom center, which shrink him and drop him low. */
   .hero-art-stage .hero-art-img {
     position: relative;
-    z-index: 2;
     width: auto;
     height: auto;
     max-width: 100%;
@@ -1937,16 +1944,28 @@
     object-position: center;
   }
 
-  .hero-spark { position: absolute; z-index: 1; display: block; }
-  .hero-spark.s1 { width: 26px; height: 26px; top: 4%;  left: -4%; fill: #DC2225; }
-  .hero-spark.s2 { width: 13px; height: 13px; top: 16%; left: 8%;  fill: #1F4B33; }
-  .hero-spark.s3 { width: 12px; height: 12px; top: 62%; left: -6%; fill: #DC2225; }
-  .hero-spark.s4 { width: 19px; height: 19px; top: 70%; left: 4%;  fill: #1F4B33; }
-
-  @media (max-width: 900px) {
-    .hero-spark.s1 { width: 20px; height: 20px; }
-    .hero-spark.s4 { width: 15px; height: 15px; }
-    .hero-spark.s2, .hero-spark.s3 { width: 11px; height: 11px; }
+  /* Scroll cue. It's an <a href="#map-section">, which map.js already wires to
+     expandMap() via its generic handler — same action as Explore the Map,
+     no extra JS. */
+  .hero-scroll {
+    display: block;
+    width: 44px;
+    height: 30px;
+    margin: 0 auto;
+    padding: 4px 0 0;
+    color: var(--color-crust, #1F4B33);
+    opacity: .55;
+    transition: opacity .18s ease;
+    animation: heroNudge 2.4s ease-in-out infinite;
+  }
+  .hero-scroll:hover, .hero-scroll:focus-visible { opacity: 1; }
+  .hero-scroll svg { width: 26px; height: 26px; display: block; margin: 0 auto; }
+  @keyframes heroNudge {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(4px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scroll { animation: none; }
   }
 </style>
 </head>
@@ -2092,14 +2111,13 @@
     </div>
     <div class="hero-art">
       <div class="hero-art-stage">
-        <svg class="hero-spark s1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
-        <svg class="hero-spark s2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
-        <svg class="hero-spark s3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
-        <svg class="hero-spark s4" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c1 8 4 11 12 12-8 1-11 4-12 12-1-8-4-11-12-12 8-1 11-4 12-12z"/></svg>
         <img src="assets/pizzachef.png" alt="Pizza chef holding a pepperoni pie" class="hero-art-img" />
       </div>
     </div>
   </div>
+  <a class="hero-scroll" href="#map-section" aria-label="Scroll down to the map">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5L12 15.5L19 8.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
 </section>
 
 <!-- ===== LIVE MAP SECTION ===== -->
