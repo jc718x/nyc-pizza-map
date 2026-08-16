@@ -1814,7 +1814,8 @@
         "price": "$$",
         "slices": false,
         "seating": "Indoor",
-        "worth_a_trip": false
+        "worth_a_trip": false,
+        "place_id": "ChIJTW1gT2RPwokRjmXLARlUZpk"
       }
     },
     {
@@ -1836,7 +1837,8 @@
         "price": "$",
         "slices": true,
         "seating": "Indoor",
-        "worth_a_trip": false
+        "worth_a_trip": false,
+        "place_id": "ChIJwQUpz5VZwokRW1c6PSeMhGA"
       }
     },
     {
@@ -2778,7 +2780,8 @@
         "price": "$",
         "slices": true,
         "seating": "Indoor",
-        "worth_a_trip": false
+        "worth_a_trip": false,
+        "place_id": "ChIJZ2_rUg9FwokRAToKtBgv_oQ"
       }
     },
     {
@@ -3308,29 +3311,6 @@
         "seating": "Indoor",
         "worth_a_trip": false,
         "place_id": "ChIJ8RCiklhFwokRYTUtcN0Y17k"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -74.03197502839875,
-          40.62168622277772
-        ]
-      },
-      "properties": {
-        "name": "Nonno's Pizza",
-        "address": "8816 3rd Ave, Brooklyn, NY 11209",
-        "borough": "Brooklyn",
-        "style": "Classic Slice",
-        "blurb": "A Bay Ridge 3rd Avenue neighborhood pizzeria named for the grandfather — family-run, old-school, and the kind of place regulars have been going to for years without ever needing to look at the menu.",
-        "website": "",
-        "price": "$",
-        "slices": true,
-        "seating": "Indoor",
-        "worth_a_trip": false,
-        "place_id": "ChIJrX_d8YpPwokR6KPLwJJn6Fs"
       }
     },
     {
@@ -6986,7 +6966,8 @@
         "price": "",
         "slices": null,
         "seating": "",
-        "worth_a_trip": false
+        "worth_a_trip": false,
+        "place_id": "ChIJRayoA1xFwokRn89K6aRPYwk"
       }
     },
     {
@@ -7008,7 +6989,8 @@
         "price": "",
         "slices": null,
         "seating": "",
-        "worth_a_trip": false
+        "worth_a_trip": false,
+        "place_id": "ChIJPS7DCFdFwokR0pOU4RY9qho"
       }
     },
     {
@@ -7030,7 +7012,8 @@
         "price": "",
         "slices": null,
         "seating": "",
-        "worth_a_trip": false
+        "worth_a_trip": false,
+        "place_id": "ChIJSxa5-ltFwokRnkQm2PWUkVw"
       }
     }
   ]

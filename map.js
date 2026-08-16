@@ -320,7 +320,7 @@ map.on('load', async () => {
     "DaVinci Pizzeria": "W",
     "J&V Pizzeria": "E",
     "Mano's Pizzeria": "W",
-    "APizza – Dyker Heights": "W",
+    "APizza: Bay Ridge": "W",
     "Joe & Pat's NYC": "E",
     "Pizza Loves Sauce": "E",
     "Mancini's Wood-Fired Pizza": "E",
@@ -537,9 +537,7 @@ map.on('load', async () => {
         ${p.worth_a_trip ? `<div class="ticket-worth-trip">⭐ Worth a special trip</div>` : ''}
         <div class="ticket-head">
           <p class="ticket-name">${escapeHTML(p.name)}</p>
-          <p class="ticket-address">${escapeHTML(p.address)}</p>
-          ${p.place_id ? `<span class="g-rating" data-place-id="${escapeAttr(p.place_id)}"></span>` : ''}
-          ${p.place_id ? `<span class="g-hours" data-place-id="${escapeAttr(p.place_id)}"></span>` : ''}
+          <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
         </div>
         <div class="ticket-body">
           <div class="ticket-meta">
@@ -1332,7 +1330,6 @@ function enterDetailMode(html) {
   const title = document.getElementById('nearMePanelTitle');
   if (!panel || !list || !nearMePanelDetail) return;
   nearMePanelDetail.innerHTML = html;
-  if (window.GoogleRating) GoogleRating.hydrate(nearMePanelDetail);
   nearMePanelDetail.scrollTop = 0;
   list.hidden = true;
   nearMePanelDetail.hidden = false;
@@ -1432,21 +1429,19 @@ function expandMap() {
   // Force scroll to top instantly before animation
   window.scrollTo(0, 0);
 
-  // Collapse the hero FIRST and let its transition play. The old order added
-  // map-expanded up front, which makes the map fixed and full-viewport
-  // immediately — so the hero animated correctly but underneath a map that was
-  // already covering the screen, and read as simply vanishing. With the hero
-  // still in normal flow, shrinking its height pulls the map up behind it,
-  // which is the roll-up.
-  if (heroSection) heroSection.classList.add('collapsed');
+  // Map section goes fixed first, then hero collapses behind it
+  document.body.classList.add('map-expanded');
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (heroSection) heroSection.classList.add('collapsed');
+    });
+  });
 
   setTimeout(() => {
-    document.body.classList.add('map-expanded');
-    // The map container just changed size; MapLibre needs telling.
-    if (typeof map !== 'undefined' && map && map.resize) map.resize();
     if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
     if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
-  }, 400);
+  }, 460);
 }
 
 // Hide map UI initially
@@ -1747,29 +1742,15 @@ map.on('move', (e) => {
     const anchor = window.panelAnchor;
     const panel = document.getElementById('nearMePanel');
     if (!anchor || !panel || panel.hidden) { hideSearchThisAreaBtn(); return; }
-
-    // Reading one pizzeria's card isn't browsing an area, and selecting a
-    // marker flies the map away from the anchor — without this the button
-    // would pop up over the card almost every time you tapped a pin.
-    if (panel.dataset.mode === 'detail') { hideSearchThisAreaBtn(); return; }
-
-    // How far the anchor has drifted from the centre of the screen, as a
-    // fraction of the viewport's half-diagonal. Fires well before the anchor
-    // leaves the screen entirely, so panning a couple of neighbourhoods over
-    // offers a re-search instead of silently showing a stale list.
-    const c = map.getContainer();
-    const pt = map.project([anchor.lng, anchor.lat]);
-    const halfW = c.clientWidth / 2, halfH = c.clientHeight / 2;
-    const drift = Math.hypot(pt.x - halfW, pt.y - halfH) / Math.hypot(halfW, halfH);
-
-    // Symmetric on purpose. Zooming IN past the anchor zoom matters as much as
-    // zooming out — going from a borough-wide view down to one neighbourhood
-    // should offer to narrow the list. The old check subtracted in one
-    // direction only, so zooming in could never trigger it.
+    const bounds = map.getBounds();
+    const sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
+    const latPad = (ne.lat - sw.lat) * 0.08;
+    const lngPad = (ne.lng - sw.lng) * 0.08;
+    const inView = anchor.lat > sw.lat + latPad && anchor.lat < ne.lat - latPad &&
+                   anchor.lng > sw.lng + lngPad && anchor.lng < ne.lng - lngPad;
     const anchorZoom = window.panelAnchorZoom;
-    const zoomDelta = typeof anchorZoom === 'number' ? Math.abs(anchorZoom - map.getZoom()) : 0;
-
-    if (drift > 0.4 || zoomDelta > 0.75) showSearchThisAreaBtn();
+    const zoomedOut = typeof anchorZoom === 'number' && (anchorZoom - map.getZoom() > 0.6);
+    if (!inView || zoomedOut) showSearchThisAreaBtn();
     else hideSearchThisAreaBtn();
   }, 50);
 });
@@ -1779,3 +1760,5 @@ if (searchThisAreaBtn) {
     if (window.buildResultsPanel) window.buildResultsPanel({ mode: 'area' });
   });
 }
+
+

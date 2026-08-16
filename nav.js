@@ -88,28 +88,40 @@ document.addEventListener('DOMContentLoaded', () => {
     mapEl.addEventListener('touchstart', closeDrawer, { passive: true });
   }
 
-  // Explore dropdown
-  const dropdown = document.getElementById('exploreDropdown');
-  if (dropdown) {
+  // Nav dropdowns — there can be more than one (Explore, Pizza Culture),
+  // so this is keyed off the class rather than a single id. Opening one
+  // closes any other that's already open.
+  const dropdowns = Array.from(document.querySelectorAll('.nav-dropdown'));
+
+  function closeAllDropdowns(except) {
+    dropdowns.forEach(d => {
+      if (d === except) return;
+      d.classList.remove('open');
+      const b = d.querySelector('.nav-dropdown-btn');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  dropdowns.forEach(dropdown => {
     const btn = dropdown.querySelector('.nav-dropdown-btn');
+    if (!btn) return;
 
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const isOpen = dropdown.classList.toggle('open');
       btn.setAttribute('aria-expanded', String(isOpen));
-    });
-
-    document.addEventListener('click', () => {
-      dropdown.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
+      if (isOpen) closeAllDropdowns(dropdown);
     });
 
     dropdown.querySelectorAll('.nav-dropdown-menu a').forEach(a => {
       a.addEventListener('click', () => {
         dropdown.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
       });
     });
-  }
+  });
+
+  document.addEventListener('click', () => closeAllDropdowns(null));
 });
 
 // ===== Global search on non-map pages =====
