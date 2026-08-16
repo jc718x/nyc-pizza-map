@@ -1911,12 +1911,27 @@
      min-width:auto, which refuses to shrink below the intrinsic 566px — that
      is why max-width:100% kept failing and he ran off the right edge. */
   @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr 54%; padding: 0 16px; }
+    .hero-inner { grid-template-columns: 1fr 50%; padding: 0 16px; }
     .hero-art {
       align-items: center !important;
       align-self: center !important;
     }
-    .hero-art-stage .hero-art-img { max-height: 230px; }
+    .hero-art-stage .hero-art-img { max-height: 205px; }
+  }
+
+  /* Nothing on this page should scroll sideways. .hero-art runs overflow:visible
+     so the chef can sit slightly proud of his column, and any spill there would
+     otherwise widen the document and raise a horizontal scrollbar. */
+  html, body { overflow-x: hidden; max-width: 100%; }
+
+  /* The map section is 100vh and the hero sits above it, so the document is a
+     screen plus ~400px — that overflow is the grey scrollbar. Locking the page
+     in the hero state removes it, and matches how this is meant to work: the
+     map is reached by the button or the handle, not by scrolling past it.
+     body.map-expanded already locks itself the same way. */
+  body:not(.map-expanded) {
+    overflow: hidden;
+    height: 100vh;
   }
 
   .hero { padding-top: calc(var(--topbar-h) + 2px); padding-bottom: 0; }
@@ -1949,8 +1964,8 @@
     display: block;
     max-width: 100%;
     min-width: 0;
-    margin-top: -10px;          /* lift him off the baseline a touch */
-    transform: translateX(-10px);   /* nudge left, off the right edge */
+    margin-top: 16px;               /* sit him lower in the row */
+    transform: translateX(-6px);    /* back toward centre of its column */
   }
 
   .hero-art-stage .hero-art-img {
