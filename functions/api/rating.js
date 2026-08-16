@@ -28,6 +28,17 @@ const PLACE_ID_RE = /^[A-Za-z0-9_-]{20,255}$/;
 // Forgetting it means the Function runs new code and still serves old JSON.
 const V = 2;
 
+// The edge cache is keyed separately from KV on purpose. Discarding an edge
+// entry costs nothing; discarding a KV entry costs a fresh Google call. So a
+// bad response shape that only ever reached the edge is flushed by bumping
+// this alone, leaving the ~300 paid-for KV entries untouched.
+const EDGE_V = 3;
+
+// How long the edge may hold a copy. KV entries live up to 29 days, so this
+// has to stay small enough that KV_age + EDGE_MAX_AGE never crosses Google's
+// 30-day caching limit. 12 hours still removes almost every KV read.
+const EDGE_MAX_AGE = 43200;
+
 export async function onRequestGet({ request, env, waitUntil }) {
   const url = new URL(request.url);
   const id = url.searchParams.get('place_id');
@@ -35,7 +46,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
 
   // 1. edge cache
   const cache = caches.default;
-  const cacheKey = new Request(`${url.origin}/api/rating?v=${V}&place_id=${id}`, request);
+  const cacheKey = new Request(`${url.origin}/api/rating?v=${EDGE_V}&place_id=${id}`, request);
   const hit = await cache.match(cacheKey);
   if (hit) return hit;
 
@@ -92,7 +103,7 @@ export async function onRequestGet({ request, env, waitUntil }) {
   }
 
   const response = json(body, 200, {
-    'Cache-Control': `public, max-age=${TTL}`,
+    'Cache-Control': `public, max-age=${EDGE_MAX_AGE}`,
     'Access-Control-Allow-Origin': url.origin
   });
   waitUntil(cache.put(cacheKey, response.clone()));
