@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best Pizza in Bay Ridge, Brooklyn | Pizza Map</title>
+<meta name="description" content="A curated guide to the best pizza in Bay Ridge, Brooklyn — 15 pizzerias from 3rd Avenue to 5th Avenue, mapped and reviewed by style.">
+<link rel="canonical" href="https://pizzamap.nyc/bay-ridge.html">
+
+<!-- ============================================================
+     NOTE: This is a standalone reference build so you can see the
+     new section order working. Everything between BEGIN/END TOKENS
+     should be deleted and replaced by your existing site CSS —
+     the token names below are guesses at your current values.
+     ============================================================ -->
+
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ===== BEGIN TOKENS (replace with your real ones) ===== */
+:root{
+  --cream:      #FBF7EC;
+  --cream-card: #FFFDF7;
+  --ink:        #221E19;
+  --ink-soft:   #5A5348;
+  --red:        #C4211E;
+  --green:      #1D5138;
+  --rule:       #E3DACA;
+
+  --display: 'Abril Fatface', Georgia, serif;
+  --mono:    'IBM Plex Mono', ui-monospace, monospace;
+  --body:    'IBM Plex Sans', system-ui, sans-serif;
+
+  --wrap: 720px;
+}
+/* ===== END TOKENS ===== */
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--cream); color:var(--ink);
+  font-family:var(--body); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 20px}
+a{color:var(--green)}
+
+/* --- shared section furniture --------------------------------- */
+.kicker{
+  font-family:var(--mono); font-size:12px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--red);
+  margin:0 0 8px;
+}
+.section{margin:56px 0}
+.section-head{margin-bottom:20px}
+.section-head h2{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(28px,7vw,38px); line-height:1.1;
+  color:var(--green); margin:0;
+}
+.section-head p{
+  font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+  margin:8px 0 0;
+}
+.rule{border:0; border-top:1px solid var(--red); opacity:.55; margin:0 0 18px}
+
+/* --- 1. hero -------------------------------------------------- */
+.hero{padding-top:36px}
+.hero h1{
+  font-family:var(--display); font-weight:400;
+  font-size:clamp(38px,10vw,58px); line-height:1.02;
+  color:var(--green); margin:0 0 14px;
+}
+.hero .dek{font-size:18px; margin:0; max-width:34em}
+
+/* guide chips */
+.chips{
+  display:flex; flex-wrap:wrap; gap:8px;
+  list-style:none; padding:0; margin:20px 0 0;
+}
+.chips li{
+  font-family:var(--mono); font-size:11px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:5px 10px; border:1px solid var(--rule); border-radius:2px;
+  color:var(--ink-soft); background:var(--cream-card);
+}
+.chips li:first-child{color:var(--red); border-color:var(--red)}
+
+/* --- 2. hero image -------------------------------------------- */
+.hero-figure{margin:26px 0 0}
+.hero-figure img{
+  display:block; width:100%; height:200px;
+  object-fit:cover; object-position:center 62%; /* keeps the deck + towers in a short crop */
+  border:1px solid var(--rule);
+}
+.hero-figure figcaption{
+  font-family:var(--mono); font-size:11px; color:var(--ink-soft);
+  margin-top:8px;
+}
+@media (min-width:700px){ .hero-figure img{height:300px} }
+
+/* --- 3. picks -------------------------------------------------- */
+.picks{
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  list-style:none; padding:0; margin:0;
+}
+.pick{
+  background:var(--cream-card); border:1px solid var(--rule);
+  padding:14px; display:flex; flex-direction:column; gap:4px;
+}
+.pick .role{
+  font-family:var(--mono); font-size:10px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--red);
+}
+.pick .name{
+  font-family:var(--display); font-size:20px; line-height:1.15;
+  color:var(--green);
+}
+.pick a{text-decoration:none; color:inherit; display:contents}
+.pick .why{font-size:14px; color:var(--ink-soft); line-height:1.45}
+
+/* --- 4. map ---------------------------------------------------- */
+#bay-ridge-map{
+  height:340px; width:100%;
+  border:1px solid var(--rule); background:#EFE9DC;
+}
+.map-link{
+  display:inline-block; margin-top:12px;
+  font-family:var(--mono); font-size:13px; font-weight:500;
+  text-decoration:none; border-bottom:1px solid var(--red);
+  padding-bottom:2px; color:var(--green);
+}
+
+/* --- 5. directory cards ---------------------------------------- */
+.listings{list-style:none; padding:0; margin:0; display:grid; gap:12px}
+.card{
+  background:var(--cream-card); border:1px solid var(--rule);
+  padding:16px 16px 14px;
+}
+.card-top{display:flex; align-items:baseline; gap:8px}
+.card-top h3{
+  font-family:var(--display); font-weight:400; font-size:22px;
+  line-height:1.15; color:var(--green); margin:0;
+}
+.card-top .price{font-family:var(--mono); font-size:13px; color:var(--ink-soft)}
+.card .tags{
+  font-family:var(--mono); font-size:10px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--red);
+  margin:6px 0 8px;
+}
+.card p{margin:0; font-size:15px; line-height:1.55; color:var(--ink-soft)}
+.card .go{
+  display:inline-block; margin-top:10px;
+  font-family:var(--mono); font-size:12px; text-decoration:none;
+  color:var(--green); border-bottom:1px solid var(--rule); padding-bottom:2px;
+}
+.card .go:hover{border-color:var(--red)}
+
+/* --- 6. crawl (optional block) --------------------------------- */
+.crawl{
+  background:var(--green); color:var(--cream);
+  padding:26px 20px; margin:56px -20px;
+}
+.crawl .kicker{color:#F0C24B}
+.crawl h2{
+  font-family:var(--display); font-weight:400; font-size:clamp(26px,6.5vw,34px);
+  line-height:1.1; margin:0 0 14px; color:var(--cream);
+}
+.crawl ol{list-style:none; counter-reset:stop; padding:0; margin:0 0 14px}
+.crawl li{
+  counter-increment:stop; display:flex; gap:12px; align-items:baseline;
+  padding:9px 0; border-bottom:1px solid rgba(251,247,236,.22);
+}
+.crawl li::before{
+  content:counter(stop); font-family:var(--mono); font-size:12px;
+  color:#F0C24B; min-width:1.2em;
+}
+.crawl li b{font-family:var(--display); font-weight:400; font-size:19px}
+.crawl li span{font-family:var(--mono); font-size:11px; opacity:.8; margin-left:auto}
+.crawl .walk{font-family:var(--mono); font-size:12px; opacity:.85; margin:0}
+@media (min-width:760px){ .crawl{margin:56px 0; padding:30px} }
+
+/* --- 7. long copy ---------------------------------------------- */
+.longform p{margin:0 0 16px; max-width:38em}
+.longform h3{
+  font-family:var(--display); font-weight:400; font-size:22px;
+  color:var(--green); margin:26px 0 8px;
+}
+
+/* --- 8. nearby -------------------------------------------------- */
+.nearby{display:flex; flex-wrap:wrap; gap:10px; list-style:none; padding:0; margin:0}
+.nearby a{
+  font-family:var(--mono); font-size:12px; letter-spacing:.06em;
+  text-transform:uppercase; text-decoration:none;
+  padding:8px 12px; border:1px solid var(--rule); background:var(--cream-card);
+  display:block;
+}
+.nearby a:hover{border-color:var(--red)}
+
+footer{margin:64px 0 40px; font-family:var(--mono); font-size:12px; color:var(--ink-soft)}
+
+:focus-visible{outline:2px solid var(--red); outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+
+<body>
+
+<!-- ============ 1. HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Neighborhood Guide</p>
+    <h1>Best Pizza in Bay&nbsp;Ridge</h1>
+    <p class="dek">Old-school slices, Sicilian squares, and some of Brooklyn's best neighborhood pizzerias — from 3rd Avenue to 5th Avenue.</p>
+    <ul class="chips">
+      <li>15 Pizzerias</li>
+      <li>Classic NY</li>
+      <li>Sicilian</li>
+      <li>Wood-Fired</li>
+    </ul>
+
+    <!-- ============ 2. HERO IMAGE ============ -->
+    <figure class="hero-figure">
+      <img src="images/bay-ridge-hero.png"
+           alt="The Verrazzano-Narrows Bridge spanning the Narrows, seen from the Bay Ridge shoreline on a clear day."
+           width="1656" height="936" loading="eager" fetchpriority="high">
+      <figcaption>The Verrazzano-Narrows Bridge from the Bay Ridge shore. <!-- add photo credit / license note --></figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ 3. BAY RIDGE PICKS ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <hr class="rule">
+      <h2>Bay Ridge Picks</h2>
+      <p>Four ways to choose, if you don't want to read all twelve.</p>
+    </div>
+    <ul class="picks">
+      <li class="pick">
+        <span class="role">Classic Slice</span>
+        <span class="name">Pizza Wagon</span>
+        <span class="why">One-sentence reason this is the pick.</span>
+      </li>
+      <li class="pick">
+        <span class="role">Sit-Down Italian</span>
+        <span class="name">Elegante</span>
+        <span class="why">One-sentence reason this is the pick.</span>
+      </li>
+      <li class="pick">
+        <span class="role">Old-School Spot</span>
+        <span class="name">Frankie's</span>
+        <span class="why">One-sentence reason this is the pick.</span>
+      </li>
+      <li class="pick">
+        <span class="role">Pizza + Drinks</span>
+        <span class="name">Brooklyn Firefly</span>
+        <span class="why">One-sentence reason this is the pick.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 4. MAP ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <hr class="rule">
+      <h2>Pizza Map of Bay Ridge</h2>
+      <p>15 spots across the neighborhood</p>
+    </div>
+    <div id="bay-ridge-map" role="img" aria-label="Map of 15 pizzerias in Bay Ridge, Brooklyn"></div>
+    <a class="map-link" href="/map.html?neighborhood=bay-ridge">View full interactive map →</a>
+  </div>
+</section>
+
+<!-- ============ 5. DIRECTORY ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <hr class="rule">
+      <h2>All Bay Ridge Pizzerias</h2>
+      <p>Listed north to south along 3rd and 5th Avenue</p>
+    </div>
+
+    <ul class="listings">
+
+      <!-- CARDS GENERATED FROM data.json — zip 11209, sorted north to south.
+           Don't hand-edit; regenerate so the page can never drift from the data. -->
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Brooklyn Firefly</h3>
+          <span class="price">$$</span>
+        </div>
+        <p class="tags">Neapolitan · Sit-Down</p>
+        <p>A Bay Ridge wood-fired spot with a neighborhood-restaurant feel — seasonal ingredients, a carefully tended dough, and the kind of low-key atmosphere that keeps locals coming back without much fanfare.</p>
+        <a class="go" href="/brooklyn-firefly.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Frankie&#x27;s of Bay Ridge</h3>
+          <span class="price">$</span>
+        </div>
+        <p class="tags">Classic Slice · Slice Shop</p>
+        <p>A Bay Ridge neighborhood staple serving the kind of large, foldable NY slices that define the outer-borough pizza experience — nothing flashy, just consistently good.</p>
+        <a class="go" href="/frankies-of-bay-ridge.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Bella Roma</h3>
+          <span class="price">&nbsp;</span>
+        </div>
+        <p class="tags">Add style tags</p>
+        <p>Your blurb here.</p>
+        <a class="go" href="/bella-roma.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Elegante Pizzeria</h3>
+          <span class="price">$</span>
+        </div>
+        <p class="tags">Classic Slice · Slice Shop</p>
+        <p>A Bay Ridge 5th Avenue classic New York pizzeria with a neighborhood following. Clean, reliable NY-style pies in a stretch of Brooklyn that takes its pizza seriously.</p>
+        <a class="go" href="/elegante-pizzeria.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Vesuvio Restaurant &amp; Pizzeria</h3>
+          <span class="price">$$</span>
+        </div>
+        <p class="tags">Neapolitan · Sit-Down</p>
+        <p>A Bay Ridge Italian-American trattoria named after the volcano that defines Naples — fitting for a place serving wood-fired pies in one of Brooklyn&#x27;s most Italian neighborhoods. Full restaurant menu alongside the pizza.</p>
+        <a class="go" href="/vesuvio-restaurant-and-pizzeria.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Peppino&#x27;s Pizza &amp; Restaurant</h3>
+          <span class="price">$</span>
+        </div>
+        <p class="tags">Classic Slice · Slice Shop</p>
+        <p>The Bay Ridge location of Peppino&#x27;s — a full sit-down pizzeria on 3rd Avenue with classic NY pies and a complete Italian-American menu to go with them.</p>
+        <a class="go" href="/peppinos-pizza-and-restaurant.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Bay Ridge Pizza</h3>
+          <span class="price">&nbsp;</span>
+        </div>
+        <p class="tags">Add style tags</p>
+        <p>Your blurb here.</p>
+        <a class="go" href="/bay-ridge-pizza.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Rocco&#x27;s Pizzeria</h3>
+          <span class="price">&nbsp;</span>
+        </div>
+        <p class="tags">Add style tags</p>
+        <p>Your blurb here.</p>
+        <a class="go" href="/roccos-pizzeria.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Leo&#x27;s Casa Calamari</h3>
+          <span class="price">$</span>
+        </div>
+        <p class="tags">Classic Slice · Slice Shop</p>
+        <p>A Bay Ridge neighborhood institution on 3rd Avenue known as much for its calamari as its pizza — a full Italian-American trattoria that&#x27;s been feeding the neighborhood for decades.</p>
+        <a class="go" href="/leos-casa-calamari.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Mancini&#x27;s Wood-Fired Pizza</h3>
+          <span class="price">$$</span>
+        </div>
+        <p class="tags">Neapolitan · Sit-Down</p>
+        <p>A Bay Ridge wood-fired spot on 5th Avenue bringing Neapolitan-style pies to one of Brooklyn&#x27;s most Italian-American neighborhoods. Housemade dough, quality ingredients, neighborhood-trattoria feel.</p>
+        <a class="go" href="/mancinis-wood-fired-pizza.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Nonno&#x27;s Pizza</h3>
+          <span class="price">$</span>
+        </div>
+        <p class="tags">Classic Slice · Slice Shop</p>
+        <p>A Bay Ridge 3rd Avenue neighborhood pizzeria named for the grandfather — family-run, old-school, and the kind of place regulars have been going to for years without ever needing to look at the menu.</p>
+        <a class="go" href="/nonnos-pizza.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Pizza Wagon</h3>
+          <span class="price">$</span>
+        </div>
+        <p class="tags">Classic Slice · Slice Shop</p>
+        <p>A Bay Ridge corner pizzeria with a neighborhood following — no frills, just consistent NY-style pies from a spot that&#x27;s been feeding the local crowd for years.</p>
+        <a class="go" href="/pizza-wagon.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Nino&#x27;s</h3>
+          <span class="price">$</span>
+        </div>
+        <p class="tags">Classic Slice · Slice Shop</p>
+        <p>A Bay Ridge institution that&#x27;s been doing old-school NY slices for decades. The neighborhood has changed around it; Nino&#x27;s hasn&#x27;t — and that&#x27;s exactly the point.</p>
+        <a class="go" href="/ninos.html">View pizzeria →</a>
+      </li>
+
+      <li class="card">
+        <div class="card-top">
+          <h3>Espresso Pizzeria</h3>
+          <span class="price">$</span>
+        </div>
+        <p class="tags">Classic Slice · Slice Shop</p>
+        <p>Tucked at the southern edge of Bay Ridge in Fort Hamilton, near the Staten Island border. Solid, classic NY-style pies — nothing fancy, just consistent.</p>
+        <a class="go" href="/espresso-pizzeria.html">View pizzeria →</a>
+      </li>
+
+      <!-- 9524 4th Ave — renamed from "APizza – Dyker Heights".
+           The 8424 13th Ave location keeps its own name. -->
+      <li class="card">
+        <div class="card-top">
+          <h3>APizza: Bay Ridge</h3>
+          <span class="price">$$</span>
+        </div>
+        <p class="tags">Neapolitan · Sit-Down</p>
+        <p>A New Haven-style apizza outpost in Dyker Heights — long-fermented dough, high-heat coal-fired oven, and the kind of thin, charred, slightly chewy crust that the Connecticut style is known for. A welcome outlier in southern Brooklyn.</p>
+        <a class="go" href="/apizza-bay-ridge.html">View pizzeria →</a>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 6. CRAWL — optional per neighborhood ============ -->
+<section class="crawl">
+  <div class="wrap">
+    <p class="kicker">Walk It</p>
+    <h2>The Bay Ridge Pizza Crawl</h2>
+    <ol>
+      <li><b>Frankie's</b> <span>3rd Ave</span></li>
+      <li><b>Nino's</b> <span>3rd Ave</span></li>
+      <li><b>Espresso</b> <span>5th Ave</span></li>
+    </ol>
+    <p class="walk">About a 25-minute walk along 3rd and 5th Avenue.</p>
+  </div>
+</section>
+
+<!-- ============ 7. LONG COPY ============ -->
+<section class="section longform">
+  <div class="wrap">
+    <div class="section-head">
+      <hr class="rule">
+      <h2>About Pizza in Bay Ridge</h2>
+    </div>
+    <p>[Move your existing three opening paragraphs here — Italian-American roots, the 3rd Avenue restaurant corridor, and how the neighborhood's pizzerias differ from the ones people travel to Brooklyn for.]</p>
+    <h3>3rd Avenue vs. 5th Avenue</h3>
+    <p>[Existing copy.]</p>
+    <h3>What to expect</h3>
+    <p>[Existing copy.]</p>
+  </div>
+</section>
+
+<!-- ============ 8. NEARBY ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <hr class="rule">
+      <h2>Explore Nearby</h2>
+    </div>
+    <ul class="nearby">
+      <li><a href="/dyker-heights.html">Dyker Heights</a></li>
+      <li><a href="/bensonhurst.html">Bensonhurst</a></li>
+      <li><a href="/sunset-park.html">Sunset Park</a></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap">Pizza Map — a curated guide to New York pizza.</footer>
+
+</body>
+</html>
