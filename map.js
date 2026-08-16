@@ -1432,19 +1432,21 @@ function expandMap() {
   // Force scroll to top instantly before animation
   window.scrollTo(0, 0);
 
-  // Map section goes fixed first, then hero collapses behind it
-  document.body.classList.add('map-expanded');
-
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      if (heroSection) heroSection.classList.add('collapsed');
-    });
-  });
+  // Collapse the hero FIRST and let its transition play. The old order added
+  // map-expanded up front, which makes the map fixed and full-viewport
+  // immediately — so the hero animated correctly but underneath a map that was
+  // already covering the screen, and read as simply vanishing. With the hero
+  // still in normal flow, shrinking its height pulls the map up behind it,
+  // which is the roll-up.
+  if (heroSection) heroSection.classList.add('collapsed');
 
   setTimeout(() => {
+    document.body.classList.add('map-expanded');
+    // The map container just changed size; MapLibre needs telling.
+    if (typeof map !== 'undefined' && map && map.resize) map.resize();
     if (nearMeBtnEl) { nearMeBtnEl.style.opacity = '1'; nearMeBtnEl.style.pointerEvents = ''; }
     if (sidebarTabEl && window.innerWidth >= 901) { sidebarTabEl.hidden = false; }
-  }, 460);
+  }, 400);
 }
 
 // Hide map UI initially
