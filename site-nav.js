@@ -38,10 +38,14 @@
         label: 'Explore',
         columns: [
           {
+            // Neighborhood guides sit under their borough, matching the URLs.
+            // A new guide goes directly beneath its borough with child: true.
             heading: 'Boroughs',
             links: [
               { label: 'Manhattan',     href: '/manhattan/' },
+              { label: 'West Village',  href: '/manhattan/west-village/', child: true },
               { label: 'Brooklyn',      href: '/brooklyn/' },
+              { label: 'Bay Ridge',     href: '/brooklyn/bay-ridge/', child: true },
               { label: 'Queens',        href: '/queens/' },
               { label: 'Bronx',         href: '/bronx/' },
               { label: 'Staten Island', href: '/staten-island/' },
@@ -52,9 +56,7 @@
             heading: 'Guides',
             links: [
               { label: 'Pizza Crawls',   href: '/pizza-crawls/' },
-              { label: 'Worth the Trip', href: '/worth-the-trip/' },
-              { label: 'West Village',   href: '/manhattan/west-village/' },
-              { label: 'Bay Ridge',      href: '/brooklyn/bay-ridge/' }
+              { label: 'Worth the Trip', href: '/worth-the-trip/' }
             ]
           }
         ]
@@ -98,6 +100,7 @@
     var cls = [];
     if (extraClass) cls.push(extraClass);
     if (l.viewall) cls.push('nav-dropdown-viewall');
+    if (l.child) cls.push('is-child');
     if (isActive(l.href)) cls.push('active');
     var c = cls.length ? ' class="' + cls.join(' ') + '"' : '';
     return '<a href="' + esc(l.href) + '"' + c + '>' + esc(l.label) + '</a>';
