@@ -38,14 +38,13 @@
         label: 'Explore',
         columns: [
           {
-            // Neighborhood guides sit under their borough, matching the URLs.
-            // A new guide goes directly beneath its borough with child: true.
+            // Boroughs only. Neighborhood guides are reached from their
+            // borough page, which is the hierarchy the URLs describe —
+            // nesting them here needs a third menu level and reads as clutter.
             heading: 'Boroughs',
             links: [
               { label: 'Manhattan',     href: '/manhattan/' },
-              { label: 'West Village',  href: '/manhattan/west-village/', child: true },
               { label: 'Brooklyn',      href: '/brooklyn/' },
-              { label: 'Bay Ridge',     href: '/brooklyn/bay-ridge/', child: true },
               { label: 'Queens',        href: '/queens/' },
               { label: 'Bronx',         href: '/bronx/' },
               { label: 'Staten Island', href: '/staten-island/' },
@@ -100,7 +99,6 @@
     var cls = [];
     if (extraClass) cls.push(extraClass);
     if (l.viewall) cls.push('nav-dropdown-viewall');
-    if (l.child) cls.push('is-child');
     if (isActive(l.href)) cls.push('active');
     var c = cls.length ? ' class="' + cls.join(' ') + '"' : '';
     return '<a href="' + esc(l.href) + '"' + c + '>' + esc(l.label) + '</a>';
@@ -149,14 +147,9 @@
 
     NAV.groups.forEach(function (g) {
       if (g.columns) {
-        // Nested accordion — nav.js wires #mobileExploreToggle and the
-        // generic .mobile-nav-sub-accordion buttons.
-        out += '<button class="mobile-nav-accordion" id="mobileExploreToggle" ' +
-                 'aria-expanded="false" aria-controls="mobileExplorePanel">' +
-                 '<span class="mobile-nav-accordion-label">' + esc(g.label) + '</span>' +
-                 '<span class="mobile-nav-accordion-caret">\u203A</span>' +
-               '</button>' +
-               '<div class="mobile-nav-accordion-panel" id="mobileExplorePanel" hidden>';
+        // The group label is a static heading, not a toggle — so Boroughs
+        // and Guides are always on screen. Only they expand.
+        out += '<div class="mobile-nav-heading">' + esc(g.label) + '</div>';
 
         g.columns.forEach(function (c) {
           var key = slug(c.heading);
@@ -168,8 +161,6 @@
                    c.links.map(function (l) { return link(l); }).join('') +
                  '</div>';
         });
-
-        out += '</div>';
       } else {
         // Flat section — three links don't need a tap to reveal.
         out += '<div class="mobile-nav-heading">' + esc(g.label) + '</div>' +

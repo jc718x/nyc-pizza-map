@@ -12,10 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function collapseAllAccordions() {
-    const explorePanel = document.getElementById('mobileExplorePanel');
-    const exploreToggle = document.getElementById('mobileExploreToggle');
-    if (explorePanel) explorePanel.hidden = true;
-    if (exploreToggle) exploreToggle.setAttribute('aria-expanded', 'false');
     document.querySelectorAll('.mobile-nav-sub-accordion').forEach(btn => {
       btn.setAttribute('aria-expanded', 'false');
       const panelId = 'mobile-sub-' + btn.dataset.sub;
@@ -39,17 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ===== Explore top-level accordion =====
-  const exploreToggle = document.getElementById('mobileExploreToggle');
-  const explorePanel = document.getElementById('mobileExplorePanel');
-  if (exploreToggle && explorePanel) {
-    exploreToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = !explorePanel.hidden;
-      explorePanel.hidden = isOpen;
-      exploreToggle.setAttribute('aria-expanded', String(!isOpen));
-    });
-  }
+  // The Explore group is a static heading now, not a toggle — its
+  // sub-sections (Boroughs, Guides) are always visible and expand
+  // themselves. Nothing to wire at the top level.
 
   // ===== Sub-accordions: By Borough / Neighborhoods / Discover =====
   document.querySelectorAll('.mobile-nav-sub-accordion').forEach(btn => {
@@ -58,15 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const panelId = 'mobile-sub-' + btn.dataset.sub;
       const panel = document.getElementById(panelId);
       if (!panel) return;
+      // Each section opens and closes on its own. Auto-closing the others
+      // meant opening Guides collapsed Boroughs out from under you.
       const isOpen = !panel.hidden;
-      // Close any other open sub-panels first (accordion behavior)
-      document.querySelectorAll('.mobile-nav-sub-accordion').forEach(other => {
-        if (other === btn) return;
-        other.setAttribute('aria-expanded', 'false');
-        const otherId = 'mobile-sub-' + other.dataset.sub;
-        const otherPanel = document.getElementById(otherId);
-        if (otherPanel) otherPanel.hidden = true;
-      });
       panel.hidden = isOpen;
       btn.setAttribute('aria-expanded', String(!isOpen));
     });

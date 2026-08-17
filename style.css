@@ -2494,19 +2494,7 @@ body.nm-located .near-me-cta-wrap { display: none; }
 .bc .here { color: rgba(36, 26, 16, 0.75); }
 
 
-/* Neighborhood guides nested under their borough in the nav */
-.nav-dropdown-menu a.is-child,
-.mobile-nav-sub-panel a.is-child {
-  padding-left: 26px;
-  font-size: 0.94em;
-  opacity: 0.85;
-}
-.nav-dropdown-menu a.is-child::before,
-.mobile-nav-sub-panel a.is-child::before {
-  content: "\2514\2500";
-  margin-right: 6px;
-  opacity: 0.4;
-}
+
 
 
 /* ===== Rating + hours inside the map ticket's green header =====
