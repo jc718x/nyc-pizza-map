@@ -543,6 +543,7 @@ map.on('load', async () => {
           <p class="ticket-name">${escapeHTML(p.name)}</p>
           <p class="ticket-address">📍 ${escapeHTML(p.address)}</p>
           ${p.place_id ? `<p class="ticket-rating"><span class="g-rating" data-place-id="${escapeAttr(p.place_id)}"></span></p>` : ''}
+          ${p.place_id ? `<p class="ticket-hours"><span class="g-hours" data-place-id="${escapeAttr(p.place_id)}"></span></p>` : ''}
         </div>
         <div class="ticket-body">
           <div class="ticket-meta">
@@ -551,7 +552,6 @@ map.on('load', async () => {
             ${p.slices ? `<span class="meta-pill">Slices ✓</span>` : `<span class="meta-pill">Whole pies only</span>`}
             ${p.seating && p.seating !== 'Indoor' ? `<span class="meta-pill">${escapeHTML(p.seating)}</span>` : ''}
           </div>
-          ${p.place_id ? `<p class="ticket-hours"><span class="g-hours" data-place-id="${escapeAttr(p.place_id)}"></span></p>` : ''}
           <p class="ticket-blurb">${escapeHTML(p.blurb)}</p>
           ${fromYouHTML}
           ${subwayHTML ? `<div class="ticket-subway">
