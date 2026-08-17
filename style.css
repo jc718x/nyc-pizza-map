@@ -2521,5 +2521,11 @@ body.nm-located .near-me-cta-wrap { display: none; }
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(36, 26, 16, 0.08);
 }
-.ticket-hours:empty { display: none; }
-.ticket-rating:empty { display: none; }
+/* google-rating.js deletes the span outright when a place has no usable
+   hours, which leaves the wrapper behind. Collapse it rather than leaving
+   a stray rule and padding. :has() covers the case where the wrapper still
+   holds whitespace, which :empty alone misses. */
+.ticket-hours:empty,
+.ticket-hours:not(:has(.g-hours)),
+.ticket-rating:empty,
+.ticket-rating:not(:has(.g-rating)) { display: none; padding: 0; border: 0; margin: 0; }
