@@ -31,7 +31,7 @@
   var NAV = {
     primary: [
       { label: 'Map',           href: '/#map' },
-      { label: 'Pizza Near Me', href: '/find-pizza/' }
+      { label: 'Find Pizza',    href: '/find-pizza/' }
     ],
     groups: [
       {
@@ -47,7 +47,16 @@
               { label: 'Brooklyn',      href: '/brooklyn/' },
               { label: 'Queens',        href: '/queens/' },
               { label: 'Bronx',         href: '/bronx/' },
-              { label: 'Staten Island', href: '/staten-island/' },
+              { label: 'Staten Island', href: '/staten-island/' }
+            ]
+          },
+          {
+            // Live neighborhood guides, listed flat. Add each new one here;
+            // once this passes ~8, group them by borough instead.
+            heading: 'Neighborhoods',
+            links: [
+              { label: 'Bay Ridge',    href: '/brooklyn/bay-ridge/' },
+              { label: 'West Village', href: '/manhattan/west-village/' },
               { label: 'All Neighborhoods \u2192', href: '/neighborhoods/', viewall: true }
             ]
           },
@@ -76,6 +85,14 @@
       { label: 'Shop',           href: '/shop/' },
       { label: 'About',          href: '/about/' }
     ]
+  };
+
+  // Live neighborhood guides, by borough. A borough only becomes a
+  // drill-down when it has at least one — otherwise tapping it would open
+  // a panel with nothing in it but a link back to the borough page.
+  var GUIDES = {
+    'Manhattan': [{ label: 'West Village', href: '/manhattan/west-village/' }],
+    'Brooklyn':  [{ label: 'Bay Ridge',    href: '/brooklyn/bay-ridge/' }]
   };
 
   // ---------------------------------------------------------------- helpers
@@ -141,36 +158,73 @@
   }
 
   // ---------------------------------------------------------------- mobile
+  // Mobile drawer is a stack of panels, not inline accordions: tapping a
+  // section slides to its own panel with a back row. nav.js drives it.
   function mobileNav() {
-    var out = '<div class="mobile-nav-heading">Find Pizza</div>' +
-              NAV.primary.map(function (l) { return link(l, 'primary'); }).join('');
+    var panels = [];
+
+    function drill(label, id) {
+      return '<button class="mnav-drill" data-panel="' + id + '">' +
+               '<span>' + esc(label) + '</span>' +
+               '<span class="mnav-caret">\u203A</span>' +
+             '</button>';
+    }
+
+    function panel(id, parentId, parentLabel, title, inner) {
+      panels.push(
+        '<div class="mnav-panel" id="' + id + '" hidden>' +
+          '<button class="mnav-back" data-panel="' + parentId + '">' +
+            '<span class="mnav-caret">\u2039</span><span>' + esc(parentLabel) + '</span>' +
+          '</button>' +
+          '<div class="mobile-nav-heading">' + esc(title) + '</div>' +
+          inner +
+        '</div>'
+      );
+    }
+
+    // ---- root ----
+    var root = '<div class="mobile-nav-heading">Find Pizza</div>' +
+               NAV.primary.map(function (l) { return link(l, 'primary'); }).join('');
 
     NAV.groups.forEach(function (g) {
-      if (g.columns) {
-        // The group label is a static heading, not a toggle — so Boroughs
-        // and Guides are always on screen. Only they expand.
-        out += '<div class="mobile-nav-heading">' + esc(g.label) + '</div>';
+      root += '<div class="mobile-nav-heading">' + esc(g.label) + '</div>';
 
+      if (g.columns) {
         g.columns.forEach(function (c) {
-          var key = slug(c.heading);
-          out += '<button class="mobile-nav-sub-accordion" data-sub="' + key + '" aria-expanded="false">' +
-                   '<span>' + esc(c.heading) + '</span>' +
-                   '<span class="mobile-nav-sub-caret">\u203A</span>' +
-                 '</button>' +
-                 '<div class="mobile-nav-sub-panel" id="mobile-sub-' + key + '" hidden>' +
-                   c.links.map(function (l) { return link(l); }).join('') +
-                 '</div>';
+          // "Neighborhoods" is reachable through each borough now, so it
+          // isn't repeated as its own section on mobile.
+          if (c.heading === 'Neighborhoods') return;
+
+          var id = 'mnp-' + slug(c.heading);
+          root += drill(c.heading, id);
+
+          var inner = c.links.map(function (l) {
+            var kids = GUIDES[l.label];
+            if (!kids) return link(l);
+
+            var kidId = 'mnp-' + slug(l.label);
+            panel(kidId, id, c.heading, l.label,
+              link({ label: 'All ' + l.label + ' pizza \u2192', href: l.href, viewall: true }) +
+              kids.map(function (k) { return link(k); }).join(''));
+            return drill(l.label, kidId);
+          }).join('');
+
+          if (c.heading === 'Boroughs') {
+            inner += link({ label: 'All Neighborhoods \u2192',
+                            href: '/neighborhoods/', viewall: true });
+          }
+          panel(id, 'mnp-root', 'Menu', c.heading, inner);
         });
       } else {
-        // Flat section — three links don't need a tap to reveal.
-        out += '<div class="mobile-nav-heading">' + esc(g.label) + '</div>' +
-               g.links.map(function (l) { return link(l); }).join('');
+        root += g.links.map(function (l) { return link(l); }).join('');
       }
     });
 
-    out += '<div class="mobile-nav-divider"></div>' +
-           NAV.utility.map(function (l) { return link(l); }).join('');
-    return out;
+    root += '<div class="mobile-nav-divider"></div>' +
+            NAV.utility.map(function (l) { return link(l); }).join('');
+
+    return '<div class="mnav-panel is-root" id="mnp-root">' + root + '</div>' +
+           panels.join('');
   }
 
   // ---------------------------------------------------------------- render

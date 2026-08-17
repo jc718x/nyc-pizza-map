@@ -11,12 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     collapseAllAccordions();
   }
 
+  // Reopening the drawer should always land on the top level, never
+  // wherever the user happened to drill to last time.
   function collapseAllAccordions() {
-    document.querySelectorAll('.mobile-nav-sub-accordion').forEach(btn => {
-      btn.setAttribute('aria-expanded', 'false');
-      const panelId = 'mobile-sub-' + btn.dataset.sub;
-      const panel = document.getElementById(panelId);
-      if (panel) panel.hidden = true;
+    document.querySelectorAll('.mnav-panel').forEach(p => {
+      p.hidden = !p.classList.contains('is-root');
     });
   }
 
@@ -39,18 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // sub-sections (Boroughs, Guides) are always visible and expand
   // themselves. Nothing to wire at the top level.
 
-  // ===== Sub-accordions: By Borough / Neighborhoods / Discover =====
-  document.querySelectorAll('.mobile-nav-sub-accordion').forEach(btn => {
+  // ===== Drawer panels (drill-down) =====
+  // The drawer is a stack of panels; .mnav-drill goes deeper, .mnav-back
+  // returns. Both carry data-panel with the id of the panel to show.
+  function showPanel(id) {
+    const target = document.getElementById(id);
+    if (!target) return;
+    document.querySelectorAll('.mnav-panel').forEach(p => { p.hidden = (p !== target); });
+    if (drawer) drawer.scrollTop = 0;
+  }
+
+  document.querySelectorAll('.mnav-drill, .mnav-back').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const panelId = 'mobile-sub-' + btn.dataset.sub;
-      const panel = document.getElementById(panelId);
-      if (!panel) return;
-      // Each section opens and closes on its own. Auto-closing the others
-      // meant opening Guides collapsed Boroughs out from under you.
-      const isOpen = !panel.hidden;
-      panel.hidden = isOpen;
-      btn.setAttribute('aria-expanded', String(!isOpen));
+      showPanel(btn.dataset.panel);
     });
   });
 

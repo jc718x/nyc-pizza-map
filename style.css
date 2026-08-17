@@ -498,54 +498,6 @@ html, body {
 }
 .mobile-nav-accordion-panel[hidden] { display: none; }
 
-/* ===== Sub-accordions (By Borough / Neighborhoods / Discover) ===== */
-.mobile-nav-sub-accordion {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-char);
-  background: none;
-  border: none;
-  border-bottom: 1px solid rgba(36,26,16,0.07);
-  padding: 11px 20px 11px 32px;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.mobile-nav-sub-accordion:hover { color: var(--color-sauce); }
-.mobile-nav-sub-caret {
-  font-size: 0.95rem;
-  font-weight: 400;
-  transition: transform 0.2s ease;
-  line-height: 1;
-}
-.mobile-nav-sub-accordion[aria-expanded="true"] .mobile-nav-sub-caret {
-  transform: rotate(90deg);
-}
-.mobile-nav-sub-panel {
-  background: rgba(36,26,16,0.025);
-  border-bottom: 1px solid rgba(36,26,16,0.07);
-}
-.mobile-nav-sub-panel[hidden] { display: none; }
-.mobile-nav-sub-panel a {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  padding: 10px 20px 10px 44px;
-  color: var(--color-char);
-  border-bottom: 1px solid rgba(36,26,16,0.06);
-  display: block;
-  text-decoration: none;
-}
-.mobile-nav-sub-panel a:last-child { border-bottom: none; }
-.mobile-nav-sub-panel a:hover,
-.mobile-nav-sub-panel a.active { color: var(--color-sauce); }
 .mobile-nav-viewall {
   font-weight: 700 !important;
   color: var(--color-sauce) !important;
@@ -2536,3 +2488,40 @@ body.nm-located .near-me-cta-wrap { display: none; }
    data, which would otherwise leave the wrapper's margin behind. */
 .ticket-hours:empty,
 .ticket-rating:empty { display: none; margin: 0; }
+
+
+/* ===== Mobile drawer panels (drill-down) =====
+   One panel visible at a time. Tapping a section shows its panel; the
+   back row returns. Reopening the drawer always resets to the root. */
+.mnav-panel[hidden] { display: none; }
+
+.mnav-drill,
+.mnav-back {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-char);
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(36, 26, 16, 0.08);
+  padding: 12px 20px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.mnav-drill:hover,
+.mnav-back:hover { color: var(--color-sauce); }
+
+.mnav-back {
+  justify-content: flex-start;
+  color: rgba(36, 26, 16, 0.55);
+  font-size: 0.7rem;
+  background: rgba(36, 26, 16, 0.03);
+}
+.mnav-caret { font-size: 1rem; line-height: 1; }
+.mnav-back .mnav-caret { margin-right: 6px; }
