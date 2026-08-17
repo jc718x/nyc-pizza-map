@@ -130,7 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // version instead — same search engine, but selecting anything just
 // navigates to the map page and centers there.
 (function() {
-  const isMapPage = /(^|\/)index\.html$/.test(window.location.pathname) || window.location.pathname === '/' || window.location.pathname.endsWith('/');
+  // The map page is the site root and nothing else. (Before clean URLs this
+  // also tested endsWith('/') — with trailing-slash URLs that matches every
+  // page, which would silently disable search everywhere but the map.)
+  const isMapPage = window.location.pathname === '/' || /(^|\/)index\.html$/.test(window.location.pathname);
   if (isMapPage) return;
 
   const searchIconBtn = document.getElementById('searchIconBtn');
@@ -154,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     searchOverlay.hidden = false;
     setTimeout(() => globalSearchInput && globalSearchInput.focus(), 50);
     if (!pizzaFeaturesCache) {
-      fetch('data.json').then(r => r.json()).then(d => { pizzaFeaturesCache = d.features; }).catch(() => {});
+      fetch('/data.json').then(r => r.json()).then(d => { pizzaFeaturesCache = d.features; }).catch(() => {});
     }
   }
   function closeOverlay() {
@@ -229,10 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!item) return;
       const { type, name, category, lat, lng } = item.dataset;
       if (type === 'pizzeria') {
-        window.location.href = 'index.html?pin=' + encodeURIComponent(name);
+        window.location.href = '/?pin=' + encodeURIComponent(name);
       } else {
         const isNeighborhood = category === 'Neighborhoods' ? '1' : '0';
-        window.location.href = 'index.html?lat=' + lat + '&lng=' + lng +
+        window.location.href = '/?lat=' + lat + '&lng=' + lng +
           '&label=' + encodeURIComponent(name) + '&isNeighborhood=' + isNeighborhood;
       }
     });

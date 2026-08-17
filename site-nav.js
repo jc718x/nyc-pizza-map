@@ -10,7 +10,7 @@
 // immediately after <body …>:
 //
 //     <div id="siteHeader"></div>
-//     <script src="site-nav.js"></script>
+//     <script src="/site-nav.js"></script>
 //
 // This script MUST run synchronously at that point in the body, not at
 // DOMContentLoaded: map.js grabs #searchIconBtn and #searchOverlay as
@@ -30,8 +30,8 @@
   // Edit the menu HERE and nowhere else.
   var NAV = {
     primary: [
-      { label: 'Map',           href: 'index.html#map' },
-      { label: 'Pizza Near Me', href: 'pizza-search.html' }
+      { label: 'Map',           href: '/#map' },
+      { label: 'Pizza Near Me', href: '/find-pizza/' }
     ],
     groups: [
       {
@@ -40,21 +40,21 @@
           {
             heading: 'Boroughs',
             links: [
-              { label: 'Manhattan',     href: 'neighborhood-guides.html#manhattan' },
-              { label: 'Brooklyn',      href: 'neighborhood-guides.html#brooklyn' },
-              { label: 'Queens',        href: 'neighborhood-guides.html#queens' },
-              { label: 'Bronx',         href: 'neighborhood-guides.html#bronx' },
-              { label: 'Staten Island', href: 'neighborhood-guides.html#staten-island' },
-              { label: 'All Neighborhoods \u2192', href: 'neighborhood-guides.html', viewall: true }
+              { label: 'Manhattan',     href: '/manhattan/' },
+              { label: 'Brooklyn',      href: '/brooklyn/' },
+              { label: 'Queens',        href: '/queens/' },
+              { label: 'Bronx',         href: '/bronx/' },
+              { label: 'Staten Island', href: '/staten-island/' },
+              { label: 'All Neighborhoods \u2192', href: '/neighborhoods/', viewall: true }
             ]
           },
           {
             heading: 'Guides',
             links: [
-              { label: 'Pizza Crawls',   href: 'pizza-crawls.html' },
-              { label: 'Worth the Trip', href: 'pizza-worth-traveling-for.html' },
-              { label: 'West Village',   href: 'best-pizza-west-village.html' },
-              { label: 'Bay Ridge',      href: 'best-pizza-bay-ridge.html' }
+              { label: 'Pizza Crawls',   href: '/pizza-crawls/' },
+              { label: 'Worth the Trip', href: '/worth-the-trip/' },
+              { label: 'West Village',   href: '/manhattan/west-village/' },
+              { label: 'Bay Ridge',      href: '/brooklyn/bay-ridge/' }
             ]
           }
         ]
@@ -64,24 +64,30 @@
         // and as a flat labelled section in the mobile drawer.
         label: 'Pizza Culture',
         links: [
-          { label: 'How To Make Pizza', href: 'how-to-make-pizza.html' },
-          { label: 'Pizza History',     href: 'pizza-history.html' },
-          { label: 'Pizza Facts',       href: 'pizza-facts.html' }
+          { label: 'How To Make Pizza', href: '/make-pizza/' },
+          { label: 'Pizza History',     href: '/pizza-history/' },
+          { label: 'Pizza Facts',       href: '/pizza-facts/' }
         ]
       }
     ],
     utility: [
-      { label: 'Suggest a Spot', href: 'suggest.html' },
-      { label: 'Shop',           href: 'store.html' },
-      { label: 'About',          href: 'about.html' }
+      { label: 'Suggest a Spot', href: '/suggest/' },
+      { label: 'Shop',           href: '/shop/' },
+      { label: 'About',          href: '/about/' }
     ]
   };
 
   // ---------------------------------------------------------------- helpers
-  var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  // Normalised current path, e.g. '/brooklyn/bay-ridge/'. Compared whole —
+  // splitting on '/' and taking the last segment yields '' on clean URLs.
+  var here = location.pathname.toLowerCase();
+  if (here.slice(-1) !== '/') here += '/';
 
   function isActive(href) {
-    return href.split('#')[0].toLowerCase() === here;
+    var p = href.split('#')[0].split('?')[0].toLowerCase();
+    if (!p) return false;
+    if (p.slice(-1) !== '/') p += '/';
+    return p === here;
   }
 
   function esc(s) {
@@ -180,8 +186,8 @@
         '<span></span><span></span><span></span>' +
       '</button>' +
       '<div class="topbar-brand">' +
-        '<a href="index.html"><img class="topbar-logo" src="assets/logo-header.png" alt="NYC Pizza Map" /></a>' +
-        '<a href="index.html" style="text-decoration:none;">' +
+        '<a href="/"><img class="topbar-logo" src="/assets/logo-header.png" alt="NYC Pizza Map" /></a>' +
+        '<a href="/" style="text-decoration:none;">' +
           '<span class="topbar-name"><span class="h1-red">NYC</span> <span class="h1-green">Pizza Map</span></span>' +
         '</a>' +
       '</div>' +

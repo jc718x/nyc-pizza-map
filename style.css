@@ -2478,3 +2478,17 @@ body.nm-located .near-me-cta-wrap { display: none; }
     color: var(--color-parchment);
   }
 }
+
+
+/* ===== Breadcrumbs ===== */
+.bc {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  color: rgba(36, 26, 16, 0.45);
+  margin: 0 0 14px;
+}
+.bc a { color: rgba(36, 26, 16, 0.6); text-decoration: none; }
+.bc a:hover { color: var(--pz-accent, #DC2225); }
+.bc .sep { margin: 0 6px; opacity: 0.5; }
+.bc .here { color: rgba(36, 26, 16, 0.75); }

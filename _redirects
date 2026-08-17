@@ -1,2 +1,29 @@
-/list.html /pizza-search.html 301
-/nearby.html /pizza-search.html 301
+# Old .html URLs -> clean paths. Cheap insurance against anything
+# already linked or crawled.
+/best-pizza-brooklyn.html /brooklyn/ 301
+/best-pizza-manhattan.html /manhattan/ 301
+/best-pizza-queens.html /queens/ 301
+/best-pizza-bronx.html /bronx/ 301
+/best-pizza-staten-island.html /staten-island/ 301
+/best-pizza-bay-ridge.html /brooklyn/bay-ridge/ 301
+/best-pizza-west-village.html /manhattan/west-village/ 301
+/pizza-crawls.html /pizza-crawls/ 301
+/pizza-history.html /pizza-history/ 301
+/pizza-facts.html /pizza-facts/ 301
+/how-to-make-pizza.html /make-pizza/ 301
+/lucali.html /pizzerias/lucali/ 301
+/neighborhood-guides.html /neighborhoods/ 301
+/pizza-search.html /find-pizza/ 301
+/pizza-worth-traveling-for.html /worth-the-trip/ 301
+/store.html /shop/ 301
+/suggest.html /suggest/ 301
+/suggest-thanks.html /suggest/thanks/ 301
+/about.html /about/ 301
+
+# Retired pages
+/list.html /find-pizza/ 301
+/nearby.html /find-pizza/ 301
+/pizza-search.html /find-pizza/ 301
+
+# Superseded pages
+/bay-ridge.html /brooklyn/bay-ridge/ 301

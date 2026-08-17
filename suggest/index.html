@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Suggest a Pizzeria — NYC Pizza Map</title>
+<meta name="description" content="Know a great NYC pizzeria that deserves to be on the map? Tell us about it. We read every submission." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Abril+Fatface&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="/assets/favicon.png" />
+<link rel="stylesheet" href="/style.css" />
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Pizza Map", "item": "https://pizzamap.nyc/"}, {"@type": "ListItem", "position": 2, "name": "Suggest a Spot", "item": "https://pizzamap.nyc/suggest/"}]}
+</script>
+</head>
+<body class="content-page">
+
+<div id="siteHeader"></div>
+<script src="/site-nav.js"></script>
+
+
+<main class="page-wrap">
+  <p class="bc"><a href="/">Pizza Map</a><span class="sep">›</span><span class="here">Suggest a Spot</span></p>
+
+  <p class="page-kicker">Know a great one?</p>
+  <h2>Add a Pizzeria</h2>
+  <p>Think something's missing from the map? Make your case. If it's good enough, it gets on the list.</p>
+
+  <form class="suggest-form" method="POST" action="https://api.web3forms.com/submit" id="suggestForm">
+    <!-- Web3Forms -->
+    <input type="hidden" name="access_key" value="4f9a2a0c-f13f-41f0-b046-b6b9fc0b01d0" />
+    <input type="hidden" name="subject" value="New Pizzeria Suggestion — NYC Pizza Map" />
+    <input type="hidden" name="from_name" value="NYC Pizza Map" />
+    <input type="hidden" name="redirect" value="https://pizzamap.nyc/suggest-thanks.html" />
+    <!-- Honeypot spam trap -->
+    <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off" />
+
+    <div class="form-field">
+      <label for="pizzeria-name">Pizzeria name <span class="required">*</span></label>
+      <input type="text" id="pizzeria-name" name="pizzeria-name" placeholder="Start typing a pizzeria name…" required autocomplete="off" />
+    </div>
+
+    <div class="form-field">
+      <label for="borough">Borough <span class="required">*</span></label>
+      <select id="borough" name="borough" required>
+        <option value="" disabled selected>Select a borough</option>
+        <option value="Brooklyn">Brooklyn</option>
+        <option value="Manhattan">Manhattan</option>
+        <option value="Queens">Queens</option>
+        <option value="Bronx">Bronx</option>
+        <option value="Staten Island">Staten Island</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="address">Address <span class="required">*</span></label>
+      <input type="text" id="address" name="address" placeholder="Auto-filled when you pick from the dropdown above" required />
+    </div>
+
+    <div class="form-field">
+      <label for="reason">Why it should be on the map <span class="required">*</span></label>
+      <textarea id="reason" name="reason" rows="5" placeholder="What makes it great? What should people order?" required></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="email">Your email <span class="optional">(optional — only if you want a reply)</span></label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" />
+    </div>
+
+    <!-- hCaptcha -->
+    <div class="h-captcha" data-captcha="true"></div>
+
+    <button type="submit" class="form-submit">Submit →</button>
+  </form>
+</main>
+
+<script src="/search-destinations.js"></script>
+<script src="/search.js"></script>
+<script src="/nav.js"></script>
+<script>
+// ===== Google Places Autocomplete =====
+// Loads after the page is ready. Restricts suggestions to restaurants/food
+// in New York City only, and auto-fills address + borough on selection.
+
+const BOROUGH_MAP = {
+  'Kings County':      'Brooklyn',
+  'New York County':   'Manhattan',
+  'Queens County':     'Queens',
+  'Bronx County':      'Bronx',
+  'Richmond County':   'Staten Island',
+  // Also catch the city sublocality names
+  'Brooklyn':          'Brooklyn',
+  'Manhattan':         'Manhattan',
+  'Queens':            'Queens',
+  'Bronx':             'Bronx',
+  'Staten Island':     'Staten Island',
+};
+
+function initAutocomplete() {
+  const input = document.getElementById('pizzeria-name');
+  const addressInput = document.getElementById('address');
+  const boroughSelect = document.getElementById('borough');
+
+  const autocomplete = new google.maps.places.Autocomplete(input, {
+    types: ['establishment'],
+    componentRestrictions: { country: 'us' },
+    bounds: new google.maps.LatLngBounds(
+      new google.maps.LatLng(40.4774, -74.2591), // SW corner of NYC
+      new google.maps.LatLng(40.9176, -73.7004)  // NE corner of NYC
+    ),
+    strictBounds: false,
+    fields: ['name', 'formatted_address', 'address_components'],
+  });
+
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace();
+    if (!place.address_components) return;
+
+    // Set the name field to just the place name (not the full address)
+    input.value = place.name;
+
+    // Fill address field
+    addressInput.value = place.formatted_address;
+
+    // Auto-select borough from address components
+    for (const component of place.address_components) {
+      for (const type of component.types) {
+        if (type === 'administrative_area_level_2') {
+          const borough = BOROUGH_MAP[component.long_name];
+          if (borough) {
+            boroughSelect.value = borough;
+            break;
+          }
+        }
+        if (type === 'sublocality_level_1' || type === 'sublocality') {
+          const borough = BOROUGH_MAP[component.long_name];
+          if (borough) {
+            boroughSelect.value = borough;
+          }
+        }
+      }
+    }
+  });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAccH_FwDL2Bj57BDrrECA-Ieo36FGpPW8&libraries=places&callback=initAutocomplete" async defer></script>
+<script src="https://web3forms.com/client/script.js" async defer></script>
+</body>
+</html>

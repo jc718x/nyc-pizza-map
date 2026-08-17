@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Best Pizza in Brooklyn, NYC — Every Pizzeria Mapped | NYC Pizza Map</title>
+<meta name="description" content="The full guide to Brooklyn pizza — 113 curated pizzerias mapped, plus neighborhood guides and the spots worth a special trip." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Abril+Fatface&display=swap" rel="stylesheet">
+<meta property="og:title" content="Best Pizza in Brooklyn, NYC" />
+<meta property="og:description" content="113 curated Brooklyn pizzerias, mapped." />
+<meta property="og:url" content="https://pizzamap.nyc/brooklyn/" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://pizzamap.nyc/assets/logo.png" />
+<link rel="canonical" href="https://pizzamap.nyc/brooklyn/" />
+<link rel="icon" type="image/png" href="/assets/favicon.png" />
+<link rel="stylesheet" href="/style.css" />
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+
+<style>
+  :root { --pz-accent: #DC2225; }
+
+  /* ===== Neighborhood mini-map ===== */
+  .nbhd-map-wrap {
+    width: 100%;
+    height: 340px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(36,26,16,0.12);
+    margin: 0 0 36px;
+    position: relative;
+  }
+  .nbhd-map-wrap .maplibregl-map { width: 100%; height: 100%; }
+  /* Keep the MapLibre attribution but shrink it */
+  .nbhd-map-wrap .maplibregl-ctrl-attrib { font-size: 9px; }
+  /* Match the site's pizza marker style */
+  .nbhd-pin {
+    width: 28px; height: 28px;
+    cursor: pointer;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    transition: transform 0.15s ease;
+  }
+  .nbhd-pin:hover { transform: scale(1.2); }
+  .nbhd-pin.selected { transform: scale(1.15); }
+  .nbhd-pin.selected .nbhd-slice { fill: #FFD500; }
+  /* Popup matches the site's ticket card */
+  .maplibregl-popup-content {
+    padding: 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+    font-family: 'Work Sans', sans-serif;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18) !important;
+    min-width: 180px;
+    max-width: 240px;
+  }
+  .nbhd-popup-head {
+    background: var(--color-crust, #1F4B33);
+    color: white;
+    padding: 8px 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    line-height: 1.25;
+  }
+  .nbhd-popup-body {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    color: #241A10;
+    line-height: 1.4;
+  }
+  .nbhd-popup-style {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.08);
+    margin-bottom: 4px;
+  }
+  .nbhd-popup-link {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: #DC2225;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .nbhd-popup-link:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .nbhd-map-wrap { height: 260px; }
+  }
+
+  .rd-wrap { max-width: 760px; margin: 0 auto; padding: calc(var(--topbar-h) + 18px) 24px 60px; }
+
+  .rd-wrap .page-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-sauce);
+    margin: 0 0 8px;
+  }
+  .rd-wrap h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--color-crust);
+    margin: 0 0 12px;
+  }
+
+  .rd-intro {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-char);
+    margin: 0 0 36px;
+  }
+  .rd-intro p { margin: 0 0 12px; }
+  .rd-intro p:last-child { margin: 0; }
+
+  .rd-style-heading {
+    font-family: var(--font-logo);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-crust);
+    margin: 0 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pz-accent);
+  }
+  .rd-style-count {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: rgba(36,26,16,0.5);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  .rd-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0 40px; }
+
+  .rd-item {
+    display: flex;
+    gap: 14px;
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+  .rd-item:hover {
+    border-color: var(--pz-accent);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+  .rd-item-body { flex: 1; min-width: 0; }
+  .rd-item-top {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .rd-item-name {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--color-char);
+  }
+  .rd-pill {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.07);
+    color: var(--color-char);
+  }
+  .rd-item-blurb {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(36,26,16,0.72);
+    margin: 0;
+  }
+
+  .rd-crosslink {
+    margin-top: 20px; padding-top: 24px; border-top: 1px dashed rgba(36,26,16,0.2);
+    font-size: 0.85rem;
+  }
+  .rd-crosslink a { color: var(--pz-accent); font-weight: 600; }
+
+  @media (max-width: 480px) {
+    .rd-item { padding: 12px; gap: 10px; }
+  }
+  /* ===== Guide chips (hero) ===== */
+  .rd-chips { display:flex; flex-wrap:wrap; gap:6px; list-style:none; padding:0; margin:0 0 22px; }
+  .rd-chips li {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.07);
+    color: var(--color-char);
+  }
+  .rd-chips li:first-child { background: var(--pz-accent); color: #fff; font-weight: 600; }
+
+  /* ===== Hero photo ===== */
+  .rd-hero-figure { margin: 0 0 32px; }
+  .rd-hero-figure img {
+    display: block; width: 100%; height: 200px; object-fit: cover;
+    object-position: center 62%;
+    border-radius: 10px; border: 1px solid rgba(36,26,16,0.12);
+  }
+  .rd-hero-figure figcaption {
+    font-family: var(--font-mono); font-size: 0.6rem;
+    color: rgba(36,26,16,0.45); margin-top: 6px;
+  }
+  @media (min-width: 700px) { .rd-hero-figure img { height: 300px; } }
+
+  /* ===== Picks ===== */
+  .rd-picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 40px; }
+  .rd-pick {
+    display: block; background: white; border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 8px; padding: 14px 16px; text-decoration: none;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+  .rd-pick:hover { border-color: var(--pz-accent); box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+  .rd-pick-role {
+    font-family: var(--font-mono); font-size: 0.58rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--pz-accent); display: block; margin-bottom: 3px;
+  }
+  .rd-pick-name {
+    font-family: var(--font-display-2); font-weight: 700;
+    font-size: 0.95rem; line-height: 1.2; color: var(--color-char);
+  }
+
+  /* ===== Crawl teaser ===== */
+  .rd-crawl {
+    background: var(--color-crust); color: #fff;
+    border-radius: 10px; padding: 22px 20px; margin: 0 0 40px;
+  }
+  .rd-crawl-kicker {
+    font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--color-cheese); margin: 0 0 6px;
+  }
+  .rd-crawl h3 {
+    font-family: var(--font-display); font-weight: 400; font-size: 1.5rem;
+    line-height: 1.15; margin: 0 0 10px; color: #fff;
+  }
+  .rd-crawl-route {
+    font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.7;
+    margin: 0 0 12px; color: rgba(255,255,255,0.9);
+  }
+  .rd-crawl-stats {
+    font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase;
+    letter-spacing: 0.05em; color: rgba(255,255,255,0.65); margin: 0 0 14px;
+  }
+  .rd-crawl a {
+    font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+    color: var(--color-cheese); text-decoration: none;
+    border-bottom: 1px solid var(--color-cheese); padding-bottom: 2px;
+  }
+
+  /* ===== About + nearby ===== */
+  .rd-about { margin: 0 0 36px; font-size: 0.95rem; line-height: 1.65; }
+  .rd-about p { margin: 0 0 14px; }
+  .rd-nearby { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+  .rd-nearby a {
+    font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase;
+    letter-spacing: 0.04em; padding: 7px 12px; border-radius: 20px;
+    background: rgba(36,26,16,0.07); color: var(--color-char); text-decoration: none;
+  }
+  .rd-nearby a:hover { background: var(--pz-accent); color: #fff; }
+
+  .rd-pill.worth { background: #FFF3CD; color: #856404; }
+
+  @media (max-width: 380px) { .rd-picks { grid-template-columns: 1fr; } }
+  /* ===== Borough index (compact, no blurbs — blurbs live on the
+     neighborhood guides and Find Pizza page, so they aren't duplicated
+     across two URLs) ===== */
+  .bo-index { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+              gap: 8px; margin: 16px 0 40px; }
+  .bo-entry { display: block; background: white; border: 1px solid rgba(36,26,16,0.1);
+              border-radius: 8px; padding: 10px 12px; text-decoration: none;
+              transition: border-color 0.12s ease; }
+  .bo-entry:hover { border-color: var(--pz-accent); }
+  .bo-entry-name { font-family: var(--font-display-2); font-weight: 700;
+                   font-size: 0.85rem; color: var(--color-char); display: block; }
+  .bo-entry-meta { font-family: var(--font-mono); font-size: 0.6rem;
+                   color: rgba(36,26,16,0.45); margin-top: 2px; display: block; }
+  .bo-hoods { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+              gap: 10px; margin: 16px 0 40px; }
+  .bo-hood { display: block; background: white; border: 1px solid rgba(36,26,16,0.1);
+             border-radius: 8px; padding: 14px 16px; text-decoration: none; }
+  .bo-hood.live { border-color: rgba(220,34,37,0.3); }
+  .bo-hood:hover { border-color: var(--pz-accent); }
+  .bo-hood-name { font-family: var(--font-display-2); font-weight: 700;
+                  font-size: 0.9rem; color: var(--color-char); margin: 0 0 2px; }
+  .bo-hood-status { font-family: var(--font-mono); font-size: 0.6rem;
+                    text-transform: uppercase; color: rgba(36,26,16,0.4); }
+  .bo-hood-status.live { color: var(--pz-accent); font-weight: 700; }
+  .bo-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block;
+            margin-right: 8px; vertical-align: middle; }
+  @media (max-width: 480px) { .bo-index { grid-template-columns: 1fr 1fr; } }
+
+  /* ===== Style group headings inside the index ===== */
+  .bo-group { margin: 0 0 28px; }
+  .bo-group-head { display: flex; align-items: baseline; gap: 10px;
+                   margin: 0 0 4px; flex-wrap: wrap; }
+  .bo-group-name { font-family: var(--font-display); font-weight: 400;
+                   font-size: 1.35rem; color: var(--color-crust); }
+  .bo-group-count { font-family: var(--font-mono); font-size: 0.62rem;
+                    color: rgba(36,26,16,0.45); }
+  .bo-group-note { font-size: 0.85rem; color: rgba(36,26,16,0.7);
+                   margin: 0 0 12px; max-width: 42em; }
+
+  /* ===== Crawl teaser ===== */
+  .bo-crawl { background: var(--color-crust); color: #fff; border-radius: 10px;
+              padding: 20px; margin: 16px 0 40px; }
+  .bo-crawl h4 { font-family: var(--font-display); font-weight: 400; font-size: 1.3rem;
+                 margin: 0 0 8px; color: #fff; }
+  .bo-crawl p { font-family: var(--font-mono); font-size: 0.7rem; line-height: 1.6;
+                margin: 0 0 12px; color: rgba(255,255,255,0.85); }
+  .bo-crawl a { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+                color: var(--color-cheese); text-decoration: none;
+                border-bottom: 1px solid var(--color-cheese); padding-bottom: 2px; }
+</style>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Pizza Map", "item": "https://pizzamap.nyc/"}, {"@type": "ListItem", "position": 2, "name": "Brooklyn", "item": "https://pizzamap.nyc/brooklyn/"}]}
+</script>
+</head>
+<body class="content-page">
+
+<div id="siteHeader"></div>
+<script src="/site-nav.js"></script>
+
+<main class="rd-wrap">
+
+  <p class="bc"><a href="/">Pizza Map</a><span class="sep">›</span><span class="here">Brooklyn</span></p>
+
+  <p class="page-kicker">Borough Guide</p>
+  <h2><span class="bo-dot" style="background:var(--color-brooklyn)"></span>Best Pizza in Brooklyn</h2>
+
+  <div class="rd-intro" style="margin-bottom:16px;">
+    <p>DRAFT — replace with your own words. Brooklyn is the deepest pizza borough in the city, and the most argued-over. It has the coal ovens that started it all, the Sicilian squares people cross the borough for, and hundreds of corner slice shops that never make anybody's list but hold their neighborhoods together. This is all 113 of them, mapped.</p>
+  </div>
+
+  <ul class="rd-chips">
+    <li>113 Pizzerias</li>
+    <li>Classic Slice</li>
+    <li>Neapolitan</li>
+    <li>Sicilian</li>
+    <li>Bar pie</li>
+    <li>Grandma</li>
+  </ul>
+
+  <h3 class="rd-style-heading">Pizza Map of Brooklyn <span class="rd-style-count">(113 spots)</span></h3>
+  <div class="nbhd-map-wrap" id="nbhdMap" aria-label="Map of Brooklyn pizzerias"></div>
+
+  <h3 class="rd-style-heading">Worth the Trip <span class="rd-style-count">(7 Brooklyn spots)</span></h3>
+  <p class="bo-group-note">The ones that justify a subway ride from anywhere in the city.</p>
+  <div class="rd-list">
+
+    <a class="rd-item" href="/?pin=Di%20Fara%20Pizza">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Di Fara Pizza</span>
+          <span class="rd-pill">$</span>
+          <span class="rd-pill">Classic Slice</span>
+          <span class="rd-pill worth">⭐ Worth a special trip</span>
+        </div>
+        <p class="rd-item-blurb">The benchmark by which a lot of NYC pizza gets judged. Founder Dom DeMarco built the reputation over decades; the family runs it today with the same hand-snipped basil finish.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Grimaldi%27s">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Grimaldi&#x27;s</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+          <span class="rd-pill worth">⭐ Worth a special trip</span>
+        </div>
+        <p class="rd-item-blurb">A DUMBO fixture since 1990, cooking coal-oven pies with a thin, blistered crust in the shadow of the Brooklyn Bridge. One of the pizzerias most credited with starting the modern NYC pizza pilgrimage.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Juliana%27s">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Juliana&#x27;s</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+          <span class="rd-pill worth">⭐ Worth a special trip</span>
+        </div>
+        <p class="rd-item-blurb">Opened in 2012 by Patsy Grimaldi in the very space where he first started. Same coal oven, same thin char-edged crust; regulars debate endlessly which DUMBO neighbor is better.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Krispy%20Pizza">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Krispy Pizza</span>
+          <span class="rd-pill">$</span>
+          <span class="rd-pill">Classic Slice</span>
+          <span class="rd-pill worth">⭐ Worth a special trip</span>
+        </div>
+        <p class="rd-item-blurb">A Dyker Heights neighborhood pizzeria on 13th Avenue, in the heart of one of Brooklyn&#x27;s most Italian-American communities. The name says it all — known for a well-crisped crust and reliable classic NY-style slices.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=L%26B%20Spumoni%20Gardens%20%E2%80%93%20Gravesend">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">L&amp;B Spumoni Gardens – Gravesend</span>
+          <span class="rd-pill">$</span>
+          <span class="rd-pill">Sicilian</span>
+          <span class="rd-pill worth">⭐ Worth a special trip</span>
+        </div>
+        <p class="rd-item-blurb">A Gravesend institution since the late 1930s, known for its upside-down square slices — sauce on top, cheese on the bottom — and the spumoni ice cream that gives the place its name.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Lucali">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Lucali</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+          <span class="rd-pill worth">⭐ Worth a special trip</span>
+        </div>
+        <p class="rd-item-blurb">A converted candy store turned into one of the city&#x27;s most sought-after coal-oven pies. No slices, cash only, and a line that starts before opening — reserve ahead or plan to wait.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Totonno%27s">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Totonno&#x27;s</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+          <span class="rd-pill worth">⭐ Worth a special trip</span>
+        </div>
+        <p class="rd-item-blurb">Open since 1924 in Coney Island, one of the oldest coal-oven pizzerias in the country. Cash only, whole pies only, still run by the founder&#x27;s descendants.</p>
+      </div>
+    </a>
+
+  </div>
+
+  <h3 class="rd-style-heading">Walk a Brooklyn Crawl</h3>
+  <div class="bo-crawl">
+    <h4>The Bay Ridge Pizza Crawl</h4>
+    <p>5 stops · 0.9 miles · ~17 min walk · R train to 86 St, finish at Bay Ridge–95 St</p>
+    <a href="/pizza-crawls/#bay-ridge">See the route map →</a>
+  </div>
+
+  <h3 class="rd-style-heading">Brooklyn Neighborhood Guides <span class="rd-style-count">(1 live, 7 coming)</span></h3>
+  <div class="bo-hoods">
+    <a class="bo-hood live" href="/brooklyn/bay-ridge/"><p class="bo-hood-name">Bay Ridge</p><p class="bo-hood-status live">View guide →</p></a>
+    <div class="bo-hood"><p class="bo-hood-name">Bensonhurst</p><p class="bo-hood-status">Coming soon</p></div>
+    <div class="bo-hood"><p class="bo-hood-name">Williamsburg</p><p class="bo-hood-status">Coming soon</p></div>
+    <div class="bo-hood"><p class="bo-hood-name">Greenpoint</p><p class="bo-hood-status">Coming soon</p></div>
+    <div class="bo-hood"><p class="bo-hood-name">Bushwick</p><p class="bo-hood-status">Coming soon</p></div>
+    <div class="bo-hood"><p class="bo-hood-name">Park Slope</p><p class="bo-hood-status">Coming soon</p></div>
+    <div class="bo-hood"><p class="bo-hood-name">Coney Island</p><p class="bo-hood-status">Coming soon</p></div>
+    <div class="bo-hood"><p class="bo-hood-name">Dyker Heights</p><p class="bo-hood-status">Coming soon</p></div>
+  </div>
+
+  <h3 class="rd-style-heading">Every Brooklyn Pizzeria by Style <span class="rd-style-count">(113 total)</span></h3>
+  <p class="bo-group-note">Brooklyn doesn't do one style. Grouped by what they actually make.</p>
+
+  <div class="bo-group">
+    <div class="bo-group-head">
+      <span class="bo-group-name">Classic Slice</span>
+      <span class="bo-group-count">74 in Brooklyn</span>
+    </div>
+    <p class="bo-group-note">The default and the backbone — thin, foldable, sold by the slice.</p>
+    <div class="bo-index">
+      <a class="bo-entry" href="/?pin=Ace%27s%20Pizza">
+        <span class="bo-entry-name">Ace&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Ace%27s%20Pizza%20%E2%80%93%20Bushwick">
+        <span class="bo-entry-name">Ace&#x27;s Pizza – Bushwick</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Antonio%27s%20Pizza">
+        <span class="bo-entry-name">Antonio&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Bad%20Boys%20Pizza">
+        <span class="bo-entry-name">Bad Boys Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Bedstuy%20Mike%27s%20Pizza">
+        <span class="bo-entry-name">Bedstuy Mike&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=BK%20Pizza">
+        <span class="bo-entry-name">BK Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Bklyn%27s%20Pizza">
+        <span class="bo-entry-name">Bklyn&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Broadway%20Pizzeria">
+        <span class="bo-entry-name">Broadway Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Brooklyn%27s%20Homeslice">
+        <span class="bo-entry-name">Brooklyn&#x27;s Homeslice</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Casa%20Caribe">
+        <span class="bo-entry-name">Casa Caribe</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Cento%20Uno%20Pizzeria">
+        <span class="bo-entry-name">Cento Uno Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Chrissy%27s%20Pizza">
+        <span class="bo-entry-name">Chrissy&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Crown%20Heights%20Pizza">
+        <span class="bo-entry-name">Crown Heights Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=DaVinci%20Pizzeria">
+        <span class="bo-entry-name">DaVinci Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Delmar%20Pizzeria">
+        <span class="bo-entry-name">Delmar Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Di%20Fara%20Pizza">
+        <span class="bo-entry-name">Di Fara Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Di%20Farina%20Pizzeria">
+        <span class="bo-entry-name">Di Farina Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Diamond%20Slice">
+        <span class="bo-entry-name">Diamond Slice</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=District%20Pizza">
+        <span class="bo-entry-name">District Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=El%20Centenario%20Pizza">
+        <span class="bo-entry-name">El Centenario Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Elegante%20Pizzeria">
+        <span class="bo-entry-name">Elegante Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Espresso%20Pizzeria">
+        <span class="bo-entry-name">Espresso Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Fazio%27s">
+        <span class="bo-entry-name">Fazio&#x27;s</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Fini%20Pizza">
+        <span class="bo-entry-name">Fini Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Fini%20Pizza%20%E2%80%93%20Barclays">
+        <span class="bo-entry-name">Fini Pizza – Barclays</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Frank%27s%20Pizza">
+        <span class="bo-entry-name">Frank&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Frankie%27s%20of%20Bay%20Ridge">
+        <span class="bo-entry-name">Frankie&#x27;s of Bay Ridge</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Gravesend%20Pizza">
+        <span class="bo-entry-name">Gravesend Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Grotta%20Azzurra">
+        <span class="bo-entry-name">Grotta Azzurra</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Italia%20Pizza">
+        <span class="bo-entry-name">Italia Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=J%20%26%20R%20Pizzeria">
+        <span class="bo-entry-name">J &amp; R Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=J%26V%20Pizzeria">
+        <span class="bo-entry-name">J&amp;V Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Jimmy%27s%20Pizza">
+        <span class="bo-entry-name">Jimmy&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Joe%20and%20Sal%27s%20Pizzeria">
+        <span class="bo-entry-name">Joe and Sal&#x27;s Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Joe%27s%20Pizza%20%E2%80%93%20Williamsburg">
+        <span class="bo-entry-name">Joe&#x27;s Pizza – Williamsburg</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Jules%20Pizza">
+        <span class="bo-entry-name">Jules Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Knapp%20Pizza%20II">
+        <span class="bo-entry-name">Knapp Pizza II</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Knapp%20Pizza%20III">
+        <span class="bo-entry-name">Knapp Pizza III</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Knapp%20Street%20Pizza">
+        <span class="bo-entry-name">Knapp Street Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Krispy%20Pizza">
+        <span class="bo-entry-name">Krispy Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=L%27Industrie%20Pizzeria">
+        <span class="bo-entry-name">L&#x27;Industrie Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=La%20Bella%20Pizza%20Express">
+        <span class="bo-entry-name">La Bella Pizza Express</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=La%20Flor%20Pizza">
+        <span class="bo-entry-name">La Flor Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Lenny%20%26%20John%27s%20Pizza">
+        <span class="bo-entry-name">Lenny &amp; John&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Leo%27s%20Casa%20Calamari">
+        <span class="bo-entry-name">Leo&#x27;s Casa Calamari</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Lo%20Duca%20Pizza">
+        <span class="bo-entry-name">Lo Duca Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Lucia%20Pizza%20of%20Avenue%20X">
+        <span class="bo-entry-name">Lucia Pizza of Avenue X</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Lucky%20Charlie">
+        <span class="bo-entry-name">Lucky Charlie</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Luigi%27s%20Pizza">
+        <span class="bo-entry-name">Luigi&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Mamma%20Mia%20Pizza">
+        <span class="bo-entry-name">Mamma Mia Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Maria%27s%20Pizza">
+        <span class="bo-entry-name">Maria&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=N%20%26%20D%20Pizza%20East%2029">
+        <span class="bo-entry-name">N &amp; D Pizza East 29</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Nino%27s">
+        <span class="bo-entry-name">Nino&#x27;s</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Original%20Brother%27s%20Pizza">
+        <span class="bo-entry-name">Original Brother&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Original%20Pizza">
+        <span class="bo-entry-name">Original Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Paulie%20Gee%27s%20Slice%20Shop">
+        <span class="bo-entry-name">Paulie Gee&#x27;s Slice Shop</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Peppino%27s">
+        <span class="bo-entry-name">Peppino&#x27;s</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Peppino%27s%20Pizza%20%26%20Restaurant">
+        <span class="bo-entry-name">Peppino&#x27;s Pizza &amp; Restaurant</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Pino%20Pizza">
+        <span class="bo-entry-name">Pino Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Piz-zetta%20Pizzeria">
+        <span class="bo-entry-name">Piz-zetta Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Pizza%20Den">
+        <span class="bo-entry-name">Pizza Den</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Pizza%20Secret">
+        <span class="bo-entry-name">Pizza Secret</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Pizza%20Wagon">
+        <span class="bo-entry-name">Pizza Wagon</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Rob%27s%20of%20Brooklyn%20%E2%80%93%20Sunset%20Park">
+        <span class="bo-entry-name">Rob&#x27;s of Brooklyn – Sunset Park</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Table%2087">
+        <span class="bo-entry-name">Table 87</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Table%2087%20%E2%80%93%203rd%20Avenue">
+        <span class="bo-entry-name">Table 87 – 3rd Avenue</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=The%20Astarita">
+        <span class="bo-entry-name">The Astarita</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=THE%20SWISS%20SLICE">
+        <span class="bo-entry-name">THE SWISS SLICE</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Tony%27s%20Brooklyn%20Pizza">
+        <span class="bo-entry-name">Tony&#x27;s Brooklyn Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Tony%27s%20Pizza">
+        <span class="bo-entry-name">Tony&#x27;s Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Tony%27s%20Pizzeria">
+        <span class="bo-entry-name">Tony&#x27;s Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Upside%20Pizza%20%E2%80%93%20Greenpoint">
+        <span class="bo-entry-name">Upside Pizza – Greenpoint</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Victoria%20Pizzeria">
+        <span class="bo-entry-name">Victoria Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Williamsburg%20Pizza">
+        <span class="bo-entry-name">Williamsburg Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="bo-group">
+    <div class="bo-group-head">
+      <span class="bo-group-name">Neapolitan</span>
+      <span class="bo-group-count">29 in Brooklyn</span>
+    </div>
+    <p class="bo-group-note">Wood- or coal-fired, whole pies only, charred at the edges.</p>
+    <div class="bo-index">
+      <a class="bo-entry" href="/?pin=APizza%20%E2%80%93%20Dyker%2013th%20Ave">
+        <span class="bo-entry-name">APizza – Dyker 13th Ave</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=APizza%3A%20Bay%20Ridge">
+        <span class="bo-entry-name">APizza: Bay Ridge</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Brooklyn%20DOP">
+        <span class="bo-entry-name">Brooklyn DOP</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Brooklyn%20Firefly">
+        <span class="bo-entry-name">Brooklyn Firefly</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Crosta">
+        <span class="bo-entry-name">Crosta</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Dellarocco%27s">
+        <span class="bo-entry-name">Dellarocco&#x27;s</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Giuseppina%27s">
+        <span class="bo-entry-name">Giuseppina&#x27;s</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Graziella%27s%20of%20Brooklyn%20Wood%20Burning%20Pizza">
+        <span class="bo-entry-name">Graziella&#x27;s of Brooklyn Wood Burning Pizza</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Grimaldi%27s">
+        <span class="bo-entry-name">Grimaldi&#x27;s</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Il%20Porto">
+        <span class="bo-entry-name">Il Porto</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Impasto">
+        <span class="bo-entry-name">Impasto</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Juliana%27s">
+        <span class="bo-entry-name">Juliana&#x27;s</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=L%27Arte%20della%20Pizza">
+        <span class="bo-entry-name">L&#x27;Arte della Pizza</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=La%20Casa%20Del%20Panuozzo">
+        <span class="bo-entry-name">La Casa Del Panuozzo</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=La%20Villa">
+        <span class="bo-entry-name">La Villa</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Lucali">
+        <span class="bo-entry-name">Lucali</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Macoletta%20%E2%80%93%20Williamsburg">
+        <span class="bo-entry-name">Macoletta – Williamsburg</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Mancini%27s%20Wood-Fired%20Pizza">
+        <span class="bo-entry-name">Mancini&#x27;s Wood-Fired Pizza</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Numero%2028%20Pizzeria%20%E2%80%93%20Park%20Slope">
+        <span class="bo-entry-name">Numero 28 Pizzeria – Park Slope</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Ops">
+        <span class="bo-entry-name">Ops</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Patsy%27s%20Pizzeria">
+        <span class="bo-entry-name">Patsy&#x27;s Pizzeria</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Rome%20to%20Brooklyn">
+        <span class="bo-entry-name">Rome to Brooklyn</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Saraghina%20Pizzeria">
+        <span class="bo-entry-name">Saraghina Pizzeria</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=SIM%C3%92%20Pizza%20%E2%80%93%20Brooklyn">
+        <span class="bo-entry-name">SIMÒ Pizza – Brooklyn</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Sonny%27s%20Pizza%20Napoletana">
+        <span class="bo-entry-name">Sonny&#x27;s Pizza Napoletana</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Sottocasa%20%E2%80%93%20Boerum%20Hill">
+        <span class="bo-entry-name">Sottocasa – Boerum Hill</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Totonno%27s">
+        <span class="bo-entry-name">Totonno&#x27;s</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Vesuvio%20Restaurant%20%26%20Pizzeria">
+        <span class="bo-entry-name">Vesuvio Restaurant &amp; Pizzeria</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Wheated">
+        <span class="bo-entry-name">Wheated</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="bo-group">
+    <div class="bo-group-head">
+      <span class="bo-group-name">Sicilian</span>
+      <span class="bo-group-count">3 in Brooklyn</span>
+    </div>
+    <p class="bo-group-note">Thick rectangular squares, sauce often on top of the cheese.</p>
+    <div class="bo-index">
+      <a class="bo-entry" href="/?pin=F%26F%20Pizzeria">
+        <span class="bo-entry-name">F&amp;F Pizzeria</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=L%26B%20Spumoni%20Gardens%20%E2%80%93%20DUMBO">
+        <span class="bo-entry-name">L&amp;B Spumoni Gardens – DUMBO</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=L%26B%20Spumoni%20Gardens%20%E2%80%93%20Gravesend">
+        <span class="bo-entry-name">L&amp;B Spumoni Gardens – Gravesend</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="bo-group">
+    <div class="bo-group-head">
+      <span class="bo-group-name">Bar pie</span>
+      <span class="bo-group-count">2 in Brooklyn</span>
+    </div>
+    <p class="bo-group-note">Small, thin, cracker-crisp — built to go with a drink.</p>
+    <div class="bo-index">
+      <a class="bo-entry" href="/?pin=Ogliastro%20Pizza%20Bar">
+        <span class="bo-entry-name">Ogliastro Pizza Bar</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Speedy%20Romeo">
+        <span class="bo-entry-name">Speedy Romeo</span>
+        <span class="bo-entry-meta">$ · Whole pies</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="bo-group">
+    <div class="bo-group-head">
+      <span class="bo-group-name">Grandma</span>
+      <span class="bo-group-count">2 in Brooklyn</span>
+    </div>
+    <p class="bo-group-note">Pan-baked and thinner than a Sicilian, sauce added after.</p>
+    <div class="bo-index">
+      <a class="bo-entry" href="/?pin=Best%20Pizza">
+        <span class="bo-entry-name">Best Pizza</span>
+        <span class="bo-entry-meta">$ · Slices</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Emmy%20Squared%20Pizza%20%E2%80%93%20Park%20Slope">
+        <span class="bo-entry-name">Emmy Squared Pizza – Park Slope</span>
+        <span class="bo-entry-meta">$$ · Whole pies</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="bo-group">
+    <div class="bo-group-head">
+      <span class="bo-group-name">Not yet tagged</span>
+      <span class="bo-group-count">3</span>
+    </div>
+    <div class="bo-index">
+      <a class="bo-entry" href="/?pin=Bay%20Ridge%20Pizza">
+        <span class="bo-entry-name">Bay Ridge Pizza</span>
+        <span class="bo-entry-meta">Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Bella%20Roma">
+        <span class="bo-entry-name">Bella Roma</span>
+        <span class="bo-entry-meta">Whole pies</span>
+      </a>
+      <a class="bo-entry" href="/?pin=Rocco%27s%20Pizzeria">
+        <span class="bo-entry-name">Rocco&#x27;s Pizzeria</span>
+        <span class="bo-entry-meta">Whole pies</span>
+      </a>
+    </div>
+  </div>
+
+
+  <h3 class="rd-style-heading">About Pizza in Brooklyn</h3>
+  <div class="rd-about">
+    <p>DRAFT — replace with your own words. Pizza in America started in Manhattan, but Brooklyn is where it settled in and became a neighborhood institution. Coal ovens in Coney Island and under the Brooklyn Bridge, Sicilian squares in Gravesend, and the Italian-American blocks of Bensonhurst, Dyker Heights, and Bay Ridge each built their own version of what a pie should be.</p>
+    <p>DRAFT — a second paragraph on what separates a Brooklyn slice from a Manhattan one, and which neighborhoods you'd send someone to first.</p>
+  </div>
+
+  <div class="rd-crosslink">
+    See every pizzeria on the <a href="/find-pizza/">Find Pizza page</a>, or explore the <a href="/">interactive map</a>.
+  </div>
+</main>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+// ===== Generic neighborhood mini-map =====
+// Any neighborhood guide page can use this by:
+// 1. Adding <div class="nbhd-map-wrap" id="nbhdMap"></div>
+// 2. Defining NEIGHBORHOOD_PINS below, then calling initNeighborhoodMap()
+// Reads each pin's name/address/style/price/slices from data.json so
+// descriptions are always in sync with the live database.
+
+const NEIGHBORHOOD_PINS = [
+  { name: "Ace's Pizza",                             lat: 40.715076, lng: -73.958377 },
+  { name: "Ace's Pizza – Bushwick",                  lat: 40.707272, lng: -73.922438 },
+  { name: "Antonio's Pizza",                         lat: 40.677177, lng: -73.972658 },
+  { name: "APizza – Dyker 13th Ave",                 lat: 40.615086, lng: -74.012992 },
+  { name: "APizza: Bay Ridge",                       lat: 40.615715, lng: -74.031002 },
+  { name: "Bad Boys Pizza",                          lat: 40.603034, lng: -73.986715 },
+  { name: "Bay Ridge Pizza",                         lat: 40.627878, lng: -74.023481 },
+  { name: "Bedstuy Mike's Pizza",                    lat: 40.695885, lng: -73.946576 },
+  { name: "Bella Roma",                              lat: 40.634474, lng: -74.026817 },
+  { name: "Best Pizza",                              lat: 40.715600, lng: -73.953500 },
+  { name: "BK Pizza",                                lat: 40.668222, lng: -73.902078 },
+  { name: "Bklyn's Pizza",                           lat: 40.612391, lng: -74.011673 },
+  { name: "Broadway Pizzeria",                       lat: 40.693329, lng: -73.929027 },
+  { name: "Brooklyn DOP",                            lat: 40.675234, lng: -73.981016 },
+  { name: "Brooklyn Firefly",                        lat: 40.634789, lng: -74.025766 },
+  { name: "Brooklyn's Homeslice",                    lat: 40.680711, lng: -73.967458 },
+  { name: "Casa Caribe",                             lat: 40.696606, lng: -73.934993 },
+  { name: "Cento Uno Pizzeria",                      lat: 40.612481, lng: -73.940418 },
+  { name: "Chrissy's Pizza",                         lat: 40.724795, lng: -73.946988 },
+  { name: "Crosta",                                  lat: 40.666490, lng: -73.985458 },
+  { name: "Crown Heights Pizza",                     lat: 40.671725, lng: -73.958018 },
+  { name: "DaVinci Pizzeria",                        lat: 40.619010, lng: -73.990163 },
+  { name: "Dellarocco's",                            lat: 40.695172, lng: -73.995540 },
+  { name: "Delmar Pizzeria",                         lat: 40.586225, lng: -73.952251 },
+  { name: "Di Fara Pizza",                           lat: 40.625200, lng: -73.961400 },
+  { name: "Di Farina Pizzeria",                      lat: 40.586330, lng: -73.987846 },
+  { name: "Diamond Slice",                           lat: 40.725132, lng: -73.946379 },
+  { name: "District Pizza",                          lat: 40.679053, lng: -73.963776 },
+  { name: "El Centenario Pizza",                     lat: 40.649979, lng: -73.963046 },
+  { name: "Elegante Pizzeria",                       lat: 40.633031, lng: -74.021369 },
+  { name: "Emmy Squared Pizza – Park Slope",         lat: 40.672888, lng: -73.983053 },
+  { name: "Espresso Pizzeria",                       lat: 40.616336, lng: -74.030492 },
+  { name: "F&F Pizzeria",                            lat: 40.677333, lng: -73.998181 },
+  { name: "Fazio's",                                 lat: 40.694454, lng: -73.910381 },
+  { name: "Fini Pizza",                              lat: 40.713501, lng: -73.961811 },
+  { name: "Fini Pizza – Barclays",                   lat: 40.683290, lng: -73.976197 },
+  { name: "Frank's Pizza",                           lat: 40.636112, lng: -73.912821 },
+  { name: "Frankie's of Bay Ridge",                  lat: 40.634598, lng: -74.027012 },
+  { name: "Giuseppina's",                            lat: 40.660400, lng: -73.990500 },
+  { name: "Gravesend Pizza",                         lat: 40.655623, lng: -74.003365 },
+  { name: "Graziella's of Brooklyn Wood Burning Pizza", lat: 40.690481, lng: -73.969576 },
+  { name: "Grimaldi's",                              lat: 40.702600, lng: -73.993200 },
+  { name: "Grotta Azzurra",                          lat: 40.603631, lng: -73.995392 },
+  { name: "Il Porto",                                lat: 40.697538, lng: -73.966969 },
+  { name: "Impasto",                                 lat: 40.672423, lng: -73.977448 },
+  { name: "Italia Pizza",                            lat: 40.605199, lng: -73.978915 },
+  { name: "J & R Pizzeria",                          lat: 40.610283, lng: -73.954154 },
+  { name: "J&V Pizzeria",                            lat: 40.620109, lng: -73.989680 },
+  { name: "Jimmy's Pizza",                           lat: 40.691368, lng: -73.909063 },
+  { name: "Joe and Sal's Pizzeria",                  lat: 40.693346, lng: -73.972178 },
+  { name: "Joe's Pizza – Williamsburg",              lat: 40.716882, lng: -73.958925 },
+  { name: "Jules Pizza",                             lat: 40.610608, lng: -73.978363 },
+  { name: "Juliana's",                               lat: 40.702700, lng: -73.993400 },
+  { name: "Knapp Pizza II",                          lat: 40.590360, lng: -73.973230 },
+  { name: "Knapp Pizza III",                         lat: 40.604533, lng: -73.974054 },
+  { name: "Knapp Street Pizza",                      lat: 40.600079, lng: -73.933607 },
+  { name: "Krispy Pizza",                            lat: 40.622422, lng: -74.005590 },
+  { name: "L&B Spumoni Gardens – DUMBO",             lat: 40.702236, lng: -73.993184 },
+  { name: "L&B Spumoni Gardens – Gravesend",         lat: 40.594645, lng: -73.981393 },
+  { name: "L'Arte della Pizza",                      lat: 40.677620, lng: -73.979959 },
+  { name: "L'Industrie Pizzeria",                    lat: 40.711600, lng: -73.957900 },
+  { name: "La Bella Pizza Express",                  lat: 40.601982, lng: -73.994203 },
+  { name: "La Casa Del Panuozzo",                    lat: 40.667702, lng: -73.980754 },
+  { name: "La Flor Pizza",                           lat: 40.673667, lng: -73.960776 },
+  { name: "La Villa",                                lat: 40.611248, lng: -74.007870 },
+  { name: "Lenny & John's Pizza",                    lat: 40.620152, lng: -73.934437 },
+  { name: "Leo's Casa Calamari",                     lat: 40.624291, lng: -74.030974 },
+  { name: "Lo Duca Pizza",                           lat: 40.635048, lng: -73.962572 },
+  { name: "Lucali",                                  lat: 40.681800, lng: -74.000400 },
+  { name: "Lucia Pizza of Avenue X",                 lat: 40.593338, lng: -73.947809 },
+  { name: "Lucky Charlie",                           lat: 40.699851, lng: -73.916302 },
+  { name: "Luigi's Pizza",                           lat: 40.661700, lng: -73.993500 },
+  { name: "Macoletta – Williamsburg",                lat: 40.721001, lng: -73.960268 },
+  { name: "Mamma Mia Pizza",                         lat: 40.596541, lng: -73.993964 },
+  { name: "Mancini's Wood-Fired Pizza",              lat: 40.622150, lng: -74.026013 },
+  { name: "Maria's Pizza",                           lat: 40.627499, lng: -74.013470 },
+  { name: "N & D Pizza East 29",                     lat: 40.600432, lng: -73.943068 },
+  { name: "Nino's",                                  lat: 40.619935, lng: -74.031972 },
+  { name: "Numero 28 Pizzeria – Park Slope",         lat: 40.672818, lng: -73.976332 },
+  { name: "Ogliastro Pizza Bar",                     lat: 40.674444, lng: -73.963292 },
+  { name: "Ops",                                     lat: 40.702600, lng: -73.917200 },
+  { name: "Original Brother's Pizza",                lat: 40.675284, lng: -73.865516 },
+  { name: "Original Pizza",                          lat: 40.620605, lng: -73.917097 },
+  { name: "Patsy's Pizzeria",                        lat: 40.681899, lng: -73.976193 },
+  { name: "Paulie Gee's Slice Shop",                 lat: 40.728374, lng: -73.957180 },
+  { name: "Peppino's",                               lat: 40.668205, lng: -73.986957 },
+  { name: "Peppino's Pizza & Restaurant",            lat: 40.629860, lng: -74.028620 },
+  { name: "Pino Pizza",                              lat: 40.601015, lng: -74.000608 },
+  { name: "Piz-zetta Pizzeria",                      lat: 40.691179, lng: -73.990632 },
+  { name: "Pizza Den",                               lat: 40.607361, lng: -74.002330 },
+  { name: "Pizza Secret",                            lat: 40.680979, lng: -73.977183 },
+  { name: "Pizza Wagon",                             lat: 40.621324, lng: -74.026563 },
+  { name: "Rob's of Brooklyn – Sunset Park",         lat: 40.646799, lng: -74.001230 },
+  { name: "Rocco's Pizzeria",                        lat: 40.626935, lng: -74.023903 },
+  { name: "Rome to Brooklyn",                        lat: 40.711933, lng: -73.942907 },
+  { name: "Saraghina Pizzeria",                      lat: 40.683741, lng: -73.935388 },
+  { name: "SIMÒ Pizza – Brooklyn",                   lat: 40.680650, lng: -73.969300 },
+  { name: "Sonny's Pizza Napoletana",                lat: 40.593379, lng: -73.959437 },
+  { name: "Sottocasa – Boerum Hill",                 lat: 40.688300, lng: -73.989000 },
+  { name: "Speedy Romeo",                            lat: 40.687500, lng: -73.960000 },
+  { name: "Table 87",                                lat: 40.691320, lng: -73.997317 },
+  { name: "Table 87 – 3rd Avenue",                   lat: 40.670764, lng: -73.990966 },
+  { name: "The Astarita",                            lat: 40.655949, lng: -73.999293 },
+  { name: "THE SWISS SLICE",                         lat: 40.655655, lng: -73.950313 },
+  { name: "Tony's Brooklyn Pizza",                   lat: 40.715053, lng: -73.944726 },
+  { name: "Tony's Pizza",                            lat: 40.699236, lng: -73.918817 },
+  { name: "Tony's Pizzeria",                         lat: 40.619126, lng: -74.008381 },
+  { name: "Totonno's",                               lat: 40.578900, lng: -73.983800 },
+  { name: "Upside Pizza – Greenpoint",               lat: 40.724235, lng: -73.950757 },
+  { name: "Vesuvio Restaurant & Pizzeria",           lat: 40.632603, lng: -74.027140 },
+  { name: "Victoria Pizzeria",                       lat: 40.592846, lng: -73.925483 },
+  { name: "Wheated",                                 lat: 40.646700, lng: -73.970600 },
+  { name: "Williamsburg Pizza",                      lat: 40.708138, lng: -73.950862 }
+];
+const MAP_CENTER = [-73.955, 40.65];
+const MAP_ZOOM   = 11.2;
+
+function pizzaSliceSVG(selected) {
+  const sliceColor = selected ? '#FFD500' : 'white';
+  return `<svg class="nbhd-pin${selected?' selected':''}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="46" r="42" fill="#DC2225" stroke="white" stroke-width="3.5"/>
+    <path class="nbhd-slice" d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="${sliceColor}"/>
+    <circle cx="41" cy="38" r="3.6" fill="#DC2225"/>
+    <circle cx="50" cy="50" r="3.6" fill="#DC2225"/>
+  </svg>`;
+}
+
+async function initNeighborhoodMap() {
+  const el = document.getElementById('nbhdMap');
+  if (!el) return;
+
+  // Load pizzeria data so popups show live blurbs/style info
+  let pizzeriaData = {};
+  try {
+    const res = await fetch('/data.json');
+    const geojson = await res.json();
+    geojson.features.forEach(f => {
+      pizzeriaData[f.properties.name] = f.properties;
+    });
+  } catch(e) {}
+
+  const map = new maplibregl.Map({
+    container: 'nbhdMap',
+    style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+    center: MAP_CENTER,
+    zoom: MAP_ZOOM,
+    attributionControl: true,
+  });
+
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+  map.scrollZoom.disable(); // don't trap page scrollers
+
+  let activePopup = null;
+  const markerEls = {};
+
+  NEIGHBORHOOD_PINS.forEach(pin => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:28px;height:28px;cursor:pointer;';
+    wrap.innerHTML = pizzaSliceSVG(false);
+
+    const marker = new maplibregl.Marker({ element: wrap, anchor: 'bottom' })
+      .setLngLat([pin.lng, pin.lat])
+      .addTo(map);
+
+    markerEls[pin.name] = wrap;
+
+    wrap.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      // Deselect all, select this one
+      Object.entries(markerEls).forEach(([n, el]) => {
+        el.innerHTML = pizzaSliceSVG(n === pin.name);
+      });
+
+      if (activePopup) { activePopup.remove(); activePopup = null; }
+
+      const p = pizzeriaData[pin.name] || {};
+      const mapUrl = `/?pin=${encodeURIComponent(pin.name)}`;
+      const pills = [p.style, p.price, p.slices ? 'Slices ✓' : null].filter(Boolean)
+        .map(s => `<span class="nbhd-popup-style">${s}</span>`).join(' ');
+
+      activePopup = new maplibregl.Popup({ closeButton: true, offset: [0, -24], maxWidth: '240px' })
+        .setLngLat([pin.lng, pin.lat])
+        .setHTML(`
+          <div class="nbhd-popup-head">${pin.name}</div>
+          <div class="nbhd-popup-body">
+            ${pills ? `<div style="margin-bottom:4px">${pills}</div>` : ''}
+            ${p.address ? `<div style="opacity:0.7;font-size:0.72rem">${p.address}</div>` : ''}
+            <a class="nbhd-popup-link" href="${mapUrl}">View on map →</a>
+          </div>`)
+        .addTo(map);
+
+      activePopup.on('close', () => {
+        activePopup = null;
+        Object.values(markerEls).forEach(el => { el.innerHTML = pizzaSliceSVG(false); });
+      });
+    });
+  });
+
+  // Clicking the map background closes any open popup
+  map.on('click', () => {
+    if (activePopup) { activePopup.remove(); activePopup = null; }
+    Object.values(markerEls).forEach(el => { el.innerHTML = pizzaSliceSVG(false); });
+  });
+}
+
+initNeighborhoodMap();
+</script>
+<script src="/search-destinations.js"></script>
+<script src="/search.js"></script>
+<script src="/nav.js"></script>
+</body>
+</html>

@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Local tools — not part of the site
+Disallow: /coordinate-checker.html
+Disallow: /audit.html
+
 Sitemap: https://pizzamap.nyc/sitemap.xml

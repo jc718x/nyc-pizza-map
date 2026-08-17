@@ -302,7 +302,7 @@ function computeLabelDirections(features) {
 }
 
 map.on('load', async () => {
-  const res = await fetch('data.json');
+  const res = await fetch('/data.json');
   const geojson = await res.json();
   window.pizzaGeojsonFeatures = geojson.features;
 
@@ -1469,7 +1469,7 @@ if (useLocationBtn) {
 }
 
 // ===== Logo → restore hero; Map nav link → expand to map =====
-document.querySelectorAll('a[href="index.html"], a[href="#map-section"], a[href="#map"]').forEach(a => {
+document.querySelectorAll('a[href="/"], a[href="#map-section"], a[href="#map"]').forEach(a => {
   if (a.id === 'exploreMapBtn' || a.id === 'useLocationBtn') return;
 
   const isMapLink = (a.getAttribute('href') === '#map') || (
@@ -1484,7 +1484,7 @@ document.querySelectorAll('a[href="index.html"], a[href="#map-section"], a[href=
     if (isBrandLink) {
       // Logo: if map is expanded, return to hero. If hero already showing, scroll top.
       if (!heroExpanded) {
-        window.location.href = 'index.html';
+        window.location.href = '/';
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }

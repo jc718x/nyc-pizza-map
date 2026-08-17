@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NYC Pizza Crawls — Walkable Pizza Routes | NYC Pizza Map</title>
+<meta name="description" content="Walkable pizza crawls through New York neighborhoods — mapped routes with every stop, the distance, the walking time, and the nearest subway." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Abril+Fatface&display=swap" rel="stylesheet">
+<meta property="og:title" content="NYC Pizza Crawls — Walkable Pizza Routes" />
+<meta property="og:description" content="Mapped pizza crawls through New York neighborhoods — every stop, the distance, and the walk." />
+<meta property="og:url" content="https://pizzamap.nyc/pizza-crawls/" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://pizzamap.nyc/assets/logo.png" />
+<link rel="canonical" href="https://pizzamap.nyc/pizza-crawls/" />
+<link rel="icon" type="image/png" href="/assets/favicon.png" />
+<link rel="stylesheet" href="/style.css" />
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+
+<style>
+  :root { --pz-accent: #DC2225; }
+
+  .rd-wrap { max-width: 760px; margin: 0 auto; padding: calc(var(--topbar-h) + 18px) 24px 60px; }
+
+  .rd-wrap .page-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-sauce);
+    margin: 0 0 8px;
+  }
+  .rd-wrap h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--color-crust);
+    margin: 0 0 12px;
+  }
+
+  /* ===== Hero: intro beside the walking slice ===== */
+  .cr-hero { display: flex; gap: 20px; align-items: center; margin: 0 0 36px; }
+  .cr-hero-text { flex: 1; font-size: 1rem; line-height: 1.65; }
+  .cr-hero-text p { margin: 0; }
+  .cr-hero img { width: 110px; height: auto; flex-shrink: 0; }
+  @media (max-width: 480px) {
+    .cr-hero { gap: 14px; }
+    .cr-hero img { width: 78px; }
+  }
+
+  .cr-heading {
+    font-family: var(--font-logo);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-crust);
+    margin: 0 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pz-accent);
+  }
+  .cr-sub {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: rgba(36,26,16,0.5);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  /* ===== Stat strip ===== */
+  .cr-stats {
+    display: flex;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 8px;
+    background: white;
+    margin: 16px 0 0;
+    list-style: none;
+    padding: 0;
+  }
+  .cr-stats li {
+    flex: 1;
+    padding: 12px 8px;
+    text-align: center;
+    border-right: 1px solid rgba(36,26,16,0.1);
+  }
+  .cr-stats li:last-child { border-right: 0; }
+  .cr-stats b {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--pz-accent);
+    margin-bottom: 4px;
+  }
+  .cr-stats span {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(36,26,16,0.5);
+  }
+
+  /* ===== Route map ===== */
+  .cr-map {
+    width: 100%;
+    height: 320px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(36,26,16,0.12);
+    margin: 18px 0 0;
+  }
+  .cr-map .maplibregl-map { width: 100%; height: 100%; }
+  .cr-map .maplibregl-ctrl-attrib { font-size: 9px; }
+  .cr-marker {
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--pz-accent); color: #fff;
+    border: 2px solid #fff;
+    font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.28);
+  }
+
+  .cr-note { font-size: 0.9rem; line-height: 1.6; color: rgba(36,26,16,0.75); margin: 16px 0 0; }
+
+  /* ===== Subway strip ===== */
+  .cr-subway {
+    display: flex; flex-wrap: wrap; gap: 8px 18px;
+    font-family: var(--font-mono); font-size: 0.7rem;
+    color: rgba(36,26,16,0.7);
+    margin: 14px 0 0; padding: 12px 14px;
+    background: rgba(36,26,16,0.04); border-radius: 8px;
+  }
+  .cr-bullet {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 17px; height: 17px; border-radius: 50%;
+    background: #FCCC0A; color: #000;
+    font-family: var(--font-display-2); font-weight: 800; font-size: 0.62rem;
+    margin-right: 5px; vertical-align: -3px;
+  }
+
+  /* ===== Stops ===== */
+  .cr-stops { list-style: none; counter-reset: stop; padding: 0; margin: 22px 0 0; }
+  .cr-stops li {
+    counter-increment: stop;
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 0; border-top: 1px solid rgba(36,26,16,0.1);
+  }
+  .cr-stops li:last-child { border-bottom: 1px solid rgba(36,26,16,0.1); }
+  .cr-stops li::before {
+    content: counter(stop); flex: none;
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%; margin-top: 2px;
+    background: var(--pz-accent); color: #fff;
+    font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+  }
+  .cr-stops a { text-decoration: none; flex: 1; min-width: 0; }
+  .cr-stop-name {
+    font-family: var(--font-display-2); font-weight: 700;
+    font-size: 1.02rem; color: var(--color-char); display: block;
+  }
+  .cr-stop-addr {
+    font-family: var(--font-mono); font-size: 0.65rem;
+    color: rgba(36,26,16,0.5); display: block; margin-top: 2px;
+  }
+  .cr-leg {
+    font-family: var(--font-mono); font-size: 0.62rem;
+    color: rgba(36,26,16,0.45); white-space: nowrap; padding-top: 5px;
+  }
+
+  .cr-link {
+    display: inline-block; margin-top: 18px;
+    font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+    color: var(--pz-accent); text-decoration: none;
+    border-bottom: 1px solid var(--pz-accent); padding-bottom: 2px;
+  }
+
+  /* ===== Coming soon ===== */
+  .cr-soon { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+  .cr-soon span {
+    font-family: var(--font-mono); font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 7px 12px; border-radius: 20px;
+    border: 1px dashed rgba(36,26,16,0.25); color: rgba(36,26,16,0.5);
+  }
+
+  .rd-crosslink {
+    margin-top: 36px; padding-top: 24px;
+    border-top: 1px dashed rgba(36,26,16,0.2); font-size: 0.85rem;
+  }
+  .rd-crosslink a { color: var(--pz-accent); font-weight: 600; }
+</style>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Pizza Map", "item": "https://pizzamap.nyc/"}, {"@type": "ListItem", "position": 2, "name": "Pizza Crawls", "item": "https://pizzamap.nyc/pizza-crawls/"}]}
+</script>
+</head>
+<body class="content-page">
+
+<div id="siteHeader"></div>
+<script src="/site-nav.js"></script>
+
+<main class="rd-wrap">
+
+  <p class="bc"><a href="/">Pizza Map</a><span class="sep">›</span><span class="here">Pizza Crawls</span></p>
+
+  <p class="page-kicker">Pizza Crawls</p>
+  <h2>Walk It, Don't Drive It</h2>
+
+  <div class="cr-hero">
+    <div class="cr-hero-text">
+      <p>Some neighborhoods line their best pizza up along one avenue. These are those walks — every stop mapped, with the distance, the timing, and the train that gets you there.</p>
+    </div>
+    <img src="/assets/pizzawalking.png" alt="" aria-hidden="true" />
+  </div>
+
+  <!-- ============================================================
+       ONE CRAWL. To add another, copy this <section> and its
+       <script type="application/json"> block. The map script picks up
+       every .cr-map on the page automatically.
+       ============================================================ -->
+  <section id="bay-ridge">
+    <h3 class="cr-heading">The Bay Ridge Pizza Crawl <span class="cr-sub">(Brooklyn)</span></h3>
+
+    <ul class="cr-stats">
+      <li><b>5</b><span>Stops</span></li>
+      <li><b>0.9</b><span>Miles</span></li>
+      <li><b>17</b><span>Min walk</span></li>
+    </ul>
+
+    <div class="cr-map" data-crawl="bay-ridge" role="img"
+         aria-label="Walking route between the five Bay Ridge pizza crawl stops"></div>
+
+    <script type="application/json" id="crawl-bay-ridge">
+    [
+      { "name": "Mancini's Wood-Fired Pizza", "addr": "8504 5th Ave", "leg": "Start", "lngLat": [-74.026013, 40.622150] },
+      { "name": "Pizza Wagon",                "addr": "8610 5th Ave", "leg": "2 min", "lngLat": [-74.026563, 40.621324] },
+      { "name": "Nino's",                     "addr": "9110 3rd Ave", "leg": "7 min", "lngLat": [-74.031972, 40.619935] },
+      { "name": "Espresso Pizzeria",          "addr": "9403 5th Ave", "leg": "6 min", "lngLat": [-74.030492, 40.616336] },
+      { "name": "APizza: Bay Ridge",          "addr": "9524 4th Ave", "leg": "2 min", "lngLat": [-74.031002, 40.615715] }
+    ]
+    </script>
+
+    <!-- Nearest stations computed from stations.js (MTA open data). Fixed
+         route, so they're written in rather than looked up at page load. -->
+    <div class="cr-subway">
+      <span><span class="cr-bullet">R</span>Start: 86 St — 3 min walk</span>
+      <span><span class="cr-bullet">R</span>Finish: Bay Ridge&ndash;95 St — 1 min walk</span>
+    </div>
+
+    <p class="cr-note">Four of the five sit on 5th Avenue within a few blocks of each other, so the only real walking is the stretch over to 3rd for Nino's and back. Ride the R to 86th Street, walk south, and you finish a block from the 95th Street station — no backtracking.</p>
+
+    <ol class="cr-stops">
+      <li><a href="/?pin=Mancini%27s%20Wood-Fired%20Pizza"><span class="cr-stop-name">Mancini's Wood-Fired Pizza</span><span class="cr-stop-addr">8504 5th Ave</span></a><span class="cr-leg">Start</span></li>
+      <li><a href="/?pin=Pizza%20Wagon"><span class="cr-stop-name">Pizza Wagon</span><span class="cr-stop-addr">8610 5th Ave</span></a><span class="cr-leg">2 min</span></li>
+      <li><a href="/?pin=Nino%27s"><span class="cr-stop-name">Nino's</span><span class="cr-stop-addr">9110 3rd Ave</span></a><span class="cr-leg">7 min</span></li>
+      <li><a href="/?pin=Espresso%20Pizzeria"><span class="cr-stop-name">Espresso Pizzeria</span><span class="cr-stop-addr">9403 5th Ave</span></a><span class="cr-leg">6 min</span></li>
+      <li><a href="/?pin=APizza%3A%20Bay%20Ridge"><span class="cr-stop-name">APizza: Bay Ridge</span><span class="cr-stop-addr">9524 4th Ave</span></a><span class="cr-leg">2 min</span></li>
+    </ol>
+
+    <a class="cr-link" href="/brooklyn/bay-ridge/">All 14 Bay Ridge pizzerias →</a>
+  </section>
+
+  <section style="margin-top:48px;">
+    <h3 class="cr-heading">More Crawls Coming</h3>
+    <div class="cr-soon">
+      <span>Bensonhurst</span>
+      <span>West Village</span>
+      <span>Arthur Avenue</span>
+    </div>
+  </section>
+
+  <div class="rd-crosslink">
+    See every pizzeria on the <a href="/find-pizza/">Find Pizza page</a>, or explore the <a href="/">interactive map</a>.
+  </div>
+</main>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+// ===== Crawl route maps =====
+// Renders every .cr-map from its matching <script type="application/json">.
+// The line is a static GeoJSON LineString — no routing API, no per-view cost.
+//
+// It joins the stops directly, so it cuts across blocks between 5th and 3rd
+// Ave. To make it follow the sidewalks, trace the walk once in geojson.io,
+// then change the JSON block to { "stops": [...], "path": [[lng,lat], ...] }
+// — the code below uses "path" for the drawn line when it's present.
+(function () {
+  if (typeof maplibregl === 'undefined') return;
+
+  document.querySelectorAll('.cr-map').forEach(function (el) {
+    var key = el.getAttribute('data-crawl');
+    var raw = document.getElementById('crawl-' + key);
+    if (!raw) return;
+
+    var parsed;
+    try { parsed = JSON.parse(raw.textContent); } catch (e) { return; }
+
+    var stops = Array.isArray(parsed) ? parsed : parsed.stops;
+    var path  = Array.isArray(parsed) ? null : parsed.path;
+    if (!stops || !stops.length) return;
+
+    var coords = stops.map(function (s) { return s.lngLat; });
+    var line = (path && path.length) ? path : coords;
+
+    var bounds = coords.reduce(function (b, c) { return b.extend(c); },
+                               new maplibregl.LngLatBounds(coords[0], coords[0]));
+
+    var map = new maplibregl.Map({
+      container: el,
+      style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+      bounds: bounds,
+      fitBoundsOptions: { padding: 52 },
+      attributionControl: true
+    });
+
+    map.scrollZoom.disable();   // don't trap page scrollers
+
+    map.on('load', function () {
+      map.addSource('route-' + key, {
+        type: 'geojson',
+        data: { type: 'Feature', geometry: { type: 'LineString', coordinates: line } }
+      });
+
+      map.addLayer({
+        id: 'route-line-' + key,
+        type: 'line',
+        source: 'route-' + key,
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': '#DC2225', 'line-width': 3, 'line-dasharray': [2, 1.6] }
+      });
+
+      stops.forEach(function (s, i) {
+        var pin = document.createElement('div');
+        pin.className = 'cr-marker';
+        pin.textContent = i + 1;
+        pin.setAttribute('title', s.name);
+        new maplibregl.Marker({ element: pin }).setLngLat(s.lngLat).addTo(map);
+      });
+    });
+  });
+})();
+</script>
+<script src="/search-destinations.js"></script>
+<script src="/search.js"></script>
+<script src="/nav.js"></script>
+</body>
+</html>
