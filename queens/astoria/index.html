@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Best Pizza in Astoria, Queens — Every Spot Mapped | NYC Pizza Map</title>
+<meta name="description" content="A guide to pizza in Astoria, Queens — 7 curated pizzerias mapped, with styles, prices, and what to know before you go." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Oswald:wght@600;700&family=Poppins:wght@700;800;900&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Abril+Fatface&display=swap" rel="stylesheet">
+<meta property="og:title" content="Best Pizza in Astoria, Queens" />
+<meta property="og:description" content="7 curated Astoria pizzerias, mapped." />
+<meta property="og:url" content="https://pizzamap.nyc/queens/astoria/" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://pizzamap.nyc/assets/logo.png" />
+<link rel="canonical" href="https://pizzamap.nyc/queens/astoria/" />
+<link rel="icon" type="image/png" href="/assets/favicon.png" />
+<link rel="stylesheet" href="/style.css" />
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+
+<style>
+  :root { --pz-accent: #DC2225; }
+
+  /* ===== Neighborhood mini-map ===== */
+  .nbhd-map-wrap {
+    width: 100%;
+    height: 340px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(36,26,16,0.12);
+    margin: 0 0 36px;
+    position: relative;
+  }
+  .nbhd-map-wrap .maplibregl-map { width: 100%; height: 100%; }
+  /* Keep the MapLibre attribution but shrink it */
+  .nbhd-map-wrap .maplibregl-ctrl-attrib { font-size: 9px; }
+  /* Match the site's pizza marker style */
+  .nbhd-pin {
+    width: 28px; height: 28px;
+    cursor: pointer;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    transition: transform 0.15s ease;
+  }
+  .nbhd-pin:hover { transform: scale(1.2); }
+  .nbhd-pin.selected { transform: scale(1.15); }
+  .nbhd-pin.selected .nbhd-slice { fill: #FFD500; }
+  /* Popup matches the site's ticket card */
+  .maplibregl-popup-content {
+    padding: 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+    font-family: 'Work Sans', sans-serif;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18) !important;
+    min-width: 180px;
+    max-width: 240px;
+  }
+  .nbhd-popup-head {
+    background: var(--color-crust, #1F4B33);
+    color: white;
+    padding: 8px 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    line-height: 1.25;
+  }
+  .nbhd-popup-body {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    color: #241A10;
+    line-height: 1.4;
+  }
+  .nbhd-popup-style {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.08);
+    margin-bottom: 4px;
+  }
+  .nbhd-popup-link {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: #DC2225;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .nbhd-popup-link:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .nbhd-map-wrap { height: 260px; }
+  }
+
+  .rd-wrap { max-width: 760px; margin: 0 auto; padding: calc(var(--topbar-h) + 18px) 24px 60px; }
+
+  .rd-wrap .page-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-sauce);
+    margin: 0 0 8px;
+  }
+  .rd-wrap h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: var(--color-crust);
+    margin: 0 0 12px;
+  }
+
+  .rd-intro {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-char);
+    margin: 0 0 36px;
+  }
+  .rd-intro p { margin: 0 0 12px; }
+  .rd-intro p:last-child { margin: 0; }
+
+  .rd-style-heading {
+    font-family: var(--font-logo);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-crust);
+    margin: 0 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pz-accent);
+  }
+  .rd-style-count {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: rgba(36,26,16,0.5);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  .rd-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0 40px; }
+
+  .rd-item {
+    display: flex;
+    gap: 14px;
+    background: white;
+    border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+  .rd-item:hover {
+    border-color: var(--pz-accent);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  }
+  .rd-item-body { flex: 1; min-width: 0; }
+  .rd-item-top {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .rd-item-name {
+    font-family: var(--font-display-2);
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: var(--color-char);
+  }
+  .rd-pill {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.07);
+    color: var(--color-char);
+  }
+  .rd-item-blurb {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: rgba(36,26,16,0.72);
+    margin: 0;
+  }
+
+  .rd-crosslink {
+    margin-top: 20px; padding-top: 24px; border-top: 1px dashed rgba(36,26,16,0.2);
+    font-size: 0.85rem;
+  }
+  .rd-crosslink a { color: var(--pz-accent); font-weight: 600; }
+
+  @media (max-width: 480px) {
+    .rd-item { padding: 12px; gap: 10px; }
+  }
+  /* ===== Guide chips (hero) ===== */
+  .rd-chips { display:flex; flex-wrap:wrap; gap:6px; list-style:none; padding:0; margin:0 0 22px; }
+  .rd-chips li {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(36,26,16,0.07);
+    color: var(--color-char);
+  }
+  .rd-chips li:first-child { background: var(--pz-accent); color: #fff; font-weight: 600; }
+
+  /* ===== Hero photo ===== */
+  .rd-hero-figure { margin: 0 0 32px; }
+  .rd-hero-figure img {
+    display: block; width: 100%; height: 200px; object-fit: cover;
+    object-position: center 62%;
+    border-radius: 10px; border: 1px solid rgba(36,26,16,0.12);
+  }
+  .rd-hero-figure figcaption {
+    font-family: var(--font-mono); font-size: 0.6rem;
+    color: rgba(36,26,16,0.45); margin-top: 6px;
+  }
+  @media (min-width: 700px) { .rd-hero-figure img { height: 300px; } }
+
+  /* ===== Picks ===== */
+  .rd-picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 40px; }
+  .rd-pick {
+    display: block; background: white; border: 1px solid rgba(36,26,16,0.1);
+    border-radius: 8px; padding: 14px 16px; text-decoration: none;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+  .rd-pick:hover { border-color: var(--pz-accent); box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+  .rd-pick-role {
+    font-family: var(--font-mono); font-size: 0.58rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--pz-accent); display: block; margin-bottom: 3px;
+  }
+  .rd-pick-name {
+    font-family: var(--font-display-2); font-weight: 700;
+    font-size: 0.95rem; line-height: 1.2; color: var(--color-char);
+  }
+
+  /* ===== Crawl teaser ===== */
+  .rd-crawl {
+    background: var(--color-crust); color: #fff;
+    border-radius: 10px; padding: 22px 20px; margin: 0 0 40px;
+  }
+  .rd-crawl-kicker {
+    font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--color-cheese); margin: 0 0 6px;
+  }
+  .rd-crawl h3 {
+    font-family: var(--font-display); font-weight: 400; font-size: 1.5rem;
+    line-height: 1.15; margin: 0 0 10px; color: #fff;
+  }
+  .rd-crawl-route {
+    font-family: var(--font-mono); font-size: 0.72rem; line-height: 1.7;
+    margin: 0 0 12px; color: rgba(255,255,255,0.9);
+  }
+  .rd-crawl-stats {
+    font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase;
+    letter-spacing: 0.05em; color: rgba(255,255,255,0.65); margin: 0 0 14px;
+  }
+  .rd-crawl a {
+    font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+    color: var(--color-cheese); text-decoration: none;
+    border-bottom: 1px solid var(--color-cheese); padding-bottom: 2px;
+  }
+
+  /* ===== About + nearby ===== */
+  .rd-about { margin: 0 0 36px; font-size: 0.95rem; line-height: 1.65; }
+  .rd-about p { margin: 0 0 14px; }
+  .rd-nearby { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+  .rd-nearby a {
+    font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase;
+    letter-spacing: 0.04em; padding: 7px 12px; border-radius: 20px;
+    background: rgba(36,26,16,0.07); color: var(--color-char); text-decoration: none;
+  }
+  .rd-nearby a:hover { background: var(--pz-accent); color: #fff; }
+
+  .rd-pill.worth { background: #FFF3CD; color: #856404; }
+
+  @media (max-width: 380px) { .rd-picks { grid-template-columns: 1fr; } }
+</style>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Pizza Map", "item": "https://pizzamap.nyc/"}, {"@type": "ListItem", "position": 2, "name": "Queens", "item": "https://pizzamap.nyc/queens/"}, {"@type": "ListItem", "position": 3, "name": "Astoria", "item": "https://pizzamap.nyc/queens/astoria/"}]}
+</script>
+</head>
+<body class="content-page">
+
+<div id="siteHeader"></div>
+<script src="/site-nav.js"></script>
+
+<main class="rd-wrap">
+
+  <p class="bc"><a href="/">Pizza Map</a><span class="sep">›</span><a href="/queens/">Queens</a><span class="sep">›</span><span class="here">Astoria</span></p>
+
+  <p class="page-kicker">Neighborhood Guide</p>
+  <h2>Best Pizza in Astoria</h2>
+
+  <div class="rd-intro" style="margin-bottom:16px;">
+    <p>Wood-fired Neapolitan, old-school Greek-owned slice counters, and one of the densest restaurant strips in Queens — Astoria packs a lot of pizza into a walkable grid.</p>
+  </div>
+
+  <ul class="rd-chips">
+    <li>7 Pizzerias</li>
+    <li>Classic Slice</li>
+    <li>Neapolitan</li>
+    <li>Sicilian</li>
+  </ul>
+
+  <h3 class="rd-style-heading">Pizza Map of Astoria <span class="rd-style-count">(7 spots)</span></h3>
+  <div class="nbhd-map-wrap" id="nbhdMap" aria-label="Map of Astoria pizzerias"></div>
+
+  <h3 class="rd-style-heading">All Astoria Pizzerias <span class="rd-style-count">(7 spots, A–Z)</span></h3>
+  <div class="rd-list">
+
+    <a class="rd-item" href="/?pin=Andrew%20Bellucci%27s%20Pizzeria">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Andrew Bellucci&#x27;s Pizzeria</span>
+          <span class="rd-pill">$</span>
+          <span class="rd-pill">Classic Slice</span>
+        </div>
+        <p class="rd-item-blurb">Founded by the late Andrew Bellucci, widely called the &#x27;Don of Dough,&#x27; and still going strong in Astoria after his passing in 2023. The fresh-shucked clam pie is the signature; the classic NY slice holds up too.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Figlia">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Figlia</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+        </div>
+        <p class="rd-item-blurb">A newer Astoria wood-fired spot just steps from Rosario&#x27;s on 31st Street, bringing a more modern approach to Neapolitan pizza with creative seasonal toppings and a natural wine list.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Il%20Miglio%20Brick%20Oven%20Pizzeria%20%26%20Italian%20Restaurant">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Il Miglio Brick Oven Pizzeria &amp; Italian Restaurant</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+        </div>
+        <p class="rd-item-blurb">An Astoria brick-oven pizzeria and full Italian restaurant on 36th Avenue.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Macoletta%20%E2%80%93%20Long%20Island%20City">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Macoletta – Long Island City</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+        </div>
+        <p class="rd-item-blurb">A Long Island City Italian spot with a wood-fired oven, bringing thoughtfully made Neapolitan pies to a neighborhood that&#x27;s grown fast in recent years without losing quality options.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Milkflower">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Milkflower</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+        </div>
+        <p class="rd-item-blurb">An Astoria wood-fired Neapolitan spot with a craft beer selection and a commitment to quality ingredients. One of the borough&#x27;s most celebrated pizza destinations before a period of closure — confirm open status before visiting.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Rizzo%27s%20Fine%20Pizza">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Rizzo&#x27;s Fine Pizza</span>
+          <span class="rd-pill">$</span>
+          <span class="rd-pill">Sicilian</span>
+        </div>
+        <p class="rd-item-blurb">An Astoria square-slice institution since the 1950s — thick, cheese-forward, and sauced on top in the old-school style. A neighborhood staple that draws people from across the borough.</p>
+      </div>
+    </a>
+    <a class="rd-item" href="/?pin=Rosario%27s">
+      <div class="rd-item-body">
+        <div class="rd-item-top">
+          <span class="rd-item-name">Rosario&#x27;s</span>
+          <span class="rd-pill">$$</span>
+          <span class="rd-pill">Neapolitan</span>
+        </div>
+        <p class="rd-item-blurb">A beloved Astoria neighborhood institution serving wood-fired Neapolitan pies to a loyal local following. One of those spots that earns its reputation through consistency and community rather than food media attention.</p>
+      </div>
+    </a>
+
+  </div>
+
+  <h3 class="rd-style-heading">About Pizza in Astoria</h3>
+  <div class="rd-about">
+    <p>Astoria&#x27;s pizza reflects the neighborhood itself: Italian-American roots layered with everything that arrived after. Ditmars and 30th Avenue carry most of the sit-down rooms, while Steinway Street and Broadway hold the counters that have been selling slices to the same families for decades.</p>
+    <p>The newer wood-fired places cluster north of 30th Avenue, close enough to the older shops that you can compare the two styles in an afternoon. It&#x27;s one of the few neighborhoods in the city where that comparison is a short walk.</p>
+  </div>
+
+  <h3 class="rd-style-heading">Explore Nearby</h3>
+  <div class="rd-nearby">
+    <a href="/queens/">Long Island City</a>
+    <a href="/queens/">Ridgewood</a>
+    <a href="/queens/">All of Queens</a>
+  </div>
+
+  <div class="rd-crosslink">
+    See every pizzeria on the <a href="/find-pizza/">Find Pizza page</a>, or explore the <a href="/">interactive map</a>.
+  </div>
+</main>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+// ===== Generic neighborhood mini-map =====
+// Any neighborhood guide page can use this by:
+// 1. Adding <div class="nbhd-map-wrap" id="nbhdMap"></div>
+// 2. Defining NEIGHBORHOOD_PINS below, then calling initNeighborhoodMap()
+// Reads each pin's name/address/style/price/slices from data.json so
+// descriptions are always in sync with the live database.
+
+const NEIGHBORHOOD_PINS = [
+  { name: "Andrew Bellucci's Pizzeria",                lat: 40.764400, lng: -73.916400 },
+  { name: "Figlia",                                    lat: 40.774488, lng: -73.913269 },
+  { name: "Il Miglio Brick Oven Pizzeria & Italian Restaurant", lat: 40.761199, lng: -73.939634 },
+  { name: "Macoletta – Long Island City",              lat: 40.773211, lng: -73.916376 },
+  { name: "Milkflower",                                lat: 40.762918, lng: -73.920753 },
+  { name: "Rizzo's Fine Pizza",                        lat: 40.763393, lng: -73.915133 },
+  { name: "Rosario's",                                 lat: 40.774940, lng: -73.912024 }
+];
+const MAP_CENTER = [-73.9235, 40.7644];
+const MAP_ZOOM   = 13.4;
+
+function pizzaSliceSVG(selected) {
+  const sliceColor = selected ? '#FFD500' : 'white';
+  return `<svg class="nbhd-pin${selected?' selected':''}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="46" r="42" fill="#DC2225" stroke="white" stroke-width="3.5"/>
+    <path class="nbhd-slice" d="M27 31 Q50 24 73 31 Q68 37 50 70 Q32 37 27 31 Z" fill="${sliceColor}"/>
+    <circle cx="41" cy="38" r="3.6" fill="#DC2225"/>
+    <circle cx="50" cy="50" r="3.6" fill="#DC2225"/>
+  </svg>`;
+}
+
+async function initNeighborhoodMap() {
+  const el = document.getElementById('nbhdMap');
+  if (!el) return;
+
+  // Load pizzeria data so popups show live blurbs/style info
+  let pizzeriaData = {};
+  try {
+    const res = await fetch('/data.json');
+    const geojson = await res.json();
+    geojson.features.forEach(f => {
+      pizzeriaData[f.properties.name] = f.properties;
+    });
+  } catch(e) {}
+
+  const map = new maplibregl.Map({
+    container: 'nbhdMap',
+    style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+    center: MAP_CENTER,
+    zoom: MAP_ZOOM,
+    attributionControl: true,
+  });
+
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+  map.scrollZoom.disable(); // don't trap page scrollers
+
+  let activePopup = null;
+  const markerEls = {};
+
+  NEIGHBORHOOD_PINS.forEach(pin => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'width:28px;height:28px;cursor:pointer;';
+    wrap.innerHTML = pizzaSliceSVG(false);
+
+    const marker = new maplibregl.Marker({ element: wrap, anchor: 'bottom' })
+      .setLngLat([pin.lng, pin.lat])
+      .addTo(map);
+
+    markerEls[pin.name] = wrap;
+
+    wrap.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      // Deselect all, select this one
+      Object.entries(markerEls).forEach(([n, el]) => {
+        el.innerHTML = pizzaSliceSVG(n === pin.name);
+      });
+
+      if (activePopup) { activePopup.remove(); activePopup = null; }
+
+      const p = pizzeriaData[pin.name] || {};
+      const mapUrl = `/?pin=${encodeURIComponent(pin.name)}`;
+      const pills = [p.style, p.price, p.slices ? 'Slices ✓' : null].filter(Boolean)
+        .map(s => `<span class="nbhd-popup-style">${s}</span>`).join(' ');
+
+      activePopup = new maplibregl.Popup({ closeButton: true, offset: [0, -24], maxWidth: '240px' })
+        .setLngLat([pin.lng, pin.lat])
+        .setHTML(`
+          <div class="nbhd-popup-head">${pin.name}</div>
+          <div class="nbhd-popup-body">
+            ${pills ? `<div style="margin-bottom:4px">${pills}</div>` : ''}
+            ${p.address ? `<div style="opacity:0.7;font-size:0.72rem">${p.address}</div>` : ''}
+            <a class="nbhd-popup-link" href="${mapUrl}">View on map →</a>
+          </div>`)
+        .addTo(map);
+
+      activePopup.on('close', () => {
+        activePopup = null;
+        Object.values(markerEls).forEach(el => { el.innerHTML = pizzaSliceSVG(false); });
+      });
+    });
+  });
+
+  // Clicking the map background closes any open popup
+  map.on('click', () => {
+    if (activePopup) { activePopup.remove(); activePopup = null; }
+    Object.values(markerEls).forEach(el => { el.innerHTML = pizzaSliceSVG(false); });
+  });
+}
+
+initNeighborhoodMap();
+</script>
+<script src="/search-destinations.js"></script>
+<script src="/search.js"></script>
+<script src="/nav.js"></script>
+</body>
+</html>

@@ -7015,6 +7015,182 @@
         "worth_a_trip": false,
         "place_id": "ChIJSxa5-ltFwokRnkQm2PWUkVw"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85613133131787,
+          40.84834988960169
+        ]
+      },
+      "properties": {
+        "name": "Luciano's Pizza",
+        "address": "1005 Morris Park Ave # A, Bronx, NY 10462",
+        "borough": "Bronx",
+        "style": "",
+        "blurb": "",
+        "website": "",
+        "price": "",
+        "slices": null,
+        "seating": "",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.86746908493133,
+          40.844816412992984
+        ]
+      },
+      "properties": {
+        "name": "Morris Park Pizzeria",
+        "address": "656 Morris Park Ave, Bronx, NY 10462",
+        "borough": "Bronx",
+        "style": "",
+        "blurb": "",
+        "website": "",
+        "price": "",
+        "slices": null,
+        "seating": "",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85469480113956,
+          40.84909441021508
+        ]
+      },
+      "properties": {
+        "name": "Emilio's of Morris Park",
+        "address": "1051 Morris Park Ave, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "",
+        "blurb": "",
+        "website": "",
+        "price": "",
+        "slices": null,
+        "seating": "",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85657237689662,
+          40.847711492486766
+        ]
+      },
+      "properties": {
+        "name": "Patsy's Pizzeria Morris Park",
+        "address": "980 Morris Park Ave, Bronx, NY 10462",
+        "borough": "Bronx",
+        "style": "",
+        "blurb": "",
+        "website": "",
+        "price": "",
+        "slices": null,
+        "seating": "",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.86389081622576,
+          40.84587262785531
+        ]
+      },
+      "properties": {
+        "name": "Primavera Pizzeria",
+        "address": "761 Morris Park Ave, Bronx, NY 10462",
+        "borough": "Bronx",
+        "style": "",
+        "blurb": "",
+        "website": "",
+        "price": "",
+        "slices": null,
+        "seating": "",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85567955546234,
+          40.85563487727809
+        ]
+      },
+      "properties": {
+        "name": "Michaelangelos Wood Fired Pizza & Pasta",
+        "address": "2107 Williamsbridge Rd, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "",
+        "blurb": "",
+        "website": "",
+        "price": "",
+        "slices": null,
+        "seating": "",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.85438813430525,
+          40.85447989868995
+        ]
+      },
+      "properties": {
+        "name": "Sorrento's Pizzeria Restaurant",
+        "address": "2004 Williamsbridge Rd, Bronx, NY 10461",
+        "borough": "Bronx",
+        "style": "",
+        "blurb": "",
+        "website": "",
+        "price": "",
+        "slices": null,
+        "seating": "",
+        "worth_a_trip": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.10932068611233,
+          40.5798412529026
+        ]
+      },
+      "properties": {
+        "name": "Napoli Pizza – Staten Island",
+        "address": "97 Lincoln Ave, Staten Island, NY 10306",
+        "borough": "Staten Island",
+        "style": "",
+        "blurb": "",
+        "website": "",
+        "price": "",
+        "slices": null,
+        "seating": "",
+        "worth_a_trip": false
+      }
     }
   ]
 }

@@ -55,8 +55,11 @@
             // once this passes ~8, group them by borough instead.
             heading: 'Neighborhoods',
             links: [
-              { label: 'Bay Ridge',    href: '/brooklyn/bay-ridge/' },
-              { label: 'West Village', href: '/manhattan/west-village/' },
+              { label: 'Bay Ridge',     href: '/brooklyn/bay-ridge/' },
+              { label: 'West Village',  href: '/manhattan/west-village/' },
+              { label: 'Astoria',       href: '/queens/astoria/' },
+              { label: 'Morris Park',   href: '/bronx/morris-park/' },
+              { label: 'North Shore',   href: '/staten-island/north-shore/' },
               { label: 'All Neighborhoods \u2192', href: '/neighborhoods/', viewall: true }
             ]
           },
@@ -91,8 +94,11 @@
   // drill-down when it has at least one — otherwise tapping it would open
   // a panel with nothing in it but a link back to the borough page.
   var GUIDES = {
-    'Manhattan': [{ label: 'West Village', href: '/manhattan/west-village/' }],
-    'Brooklyn':  [{ label: 'Bay Ridge',    href: '/brooklyn/bay-ridge/' }]
+    'Manhattan':     [{ label: 'West Village',  href: '/manhattan/west-village/' }],
+    'Brooklyn':      [{ label: 'Bay Ridge',     href: '/brooklyn/bay-ridge/' }],
+    'Queens':        [{ label: 'Astoria',       href: '/queens/astoria/' }],
+    'Bronx':         [{ label: 'Morris Park',   href: '/bronx/morris-park/' }],
+    'Staten Island': [{ label: 'North Shore',   href: '/staten-island/north-shore/' }]
   };
 
   // ---------------------------------------------------------------- helpers
