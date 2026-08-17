@@ -1336,6 +1336,10 @@ function enterDetailMode(html) {
   const title = document.getElementById('nearMePanelTitle');
   if (!panel || !list || !nearMePanelDetail) return;
   nearMePanelDetail.innerHTML = html;
+  // The card also renders here — the bottom sheet on mobile, the sidebar on
+  // desktop — not only in the map popup. google-rating.js has long since
+  // finished its page-load pass, so hydrate this copy by hand too.
+  if (window.GoogleRating) window.GoogleRating.hydrate(nearMePanelDetail);
   nearMePanelDetail.scrollTop = 0;
   list.hidden = true;
   nearMePanelDetail.hidden = false;
